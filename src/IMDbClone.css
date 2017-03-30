@@ -1,0 +1,154 @@
+/*body {
+  background: -webkit-linear-gradient(top, #b3b3b0 0%, #e3e2dd 500px);
+  background-color: #e3e2dd;
+  background-repeat: no-repeat;
+  background: linear-gradient(top, #b3b3b0 0%, #e3e2dd 500px);
+  min-height: 1000px;
+}
+
+.col-md-1, .col-md-2, .col-md-3, .col-md-4,
+.col-md-5, .col-md-6, .col-md-7, .col-md-8,
+.col-md-9, .col-md-10, .col-md-11, .col-md-12 {
+  padding: 0px !important;
+}
+
+.imdb-container {
+
+}
+
+#IMDb-navbar {
+  
+}
+
+.navbar {
+  border-radius: 0px !important;
+  background: linear-gradient(to bottom, #646464 0%,#0e0e0e 100%) !important;
+  margin-bottom: 0px !important;
+  margin-left: 1.2%;
+  margin-right: 1.2%;
+}
+
+.nav-select {
+  margin: 5px;
+}
+
+#IMDb-mainbody {
+  content:"";
+  display:block;
+  clear:both;
+}
+
+.title-overview-block {
+  height: 120px;
+  background-color: #333;
+  padding: 20px 0 14px 0;
+  text-align: left;
+}
+
+.title-overview-block::after {
+    content:"";
+    display:block;
+    clear:both;
+}
+
+.title-block::after {
+    content:"";
+    display:block;
+    clear:both;
+}
+
+.title-block > .title-wrapper {
+  padding-left: 25px;
+}
+
+.title-block > .title-wrapper > .title {
+  font: 36px Arial,sans-serif;
+  font-weight: normal;
+  line-height: 110%;
+  margin: 0px;
+  color: #fff;
+  padding-bottom: 3px;
+  float: left;
+}
+
+.title-block > .title-wrapper > .subtext {
+  margin-top: 10px;
+  font-size: 15px;
+  color: silver;
+  clear: both;
+}
+
+.title-block .ratings-wrapper {
+  margin-top: 10px;
+  margin-right: 25px;
+  font-size: 15px;
+  color: silver;
+  float: right;
+}
+
+.title-block .ratings-wrapper .user-rating {
+  font-size: 22px;
+  color: silver;
+}
+
+.title-block .ratings-wrapper .user-rating-count {
+  font-size: 10px;
+  color: silver;
+  display: block;
+}
+
+.ghost {
+  margin: 0 .5em;
+  color: #6b6b6b;
+}
+
+.slate-wrapper {
+  padding: 15px;
+}
+
+.poster {
+  float: left;
+  width: 33%;
+}
+
+.slate {
+  float: right;
+  position: relative;
+  display: inline-block;
+  line-height: 18px;
+  width: 67%;
+}
+
+.slate, .slate-fade-top {
+    top: 0px;
+    background: -webkit-linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0));
+    background: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0));
+}
+
+.slate, .slate-fade-bottom {
+    bottom: 0px;
+    background: -webkit-linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.5));
+    background: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.5));
+}
+
+
+#IMDb-sidebar {
+  background: -webkit-linear-gradient(top, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 7px);
+  background: linear-gradient(top, rgba(0,0,0,0.3) 0%,rgba(0,0,0,0) 7px);
+  background-repeat: no-repeat;
+  background-size: 100% 7px;
+  background-color: #EEE;
+  padding: 10px;
+  text-align: left;
+}
+
+.sidebar-widget {
+  margin: 0 0 16px;
+}
+
+.sidebar-title {
+  color: #333;
+  font: 16px Arial,sans-serif;
+  font-weight: normal;
+  border-bottom: solid 1px #ccc;
+}*/

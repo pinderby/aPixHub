@@ -1,0 +1,367 @@
+{
+  "title": "Logan (2017)",
+  "profile_image": {
+    "url":"https://images-na.ssl-images-amazon.com/images/M/MV5BMjI1MjkzMjczMV5BMl5BanBnXkFtZTgwNDk4NjYyMTI@._V1_UX182_CR0,0,182,268_AL_.jpg",
+    "caption":"Theatrical release poster"
+  },
+  "cover_image": {
+    "url":"https://resizing.flixster.com/EmOwVpDWvMjYEOEmYmrDGfUlEZ4=/740x290/v1.bjsxNTI3NTY3O2o7MTcyOTc7MTIwMDsyOTMxOzIwMDA",
+    "caption":""
+  },
+  "info_box": [
+    { "description": "Directed by James Mangold.  With Hugh Jackman, Patrick Stewart, Dafne Keen, Boyd Holbrook. In the near future, a weary Logan cares for an ailing Professor X somewhere on the Mexican border. However, Logan's attempts to hide from the world and his legacy are upended when a young mutant arrives, pursued by dark forces." },
+    { "content_rating":"R (for strong brutal violence and language throughout, and for brief nudity)" },
+    { "director": "James Mangold" },
+    {
+      "writers": [
+        "James Mangold (story & screenplay)",
+        "Scott Frank (screenplay)",
+        "Michael Green (screenplay)"
+      ]
+    },
+    {
+      "stars": [
+        "Hugh Jackman",
+        "Patrick Stewart",
+        "Dafne Keen"
+      ]
+    },
+    { "release_date": "2017-03-03T08:00:00.000Z" },
+    {
+      "label": "box office",
+      "measure": "gross total",
+      "sales": 201455596,
+      "as_of": "2017-03-24T07:00:00.000Z",
+      "country": "USA"
+    },
+    { "runtime": 137 },
+    { "studio":"20th Century Fox" },
+    { "language":"English" },
+    { "country":"United States" },
+    {
+      "user_rating": 8.5,
+      "user_rating_count": 186358
+    },
+    {
+      "genres": [
+        "Action",
+        "Drama",
+        "Sci-Fi",
+        "Thriller"
+      ]
+    }
+  ],
+  "media": {
+    "videos": [
+      {
+        "thumbnail": "https://images-na.ssl-images-amazon.com/images/M/MV5BMDc2Y2EyZTYtNDgyZi00OGY5LWJhNGItNjhkOTQ0OTRmNTc3XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_UX477_CR0,0,477,268_AL_.jpg",
+        "url": "http://www.imdb.com/video/imdb/vi1946727961?playlistId=tt3315342"
+      }
+    ],
+    "images": [
+      { "url": "https://resizing.flixster.com/H0h0q9imHWURyP6qMQ-nfPMfr2A=/fit-in/1152x864/v1.bjsxNTE4MjEzO2o7MTcyOTc7MTIwMDsxOTIwOzEwODA" },
+      { "url": "https://resizing.flixster.com/cq0rkQ1RT8p1Upb3RWr96EJB4tg=/fit-in/1152x864/v1.bjsxNTIzMDMyO2o7MTcyOTc7MTIwMDsyODgwOzIxNjA" },
+      { "url": "https://resizing.flixster.com/NaO9HcZ-nG0IGj1DAfKFg4TJPtg=/fit-in/1152x864/v1.bjsxNTI2MTQ4O2o7MTcyOTc7MTIwMDszODQwOzIxNjA" },
+      { "url": "https://resizing.flixster.com/ArpyaEUUIZCTxRn3bn9Cps5J-fw=/fit-in/1152x864/v1.bjsxNTI3NTY2O2o7MTcyOTc7MTIwMDszMDAwOzE5ODk" },
+      { "url": "https://resizing.flixster.com/gk98Sum1RiwGFFCPFgpLM-Cxm6A=/fit-in/1152x864/v1.bjsxNTI3NTY3O2o7MTcyOTc7MTIwMDsyOTMxOzIwMDA" },
+      { "url": "https://resizing.flixster.com/RTaz2pw_fu6pLZ7SQ1qAo8cnot4=/fit-in/1152x864/v1.bjsxNTI3NTY5O2o7MTcyOTc7MTIwMDszMDc4OzIwMzk" },
+      { "url": "https://resizing.flixster.com/LQHrgcXWXOAoFXzQw_VKE4OZRJw=/fit-in/1152x864/v1.bjsxNTI3NTcwO2o7MTcyOTc7MTIwMDszMDAwOzI0NTU" }
+    ]
+  },
+  "user_reviews": [
+    {
+      "author":"Peter Travers",
+      "title":"Top Critic",
+      "company":"Rolling Stone",
+      "published_at":"March 9, 2017",
+      "rating": "3.5/4",
+      "body":"Make no mistake, Logan earns its tears. If Jackman and Stewart are serious about this being their mutual X-Men swan song, they could not have crafted a more heartfelt valedictory."
+    },
+    {
+      "author":"Rex Reed",
+      "title":"Top Critic",
+      "company":"New York Observer",
+      "published_at":"March 8, 2017",
+      "rating": "1/4",
+      "body":"Another expensive throwaway aimed at milking money out of people who still read comic books. Color it stupid."
+    },
+    {
+      "author":"Katie Walsh",
+      "title":"Top Critic",
+      "company":"Tribune News Service",
+      "published_at":"March 6, 2017",
+      "rating": "3.5/4",
+      "body":"Strips away the spandex, the posse and the chaos, distilling the story down to the essence of the man, Logan. What's left is the agony and the ecstasy of mutanthood."
+    },
+    {
+      "author":"Walter Chaw",
+      "title":"",
+      "company":"Film Freak Central",
+      "published_at":"March 28, 2017",
+      "rating": "4/4",
+      "body":"Logan when, in the aftermath, our heroes navigate a battleground littered with non-combatants. For all the wrestling in the Marvel Universe with collateral damage, this is the best, most devastating representation of it."
+    }
+  ],
+  "sections": [
+    {
+      "title":"Cast",
+      "content_body":"",
+      "characters": [
+        {
+          "character": "Logan",
+          "actor": "Hugh Jackman"
+        },
+        {
+          "character": "Charles Xavier",
+          "actor": "Patrick Stewart"
+        },
+        {
+          "character": "Laura Kinney",
+          "actor": "Dafne Keen"
+        },
+        {
+          "character": "Donald Pierce",
+          "actor": "Boyd Holbrook"
+        },
+        {
+          "character": "Caliban",
+          "actor": "Stephen Merchant"
+        }
+      ]
+    },
+    {
+      "title":"Story",
+      "content_body":"In 2029 the mutant population has shrunk significantly and the X-Men have disbanded. Logan, whose power to self-heal is dwindling, has surrendered himself to alcohol and now earns a living as a chauffeur. He takes care of the ailing old Professor X whom he keeps hidden away. One day, a female stranger asks Logan to drive a girl named Laura to the Canadian border. At first he refuses, but the Professor has been waiting for a long time for her to appear. Laura possesses an extraordinary fighting prowess and is in many ways like Wolverine. She is pursued by sinister figures working for a powerful corporation; this is because her DNA contains the secret that connects her to Logan. A relentless pursuit begins - In this third cinematic outing featuring the Marvel comic book character Wolverine we see the superheroes beset by everyday problems. They are ageing, ailing and struggling to survive financially. A decrepit Logan is forced to ask himself if he can or even wants to put his remaining...",
+      "taglines": [
+        "His time has come"
+      ],
+      "genres": [
+        "Action",
+        "Drama",
+        "Sci-Fi",
+        "Thriller"
+      ]
+    },
+    {
+      "title":"Details",
+      "content_body":"",
+      "motion_picture_rating_summary": "Rated R for strong brutal violence and language throughout, and for brief nudity",
+      "official_sites": [
+        {
+          "description": "Official site [US]",
+          "url": "http://www.foxmovies.com/movies/logan"
+        },
+        {
+          "description": "Official site [Japan]",
+          "url": "http://www.foxmovies-jp.com/logan-movie/"
+        }
+      ],
+      "country": "USA",
+      "languages": [
+        "English",
+        "Spanish"
+      ],
+      "also_known_as": [
+        "Logan - The Wolverine",
+        "Logan: The Wolverine",
+        "Logan: Wolverine",
+        "Wolverine 3"
+      ],
+      "sections": [
+        {
+          "title":"Box Office",
+          "content_body":"",
+          "estimated_budget": 97000000,
+          "box_office": [
+            {
+              "measure": "opening weekend",
+              "sales": 88411916,
+              "as_of": "2017-03-03T08:00:00.000Z",
+              "country": "USA"
+            },
+            {
+              "measure": "gross total",
+              "sales": 201455596,
+              "as_of": "2017-03-24T07:00:00.000Z",
+              "country": "USA"
+            }
+          ]
+        },
+        {
+          "title":"Company Credits",
+          "content_body":"",
+          "production_co": [
+            "Donners' Company",
+            "Kinberg Genre",
+            "Marvel Entertainment"
+          ]
+        },
+        {
+          "title":"Technical Specs",
+          "content_body":"",
+          "sound_mix": "Dolby Atmos",
+          "color": "Color",
+          "aspect_ratio": "2.35 : 1"
+        },
+        {
+          "title": "Filming Locations",
+          "content_body": "",
+          "filming_locations": [
+            {
+              "address": "",
+              "city": "Ferriday",
+              "state": "Louisiana",
+              "country": "USA"
+            },
+            {
+              "address": "Just outside Northern Meadows community",
+              "city": "Rio Rancho",
+              "state": "New Mexico",
+              "country": "USA"
+            },
+            {
+              "address": "",
+              "city": "Los Angeles",
+              "state": "California",
+              "country": "USA"
+            },
+            {
+              "address": "Walt Disney's Golden Oak Ranch - 19802 Placerita Canyon Road",
+              "city": "Newhall",
+              "state": "California",
+              "country": "USA"
+            },
+            {
+              "address": "",
+              "city": "Oklahoma City",
+              "state": "Oklahoma",
+              "country": "USA"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title":"Credits",
+      "content_body":"",
+      "credits": [
+        {
+          "name": "Joseph M. Caracciolo Jr.",
+          "credit": "executive producer (as Joe Caracciolo Jr.)"
+        },
+        {
+          "name": "Simon Kinberg",
+          "credit": "producer (produced by)"
+        },
+        {
+          "name": "Stan Lee",
+          "credit": "executive producer"
+        },
+        {
+          "name": "James Mangold",
+          "credit": "executive producer"
+        },
+        {
+          "name": "James Mangold",
+          "credit": "executive producer"
+        },
+        {
+          "name": "Josh McLaglen",
+          "credit": "executive producer"
+        },
+        {
+          "name": "Hutch Parker",
+          "credit": "producer (produced by)"
+        },
+        {
+          "name": "Dana Robin",
+          "credit": "co-producer"
+        },
+        {
+          "name": "Lauren Shuler Donner",
+          "credit": "producer (produced by)"
+        },
+        {
+          "name": "Kurt Williams",
+          "credit": "co-producer"
+        },
+        {
+          "name": "Marco Beltrami",
+          "credit": "(music by)"
+        },
+        {
+          "name": "John Mathieson",
+          "credit": "director of photography"
+        },
+        {
+          "name": "Michael McCusker",
+          "credit": "(film editing by)"
+        },
+        {
+          "name": "Dirk Westervelt",
+          "credit": "(film editing by)"
+        },
+        {
+          "name": "Lisa Beach",
+          "credit": "(casting by)"
+        },
+        {
+          "name": "Sarah Katzman",
+          "credit": "(casting by)"
+        },
+        {
+          "name": "François Audouy",
+          "credit": "(production design by)"
+        },
+        {
+          "name": "Chris Farmer",
+          "credit": "supervising art director"
+        },
+        {
+          "name": "Jordan Ferrer",
+          "credit": "(art direction by)"
+        },
+        {
+          "name": "Peter Lando",
+          "credit": "(set decoration by)"
+        },
+        {
+          "name": "Daniel Orlandi",
+          "credit": "(costume design by)"
+        }
+      ]
+    },
+    {
+      "title":"Did You Know?",
+      "content_body":"",
+      "trivia": [
+        "There is no end credits scene",
+        "Does not feature a Stan Lee cameo."
+      ],
+      "goofs": [
+        "The blouse on Gabriella's corpse visibly moves with every beat of the actress's heart as Logan is leaving the motel."
+      ],
+      "crazy_credits": [
+        "Toward the very end of the roll, a credit misspells the star's home country name as \"Austrialian\"."
+      ]
+    },
+    {
+      "title":"Frequently Asked Questions",
+      "content_body":"",
+      "faqs": [
+        {
+          "question":"Is \"Logan\" based on a book?",
+          "answer":"No. While this film's story pulls inspiration and story ideas from several Wolverine comic book stories, the film itself is not an adaptation of any particular previously published story. The story most noted for inspiring this film is Mark Millar's 2008 \"Old Man Logan\" mini-series. However, the final film bares no resemblance to that comic book, except for minor thematic parallels."
+        },
+        {
+          "question":"Is this going to be Hugh Jackman's last portrayal of Wolverine?",
+          "answer":"Hugh Jackman has stated through multiple media outlets that this movie will be the last time he plays Logan/Wolverine."
+        },
+        {
+          "question":"Is this going to be Patrick Stewart's last portrayal of Charles Xavier?",
+          "answer":"Patrick Stewart has also said in multiple interviews that this would be the most satisfying ending for his portrayal of Charles Xavier. However, Stewart seems generally more open to returning for small cameos than Jackman. Stewart has particularly said that he is not against making an appearance in a Deadpool sequel or episode of Legion, but the idea and offer would have to make sense for him."
+        }
+      ]
+    }
+  ]
+}
