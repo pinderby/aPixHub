@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import Helpers from './helpers.js';
+import Helpers from '../helpers.js';
 
 class Section extends Component {
   render() {
