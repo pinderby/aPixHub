@@ -1,0 +1,36 @@
+todo.txt
+
+---------
+Routes
+---------
+View single node
+
+Create node template
+Create node instance
+Edit node template
+Edit node instance
+
+View search results/Search node instances
+
+-----------
+
+(Delete node instance?)
+(Delete node template)?
+
+Advanced querying
+Design/CSS
+
+---------------
+TODO - DTM -
+---------------
+Go over logan.json with Joe
+Figure out what components I need
+Write skeleton components
+Populate components with hard-coded JSON
+Write react components for forms (node templates/instances)
+
+
+---------------
+TODO - JOE -
+---------------
+

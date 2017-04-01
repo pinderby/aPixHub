@@ -1,0 +1,33 @@
+Base model
+
+name:string
+profile_image:string
+cover_image:string
+Properties...
+info_box {
+  Properties...
+}
+sections {
+  Sections...
+}
+media {
+  videos {
+    Videos...
+  },
+  images {
+    Images...
+  }
+}
+user_reviews {
+  Reviews...
+}
+tags {
+  Tags...
+}
+
+
+Section
+
+title:string
+content_body:string
+Properties...
