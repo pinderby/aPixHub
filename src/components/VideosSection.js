@@ -6,7 +6,6 @@ class VideosSection extends Component {
   renderVideos(videos) {
     var videoComponents = [];
     videos.forEach(function(video) {
-      console.log(video.url);
       if (/youtu/.test(video.url)) {
         videoComponents.push(<YoutubeVideo key={video.url} url={video.url} thumbnail={video.thumbnail} />);
       } else {

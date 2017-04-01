@@ -26,6 +26,7 @@ class ApixNode extends Component {
           <InfoBox node={node} />
           <MediaSection node={node} />
           <ReviewsSection reviews={node.user_reviews} />
+          {Helpers.renderSections(node.sections)}
         </div>
       </div>
     );
