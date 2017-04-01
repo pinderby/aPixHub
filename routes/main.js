@@ -38,6 +38,6 @@ function buildEndpoint(label) {
 // Custom Routes
 // router.get('/nodes', ApixNodes.getApixNode());
 router.get(buildEndpoint('movie'), ApixNodes.getApixNode);
-router.post(buildEndpoint('movie'), ApixNodes.postApixNode);
+router.post(buildEndpoint('movie'), ApixNodes.createApixNode);
 
 module.exports = router;
