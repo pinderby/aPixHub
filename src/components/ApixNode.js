@@ -24,6 +24,7 @@ class ApixNode extends Component {
         <div id="apix-node">
           <NodeName name={node.name} />
           <InfoBox node={node} />
+          <MediaSection node={node} />
         </div>
       </div>
     );

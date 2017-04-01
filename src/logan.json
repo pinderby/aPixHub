@@ -51,7 +51,11 @@
     "videos": [
       {
         "thumbnail": "https://images-na.ssl-images-amazon.com/images/M/MV5BMDc2Y2EyZTYtNDgyZi00OGY5LWJhNGItNjhkOTQ0OTRmNTc3XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_UX477_CR0,0,477,268_AL_.jpg",
-        "url": "http://www.imdb.com/video/imdb/vi1946727961?playlistId=tt3315342"
+        "url": "http://video-http.media-imdb.com/MV5BYzI0MGFkYTEtZGZkMy00ZjkwLWE4ODEtZmQ5NjE3ODY3NDJhXkExMV5BbXA0XkFpbWRiLWV0cy10cmFuc2NvZGU@.mp4?Expires=1491090463&Signature=FrblxQPxf4tTdYZHVYXqT-8DbxQ0d5b3mn~FmRHVcW0aPpqQILWjbQJNOzSKokSgW9SMURGlzhboYxU78dBVIng~3JnuQZJd4HMgmfubk55PQAvBpgUiGsSfzXQin~J4q73Ph00Mty-gVhjEph9hNu5-T-qqHKNt6DRHctXf5ZA_&Key-Pair-Id=APKAILW5I44IHKUN2DYA"
+      },
+      {
+        "thumbnail": "https://images-na.ssl-images-amazon.com/images/M/MV5BMDc2Y2EyZTYtNDgyZi00OGY5LWJhNGItNjhkOTQ0OTRmNTc3XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_UX477_CR0,0,477,268_AL_.jpg",
+        "url": "https://www.youtube.com/embed/Div0iP65aZo"
       }
     ],
     "images": [
