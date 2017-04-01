@@ -26,7 +26,7 @@ class Helpers {
       var props = [];
       if (Object.prototype.toString.call( object ) === '[object Object]' ) {
         for (var prop in object) {
-          if (object.hasOwnProperty(prop)) {
+          if (object.hasOwnProperty(prop) && object[prop]) {
             switch(typeof(object[prop])) {
               case "string":
                   props.push(<NodeProperty key={prop} propKey={prop} value={object[prop]} type="string" />);
@@ -36,8 +36,6 @@ class Helpers {
                   break;
               case "object":
                   if (Object.prototype.toString.call( object[prop] ) === '[object Array]' ) {
-                    console.log(object[prop]);
-                    console.log(object[prop][0]);
                     if (Object.prototype.toString.call( object[prop][0] ) === '[object Object]' ) {
                       props.push(Helpers.renderObjects(object[prop]));
                     } else {
@@ -60,15 +58,11 @@ class Helpers {
   }
 
   static renderObjects(objects) {
-    console.log("objects: ", objects);
     var explodedObjects = [];
     if (typeof(objects) != "undefined") {
       objects.forEach(function(object) {
-        console.log("object: ", object);
-        console.log("Helpers.renderProps(object): ", Helpers.renderProps(object));
         explodedObjects.push(Helpers.renderProps(object));
       });
-      console.log("explodedObjects: ", explodedObjects);
       return explodedObjects;
     }
     return;
