@@ -110,262 +110,282 @@
     {
       "title":"Cast",
       "content_body":"",
-      "characters": [
-        {
-          "character": "Logan",
-          "actor": "Hugh Jackman"
-        },
-        {
-          "character": "Charles Xavier",
-          "actor": "Patrick Stewart"
-        },
-        {
-          "character": "Laura Kinney",
-          "actor": "Dafne Keen"
-        },
-        {
-          "character": "Donald Pierce",
-          "actor": "Boyd Holbrook"
-        },
-        {
-          "character": "Caliban",
-          "actor": "Stephen Merchant"
-        }
-      ]
+      "properties": {
+        "characters": [
+          {
+            "character": "Logan",
+            "actor": "Hugh Jackman"
+          },
+          {
+            "character": "Charles Xavier",
+            "actor": "Patrick Stewart"
+          },
+          {
+            "character": "Laura Kinney",
+            "actor": "Dafne Keen"
+          },
+          {
+            "character": "Donald Pierce",
+            "actor": "Boyd Holbrook"
+          },
+          {
+            "character": "Caliban",
+            "actor": "Stephen Merchant"
+          }
+        ]
+      }
     },
     {
       "title":"Story",
       "content_body":"In 2029 the mutant population has shrunk significantly and the X-Men have disbanded. Logan, whose power to self-heal is dwindling, has surrendered himself to alcohol and now earns a living as a chauffeur. He takes care of the ailing old Professor X whom he keeps hidden away. One day, a female stranger asks Logan to drive a girl named Laura to the Canadian border. At first he refuses, but the Professor has been waiting for a long time for her to appear. Laura possesses an extraordinary fighting prowess and is in many ways like Wolverine. She is pursued by sinister figures working for a powerful corporation; this is because her DNA contains the secret that connects her to Logan. A relentless pursuit begins - In this third cinematic outing featuring the Marvel comic book character Wolverine we see the superheroes beset by everyday problems. They are ageing, ailing and struggling to survive financially. A decrepit Logan is forced to ask himself if he can or even wants to put his remaining...",
-      "taglines": [
-        "His time has come"
-      ],
-      "genres": [
-        "Action",
-        "Drama",
-        "Sci-Fi",
-        "Thriller"
-      ]
+      "properties": {
+        "taglines": [
+          "His time has come"
+        ],
+        "genres": [
+          "Action",
+          "Drama",
+          "Sci-Fi",
+          "Thriller"
+        ]
+      }
     },
     {
       "title":"Details",
       "content_body":"",
-      "motion_picture_rating_summary": "Rated R for strong brutal violence and language throughout, and for brief nudity",
-      "official_sites": [
-        {
-          "description": "Official site [US]",
-          "url": "http://www.foxmovies.com/movies/logan"
-        },
-        {
-          "description": "Official site [Japan]",
-          "url": "http://www.foxmovies-jp.com/logan-movie/"
-        }
-      ],
-      "country": "USA",
-      "languages": [
-        "English",
-        "Spanish"
-      ],
-      "also_known_as": [
-        "Logan - The Wolverine",
-        "Logan: The Wolverine",
-        "Logan: Wolverine",
-        "Wolverine 3"
-      ],
+      "properties": {
+        "motion_picture_rating_summary": "Rated R for strong brutal violence and language throughout, and for brief nudity",
+        "official_sites": [
+          {
+            "description": "Official site [US]",
+            "url": "http://www.foxmovies.com/movies/logan"
+          },
+          {
+            "description": "Official site [Japan]",
+            "url": "http://www.foxmovies-jp.com/logan-movie/"
+          }
+        ],
+        "country": "USA",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "also_known_as": [
+          "Logan - The Wolverine",
+          "Logan: The Wolverine",
+          "Logan: Wolverine",
+          "Wolverine 3"
+        ]
+      },
       "sections": [
         {
           "title":"Box Office",
           "content_body":"",
-          "estimated_budget": 97000000,
-          "box_office": [
-            {
-              "measure": "opening weekend",
-              "sales": 88411916,
-              "as_of": "2017-03-03T08:00:00.000Z",
-              "country": "USA"
-            },
-            {
-              "measure": "gross total",
-              "sales": 201455596,
-              "as_of": "2017-03-24T07:00:00.000Z",
-              "country": "USA"
-            }
-          ]
+          "properties": {
+            "estimated_budget": 97000000,
+            "box_office": [
+              {
+                "measure": "opening weekend",
+                "sales": 88411916,
+                "as_of": "2017-03-03T08:00:00.000Z",
+                "country": "USA"
+              },
+              {
+                "measure": "gross total",
+                "sales": 201455596,
+                "as_of": "2017-03-24T07:00:00.000Z",
+                "country": "USA"
+              }
+            ]
+          }
         },
         {
           "title":"Company Credits",
           "content_body":"",
-          "production_co": [
-            "Donners' Company",
-            "Kinberg Genre",
-            "Marvel Entertainment"
-          ]
+          "properties": {
+            "production_co": [
+              "Donners' Company",
+              "Kinberg Genre",
+              "Marvel Entertainment"
+            ]
+          }
         },
         {
           "title":"Technical Specs",
           "content_body":"",
-          "sound_mix": "Dolby Atmos",
-          "color": "Color",
-          "aspect_ratio": "2.35 : 1"
+          "properties": {
+            "sound_mix": "Dolby Atmos",
+            "color": "Color",
+            "aspect_ratio": "2.35 : 1"
+          }
         },
         {
           "title": "Filming Locations",
           "content_body": "",
-          "filming_locations": [
-            {
-              "address": "",
-              "city": "Ferriday",
-              "state": "Louisiana",
-              "country": "USA"
-            },
-            {
-              "address": "Just outside Northern Meadows community",
-              "city": "Rio Rancho",
-              "state": "New Mexico",
-              "country": "USA"
-            },
-            {
-              "address": "",
-              "city": "Los Angeles",
-              "state": "California",
-              "country": "USA"
-            },
-            {
-              "address": "Walt Disney's Golden Oak Ranch - 19802 Placerita Canyon Road",
-              "city": "Newhall",
-              "state": "California",
-              "country": "USA"
-            },
-            {
-              "address": "",
-              "city": "Oklahoma City",
-              "state": "Oklahoma",
-              "country": "USA"
-            }
-          ]
+          "properties": {
+            "filming_locations": [
+              {
+                "address": "",
+                "city": "Ferriday",
+                "state": "Louisiana",
+                "country": "USA"
+              },
+              {
+                "address": "Just outside Northern Meadows community",
+                "city": "Rio Rancho",
+                "state": "New Mexico",
+                "country": "USA"
+              },
+              {
+                "address": "",
+                "city": "Los Angeles",
+                "state": "California",
+                "country": "USA"
+              },
+              {
+                "address": "Walt Disney's Golden Oak Ranch - 19802 Placerita Canyon Road",
+                "city": "Newhall",
+                "state": "California",
+                "country": "USA"
+              },
+              {
+                "address": "",
+                "city": "Oklahoma City",
+                "state": "Oklahoma",
+                "country": "USA"
+              }
+            ]
+          }
         }
       ]
     },
     {
       "title":"Credits",
       "content_body":"",
-      "credits": [
-        {
-          "name": "Joseph M. Caracciolo Jr.",
-          "credit": "executive producer (as Joe Caracciolo Jr.)"
-        },
-        {
-          "name": "Simon Kinberg",
-          "credit": "producer (produced by)"
-        },
-        {
-          "name": "Stan Lee",
-          "credit": "executive producer"
-        },
-        {
-          "name": "James Mangold",
-          "credit": "executive producer"
-        },
-        {
-          "name": "James Mangold",
-          "credit": "executive producer"
-        },
-        {
-          "name": "Josh McLaglen",
-          "credit": "executive producer"
-        },
-        {
-          "name": "Hutch Parker",
-          "credit": "producer (produced by)"
-        },
-        {
-          "name": "Dana Robin",
-          "credit": "co-producer"
-        },
-        {
-          "name": "Lauren Shuler Donner",
-          "credit": "producer (produced by)"
-        },
-        {
-          "name": "Kurt Williams",
-          "credit": "co-producer"
-        },
-        {
-          "name": "Marco Beltrami",
-          "credit": "(music by)"
-        },
-        {
-          "name": "John Mathieson",
-          "credit": "director of photography"
-        },
-        {
-          "name": "Michael McCusker",
-          "credit": "(film editing by)"
-        },
-        {
-          "name": "Dirk Westervelt",
-          "credit": "(film editing by)"
-        },
-        {
-          "name": "Lisa Beach",
-          "credit": "(casting by)"
-        },
-        {
-          "name": "Sarah Katzman",
-          "credit": "(casting by)"
-        },
-        {
-          "name": "François Audouy",
-          "credit": "(production design by)"
-        },
-        {
-          "name": "Chris Farmer",
-          "credit": "supervising art director"
-        },
-        {
-          "name": "Jordan Ferrer",
-          "credit": "(art direction by)"
-        },
-        {
-          "name": "Peter Lando",
-          "credit": "(set decoration by)"
-        },
-        {
-          "name": "Daniel Orlandi",
-          "credit": "(costume design by)"
-        }
-      ]
+      "properties": {
+        "credits": [
+          {
+            "name": "Joseph M. Caracciolo Jr.",
+            "credit": "executive producer (as Joe Caracciolo Jr.)"
+          },
+          {
+            "name": "Simon Kinberg",
+            "credit": "producer (produced by)"
+          },
+          {
+            "name": "Stan Lee",
+            "credit": "executive producer"
+          },
+          {
+            "name": "James Mangold",
+            "credit": "executive producer"
+          },
+          {
+            "name": "James Mangold",
+            "credit": "executive producer"
+          },
+          {
+            "name": "Josh McLaglen",
+            "credit": "executive producer"
+          },
+          {
+            "name": "Hutch Parker",
+            "credit": "producer (produced by)"
+          },
+          {
+            "name": "Dana Robin",
+            "credit": "co-producer"
+          },
+          {
+            "name": "Lauren Shuler Donner",
+            "credit": "producer (produced by)"
+          },
+          {
+            "name": "Kurt Williams",
+            "credit": "co-producer"
+          },
+          {
+            "name": "Marco Beltrami",
+            "credit": "(music by)"
+          },
+          {
+            "name": "John Mathieson",
+            "credit": "director of photography"
+          },
+          {
+            "name": "Michael McCusker",
+            "credit": "(film editing by)"
+          },
+          {
+            "name": "Dirk Westervelt",
+            "credit": "(film editing by)"
+          },
+          {
+            "name": "Lisa Beach",
+            "credit": "(casting by)"
+          },
+          {
+            "name": "Sarah Katzman",
+            "credit": "(casting by)"
+          },
+          {
+            "name": "François Audouy",
+            "credit": "(production design by)"
+          },
+          {
+            "name": "Chris Farmer",
+            "credit": "supervising art director"
+          },
+          {
+            "name": "Jordan Ferrer",
+            "credit": "(art direction by)"
+          },
+          {
+            "name": "Peter Lando",
+            "credit": "(set decoration by)"
+          },
+          {
+            "name": "Daniel Orlandi",
+            "credit": "(costume design by)"
+          }
+        ]
+      }
     },
     {
       "title":"Did You Know?",
       "content_body":"",
-      "trivia": [
-        "There is no end credits scene",
-        "Does not feature a Stan Lee cameo."
-      ],
-      "goofs": [
-        "The blouse on Gabriella's corpse visibly moves with every beat of the actress's heart as Logan is leaving the motel."
-      ],
-      "crazy_credits": [
-        "Toward the very end of the roll, a credit misspells the star's home country name as \"Austrialian\"."
-      ]
+      "properties": {
+        "trivia": [
+          "There is no end credits scene",
+          "Does not feature a Stan Lee cameo."
+        ],
+        "goofs": [
+          "The blouse on Gabriella's corpse visibly moves with every beat of the actress's heart as Logan is leaving the motel."
+        ],
+        "crazy_credits": [
+          "Toward the very end of the roll, a credit misspells the star's home country name as \"Austrialian\"."
+        ]
+      }
     },
     {
       "title":"Frequently Asked Questions",
       "content_body":"",
-      "faqs": [
-        {
-          "question":"Is \"Logan\" based on a book?",
-          "answer":"No. While this film's story pulls inspiration and story ideas from several Wolverine comic book stories, the film itself is not an adaptation of any particular previously published story. The story most noted for inspiring this film is Mark Millar's 2008 \"Old Man Logan\" mini-series. However, the final film bares no resemblance to that comic book, except for minor thematic parallels."
-        },
-        {
-          "question":"Is this going to be Hugh Jackman's last portrayal of Wolverine?",
-          "answer":"Hugh Jackman has stated through multiple media outlets that this movie will be the last time he plays Logan/Wolverine."
-        },
-        {
-          "question":"Is this going to be Patrick Stewart's last portrayal of Charles Xavier?",
-          "answer":"Patrick Stewart has also said in multiple interviews that this would be the most satisfying ending for his portrayal of Charles Xavier. However, Stewart seems generally more open to returning for small cameos than Jackman. Stewart has particularly said that he is not against making an appearance in a Deadpool sequel or episode of Legion, but the idea and offer would have to make sense for him."
-        }
-      ]
+      "properties": {
+        "faqs": [
+          {
+            "question":"Is \"Logan\" based on a book?",
+            "answer":"No. While this film's story pulls inspiration and story ideas from several Wolverine comic book stories, the film itself is not an adaptation of any particular previously published story. The story most noted for inspiring this film is Mark Millar's 2008 \"Old Man Logan\" mini-series. However, the final film bares no resemblance to that comic book, except for minor thematic parallels."
+          },
+          {
+            "question":"Is this going to be Hugh Jackman's last portrayal of Wolverine?",
+            "answer":"Hugh Jackman has stated through multiple media outlets that this movie will be the last time he plays Logan/Wolverine."
+          },
+          {
+            "question":"Is this going to be Patrick Stewart's last portrayal of Charles Xavier?",
+            "answer":"Patrick Stewart has also said in multiple interviews that this would be the most satisfying ending for his portrayal of Charles Xavier. However, Stewart seems generally more open to returning for small cameos than Jackman. Stewart has particularly said that he is not against making an appearance in a Deadpool sequel or episode of Legion, but the idea and offer would have to make sense for him."
+          }
+        ]
+      }
     }
   ]
 }
