@@ -48,7 +48,7 @@ class YoutubeVideo extends Component {
     return (
       <div className="video-container">
         <div className="video">
-          <iframe width="400" height="256" src={this.props.url} frameborder="0" allowfullscreen>
+          <iframe width="400" height="256" src={this.props.url} frameBorder="0" allowFullScreen>
           </iframe>
         </div>
       </div>
