@@ -1,5 +1,5 @@
 {
-  "title": "Logan (2017)",
+  "name": "Logan (2017)",
   "profile_image": {
     "url":"https://images-na.ssl-images-amazon.com/images/M/MV5BMjI1MjkzMjczMV5BMl5BanBnXkFtZTgwNDk4NjYyMTI@._V1_UX182_CR0,0,182,268_AL_.jpg",
     "caption":"Theatrical release poster"
@@ -8,49 +8,45 @@
     "url":"https://resizing.flixster.com/EmOwVpDWvMjYEOEmYmrDGfUlEZ4=/740x290/v1.bjsxNTI3NTY3O2o7MTcyOTc7MTIwMDsyOTMxOzIwMDA",
     "caption":""
   },
-  "info_box": [
-    { "description": "Directed by James Mangold.  With Hugh Jackman, Patrick Stewart, Dafne Keen, Boyd Holbrook. In the near future, a weary Logan cares for an ailing Professor X somewhere on the Mexican border. However, Logan's attempts to hide from the world and his legacy are upended when a young mutant arrives, pursued by dark forces." },
-    { "content_rating":"R (for strong brutal violence and language throughout, and for brief nudity)" },
-    { "director": "James Mangold" },
-    {
+  "info_box": {
+    "properties": {
+      "description": "Directed by James Mangold.  With Hugh Jackman, Patrick Stewart, Dafne Keen, Boyd Holbrook. In the near future, a weary Logan cares for an ailing Professor X somewhere on the Mexican border. However, Logan's attempts to hide from the world and his legacy are upended when a young mutant arrives, pursued by dark forces.",
+      "content_rating":"R (for strong brutal violence and language throughout, and for brief nudity)",
+      "director": "James Mangold",
       "writers": [
         "James Mangold (story & screenplay)",
         "Scott Frank (screenplay)",
         "Michael Green (screenplay)"
-      ]
-    },
-    {
+      ],
       "stars": [
         "Hugh Jackman",
         "Patrick Stewart",
         "Dafne Keen"
-      ]
-    },
-    { "release_date": "2017-03-03T08:00:00.000Z" },
-    {
-      "label": "box office",
-      "measure": "gross total",
-      "sales": 201455596,
-      "as_of": "2017-03-24T07:00:00.000Z",
-      "country": "USA"
-    },
-    { "runtime": 137 },
-    { "studio":"20th Century Fox" },
-    { "language":"English" },
-    { "country":"United States" },
-    {
-      "user_rating": 8.5,
-      "user_rating_count": 186358
-    },
-    {
+      ],
+      "release_date": "2017-03-03T08:00:00.000Z",
+      "box_office": {
+        "label": "box office",
+        "measure": "gross total",
+        "sales": 201455596,
+        "as_of": "2017-03-24T07:00:00.000Z",
+        "country": "USA"
+      },
+      "runtime": 137,
+      "studio":"20th Century Fox",
+      "language":"English",
+      "country":"United States",
+      "user_rating": {
+        "user_rating": 8.5,
+        "user_rating_count": 186358
+      },
       "genres": [
         "Action",
         "Drama",
         "Sci-Fi",
         "Thriller"
-      ]
+      ] 
     }
-  ],
+  },
   "media": {
     "videos": [
       {

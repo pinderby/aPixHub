@@ -7,7 +7,7 @@ class NodeName extends Component {
     return (
       <div id="node-name-container">
         <div id="node-name">
-          
+          <h1>{this.props.name}</h1>
         </div>
       </div>
     );
