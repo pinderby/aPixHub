@@ -10,3 +10,7 @@ exports.getApixNode = function(componentDir) {
         });
     };
 }
+
+exports.postApixNode = function() {
+    
+}

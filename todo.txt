@@ -33,7 +33,7 @@ Write react components for forms (node templates/instances)
 ---------------
 TODO - JOE -
 ---------------
-Config Node/Express to render react
-Build base model?
-Write routes
-Write middleware between React and router
+[ x ] Config Node/Express to render react
+[ ] Build base model?
+[ ] Write routes
+[ ] Write middleware between React and router
