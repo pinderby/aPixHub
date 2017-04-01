@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import './components';
+import ApixNode from './components/ApixNode.js';
 import IMDbClone from './IMDbClone.js';
 
 class App extends Component {
@@ -56,7 +56,7 @@ class AppBoilerplate extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
         <div id="App-container">
-          
+          <ApixNode />
         </div>
       </div>
     );
