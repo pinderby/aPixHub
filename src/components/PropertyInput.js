@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import Helpers from '../helpers.js';
 import _ from 'lodash';
+import AddPropertyButton from './ApixNodeBuilder.js';
 
 class PropertyInput extends Component {
   constructor(props) {
@@ -16,6 +17,19 @@ class PropertyInput extends Component {
   renderInput(props, disabled) {
     var prop = props.prop;
     const x = this;
+    if(prop.type === 'object') {
+      var comps = [];
+      comps.push(<input key={prop.label} type={prop.type} className="form-control" 
+          id={prop.label} value={prop.label} placeholder={prop.placeholder} disabled={disabled}
+          onChange={(e) => x.textChanged(e, prop, this.props.onChange)}
+            />);
+      // comps.push(<AddPropertyButton disabled={false} onClick={this.props.addProperty}/>);
+      comps.push(<button key={prop.label+'1'} type="button" className="btn btn-info" disabled={this.props.disabled} onClick={this.props.addProperty}>
+        <span key={prop.label+'2'} className="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        Property
+      </button>);
+      return comps;
+    }
     return <input type={prop.type} className="form-control" 
           id={prop.label} value={prop.label} placeholder={prop.placeholder} disabled={disabled}
           onChange={(e) => x.textChanged(e, prop, this.props.onChange)}
@@ -25,8 +39,8 @@ class PropertyInput extends Component {
   textChanged(e, oldProp, onChange) {
     var prop = Object.assign({}, oldProp);
     var index = this.props.index;
-    console.log('index', index);
     prop.label = e.target.value;
+    console.log(prop.label);
     if(!prop.type) {
       prop.type = 'string';
     }
@@ -38,10 +52,6 @@ class PropertyInput extends Component {
     var index = this.props.index;
     prop.type = value;
     onChange(prop, index);
-  }
-
-  updateProp(prop, onChange) {
-
   }
   
   render() {

@@ -141,6 +141,21 @@ class Helpers {
     }
     return index;
   }
+
+  static pushIfMissingInArray(array, element, key) {
+    var found = false;
+    for(var i = array.length - 1; i >= 0; i--) {
+      if(array[i] === element || array[i][key] === element[key]) {
+       found = true;
+      }
+    }
+    if(!found) {;
+      var a = [];
+      a = array.slice();
+      a.push(element);
+    }
+    return a;
+  }
 }
 
 export default Helpers;
