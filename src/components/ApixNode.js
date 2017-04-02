@@ -21,74 +21,57 @@ class ApixNode extends Component {
 
     this.state = {
       nodes: [],
-      templates: [],
     };
   }
 
   
-  componentDidMount() {
-    var x = this;
-    // url (required), options (optional)
-    fetch('https://apix.rocks/nodes', {
-      method: 'GET'
-    }).then(function(response) {
-      response.json().then(function(result) {
-          // here you can use the result of promiseB
-          console.log('Response', result);
-          var templates = [];
-          result.forEach(function (obj) {
-            templates.push(obj);
-          });
-          x.setState({ templates: templates });
-      });
+  // componentDidMount() {
+  //   var x = this;
+  //   // url (required), options (optional)
+  //   fetch('https://apix.rocks/nodes', {
+  //     method: 'GET'
+  //   }).then(function(response) {
+  //     response.json().then(function(result) {
+  //         // here you can use the result of promiseB
+  //         console.log('Response', result);
+  //         var templates = [];
+  //         result.forEach(function (obj) {
+  //           templates.push(obj);
+  //         });
+  //         x.setState({ templates: templates });
+  //     });
       
-      // this.setState({ node: });
-    }).catch(function(err) {
-      // Error :(
-    });
-  }
+  //     // this.setState({ node: });
+  //   }).catch(function(err) {
+  //     // Error :(
+  //   });
+  // }
 
   renderNodes() {
     var nodes = [];
     this.state.nodes.forEach(function (node) {
-      console.log('node', node);
       nodes.push(
         <div id="apix-node-container">
           <div id="apix-node">
             {Helpers.renderTemplate(node.properties)}
-            {/*<NodeName name={node.name} />
+            <NodeName name={node.name} />
             <InfoBox node={node} />
             <MediaSection node={node} />
             <ReviewsSection reviews={node.user_reviews} />
-            {Helpers.renderSections(node.sections)}*/}
+            {Helpers.renderSections(node.sections)}
           </div>
         </div>
       );
     });
     return nodes;
   }
-
-  renderTemplates() {
-    var templates = [];
-    this.state.templates.forEach(function (template, index) {
-      console.log('template', template);
-      templates.push(
-        <div id="apix-template-container" key={template['id']+'1'}>
-          <div id="apix-template" key={template['id']+'2'}>
-            {Helpers.renderTemplate(template)}
-          </div>
-        </div>
-      );
-    });
-    return templates;
-  }
   
   render() {
-    // this.state.nodes.push(logan);
+    this.state.nodes.push(logan);
 
     return (
       <div>
-        {this.renderTemplates()}
+        {this.renderNodes()}
       </div>
     );
   }
