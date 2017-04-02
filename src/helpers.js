@@ -76,6 +76,16 @@ class Helpers {
     
     return string.join(' ');
   }
+
+  static getIndexInArray(array, element) {
+    var index;
+    for(var i = array.length - 1; i >= 0; i--) {
+      if(array[i] === element) {
+       index = i;
+      }
+    }
+    return index;
+  }
 }
 
 export default Helpers;

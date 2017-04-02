@@ -17,24 +17,27 @@ class PropertyInput extends Component {
     var prop = props.prop;
     const x = this;
     return <input type={prop.type} className="form-control" 
-          id={prop.label} placeholder={prop.placeholder} disabled={disabled}
+          id={prop.label} value={prop.label} placeholder={prop.placeholder} disabled={disabled}
           onChange={(e) => x.textChanged(e, prop, this.props.onChange)}
             />;
   }
 
   textChanged(e, oldProp, onChange) {
     var prop = Object.assign({}, oldProp);
+    var index = this.props.index;
+    console.log('index', index);
     prop.label = e.target.value;
     if(!prop.type) {
       prop.type = 'string';
     }
-    onChange(prop);
+    onChange(prop, index);
   }
 
   typeChanged(value, oldProp, onChange) {
     var prop = Object.assign({}, oldProp);
+    var index = this.props.index;
     prop.type = value;
-    onChange(prop);
+    onChange(prop, index);
   }
 
   updateProp(prop, onChange) {

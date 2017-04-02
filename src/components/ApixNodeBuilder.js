@@ -20,10 +20,10 @@ class ApixNodeBuilder extends Component {
     var props = [];
     stateProps.forEach(function(prop, index, propsArray) {
       if (index === stateProps.length-1) {
-        props.push(<PropertyInput key={index} prop={prop} onClick={(prop) => _this.removeProperty(prop)} onChange={(prop) => _this.setProperty(prop)}  />); // TODO --DM-- manage keys for iteration
+        props.push(<PropertyInput key={index} index={index} prop={prop} onClick={(prop) => _this.removeProperty(prop)} onChange={(prop, i) => _this.setProperty(prop, i)}  />); // TODO --DM-- manage keys for iteration
         props.push(<br key={index+1000} />);
       } else if(prop) {
-        props.push(<PropertyInput key={index} prop={prop} onClick={(prop) => _this.removeProperty(prop)} />); // TODO --DM-- manage keys for iteration
+        props.push(<PropertyInput key={index} index={index} prop={prop} onClick={(prop) => _this.removeProperty(prop)} />); // TODO --DM-- manage keys for iteration
         props.push(<br key={index+1000} />);
       }
       
@@ -33,8 +33,8 @@ class ApixNodeBuilder extends Component {
 
   addProperty() { // TODO --DM-- handle multiple properties at one time
     const props = this.state.props.slice();
-    var prop = { label:"temp", display_label:"", type:"", 
-            placeholder:"Enter field name here", disabled:false };
+    var prop = { label:"", display_label:"", type:"string", 
+            placeholder:"Enter field name here", disabled:false, index:props.length-1 };
     props.push(prop);
     this.setState({
       props: props,
@@ -43,9 +43,9 @@ class ApixNodeBuilder extends Component {
     return;
   }
 
-  setProperty(newProp) {
+  setProperty(newProp, index) {
     var props = this.state.props.slice();
-    props[props.length-1] = newProp;
+    props[index] = newProp;
     this.setState({
       props: props,
       addProperty: "",
@@ -57,11 +57,10 @@ class ApixNodeBuilder extends Component {
   removeProperty(prop) {
     var props = this.state.props.slice();
 
-    for(var i = props.length - 1; i >= 0; i--) {
-    if(props[i] === prop) {
-       props.splice(i, 1);
-      }
-    }
+    var index = Helpers.getIndexInArray(props, prop);
+    console.log(props, prop, index);
+    props.splice(index, 1);
+
     this.setState({
       props: props,
     });
