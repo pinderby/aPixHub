@@ -10,7 +10,7 @@ class App extends Component {
     super();
     this.state = {
       styleIndex: 1,
-      pageIndex: 1,
+      pageIndex: 0,
     };
   }
 
@@ -19,7 +19,7 @@ class App extends Component {
     if (this.state.styleIndex === 0) {
       partial = <IMDbClone />;
     } else {
-      partial = <AppBoilerplate />;
+      partial = <AppBoilerplate pageIndex={this.state.pageIndex} />;
     }
     
     return (
@@ -49,6 +49,7 @@ class Navbar extends Component {
 class AppBoilerplate extends Component {
   render() {
     var partial;
+    console.log(this.props.pageIndex);
     if (this.props.pageIndex === 0) {
       partial = <ApixNode />;
     } else {

@@ -50,8 +50,8 @@ class ApixNodeBuilder extends Component {
       props: props,
       addProperty: "",
     });
-    console.log("setProperty: ", newProp);
-    console.log("props: ", this.state.props[props.length-1]); 
+    // console.log("setProperty: ", newProp); TODO --DTM-- Remove
+    // console.log("props: ", this.state.props[props.length-1]); 
   }
 
   removeProperty(prop) {
@@ -63,6 +63,7 @@ class ApixNodeBuilder extends Component {
 
     this.setState({
       props: props,
+      addProperty: "",
     });
     return;
   }
