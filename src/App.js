@@ -2,19 +2,21 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import ApixNode from './components/ApixNode.js';
+import ApixNodeBuilder from './components/ApixNodeBuilder.js';
 import IMDbClone from './IMDbClone.js';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
+      styleIndex: 1,
       pageIndex: 1,
     };
   }
 
   render() {
     var partial;
-    if (this.state.pageIndex === 0) {
+    if (this.state.styleIndex === 0) {
       partial = <IMDbClone />;
     } else {
       partial = <AppBoilerplate />;
@@ -22,7 +24,7 @@ class App extends Component {
     
     return (
       <div className="App">
-        <Navbar />
+        <Navbar pageIndex={this.state.pageIndex} />
         {partial}
       </div>
     );
@@ -46,6 +48,13 @@ class Navbar extends Component {
 
 class AppBoilerplate extends Component {
   render() {
+    var partial;
+    if (this.props.pageIndex === 0) {
+      partial = <ApixNode />;
+    } else {
+      partial = <ApixNodeBuilder />;
+    }
+
     return (
       <div>
         <div className="App-header">
@@ -56,7 +65,7 @@ class AppBoilerplate extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
         <div id="App-container">
-          <ApixNode />
+          {partial}
         </div>
       </div>
     );

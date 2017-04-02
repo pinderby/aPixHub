@@ -65,3 +65,7 @@
     display: block;
     z-index: 0;
 }
+
+.glyphicon {
+    margin-right: 5px;
+}
