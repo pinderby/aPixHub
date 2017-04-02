@@ -9,7 +9,21 @@ class App extends Component {
     super();
     this.state = {
       pageIndex: 1,
+      selectedTemplate: null,
+      selectedNode: null,
     };
+  }
+  
+  setNodeTemplate(nodeTemplate) {
+    this.setState({
+      nodeTemplate: nodeTemplate
+    });
+  }
+
+  setApixNode(apixNode) {
+    this.setState({
+      apixNode: apixNode
+    });
   }
 
   render() {
