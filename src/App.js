@@ -12,7 +12,7 @@ class App extends Component {
     super();
     this.state = {
       styleIndex: 1,
-      pageIndex: 2,
+      pageIndex: 3,
     };
   }
 
