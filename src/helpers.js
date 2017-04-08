@@ -1,8 +1,48 @@
-import React, { Component } from 'react';
+import React from 'react';
 import NodeProperty from './components/NodeProperty.js'
 import Section from './components/Section.js'
+import _ from 'lodash';
 
 class Helpers {
+  static getObjProp(obj, path) {
+    var i;
+    if (!path) return obj;
+
+    path = path.replace(/\[(\w+)\]/g, '.$1'); //Source: http://stackoverflow.com/questions/6491463/accessing-nested-javascript-objects-with-string-key
+    path = path.split('.');
+    for (i = 0; i < path.length - 1; i++)
+        if (obj[path[i]]) obj = obj[path[i]];
+        
+    return obj[path[i]];
+  }
+  
+  // Source: http://stackoverflow.com/questions/6842795/dynamic-deep-setting-for-a-javascript-object
+  static setObjProp(obj, path, value) {
+    var i, node = obj;
+    if (!path) return obj;
+
+    path = path.replace(/\[(\w+)\]/g, '.$1');
+    path = path.split('.');
+    for (i = 0; i < path.length - 1; i++)
+        if (obj[path[i]]) obj = obj[path[i]];
+        
+    obj[path[i]] = value;
+    return node;
+  }
+
+  static removeObjProp(obj, path) {
+    var i, node = obj;
+    if (!path) return obj;
+
+    path = path.replace(/\[(\w+)\]/g, '.$1');
+    path = path.split('.');
+    for (i = 0; i < path.length - 1; i++)
+        if (obj[path[i]]) obj = obj[path[i]];
+        
+    delete obj[path[i]];
+    return node;
+  }
+
   static numberWithCommas(x) {
     var parts = x.toString().split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -10,7 +50,7 @@ class Helpers {
   }
 
   static renderSections(sections) {
-    if (typeof(sections) != "undefined") {
+    if (typeof(sections) !== "undefined") {
       var sectionComponents = [];
       sections.forEach(function(section) {
         sectionComponents.push(<Section key={section.title} section={section} />);
@@ -23,7 +63,7 @@ class Helpers {
 
   static renderProps(object) {
     console.log('renderProps: ', object);
-    if (typeof(object) != "undefined") {
+    if (typeof(object) !== "undefined") {
       var props = [];
       console.log(object);
       if (Object.prototype.toString.call( object ) === '[object Object]' ) {
@@ -60,7 +100,7 @@ class Helpers {
     }
 
     static renderTemplate(object) {
-      if (typeof(object) != "undefined") {
+      if (typeof(object) !== "undefined") {
         var props = [];
         props.push(<NodeProperty key={'id'+object['id']} propKey={'id'} value={object['id']} type="string" />);
         props.push(<NodeProperty key={'created_at'+object['id']} propKey={'created_at'} value={object['created_at']} type="string" />);
@@ -114,7 +154,7 @@ class Helpers {
 
     static renderObjects(objects) {
       var explodedObjects = [];
-      if (typeof(objects) != "undefined") {
+      if (typeof(objects) !== "undefined") {
         objects.forEach(function(object) {
           explodedObjects.push(Helpers.renderProps(object));
         });
@@ -156,6 +196,7 @@ class Helpers {
     }
     return a;
   }
+
 }
 
 export default Helpers;

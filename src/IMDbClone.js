@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './IMDbClone.css';
-import logan from './logan.json'; // JSON: http://www.objgen.com/json/models/2wFt3
-import moment from 'moment';
-import Helpers from './helpers.js';
+// import logan from './logan.json'; // JSON: http://www.objgen.com/json/models/2wFt3
 
 class IMDbClone extends Component {
   render() {

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import moment from 'moment';
 import Helpers from '../helpers.js';
-import NodeProperty from './NodeProperty.js';
 
 class ApixTemplate extends Component {
   constructor(props) {

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import moment from 'moment';
-import Helpers from '../helpers.js';
+/* eslint no-eval: 0 */
 
 class ReviewsSection extends Component {
   renderReviews(reviews) {
@@ -68,7 +67,7 @@ class ReviewFooter extends Component {
   render() {
     return (
       <div className="review-footer">
-        <img src={this.props.review.profile_pic} alt="Profile Picture" className="review-profile-pic" />
+        <img src={this.props.review.profile_pic} alt="Profile Pic" className="review-profile-pic" />
         <div className="review-author">{this.props.review.author}</div>
         <div className="review-title">{this.props.review.title}</div>
         <div className="review-company">{this.props.review.company}</div>

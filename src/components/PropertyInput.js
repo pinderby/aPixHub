@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import moment from 'moment';
-import Helpers from '../helpers.js';
 import _ from 'lodash';
-import AddPropertyButton from './ApixNodeBuilder.js';
+// import AddPropertyButton from './ApixNodeBuilder.js';
 
 class PropertyInput extends Component {
   constructor(props) {
@@ -100,9 +98,15 @@ class PropertyTypeSelect extends Component {
       'List':'array',
       'Object':'object'
     };
-    this.state = {
-      value: this.typesArray[0],
-    };
+    if (props.prop.type) {
+      this.state = {
+        value: _.findKey(this.typesMap, this.props.prop.type),
+      };
+    } else {
+      this.state = {
+        value: this.typesArray[0],
+      };
+    }
 
     this.handleChange = this.handleChange.bind(this);
   }
@@ -122,7 +126,6 @@ class PropertyTypeSelect extends Component {
   }
   
   render() {
-    this.state.value = _.findKey(this.typesMap, this.props.prop.type);
     return (
       <select className="form-control" 
               value={this.state.value} 

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 import NodeSearch from './components/NodeSearch.js';
 import ApixNode from './components/ApixNode.js';
 import ApixTemplate from './components/ApixTemplate.js';
-import ApixNodeBuilder from './components/ApixNodeBuilder.js';
+// import ApixNodeBuilder from './components/ApixNodeBuilder.js';
+import NodeBuilderContainer from './containers/NodeBuilderContainer.js';
 import IMDbClone from './IMDbClone.js';
 
 class App extends Component {
@@ -12,7 +13,7 @@ class App extends Component {
     super();
     this.state = {
       styleIndex: 1,
-      pageIndex: 3,
+      pageIndex: 2,
     };
   }
 
@@ -33,7 +34,7 @@ class App extends Component {
   }
 }
 
-class Navbar extends Component {
+/*class Navbar extends Component {
   handleClick() {
     console.log('handleClick()');
   }
@@ -46,18 +47,18 @@ class Navbar extends Component {
       </ul>
     );
   }
-}
+}*/
 
 class AppBoilerplate extends Component {
   render() {
     var partial;
-    console.log(this.props.pageIndex);
+    console.log('App.js pageIndex: ', this.props.pageIndex);
     if (this.props.pageIndex === 0) {
       partial = <ApixNode />;
     } else if (this.props.pageIndex === 1) {
       partial = <ApixTemplate />;
     } else if (this.props.pageIndex === 2) {
-      partial = <ApixNodeBuilder />;
+      partial = <NodeBuilderContainer />;
     } else {
       partial = <NodeSearch />;
     }

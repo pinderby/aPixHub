@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import moment from 'moment';
 import Helpers from '../helpers.js';
 import StarRating from './StarRating.js';
+/* eslint no-eval: 0 */
 
 class NodeSearchResult extends Component {
   renderImages(images) {
@@ -51,7 +51,8 @@ class Image extends Component {
     return (
       <div className="image-container">
         <div className="image-result">
-          <img src={this.props.url} alt="Image" className="img-rounded"/>
+          {/* TODO --DM-- Add alt text */}
+          <img src={this.props.url} alt="" className="img-rounded"/> 
         </div>
       </div>
     );

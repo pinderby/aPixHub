@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import moment from 'moment';
-import Helpers from '../helpers.js';
 
 class ImagesSection extends Component {
   renderImages(images) {
@@ -28,7 +26,8 @@ class Image extends Component {
     return (
       <div className="image-container">
         <div className="image">
-          <img src={this.props.url} alt="Image" className="img-rounded"/>
+          {/* TODO --DM-- Add alt text */}
+          <img src={this.props.url} alt="" className="img-rounded"/>
         </div>
       </div>
     );

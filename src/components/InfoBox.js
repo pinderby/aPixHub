@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import moment from 'moment';
 import _ from 'lodash';
 import Helpers from '../helpers.js';
 import NodeProfileImage from './NodeProfileImage.js'
-import NodeProperty from './NodeProperty.js'
 
 class InfoBox extends Component {  
   render() {

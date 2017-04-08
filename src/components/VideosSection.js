@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import moment from 'moment';
-import Helpers from '../helpers.js';
 
 class VideosSection extends Component {
   renderVideos(videos) {

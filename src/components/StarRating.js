@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import moment from 'moment';
-import Helpers from '../helpers.js';
+/* eslint no-eval: 0 */
 
 
 class StarRating extends Component {

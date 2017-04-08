@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import moment from 'moment';
-import Helpers from '../helpers.js';
 import './NodeSearch.css';
 import NodeSearchResult from './NodeSearchResult.js';
 import logan from '../logan.json';

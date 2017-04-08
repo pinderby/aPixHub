@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import moment from 'moment';
-import Helpers from '../helpers.js';
 import VideosSection from './VideosSection.js';
 import ImagesSection from './ImagesSection.js';
 

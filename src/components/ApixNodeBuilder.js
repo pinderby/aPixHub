@@ -6,41 +6,49 @@ import PropertyInput from './PropertyInput';
 import './ApixNodeBuilder.css';
 
 class ApixNodeBuilder extends Component {
-  constructor() {
-    super();
-    var properties = [];
-    var name_property = { label:"name", 
-                          display_label:"Name", 
-                          type:"string", 
-                          placeholder:"Name", 
-                          disabled:true };
-    properties = Helpers.pushIfMissingInArray(properties, name_property, 'label');
-    var profile_image_property = { label:"profile_image", 
-                                   display_label:"Profile Picture", 
-                                   type:"string", 
-                                   placeholder:"Link to Profile Picture", 
-                                   disabled:true };
-    properties =  Helpers.pushIfMissingInArray(properties, profile_image_property, 'label');
-    var cover_image_property = { label:"cover_image", 
-                                 display_label:"Cover Image", 
-                                 type:"string", 
-                                 placeholder:"Link to Cover Image", 
-                                 disabled:true };
-    properties = Helpers.pushIfMissingInArray(properties, cover_image_property, 'label');
-    var node = {};
-    node.properties = properties;
+  constructor({ node }) {
+    super({ node });
+    // var properties = [];
+    // var name_property = { label:"name", 
+    //                       display_label:"Name", 
+    //                       type:"string", 
+    //                       placeholder:"Name", 
+    //                       disabled:true };
+    // properties = Helpers.pushIfMissingInArray(properties, name_property, 'label');
+    // var profile_image_property = { label:"profile_image", 
+    //                                display_label:"Profile Picture", 
+    //                                type:"string", 
+    //                                placeholder:"Link to Profile Picture", 
+    //                                disabled:true };
+    // properties =  Helpers.pushIfMissingInArray(properties, profile_image_property, 'label');
+    // var cover_image_property = { label:"cover_image", 
+    //                              display_label:"Cover Image", 
+    //                              type:"string", 
+    //                              placeholder:"Link to Cover Image", 
+    //                              disabled:true };
+    // properties = Helpers.pushIfMissingInArray(properties, cover_image_property, 'label');
+    // var node = {};
+    // node.properties = properties;
 
     this.state = {
       node: node,
       addProperty: "",
     };
+    console.log('ApixNodeBuilder.state: ', this.state);
   }
   
   renderProperties() {
-    const nodeProps = this.state.node.properties.slice();
+    const nodeProps = this.state.node.properties;
     const _this = this;
     var props = [];
-    nodeProps.forEach(function(prop, index, propsArray) {
+    for (var key in nodeProps) {
+      // console.log(key, nodeProps[key]); //TODO --DM-- Remove
+      var prop = nodeProps[key];
+      props.push(<PropertyInput key={key} index={1} prop={prop} onClick={(prop) => _this.removeProperty(prop)}
+                         addProperty={() => _this.addProperty()} />); // TODO --DM-- manage keys for iteration
+      props.push(<br key={key.toString()+'1000'} />)
+    }
+    /*nodeProps.forEach(function(prop, index, propsArray) {
       if (index === nodeProps.length-1) {
         props.push(<PropertyInput key={index} index={index} prop={prop} 
                         onClick={(prop) => _this.removeProperty(prop)} onChange={(prop, i) => _this.setProperty(prop, i)}
@@ -52,7 +60,7 @@ class ApixNodeBuilder extends Component {
         props.push(<br key={index+1000} />);
       }
       
-    });
+    });*/
     return props;
   }
 
