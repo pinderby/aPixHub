@@ -3,7 +3,7 @@ import Helpers from '../helpers.js';
 import logan from '../logan.json';
 import PropertyInput from './PropertyInput';
 import './ApixNodeBuilder.css';
-import { initializeNode } from '../actions';
+import { initializeNode, addProp, setProp, removeProp } from '../actions';
 
 class ApixNodeBuilder extends Component {
   constructor(props) {
@@ -81,15 +81,16 @@ class ApixNodeBuilder extends Component {
   }
 
   addProperty() { // TODO --DM-- handle multiple properties at one time
-    const props = this.state.node.properties.slice();
+    // const props = this.state.node.properties.slice();
     var prop = { label:"", display_label:"", type:"string", 
-            placeholder:"Enter field name here", disabled:false, index:props.length-1 };
-    var node = Object.assign({}, this.state.node);
-    node.properties.push(prop);
-    this.setState({
-      node: node,
-      addProperty: "disabled",
-    });
+            placeholder:"Enter field name here", disabled:false, path:"properties.newProp" };
+    // var node = Object.assign({}, this.state.node);
+    // node.properties.push(prop);
+    // this.setState({
+    //   node: node,
+    //   addProperty: "disabled",
+    // });
+    this.props.dispatch(addProp(prop.path, prop));
     return;
   }
 
