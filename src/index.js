@@ -7,9 +7,19 @@ import appReducers from './reducers'
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { initializeNode } from './actions';
+import logan from './logan.json';
 
 let store = createStore(appReducers);
-store.dispatch(initializeNode({ properties: {hi: 'hi'} }))
+// Log the initial state
+console.log('getState(): ', store.getState())
+
+// Every time the state changes, log it
+// Note that subscribe() returns a function for unregistering the listener
+let unsubscribe = store.subscribe(() =>
+  console.log('getState(): ', store.getState())
+);
+
+// store.dispatch(initializeNode(logan)) // TODO --DM-- Change to API call
 
 ReactDOM.render(
   <Provider store={store}>
@@ -17,3 +27,6 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
+
+// Stop listening to state updates
+unsubscribe();

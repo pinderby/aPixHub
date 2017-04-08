@@ -10,6 +10,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     onAddPropClick: (path, value) => {
       dispatch(addProp(path, value))
     }

@@ -1,48 +1,64 @@
 import React, { Component } from 'react';
-import moment from 'moment';
 import Helpers from '../helpers.js';
 import logan from '../logan.json';
 import PropertyInput from './PropertyInput';
 import './ApixNodeBuilder.css';
+import { initializeNode } from '../actions';
 
 class ApixNodeBuilder extends Component {
-  constructor({ node }) {
-    super({ node });
-    // var properties = [];
-    // var name_property = { label:"name", 
-    //                       display_label:"Name", 
-    //                       type:"string", 
-    //                       placeholder:"Name", 
-    //                       disabled:true };
-    // properties = Helpers.pushIfMissingInArray(properties, name_property, 'label');
-    // var profile_image_property = { label:"profile_image", 
-    //                                display_label:"Profile Picture", 
-    //                                type:"string", 
-    //                                placeholder:"Link to Profile Picture", 
-    //                                disabled:true };
-    // properties =  Helpers.pushIfMissingInArray(properties, profile_image_property, 'label');
-    // var cover_image_property = { label:"cover_image", 
-    //                              display_label:"Cover Image", 
-    //                              type:"string", 
-    //                              placeholder:"Link to Cover Image", 
-    //                              disabled:true };
-    // properties = Helpers.pushIfMissingInArray(properties, cover_image_property, 'label');
-    // var node = {};
-    // node.properties = properties;
+  constructor(props) {
+    super(props);
+    
+    // Check if node is already initialized
+    if (!props.node.hasOwnProperty('label')) {
+      
+      // Create new node with label
+      let node = { label:'', properties: {}} // TODO --DM-- Add label, base model props
+      
+      // Get node properties
+      let properties = node.properties;
+      
+      // Add mandatory name property
+      properties.name = { label:"name", 
+                     display_label:"Name", 
+                     type:"string", 
+                     placeholder:"Name", 
+                     disabled: true,
+                     path:'properties.name' };
+      
+      // Add mandatory profile_image property
+      properties.profile_image = { label:"profile_image", 
+                              display_label:"Profile Picture", 
+                              type:"string", 
+                              placeholder:"Link to Profile Picture", 
+                              disabled: true,
+                              path:'properties.profile_image' };
+      
+      // Add mandatory cover_image property
+      properties.cover_image = { label:"cover_image", 
+                            display_label:"Cover Image", 
+                            type:"string", 
+                            placeholder:"Link to Cover Image", 
+                            disabled: true,
+                            path:'properties.cover_image' };
 
+      // Dispatch new node to store
+      props.dispatch(initializeNode(node));
+    }
+
+    // Set initial state (TODO --DM-- Remove?)
     this.state = {
-      node: node,
+      node: props.node,
       addProperty: "",
     };
-    console.log('ApixNodeBuilder.state: ', this.state);
   }
   
   renderProperties() {
-    const nodeProps = this.state.node.properties;
+    const nodeProps = this.props.node.properties;
     const _this = this;
     var props = [];
     for (var key in nodeProps) {
-      // console.log(key, nodeProps[key]); //TODO --DM-- Remove
+      console.log('key, prop: ', key, nodeProps[key]); //TODO --DM-- Remove
       var prop = nodeProps[key];
       props.push(<PropertyInput key={key} index={1} prop={prop} onClick={(prop) => _this.removeProperty(prop)}
                          addProperty={() => _this.addProperty()} />); // TODO --DM-- manage keys for iteration
