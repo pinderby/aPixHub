@@ -1,8 +1,8 @@
 import * as ActionTypes from '../actionTypes.js';
 
-export const initializeNode = (node) => {
+export const updateNode = (node) => {
   return {
-    type: ActionTypes.INITIALIZE_NODE,
+    type: ActionTypes.UPDATE_NODE,
     node
   }
 }
@@ -19,6 +19,15 @@ export const setProp = (path, value) => {
   return {
     type: ActionTypes.SET_PROPERTY,
     path,
+    value
+  }
+}
+
+export const renameProp = (oldPath, newPath, value) => {
+  return {
+    type: ActionTypes.RENAME_PROPERTY,
+    oldPath,
+    newPath,
     value
   }
 }

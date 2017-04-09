@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-// import AddPropertyButton from './ApixNodeBuilder.js';
+import { AddPropertyButton } from './ApixNodeBuilder.js';
+import Helpers from '../helpers.js';
 
 class PropertyInput extends Component {
   constructor(props) {
@@ -21,28 +22,46 @@ class PropertyInput extends Component {
           id={prop.label} value={prop.label} placeholder={prop.placeholder} disabled={disabled}
           onChange={(e) => x.textChanged(e, prop, this.props.onChange)}
             />);
-      // comps.push(<AddPropertyButton disabled={false} onClick={this.props.addProperty}/>);
-      comps.push(<button key={prop.label+'1'} type="button" className="btn btn-info" disabled={this.props.disabled} onClick={this.props.addProperty}>
+      comps.push(<AddPropertyButton disabled={false} onClick={this.props.addProperty}/>);
+      /*comps.push(<button key={prop.label+'1'} type="button" className="btn btn-info" disabled={this.props.disabled} onClick={this.props.addProperty}>
         <span key={prop.label+'2'} className="glyphicon glyphicon-plus" aria-hidden="true"></span>
         Property
-      </button>);
+      </button>);*/
       return comps;
     }
-    return <input type={prop.type} className="form-control" 
+
+    if (prop.label) {
+      return <input type={prop.type} className="form-control" 
           id={prop.label} value={prop.label} placeholder={prop.placeholder} disabled={disabled}
-          onChange={(e) => x.textChanged(e, prop, this.props.onChange)}
-            />;
+          onChange={(e) => x.textChanged(e, prop, this.props.onChange)} />;
+    } else {
+      return <input type={prop.type} className="form-control" 
+          id={prop.label} placeholder={prop.placeholder} disabled={disabled}
+          onChange={(e) => x.textChanged(e, prop, this.props.onChange)} />;
+    }
+    
   }
 
-  textChanged(e, oldProp, onChange) {
-    var prop = Object.assign({}, oldProp);
-    var index = this.props.index;
+  textChanged(e, prop, onChange) {
+    // Copy old path
+    var oldPath = prop.path.slice();
+
+    // Set prop label to user-entered value
     prop.label = e.target.value;
     console.log(prop.label);
+
+    // Create parse new path for property
+    prop.path = Helpers.parseNewPath(prop.path, prop.label);
+
+    // Set default prop.type if not defined
     if(!prop.type) {
       prop.type = 'string';
     }
-    onChange(prop, index);
+
+    console.log('textChanged(): ', oldPath, prop.path, prop); // TODO --DM-- Remove
+
+    // Call callback
+    onChange(oldPath, prop.path, prop);
   }
 
   typeChanged(value, oldProp, onChange) {
@@ -57,7 +76,7 @@ class PropertyInput extends Component {
     var partial = "";
     if (!disabled) {
       partial = <button type="button" className="btn btn-danger btn-remove-property" 
-                    aria-label="Left Align" onClick={() => this.props.onClick(this.props.prop)}>
+                    aria-label="Left Align" onClick={() => this.props.onClick(this.props.prop.path)}>
               <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
             </button>;
     }

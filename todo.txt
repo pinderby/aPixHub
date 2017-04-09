@@ -29,6 +29,7 @@ TODO - DTM -
 [ x ] Populate components with hard-coded JSON
 [ ] Write react components for forms (node templates/instances)
 [ ] Create UX for adding label to new template and initialize template
+[ ] Prevent accidental property overwriting in NodeBuilder
 [ ] Hook up to backend with Joe
 [ ] Write react components for search and displaying search results
 

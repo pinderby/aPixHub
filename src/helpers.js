@@ -10,8 +10,9 @@ class Helpers {
 
     path = path.replace(/\[(\w+)\]/g, '.$1'); //Source: http://stackoverflow.com/questions/6491463/accessing-nested-javascript-objects-with-string-key
     path = path.split('.');
-    for (i = 0; i < path.length - 1; i++)
-        if (obj[path[i]]) obj = obj[path[i]];
+    for (i = 0; i < path.length - 1; i++) {
+      if (obj[path[i]]) obj = obj[path[i]];
+    } 
         
     return obj[path[i]];
   }
@@ -23,8 +24,10 @@ class Helpers {
 
     path = path.replace(/\[(\w+)\]/g, '.$1');
     path = path.split('.');
-    for (i = 0; i < path.length - 1; i++)
-        if (obj[path[i]]) obj = obj[path[i]];
+    for (i = 0; i < path.length - 1; i++) {
+      if (!obj[path[i]]) obj[path[i]] = {};
+      obj = obj[path[i]];
+    } 
         
     obj[path[i]] = value;
     return node;
@@ -36,8 +39,9 @@ class Helpers {
 
     path = path.replace(/\[(\w+)\]/g, '.$1');
     path = path.split('.');
-    for (i = 0; i < path.length - 1; i++)
-        if (obj[path[i]]) obj = obj[path[i]];
+    for (i = 0; i < path.length - 1; i++) {
+      if (obj[path[i]]) obj = obj[path[i]];
+    } 
         
     delete obj[path[i]];
     return node;
@@ -163,6 +167,7 @@ class Helpers {
     return;
   }
 
+  // Takes snake_case prop key and returns a formatted label string for display
   static formatPropKey(string) {
     string = string.toLowerCase().split('_');
     for (var i = 0; i < string.length; i++) {
@@ -172,6 +177,19 @@ class Helpers {
     return string.join(' ');
   }
 
+  // Takes old path string and new object key and returns updated path string
+  static parseNewPath(oldPath, newKey) {
+    // Split old path by '.'
+    oldPath = oldPath.split('.');
+
+    // Replace last segment of path with new key
+    oldPath[oldPath.length-1] = newKey;
+
+    // Join new path and return
+    return oldPath.join('.');
+  }
+
+  // Gets the index of a given element in an array
   static getIndexInArray(array, element) {
     var index;
     for(var i = array.length - 1; i >= 0; i--) {
