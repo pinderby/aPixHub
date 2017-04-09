@@ -54,14 +54,12 @@ class PropertyInput extends Component {
     prop.path = Helpers.parseNewPath(prop.path, prop.label);
 
     // Set default prop.type if not defined
-    if(!prop.type) {
-      prop.type = 'string';
-    }
+    if(!prop.type) prop.type = 'string';
 
     console.log('textChanged(): ', oldPath, prop.path, prop); // TODO --DM-- Remove
 
     // Call callback
-    onChange(oldPath, prop.path, prop);
+    onChange('label', oldPath, prop.path, prop);
   }
 
   typeChanged(value, prop, onChange) {
@@ -69,7 +67,7 @@ class PropertyInput extends Component {
     prop.type = value;
     
     // Call callback to update property
-    onChange(null, prop.path, prop);
+    onChange('type', null, prop.path, prop);
   }
   
   render() {

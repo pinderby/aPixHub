@@ -23,14 +23,20 @@ Design/CSS
 ---------------
 TODO - DTM -
 ---------------
+ApixNode
 [ x ] Go over logan.json with Joe
 [ x ] Figure out what components I need
 [ x ] Write skeleton components
 [ x ] Populate components with hard-coded JSON
+
+ApixNodeBuilder
 [ ] Write react components for forms (node templates/instances)
 [ ] Create UX for adding label to new template and initialize template
 [ ] Prevent accidental property overwriting in NodeBuilder
-[ ] Hook up to backend with Joe
+[ ] Create UX and backend for creating relationships in NodeTemplates
+[ ] Disable delete button for newest property
+
+NodeSearch
 [ ] Write react components for search and displaying search results
 
 

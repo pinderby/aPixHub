@@ -58,6 +58,7 @@ class ApixNodeBuilder extends Component {
       node: props.node,
       addProperty: "",
       newPropIndex: 0,
+      rerender: true,
     };
   }
   
@@ -71,7 +72,7 @@ class ApixNodeBuilder extends Component {
       props.push(<PropertyInput key={key} index={i} prop={prop} 
                         onClick={(path) => this.removeProperty(path)}
                         addProperty={() => this.addProperty()} 
-                        onChange={(oldPath, newPath, prop) => this.setProperty(oldPath, newPath, prop)} />); // TODO --DM-- manage keys for iteration
+                        onChange={(changeType, oldPath, newPath, prop) => this.setProperty(changeType, oldPath, newPath, prop)} />); // TODO --DM-- manage keys for iteration
       props.push(<br key={key.toString()+'1000'} />)
       i++;
     }
@@ -89,6 +90,10 @@ class ApixNodeBuilder extends Component {
       
     });*/
     return props;
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState.rerender;
   }
 
   updateNode(node) {
@@ -119,19 +124,20 @@ class ApixNodeBuilder extends Component {
     // Increment new property index
     i++;
 
-    // Set state for updated node and new property index
+    // Set state for updated node and new property index and rerender
     this.setState({
       node: node,
       newPropIndex: i,
+      rerender: true,
     });
 
     // Dispatch new property to store
-    this.props.dispatch(updateNode(node)); 
+    this.updateNode(node);
 
     return;
   }
 
-  setProperty(oldPath, newPath, newProp) {
+  setProperty(changeType, oldPath, newPath, newProp) {
     // Merge node from props (redux store) and state
     let node = Object.assign(this.props.node, this.state.node);
     
@@ -152,17 +158,35 @@ class ApixNodeBuilder extends Component {
     // If oldPath exists, remove old property
     if (oldPath) node = Helpers.removeObjProp(node, oldPath);
 
-    // Set state for updated node
-    // this.setState({
-    //   node: node,
-    // });
+    // Rerender if type changed, not if label changed
+    var rerender = true;
+    if (changeType === 'label') rerender = false;
+
+    // Set state for updated node and rerender if type changed
+    this.setState({
+      node: node,
+      rerender: rerender,
+    });
 
     return;
   }
 
   removeProperty(path) {
+    // Merge node from props (redux store) and state
+    let node = Object.assign(this.props.node, this.state.node);
+    console.log('removeProp node: ', node);
+
     // Dispatch path to store to remove property
-    this.props.dispatch(removeProp(path));
+    node = Helpers.removeObjProp(node, path);
+
+    // Dispatch updated node to store
+    this.props.dispatch(updateNode(node));
+
+    // Set state for updated node and rerender
+    this.setState({
+      node: node,
+      rerender: true,
+    });
 
     return;
   }
