@@ -48,7 +48,7 @@ class PropertyInput extends Component {
 
     // Set prop label to user-entered value
     prop.label = e.target.value;
-    console.log(prop.label);
+    console.log('Label: ', prop.label); // TODO --DM-- Remove
 
     // Create parse new path for property
     prop.path = Helpers.parseNewPath(prop.path, prop.label);
@@ -64,11 +64,12 @@ class PropertyInput extends Component {
     onChange(oldPath, prop.path, prop);
   }
 
-  typeChanged(value, oldProp, onChange) {
-    var prop = Object.assign({}, oldProp);
-    var index = this.props.index;
+  typeChanged(value, prop, onChange) {
+    // Assign new type to property
     prop.type = value;
-    onChange(prop, index);
+    
+    // Call callback to update property
+    onChange(null, prop.path, prop);
   }
   
   render() {
@@ -101,46 +102,50 @@ class PropertyInput extends Component {
 class PropertyTypeSelect extends Component {
   constructor(props) {
     super(props);
-    this.typesArray = ['Text or Link',
-                       'Number',
-                       'Decimal',
-                       'True/False',
-                       'Link to another thing', // TODO --DM-- Rename
-                       'List',
-                       'Object']; // TODO --DM-- Rename
+
+    // Create typesMap for property categories
     this.typesMap = {
       'Text or Link':'string',
       'Number':'integer',
       'Decimal':'float',
       'True/False':'boolean',
-      'Link to another thing':'relationship',
+      'Link to another thing':'relationship', // TODO --DM-- Rename
       'List':'array',
-      'Object':'object'
+      'Object':'object' // TODO --DM-- Rename
     };
-    if (props.prop.type) {
-      this.state = {
-        value: _.findKey(this.typesMap, this.props.prop.type),
-      };
-    } else {
-      this.state = {
-        value: this.typesArray[0],
-      };
-    }
 
+    // Bind methods
     this.handleChange = this.handleChange.bind(this);
+    this.renderOptions = this.renderOptions.bind(this);
+
+    // Set initial value for property type
+    this.state = {
+      value: Helpers.getKey(this.typesMap, props.prop.type),
+    }
   }
   
   handleChange(event) {
+    // Get type string from event
     var value = this.typesMap[event.target.value];
+
+    // Update type in ApixNodeBuilder
     this.props.onChange(value);
+
+    // Update type in state to sync with ApixNodeBuilder
+    this.setState({
+      value: Helpers.getKey(this.typesMap, value),
+    });
   }
 
   renderOptions(prop) {
+    // Initialize options array
     var options = [];
-    var typesMap = this.typesMap;
-    this.typesArray.forEach(function(type, index, array) {
+
+    // Iterate through typesMap for options, push each option
+    Object.keys(this.typesMap).forEach(function(type, index, array) {
       options.push(<option key={index}>{type}</option>);
     });
+
     return options;
   }
   

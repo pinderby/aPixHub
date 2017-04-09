@@ -183,7 +183,7 @@ class Helpers {
     oldPath = oldPath.split('.');
 
     // Replace last segment of path with new key
-    oldPath[oldPath.length-1] = newKey;
+    oldPath[oldPath.length-1] = newKey.toLowerCase();
 
     // Join new path and return
     return oldPath.join('.');
@@ -198,6 +198,15 @@ class Helpers {
       }
     }
     return index;
+  }
+
+  // Gets object key from value
+  static getKey(obj, value) {
+    for( var prop in obj ) {
+      if( obj.hasOwnProperty( prop ) ) {
+        if( obj[prop] === value ) return prop;
+      }
+    }
   }
 
   // TODO --DM-- Remove
