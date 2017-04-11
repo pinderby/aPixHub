@@ -72,7 +72,7 @@ class ApixNodeBuilder extends Component {
       var prop = nodeProps[key];
 
       // Push property input for each prop
-      props.push(<PropertyInput key={key} index={i} prop={prop} node={this.props.node} dispatch={this.props.dispatch}
+      props.push(<PropertyInput key={key} index={i} prop={prop} node={this.props.node} dispatch={this.props.dispatch} nested={false}
                         onClick={(path) => this.removeProperty(path)}
                         addProperty={() => this.addProperty()} 
                         onChange={(changeType, oldPath, newPath, prop) => this.setProperty(changeType, oldPath, newPath, prop)} />); // TODO --DM-- manage keys for iteration

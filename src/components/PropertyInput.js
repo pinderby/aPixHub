@@ -12,6 +12,7 @@ class PropertyInput extends Component {
       propType: props.prop.type,
     };
 
+    // Bind methods
     this.renderInput = this.renderInput.bind(this);
   }
   
@@ -97,7 +98,7 @@ class PropertyInput extends Component {
             {partial}
             <label htmlFor={this.props.prop.label}>{this.props.prop.display_label}</label>
             {this.renderInput(this.props, disabled)}
-            <PropertyTypeSelect disabled={disabled} prop={this.props.prop}
+            <PropertyTypeSelect disabled={disabled} prop={this.props.prop} nested={this.props.nested}
                 onChange={(e) => this.typeChanged(e, this.props.prop, this.props.onChange)} />
             <br />
             {objectBuilder}
@@ -113,46 +114,55 @@ class PropertyTypeSelect extends Component {
   constructor(props) {
     super(props);
 
-    // Create typesMap for property categories
-    this.typesMap = {
-      'Text or Link':'string',
-      'Number':'integer',
-      'Decimal':'float',
-      'True/False':'boolean',
-      'Link to another thing':'relationship', // TODO --DM-- Rename
-      'List':'array',
-      'Object':'object' // TODO --DM-- Rename
-    };
-
     // Bind methods
     this.handleChange = this.handleChange.bind(this);
     this.renderOptions = this.renderOptions.bind(this);
 
     // Set initial value for property type
     this.state = {
-      value: Helpers.getKey(this.typesMap, props.prop.type),
+      value: Helpers.getKey(PropertyTypes, props.prop.type),
     }
   }
   
-  handleChange(event) {
+  handleChange(event, isArray) {
     // Get type string from event
-    var value = this.typesMap[event.target.value];
+    var value = PropertyTypes[event.target.value];
+
+    // If selecting type for array, modify value
+    if (isArray) value = '['+value+']';
 
     // Update type in ApixNodeBuilder
     this.props.onChange(value);
 
     // Update type in state to sync with ApixNodeBuilder
     this.setState({
-      value: Helpers.getKey(this.typesMap, value),
+      value: Helpers.getKey(PropertyTypes, value),
     });
   }
 
-  renderOptions(prop) {
+  renderOptions(props, isArray) {
     // Initialize options array
+    var types = Object.assign({}, PropertyTypes);
     var options = [];
 
+    // If object is already nested, don't double-nest
+    if (props.nested) delete types[Helpers.getKey(PropertyTypes, 'object')];
+
+    // If select is for array type, remove node, array, and object options
+    if (isArray) {
+      delete types[Helpers.getKey(PropertyTypes, 'object')];
+      delete types[Helpers.getKey(PropertyTypes, 'array')];
+      delete types[Helpers.getKey(PropertyTypes, 'relationship')];
+
+      // Add explainer option
+      types = Object.keys(types);
+      types.splice(0, 0, 'Select a list type');
+    } else {
+      types = Object.keys(types);
+    }
+
     // Iterate through typesMap for options, push each option
-    Object.keys(this.typesMap).forEach(function(type, index, array) {
+    types.forEach(function(type, index, array) {
       options.push(<option key={index}>{type}</option>);
     });
 
@@ -160,13 +170,38 @@ class PropertyTypeSelect extends Component {
   }
   
   render() {
+    // Initialize variables to test for array
+    var arrayTypeSelect, value = this.state.value;
+
+    // If current type is array and type is selected, display correct value
+    if (this.props.prop.type[0] === '[') {
+      value = this.props.prop.type.substring(1, this.props.prop.type.length-1);
+      value = Helpers.getKey(PropertyTypes, value);
+    }
+
+    // If current type is array, display second select for type of array
+    if (PropertyTypes[this.state.value] === 'array' || this.props.prop.type[0] === '[') {
+      arrayTypeSelect = 
+      <span><span> of </span>
+        <select className="form-control" 
+                value={value} 
+                onChange={(e) => this.handleChange(e, true)}
+                disabled={this.props.disabled}>
+          {this.renderOptions(this.props, true)}
+        </select>
+      </span>;
+    }
+
     return (
-      <select className="form-control" 
-              value={this.state.value} 
-              onChange={this.handleChange} 
-              disabled={this.props.disabled}>
-        {this.renderOptions(this.props.prop)}
-      </select>
+      <span>
+        <select className="form-control" 
+                value={this.state.value} 
+                onChange={(e) => this.handleChange(e, false)} 
+                disabled={this.props.disabled}>
+          {this.renderOptions(this.props, false)}
+        </select>
+        {arrayTypeSelect}
+      </span>
     );
   }
 }

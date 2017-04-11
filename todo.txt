@@ -37,6 +37,7 @@ ApixNodeBuilder
 [ ] Disable delete button for newest property
 [ ] Figure out rendering order for props
 [ ] Figure out linking to other nodes and relationships
+[ ] Validate against explainer option for array type
 
 NodeSearch
 [ ] Write react components for search and displaying search results

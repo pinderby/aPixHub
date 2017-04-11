@@ -40,10 +40,8 @@ class NodeObjectBuilder extends Component {
       // Initialize prop
       var prop = object.properties[key];
 
-      console.log('key, prop: ', key, prop); // TODO --DM-- Remove
-
       // Push property input for each prop
-      props.push(<PropertyInput key={key} index={i} prop={prop}
+      props.push(<PropertyInput key={key} index={i} prop={prop} nested={true}
                         onClick={(path) => this.removeProperty(path)}
                         addProperty={() => this.addProperty()} 
                         onChange={(changeType, oldPath, newPath, prop) => this.setProperty(changeType, oldPath, newPath, prop)} />); // TODO --DM-- manage keys for iteration
