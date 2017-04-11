@@ -35,9 +35,14 @@ ApixNodeBuilder
 [ ] Prevent accidental property overwriting in NodeBuilder
 [ ] Create UX and backend for creating relationships in NodeTemplates
 [ ] Disable delete button for newest property
+[ ] Figure out rendering order for props
+[ ] Figure out linking to other nodes and relationships
 
 NodeSearch
 [ ] Write react components for search and displaying search results
+
+Constants
+[ ] Update propertyTypes with better language
 
 
 ---------------

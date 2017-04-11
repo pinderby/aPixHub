@@ -209,6 +209,15 @@ class Helpers {
     }
   }
 
+  // Gets new blank property for display
+  static getNewProp(i, path) {
+    // Add '.' to path prefix if nested property, if not leave blank
+    path ? path = path+"." : path = "";
+
+    return { label:"", display_label:"", type:"string", 
+            placeholder:"Enter field name here", disabled:false, path:path+"properties.newProp"+i };
+  }
+
   // TODO --DM-- Remove
 //   static pushIfMissingInArray(array, element, key) {
 //     var found = false;

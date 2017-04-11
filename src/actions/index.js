@@ -1,4 +1,4 @@
-import * as ActionTypes from '../actionTypes.js';
+import * as ActionTypes from '../constants/actionTypes.js';
 
 export const updateNode = (node) => {
   return {

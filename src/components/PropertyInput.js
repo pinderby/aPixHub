@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import { AddPropertyButton } from './ApixNodeBuilder.js';
 import Helpers from '../helpers.js';
+import PropertyTypes from '../constants/propertyTypes.js';
+import NodeObjectBuilder from './NodeObjectBuilder.js';
 
 class PropertyInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      
+      propType: props.prop.type,
     };
 
     this.renderInput = this.renderInput.bind(this);
@@ -22,7 +24,7 @@ class PropertyInput extends Component {
           id={prop.label} value={prop.label} placeholder={prop.placeholder} disabled={disabled}
           onChange={(e) => x.textChanged(e, prop, this.props.onChange)}
             />);
-      comps.push(<AddPropertyButton disabled={false} onClick={this.props.addProperty}/>);
+      // comps.push(<AddPropertyButton disabled={false} onClick={this.props.addProperty}/>);
       /*comps.push(<button key={prop.label+'1'} type="button" className="btn btn-info" disabled={this.props.disabled} onClick={this.props.addProperty}>
         <span key={prop.label+'2'} className="glyphicon glyphicon-plus" aria-hidden="true"></span>
         Property
@@ -71,14 +73,23 @@ class PropertyInput extends Component {
   }
   
   render() {
-    var disabled = this.props.prop.disabled ? 'disabled' : "";
-    var partial = "";
+    // Check if property is disabled (mandatory)
+    var partial, disabled = this.props.prop.disabled ? 'disabled' : "";
+
+    // If property is not disabled, show the 'remove property' button
     if (!disabled) {
       partial = <button type="button" className="btn btn-danger btn-remove-property" 
                     aria-label="Left Align" onClick={() => this.props.onClick(this.props.prop.path)}>
               <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
             </button>;
     }
+
+    var objectBuilder;
+    if (this.state.propType === 'object') {
+      objectBuilder = <NodeObjectBuilder node={this.props.node} 
+                        path={this.props.prop.path} dispatch={this.props.dispatch} />;
+    }
+
     return (
       <div id="property-input-container">
         <div id="property-input">
@@ -89,6 +100,7 @@ class PropertyInput extends Component {
             <PropertyTypeSelect disabled={disabled} prop={this.props.prop}
                 onChange={(e) => this.typeChanged(e, this.props.prop, this.props.onChange)} />
             <br />
+            {objectBuilder}
           </div>
         </div>
       </div>

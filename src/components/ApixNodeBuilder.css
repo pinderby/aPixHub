@@ -1,4 +1,14 @@
+#apix-node-builder {
+  text-align: left;
+  padding-left: 50px;
+  padding-top: 20px;
+}
+
 .btn-remove-property {
   padding: 2px 0px 0px 3px !important;
   margin-right: 5px;
+}
+
+.node-object-builder-container {
+  padding-left: 150px;
 }

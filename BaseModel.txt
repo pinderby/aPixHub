@@ -1,5 +1,40 @@
-Base model
+-------------------------
+// Base model
+-------------------------
 
+name:string
+profile_image:string
+cover_image:string
+properties {
+  Properties...
+}
+
+(Node)<-[BELONGS_TO]-(InfoBox) // Has properties { ... }
+
+(Node)<-[BELONGS_TO]-(Section...) // Has properties { ... }
+
+(Node)<-[BELONGS_TO]-(MediaSection)<-[BELONGS_TO]-(Video...)
+(Node)<-[BELONGS_TO]-(MediaSection)<-[BELONGS_TO]-(Image...)
+
+(Node)<-[BELONGS_TO]-(Rating...)? // Ratable
+(Node)<-[BELONGS_TO]-(Review...)? // Reviewable
+(Node)<-[BELONGS_TO]-(Vote...)? // Votable
+
+(Node)-[HAS_TAG]->(Tag)
+
+
+-------------------------
+// Section
+-------------------------
+title:string
+content_body:string
+Properties...
+Sections...
+
+
+-------------------------
+// Deprecated Base Model
+-------------------------
 name:string
 profile_image:string
 cover_image:string
@@ -24,11 +59,3 @@ user_reviews {
 tags {
   Tags...
 }
-
-
-Section
-
-title:string
-content_body:string
-Properties...
-Sections...

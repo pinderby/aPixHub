@@ -3,7 +3,7 @@ import Helpers from '../helpers.js';
 import logan from '../logan.json';
 import PropertyInput from './PropertyInput';
 import './ApixNodeBuilder.css';
-import { updateNode, addProp, setProp, removeProp, renameProp } from '../actions';
+import { updateNode, addProp, setProp, removeProp, renameProp } from '../actions'; // TODO --DM-- Remove all except updateNode()?
 
 class ApixNodeBuilder extends Component {
   constructor(props) {
@@ -20,27 +20,27 @@ class ApixNodeBuilder extends Component {
       
       // Add mandatory name property
       properties.name = { label:"name", 
-                     display_label:"Name", 
-                     type:"string", 
-                     placeholder:"Name", 
-                     disabled: true,
-                     path:'properties.name' };
+                          display_label:"Name", 
+                          type:"string", 
+                          placeholder:"Name", 
+                          disabled: true,
+                          path:'properties.name' };
       
       // Add mandatory profile_image property
-      properties.profile_image = { label:"profile_image", 
-                              display_label:"Profile Picture", 
-                              type:"string", 
-                              placeholder:"Link to Profile Picture", 
-                              disabled: true,
-                              path:'properties.profile_image' };
+      properties.profile_image = {  label:"profile_image", 
+                                    display_label:"Profile Picture", 
+                                    type:"string", 
+                                    placeholder:"Link to Profile Picture", 
+                                    disabled: true,
+                                    path:'properties.profile_image' };
       
       // Add mandatory cover_image property
-      properties.cover_image = { label:"cover_image", 
-                            display_label:"Cover Image", 
-                            type:"string", 
-                            placeholder:"Link to Cover Image", 
-                            disabled: true,
-                            path:'properties.cover_image' };
+      properties.cover_image = {  label:"cover_image", 
+                                  display_label:"Cover Image", 
+                                  type:"string", 
+                                  placeholder:"Link to Cover Image", 
+                                  disabled: true,
+                                  path:'properties.cover_image' };
 
       // Dispatch new node to store
       props.dispatch(updateNode(node));
@@ -52,46 +52,40 @@ class ApixNodeBuilder extends Component {
     this.setProperty = this.setProperty.bind(this);
     this.removeProperty = this.removeProperty.bind(this);
 
-    // Set initial state (TODO --DM-- Remove?)
     console.log('props.node', props.node); // TODO --DM-- Remove
     this.state = {
       node: props.node,
-      addProperty: "",
       newPropIndex: 0,
       rerender: true,
     };
   }
   
   renderProperties() {
+    // Initialize variables
     const nodeProps = this.props.node.properties;
     var props = [];
-    let i = 0
+    let i = 0;
+
+    // Iterate through node properties
     for (var key in nodeProps) {
-      console.log('key, prop: ', key, nodeProps[key]); //TODO --DM-- Remove
+      // Initialize prop
       var prop = nodeProps[key];
-      props.push(<PropertyInput key={key} index={i} prop={prop} 
+
+      // Push property input for each prop
+      props.push(<PropertyInput key={key} index={i} prop={prop} node={this.props.node} dispatch={this.props.dispatch}
                         onClick={(path) => this.removeProperty(path)}
                         addProperty={() => this.addProperty()} 
                         onChange={(changeType, oldPath, newPath, prop) => this.setProperty(changeType, oldPath, newPath, prop)} />); // TODO --DM-- manage keys for iteration
       props.push(<br key={key.toString()+'1000'} />)
+
+      // Increment index
       i++;
     }
-    /*nodeProps.forEach(function(prop, index, propsArray) {
-      if (index === nodeProps.length-1) {
-        props.push(<PropertyInput key={index} index={index} prop={prop} 
-                        onClick={(prop) => _this.removeProperty(prop)} onChange={(prop, i) => _this.setProperty(prop, i)}
-                        addProperty={() => _this.addProperty()}  />); // TODO --DM-- manage keys for iteration
-        props.push(<br key={index+1000} />);
-      } else if(prop) {
-        props.push(<PropertyInput key={index} index={index} prop={prop} onClick={(prop) => _this.removeProperty(prop)}
-                         addProperty={() => _this.addProperty()} />); // TODO --DM-- manage keys for iteration
-        props.push(<br key={index+1000} />);
-      }
-      
-    });*/
+
     return props;
   }
 
+  // Decide whether or not to rerender
   shouldComponentUpdate(nextProps, nextState) {
     return nextState.rerender;
   }
@@ -109,11 +103,7 @@ class ApixNodeBuilder extends Component {
     let node = Object.assign(this.props.node, this.state.node);
     
     // Initialize new property
-    var prop = { label:"", display_label:"", type:"string", 
-            placeholder:"Enter field name here", disabled:false, path:"properties.newProp"+i };
-
-    // Dispatch new property to store
-    // this.props.dispatch(addProp(prop.path, prop)); // TODO --DM-- Figure out when to call this
+    var prop = Helpers.getNewProp(i);
 
     // Update node with new property
     node = Helpers.setObjProp(node, prop.path, prop);
@@ -192,7 +182,6 @@ class ApixNodeBuilder extends Component {
   }
   
   render() {
-    var node = logan;
     console.log('this.state.node', this.state.node); // TODO --DM-- Remove
     console.log('this.props.node', this.props.node); // TODO --DM-- Remove
 

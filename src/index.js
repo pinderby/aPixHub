@@ -6,8 +6,8 @@ import App from './App';
 import appReducers from './reducers'
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import { updateNode } from './actions';
-import logan from './logan.json';
+// import { updateNode } from './actions';
+// import logan from './logan.json';
 
 let store = createStore(appReducers);
 // Log the initial state

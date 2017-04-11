@@ -1,5 +1,5 @@
 import Helpers from '../helpers.js';
-import * as ActionTypes from '../actionTypes.js';
+import * as ActionTypes from '../constants/actionTypes.js';
 
 const node = (state = {}, action) => {
   var node = {};
