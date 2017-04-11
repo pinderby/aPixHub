@@ -1,13 +1,13 @@
 import Helpers from '../helpers.js';
 import * as ActionTypes from '../constants/ActionTypes.js';
 
-const node = (state = {}, action) => {
+const nodeTemplate = (state = {}, action) => {
   var node = {};
   switch (action.type) {
-    case ActionTypes.UPDATE_NODE:
-      // Passes: action.node
-      // Update node with passed object
-      return action.node;
+    case ActionTypes.UPDATE_NODE_TEMPLATE:
+      // Passes: action.nodeTemplate
+      // Update nodeTemplate with passed object
+      return action.nodeTemplate;
     case ActionTypes.ADD_PROPERTY:
     case ActionTypes.SET_PROPERTY:
       // Passes: action.path, action.value
@@ -53,4 +53,4 @@ const node = (state = {}, action) => {
   }
 }
 
-export default node
+export default nodeTemplate

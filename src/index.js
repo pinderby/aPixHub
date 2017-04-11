@@ -6,8 +6,9 @@ import App from './App';
 import appReducers from './reducers'
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.css';
-// import { updateNode } from './actions';
+import { updateNode, updateNodeTemplate } from './actions';
 // import logan from './logan.json';
+import test_node_template from './test_node_template.json';
 
 let store = createStore(appReducers);
 // Log the initial state
@@ -19,7 +20,7 @@ let unsubscribe = store.subscribe(() =>
   console.log('getState(): ', store.getState())
 );
 
-// store.dispatch(updateNode(logan)) // TODO --DM-- Change to API call
+store.dispatch(updateNodeTemplate(test_node_template)) // TODO --DM-- Change to API call
 
 ReactDOM.render(
   <Provider store={store}>

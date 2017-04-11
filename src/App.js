@@ -6,6 +6,7 @@ import ApixNode from './components/ApixNode.js';
 import ApixTemplate from './components/ApixTemplate.js';
 // import ApixNodeBuilder from './components/ApixNodeBuilder.js';
 import NodeBuilderContainer from './containers/NodeBuilderContainer.js';
+import NodePopulatorContainer from './containers/NodePopulatorContainer.js';
 import IMDbClone from './IMDbClone.js';
 
 class App extends Component {
@@ -13,7 +14,7 @@ class App extends Component {
     super();
     this.state = {
       styleIndex: 1,
-      pageIndex: 2,
+      pageIndex: 3,
     };
   }
 
@@ -59,6 +60,8 @@ class AppBoilerplate extends Component {
       partial = <ApixTemplate />;
     } else if (this.props.pageIndex === 2) {
       partial = <NodeBuilderContainer />;
+    } else if (this.props.pageIndex === 3) {
+      partial = <NodePopulatorContainer />;
     } else {
       partial = <NodeSearch />;
     }

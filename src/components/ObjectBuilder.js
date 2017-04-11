@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import Helpers from '../helpers.js';
 import logan from '../logan.json';
-import PropertyInput from './PropertyInput';
+import PropertyBuilder from './PropertyBuilder';
 import AddPropertyButton from './AddPropertyButton.js';
 import './ApixNodeBuilder.css';
 
@@ -25,12 +25,12 @@ class ObjectBuilder extends Component {
     var props = [];
     objProps.forEach(function(prop, index, propsArray) {
       if (index === objProps.length-1) {
-        props.push(<PropertyInput key={index} index={index} prop={prop} 
+        props.push(<PropertyBuilder key={index} index={index} prop={prop} 
                         onClick={(prop) => _this.removeObjProperty(prop)} onChange={(prop, i) => _this.setObjProperty(prop, i)}
                         addProperty={() => _this.addObjProperty()}  />); // TODO --DM-- manage keys for iteration
         props.push(<br key={index+1000} />);
       } else if(prop) {
-        props.push(<PropertyInput key={index} index={index} prop={prop} onClick={(prop) => _this.removeObjProperty(prop)}
+        props.push(<PropertyBuilder key={index} index={index} prop={prop} onClick={(prop) => _this.removeObjProperty(prop)}
                          addProperty={() => _this.addObjProperty()} />); // TODO --DM-- manage keys for iteration
         props.push(<br key={index+1000} />);
       }

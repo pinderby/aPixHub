@@ -1,0 +1,18 @@
+{
+    "label": "", 
+    "properties": {
+        "cover_image": {"label":"cover_image", "type":"string"},
+        "director":{"label":"director", "type":"string"},
+        "name":{"label":"name", "type":"string"},
+        "profile_image":{"label":"profile_image", "type":"string"},
+        "year":{"label":"year", "type":"integer"},
+        "section": {
+            "label":"section",
+            "type":"object",
+            "properties": {
+                "title":{"label":"title", "type":"string"},
+                "characters":{"label":"characters", "type":"[string]"}
+            }
+        }
+    }
+}

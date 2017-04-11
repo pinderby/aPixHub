@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import { AddPropertyButton } from './ApixNodeBuilder.js';
 import Helpers from '../helpers.js';
-import PropertyTypes from '../constants/propertyTypes.js';
+import PropertyTypes from '../constants/PropertyTypes.js';
 import NodeObjectBuilder from './NodeObjectBuilder.js';
 
-class PropertyInput extends Component {
+class PropertyBuilder extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,12 +18,11 @@ class PropertyInput extends Component {
   
   renderInput(props, disabled) {
     var prop = props.prop;
-    const x = this;
     if(prop.type === 'object') {
       var comps = [];
       comps.push(<input key={prop.label} type={prop.type} className="form-control" 
           id={prop.label} value={prop.label} placeholder={prop.placeholder} disabled={disabled}
-          onChange={(e) => x.textChanged(e, prop, this.props.onChange)}
+          onChange={(e) => this.textChanged(e, prop, this.props.onChange)}
             />);
       // comps.push(<AddPropertyButton disabled={false} onClick={this.props.addProperty}/>);
       /*comps.push(<button key={prop.label+'1'} type="button" className="btn btn-info" disabled={this.props.disabled} onClick={this.props.addProperty}>
@@ -36,11 +35,11 @@ class PropertyInput extends Component {
     if (prop.label) {
       return <input type={prop.type} className="form-control" 
           id={prop.label} value={prop.label} placeholder={prop.placeholder} disabled={disabled}
-          onChange={(e) => x.textChanged(e, prop, this.props.onChange)} />;
+          onChange={(e) => this.textChanged(e, prop, this.props.onChange)} />;
     } else {
       return <input type={prop.type} className="form-control" 
           id={prop.label} placeholder={prop.placeholder} disabled={disabled}
-          onChange={(e) => x.textChanged(e, prop, this.props.onChange)} />;
+          onChange={(e) => this.textChanged(e, prop, this.props.onChange)} />;
     }
     
   }
@@ -53,7 +52,7 @@ class PropertyInput extends Component {
     prop.label = e.target.value;
     console.log('Label: ', prop.label); // TODO --DM-- Remove
 
-    // Create parse new path for property
+    // Parse new path for property
     prop.path = Helpers.parseNewPath(prop.path, prop.label);
 
     // Set default prop.type if not defined
@@ -92,8 +91,8 @@ class PropertyInput extends Component {
     }
 
     return (
-      <div id="property-input-container">
-        <div id="property-input">
+      <div className="property-builder-container">
+        <div className="property-builder">
           <div className="form-group">
             {partial}
             <label htmlFor={this.props.prop.label}>{this.props.prop.display_label}</label>
@@ -173,6 +172,8 @@ class PropertyTypeSelect extends Component {
     // Initialize variables to test for array
     var arrayTypeSelect, value = this.state.value;
 
+    console.log(this.props.prop); // TODO --DM-- Remove
+
     // If current type is array and type is selected, display correct value
     if (this.props.prop.type[0] === '[') {
       value = this.props.prop.type.substring(1, this.props.prop.type.length-1);
@@ -206,4 +207,4 @@ class PropertyTypeSelect extends Component {
   }
 }
 
-export default PropertyInput;
+export default PropertyBuilder;

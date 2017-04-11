@@ -38,6 +38,8 @@ ApixNodeBuilder
 [ ] Figure out rendering order for props
 [ ] Figure out linking to other nodes and relationships
 [ ] Validate against explainer option for array type
+[ ] Replace whitespace with '_' for NodeBuilder
+[ ] Add type validation for populator
 
 NodeSearch
 [ ] Write react components for search and displaying search results

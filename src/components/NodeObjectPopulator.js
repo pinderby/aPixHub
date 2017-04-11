@@ -5,7 +5,7 @@ import PropertyBuilder from './PropertyBuilder';
 import { AddPropertyButton } from './ApixNodeBuilder.js';
 import { updateNode, addProp, setProp, removeProp, renameProp } from '../actions';
 
-class NodeObjectBuilder extends Component {
+class NodeObjectPopulator extends Component {
   constructor(props) {
     super(props);
 
@@ -157,4 +157,4 @@ class NodeObjectBuilder extends Component {
   }
 }
 
-export default NodeObjectBuilder;
+export default NodeObjectPopulator;

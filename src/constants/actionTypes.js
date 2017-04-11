@@ -1,3 +1,4 @@
+export const UPDATE_NODE_TEMPLATE = "UPDATE_NODE_TEMPLATE";
 export const UPDATE_NODE = "UPDATE_NODE";
 export const ADD_PROPERTY = "ADD_PROPERTY";
 export const SET_PROPERTY = "SET_PROPERTY";

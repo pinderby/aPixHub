@@ -1,50 +1,50 @@
 import React, { Component } from 'react';
 import Helpers from '../helpers.js';
 import logan from '../logan.json';
-import PropertyInput from './PropertyInput';
+import PropertyBuilder from './PropertyBuilder';
 import './ApixNodeBuilder.css';
 import { updateNode, addProp, setProp, removeProp, renameProp } from '../actions'; // TODO --DM-- Remove all except updateNode()?
+import BaseModel from '../constants/BaseModel.js';
 
 class ApixNodeBuilder extends Component {
   constructor(props) {
     super(props);
+
+    // Initialize node
+    let node = props.node;
     
     // Check if node is already initialized
-    if (!props.node.hasOwnProperty('label')) {
+    if (!props.node.hasOwnProperty('label')) { // TODO --DM-- Change how this is checked
       
       // Create new node with label
-      let node = { label:'', properties: {}} // TODO --DM-- Add label, base model props
-      
-      // Get node properties
-      let properties = node.properties;
-      
-      // Add mandatory name property
-      properties.name = { label:"name", 
-                          display_label:"Name", 
-                          type:"string", 
-                          placeholder:"Name", 
-                          disabled: true,
-                          path:'properties.name' };
-      
-      // Add mandatory profile_image property
-      properties.profile_image = {  label:"profile_image", 
-                                    display_label:"Profile Picture", 
-                                    type:"string", 
-                                    placeholder:"Link to Profile Picture", 
-                                    disabled: true,
-                                    path:'properties.profile_image' };
-      
-      // Add mandatory cover_image property
-      properties.cover_image = {  label:"cover_image", 
-                                  display_label:"Cover Image", 
-                                  type:"string", 
-                                  placeholder:"Link to Cover Image", 
-                                  disabled: true,
-                                  path:'properties.cover_image' };
-
-      // Dispatch new node to store
-      props.dispatch(updateNode(node));
+      node = { label:'', properties: {}} // TODO --DM-- Add label, base model props
     }
+      
+    // Get node properties
+    let properties = node.properties;
+    
+    // Add mandatory name property
+    if (!properties.name) {
+      properties.name = { label:"name", display_label:"Name", type:"string", 
+                          placeholder:"Name", disabled: true,path:'properties.name' };
+    }
+    
+    // Add mandatory profile_image property
+    if (!properties.profile_image) {
+      properties.profile_image = { label:"profile_image", display_label:"Profile Picture", 
+                                  type:"string", placeholder:"Link to Profile Picture", 
+                                  disabled: true,path:'properties.profile_image' };
+    }
+    
+    // Add mandatory cover_image property
+    if (!properties.cover_image) {
+      properties.cover_image = { label:"cover_image", display_label:"Cover Image", 
+                                type:"string", placeholder:"Link to Cover Image", 
+                                disabled: true, path:'properties.cover_image' };
+    }
+
+    // Dispatch new node to store
+    props.dispatch(updateNode(node));
 
     // Bind callbacks
     this.updateNode = this.updateNode.bind(this);
@@ -71,8 +71,15 @@ class ApixNodeBuilder extends Component {
       // Initialize prop
       var prop = nodeProps[key];
 
+      // Initialize path if needed
+      if (!prop.path) prop.path = 'properties.'+key;
+
+      // Initialize 'disabled' property if property is mandatory
+      if (BaseModel.mandatory_fields.indexOf(prop.label) !== -1) prop.disabled = true; 
+      else prop.disabled = false;
+
       // Push property input for each prop
-      props.push(<PropertyInput key={key} index={i} prop={prop} node={this.props.node} dispatch={this.props.dispatch} nested={false}
+      props.push(<PropertyBuilder key={key} index={i} prop={prop} node={this.props.node} dispatch={this.props.dispatch} nested={false}
                         onClick={(path) => this.removeProperty(path)}
                         addProperty={() => this.addProperty()} 
                         onChange={(changeType, oldPath, newPath, prop) => this.setProperty(changeType, oldPath, newPath, prop)} />); // TODO --DM-- manage keys for iteration
