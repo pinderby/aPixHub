@@ -65,7 +65,6 @@ class NodeObjectBuilder extends Component {
         };
       });
     }
-    console.log('object: ', object); // TODO --DM-- Remove
 
     // Iterate through node properties
     for (var key in object.properties) {

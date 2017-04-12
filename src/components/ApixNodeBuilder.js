@@ -60,39 +60,6 @@ class ApixNodeBuilder extends Component {
       rerender: true,
     };
   }
-  
-  renderProperties() {
-    // Initialize variables
-    const templateProps = this.props.nodeTemplate.properties;
-    var props = [];
-    let i = 0;
-
-    // Iterate through node properties
-    for (var key in templateProps) {
-      // Initialize prop
-      var prop = templateProps[key];
-
-      // Initialize path if needed
-      if (!prop.path) prop.path = 'properties.'+key;
-
-      // Initialize 'disabled' property if property is mandatory
-      if (BaseModel.mandatory_fields.indexOf(prop.label) !== -1) prop.disabled = true; 
-      else prop.disabled = false;
-
-      // Push property input for each prop
-      props.push(<PropertyBuilder key={key} index={i} prop={prop} nodeTemplate={this.props.nodeTemplate} 
-                        dispatch={this.props.dispatch} nested={false}
-                        onClick={(path) => this.removeProperty(path)}
-                        addProperty={() => this.addProperty()} 
-                        onChange={(changeType, oldPath, newPath, prop) => this.setProperty(changeType, oldPath, newPath, prop)} />); // TODO --DM-- manage keys for iteration
-      props.push(<br key={key.toString()+'1000'} />)
-
-      // Increment index
-      i++;
-    }
-
-    return props;
-  }
 
   // Decide whether or not to rerender
   shouldComponentUpdate(nextProps, nextState) {
@@ -193,21 +160,38 @@ class ApixNodeBuilder extends Component {
     // Merge node from props (redux store) and state
     let nodeTemplate = Object.assign(this.props.nodeTemplate, this.state.nodeTemplate);
 
+    let payload;
+    payload.label = nodeTemplate.label;
+    payload.properties = {};
+    for(var prop in nodeTemplate.properties) {
+      if (prop.type === 'object') {
+        let object = {};
+        for(var objProp in prop.properties) {
+          object.properties[objProp.label] = objProp.type;
+        }
+        payload.properties[prop.label] = JSON.stringify(object);
+      } else {
+        payload.properties[prop.label] = prop.type;
+      }
+      
+    }
+
     // Dispatch updated node to store
     // this.props.dispatch(submitNodeTemplate(node));
     // var payload = test_template;
-    var template = {
-        label: "test_movie", 
-        properties: {
-            cover_image:"string",
-            director:"string",
-            name:"string",
-            profile_image:"string",
-            year:"integer",
-            section: {title:"string",characters:["string"]}
-        }
-    };
-    var payload = JSON.stringify( template );
+
+    // var template = {
+    //     label: "test_movie", 
+    //     properties: {
+    //         cover_image:"string",
+    //         director:"string",
+    //         name:"string",
+    //         profile_image:"string",
+    //         year:"integer",
+    //         section: {title:"string",characters:["string"]}
+    //     }
+    // };
+    // var payload = JSON.stringify( template );
 
     console.log('Payload: ', payload);
 
@@ -216,17 +200,17 @@ class ApixNodeBuilder extends Component {
 
     // console.log('Payload: ', data);
 
-    fetch("https://apix.rocks/nodes",
-    {
-        headers: new Headers({
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        }),
-        method: "POST",
-        body: payload
-    })
-    .then(function(res){ return res.json(); })
-    .then(function(data){ console.log('Data: ', JSON.stringify( data ) ); });
+    // fetch("https://apix.rocks/nodes",
+    // {
+    //     headers: new Headers({
+    //       'Content-Type': 'application/json',
+    //       Accept: 'application/json',
+    //     }),
+    //     method: "POST",
+    //     body: payload
+    // })
+    // .then(function(res){ return res.json(); })
+    // .then(function(data){ console.log('Data: ', JSON.stringify( data ) ); });
   }
 
   getTemplate() {
@@ -250,6 +234,39 @@ class ApixNodeBuilder extends Component {
       // Error :(
     });
   }
+
+  renderProperties() {
+    // Initialize variables
+    const templateProps = this.props.nodeTemplate.properties;
+    var props = [];
+    let i = 0;
+
+    // Iterate through node properties
+    for (var key in templateProps) {
+      // Initialize prop
+      var prop = templateProps[key];
+
+      // Initialize path if needed
+      if (!prop.path) prop.path = 'properties.'+key;
+
+      // Initialize 'disabled' property if property is mandatory
+      if (BaseModel.mandatory_fields.indexOf(prop.label) !== -1) prop.disabled = true; 
+      else prop.disabled = false;
+
+      // Push property input for each prop
+      props.push(<PropertyBuilder key={key} index={i} prop={prop} nodeTemplate={this.props.nodeTemplate} 
+                        dispatch={this.props.dispatch} nested={false}
+                        onClick={(path) => this.removeProperty(path)}
+                        addProperty={() => this.addProperty()} 
+                        onChange={(changeType, oldPath, newPath, prop) => this.setProperty(changeType, oldPath, newPath, prop)} />); // TODO --DM-- manage keys for iteration
+      props.push(<br key={key.toString()+'1000'} />)
+
+      // Increment index
+      i++;
+    }
+
+    return props;
+  }
   
   render() {
     console.log('this.state.nodeTemplate', this.state.nodeTemplate); // TODO --DM-- Remove
@@ -259,6 +276,10 @@ class ApixNodeBuilder extends Component {
       <div id="apix-node-builder-container">
         <div id="apix-node-builder">
           <form className="form-inline">
+            <label htmlFor={'label'}>Label</label>
+            <LabelInput value={this.props.nodeTemplate.label}
+              onChange={(changeType, oldPath, newPath, prop) => this.setProperty(changeType, oldPath, newPath, prop)} />
+            <br /><br />
             {this.renderProperties()}
             <AddPropertyButton disabled={this.state.addProperty} onClick={() => this.addProperty()}/>
             <br /><br />
@@ -272,7 +293,30 @@ class ApixNodeBuilder extends Component {
   }
 }
 
-export class AddPropertyButton extends React.Component {
+class LabelInput extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      key: 'label',
+      value: props.value,
+    };
+  }
+
+  textChanged(e, onChange) {
+    // Call callback
+    onChange(null, null, 'label', e.target.value);
+  }
+  
+  render() {
+    return (
+      <input className="form-control" 
+          id={this.state.key} value={this.state.value} placeholder={'Enter label here'}
+          onChange={(e) => this.textChanged(e, this.props.onChange)} />
+    );
+  }
+}
+
+export class AddPropertyButton extends Component {
   render() {
     return (
       <button type="button" className="btn btn-info" disabled={this.props.disabled} onClick={() => this.props.onClick()}>
@@ -283,7 +327,7 @@ export class AddPropertyButton extends React.Component {
   }
 }
 
-export class SubmitTemplateButton extends React.Component {
+export class SubmitTemplateButton extends Component {
   render() {
     return (
       <button type="button" className="btn btn-info" onClick={() => this.props.onClick()}>
@@ -293,7 +337,7 @@ export class SubmitTemplateButton extends React.Component {
   }
 }
 
-export class GetTemplateButton extends React.Component {
+export class GetTemplateButton extends Component {
   render() {
     return (
       <button type="button" className="btn btn-info" onClick={() => this.props.onClick()}>
@@ -302,6 +346,5 @@ export class GetTemplateButton extends React.Component {
     );
   }
 }
-
 
 export default ApixNodeBuilder;
