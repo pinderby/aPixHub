@@ -10,26 +10,29 @@ const nodeTemplate = (state = {}, action) => {
       return action.nodeTemplate;
     case ActionTypes.SUBMIT_NODE_TEMPLATE:
       // Passes: action.nodeTemplate
-      // Update nodeTemplate with passed object
+      // Post nodeTemplate to server
       return action.nodeTemplate;
     case ActionTypes.INITIALIZE_NODE_TEMPLATE:
       // Passes: action.nodeTemplate
       // Update nodeTemplate with passed object
-      var nodeTemplate = {}
+      
+      // Initialize template and properties
+      var nodeTemplate = {}, props = action.nodeTemplate.properties;
+      
+      // Initialize template label and empty properties object
       nodeTemplate.label = action.nodeTemplate.label;
-      var props = action.nodeTemplate.properties;
       nodeTemplate.properties = {};
+
+      // Add all properties and store the key and type
       props.forEach(function (prop) {
         nodeTemplate.properties[prop.key] = {
+          key: prop.key,
           label: prop.key,
           type: prop.value_type
         }
       });
 
-      console.log(nodeTemplate);
-
-
-      return action.nodeTemplate;
+      return nodeTemplate;
     case ActionTypes.ADD_PROPERTY:
     case ActionTypes.SET_PROPERTY:
       // Passes: action.path, action.value

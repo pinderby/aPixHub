@@ -18,7 +18,7 @@ class PropertyBuilder extends Component {
   
   renderInput(props, disabled) {
     var prop = props.prop;
-    if(prop.type === 'object') {
+    if(prop.type === 'object' || prop.type[0] === '{') {
       var comps = [];
       comps.push(<input key={prop.label} type={prop.type} className="form-control" 
           id={prop.label} value={prop.label} placeholder={prop.placeholder} disabled={disabled}
@@ -85,7 +85,7 @@ class PropertyBuilder extends Component {
     }
 
     var objectBuilder;
-    if (this.state.propType === 'object') {
+    if (this.state.propType === 'object' || this.state.propType[0] === '{') {
       objectBuilder = <NodeObjectBuilder nodeTemplate={this.props.nodeTemplate} 
                         path={this.props.prop.path} dispatch={this.props.dispatch} />;
     }
@@ -128,7 +128,7 @@ class PropertyTypeSelect extends Component {
     var value = PropertyTypes[event.target.value];
 
     // If selecting type for array, modify value
-    if (isArray) value = '['+value+']';
+    if (isArray) value = '["'+value+'"]';
 
     // Update type in ApixNodeBuilder
     this.props.onChange(value);
@@ -175,9 +175,11 @@ class PropertyTypeSelect extends Component {
     console.log(this.props.prop); // TODO --DM-- Remove
 
     // If current type is array and type is selected, display correct value
-    if (this.props.prop.type[0] === '[') {
-      value = this.props.prop.type.substring(1, this.props.prop.type.length-1);
-      value = Helpers.getKey(PropertyTypes, value);
+    let arrayValue;
+    if (this.props.prop.type && this.props.prop.type[0] === '[') {
+      arrayValue = this.props.prop.type.substring(2, this.props.prop.type.length-2);
+      arrayValue = Helpers.getKey(PropertyTypes, arrayValue);
+      value = Helpers.getKey(PropertyTypes, 'array');
     }
 
     // If current type is array, display second select for type of array
@@ -185,7 +187,7 @@ class PropertyTypeSelect extends Component {
       arrayTypeSelect = 
       <span><span> of </span>
         <select className="form-control" 
-                value={value} 
+                value={arrayValue} 
                 onChange={(e) => this.handleChange(e, true)}
                 disabled={this.props.disabled}>
           {this.renderOptions(this.props, true)}
@@ -196,7 +198,7 @@ class PropertyTypeSelect extends Component {
     return (
       <span>
         <select className="form-control" 
-                value={this.state.value} 
+                value={value} 
                 onChange={(e) => this.handleChange(e, false)} 
                 disabled={this.props.disabled}>
           {this.renderOptions(this.props, false)}

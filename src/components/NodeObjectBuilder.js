@@ -19,7 +19,7 @@ class NodeObjectBuilder extends Component {
       nodeTemplate: props.nodeTemplate,
       rootPath: props.path+'.properties',
       newPropIndex: 0,
-      rerender: true,
+      rerender: true
     };
   }
 
@@ -34,6 +34,38 @@ class NodeObjectBuilder extends Component {
     const object = Helpers.getObjProp(this.props.nodeTemplate, this.props.path);
     var props = [];
     let i = 0;
+
+    // If object is JSON string, parse to object
+    if (object.type && object.type[0] === '{') {
+      // Convert string to JSON string
+      let objString = object.type.replace(/=>/g, ":");
+
+      // Set type to 'object', initialize properties
+      object.type = 'object';
+      object.properties = {};
+
+      // Parse string to object
+      let props = JSON.parse(objString);
+
+      // Iterate over properties and assign each property
+      Object.keys(props).forEach(function(key) {
+        // If is an array, stringify array into proper format, otherwise assign value
+        let value;
+        if (Object.prototype.toString.call( props[key] ) === '[object Array]' ) {
+          value = JSON.stringify(props[key]);
+        } else {
+          value = props[key];
+        }
+
+        // Assign properties
+        object.properties[key] = {
+          key: key,
+          label: key,
+          type: value
+        };
+      });
+    }
+    console.log('object: ', object); // TODO --DM-- Remove
 
     // Iterate through node properties
     for (var key in object.properties) {
