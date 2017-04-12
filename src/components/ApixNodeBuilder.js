@@ -3,25 +3,26 @@ import Helpers from '../helpers.js';
 import logan from '../logan.json';
 import PropertyBuilder from './PropertyBuilder';
 import './ApixNodeBuilder.css';
-import { updateNode, addProp, setProp, removeProp, renameProp } from '../actions'; // TODO --DM-- Remove all except updateNode()?
+import { updateNode, addProp, setProp, removeProp, renameProp, initializeNodeTemplate, updateNodeTemplate } from '../actions'; // TODO --DM-- Remove all except updateNode()?
 import BaseModel from '../constants/BaseModel.js';
+import test_template from '../test_server_node.json';
 
 class ApixNodeBuilder extends Component {
   constructor(props) {
     super(props);
 
-    // Initialize node
-    let node = props.node;
+    // Initialize template
+    let nodeTemplate = props.nodeTemplate;
     
     // Check if node is already initialized
-    if (!props.node.hasOwnProperty('label')) { // TODO --DM-- Change how this is checked
+    if (!props.nodeTemplate.hasOwnProperty('label')) { // TODO --DM-- Change how this is checked
       
-      // Create new node with label
-      node = { label:'', properties: {}} // TODO --DM-- Add label, base model props
+      // Create new template with label
+      nodeTemplate = { label:'', properties: {}} // TODO --DM-- Add label, base model props
     }
       
-    // Get node properties
-    let properties = node.properties;
+    // Get template properties
+    let properties = nodeTemplate.properties;
     
     // Add mandatory name property
     if (!properties.name) {
@@ -44,17 +45,17 @@ class ApixNodeBuilder extends Component {
     }
 
     // Dispatch new node to store
-    props.dispatch(updateNode(node));
+    props.dispatch(updateNodeTemplate(nodeTemplate));
 
     // Bind callbacks
-    this.updateNode = this.updateNode.bind(this);
+    this.updateNodeTemplate = this.updateNodeTemplate.bind(this);
     this.addProperty = this.addProperty.bind(this);
     this.setProperty = this.setProperty.bind(this);
     this.removeProperty = this.removeProperty.bind(this);
 
-    console.log('props.node', props.node); // TODO --DM-- Remove
+    console.log('props.nodeTemplate', props.nodeTemplate); // TODO --DM-- Remove
     this.state = {
-      node: props.node,
+      nodeTemplate: props.nodeTemplate,
       newPropIndex: 0,
       rerender: true,
     };
@@ -62,14 +63,14 @@ class ApixNodeBuilder extends Component {
   
   renderProperties() {
     // Initialize variables
-    const nodeProps = this.props.node.properties;
+    const templateProps = this.props.nodeTemplate.properties;
     var props = [];
     let i = 0;
 
     // Iterate through node properties
-    for (var key in nodeProps) {
+    for (var key in templateProps) {
       // Initialize prop
-      var prop = nodeProps[key];
+      var prop = templateProps[key];
 
       // Initialize path if needed
       if (!prop.path) prop.path = 'properties.'+key;
@@ -79,7 +80,8 @@ class ApixNodeBuilder extends Component {
       else prop.disabled = false;
 
       // Push property input for each prop
-      props.push(<PropertyBuilder key={key} index={i} prop={prop} node={this.props.node} dispatch={this.props.dispatch} nested={false}
+      props.push(<PropertyBuilder key={key} index={i} prop={prop} nodeTemplate={this.props.nodeTemplate} 
+                        dispatch={this.props.dispatch} nested={false}
                         onClick={(path) => this.removeProperty(path)}
                         addProperty={() => this.addProperty()} 
                         onChange={(changeType, oldPath, newPath, prop) => this.setProperty(changeType, oldPath, newPath, prop)} />); // TODO --DM-- manage keys for iteration
@@ -97,46 +99,46 @@ class ApixNodeBuilder extends Component {
     return nextState.rerender;
   }
 
-  updateNode(node) {
+  updateNodeTemplate(nodeTemplate) {
     // Dispatch new node to store
-    this.props.dispatch(updateNode(node));
+    this.props.dispatch(updateNodeTemplate(nodeTemplate));
   }
 
   addProperty() { // TODO --DM-- handle multiple properties at one time
     // Get index for new property
     let i = this.state.newPropIndex;
 
-    // Merge node from props (redux store) and state
-    let node = Object.assign(this.props.node, this.state.node);
+    // Merge template from props (redux store) and state
+    let nodeTemplate = Object.assign(this.props.nodeTemplate, this.state.nodeTemplate);
     
     // Initialize new property
     var prop = Helpers.getNewProp(i);
 
     // Update node with new property
-    node = Helpers.setObjProp(node, prop.path, prop);
+    nodeTemplate = Helpers.setObjProp(nodeTemplate, prop.path, prop);
 
     console.log('addProperty() i:', i); // TODO --DM-- Remove
-    console.log('addProperty() node:', node); // TODO --DM-- Remove
+    console.log('addProperty() nodeTemplate:', nodeTemplate); // TODO --DM-- Remove
 
     // Increment new property index
     i++;
 
     // Set state for updated node and new property index and rerender
     this.setState({
-      node: node,
+      nodeTemplate: nodeTemplate,
       newPropIndex: i,
       rerender: true,
     });
 
     // Dispatch new property to store
-    this.updateNode(node);
+    this.updateNodeTemplate(nodeTemplate);
 
     return;
   }
 
   setProperty(changeType, oldPath, newPath, newProp) {
     // Merge node from props (redux store) and state
-    let node = Object.assign(this.props.node, this.state.node);
+    let nodeTemplate = Object.assign(this.props.nodeTemplate, this.state.nodeTemplate);
     
     // TODO --DM-- Remove?
     // // Check for oldPath: True: rename property, False: set property
@@ -149,11 +151,11 @@ class ApixNodeBuilder extends Component {
     //   this.props.dispatch(renameProp(oldPath, newPath, newProp));
     // }
 
-    // Update node with new property value
-    node = Helpers.setObjProp(node, newPath, newProp);
+    // Update template with new property value
+    nodeTemplate = Helpers.setObjProp(nodeTemplate, newPath, newProp);
 
     // If oldPath exists, remove old property
-    if (oldPath) node = Helpers.removeObjProp(node, oldPath);
+    if (oldPath) nodeTemplate = Helpers.removeObjProp(nodeTemplate, oldPath);
 
     // Rerender if type changed, not if label changed
     var rerender = true;
@@ -161,7 +163,7 @@ class ApixNodeBuilder extends Component {
 
     // Set state for updated node and rerender if type changed
     this.setState({
-      node: node,
+      nodeTemplate: nodeTemplate,
       rerender: rerender,
     });
 
@@ -170,27 +172,88 @@ class ApixNodeBuilder extends Component {
 
   removeProperty(path) {
     // Merge node from props (redux store) and state
-    let node = Object.assign(this.props.node, this.state.node);
-    console.log('removeProp node: ', node);
+    let nodeTemplate = Object.assign(this.props.nodeTemplate, this.state.nodeTemplate);
 
     // Dispatch path to store to remove property
-    node = Helpers.removeObjProp(node, path);
+    nodeTemplate = Helpers.removeObjProp(nodeTemplate, path);
 
     // Dispatch updated node to store
-    this.props.dispatch(updateNode(node));
+    this.props.dispatch(updateNodeTemplate(nodeTemplate));
 
     // Set state for updated node and rerender
     this.setState({
-      node: node,
+      nodeTemplate: nodeTemplate,
       rerender: true,
     });
 
     return;
   }
+
+  submitTemplate() {
+    // Merge node from props (redux store) and state
+    let nodeTemplate = Object.assign(this.props.nodeTemplate, this.state.nodeTemplate);
+
+    // Dispatch updated node to store
+    // this.props.dispatch(submitNodeTemplate(node));
+    // var payload = test_template;
+    var template = {
+        label: "test_movie", 
+        properties: {
+            cover_image:"string",
+            director:"string",
+            name:"string",
+            profile_image:"string",
+            year:"integer",
+            section: {title:"string",characters:["string"]}
+        }
+    };
+    var payload = JSON.stringify( template );
+
+    console.log('Payload: ', payload);
+
+    // var data = new FormData();
+    // data.append( "json", JSON.stringify( payload ) );
+
+    // console.log('Payload: ', data);
+
+    fetch("https://apix.rocks/nodes",
+    {
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        }),
+        method: "POST",
+        body: payload
+    })
+    .then(function(res){ return res.json(); })
+    .then(function(data){ console.log('Data: ', JSON.stringify( data ) ); });
+  }
+
+  getTemplate() {
+    var x = this;
+    // url (required), options (optional)
+    fetch('https://apix.rocks/nodes', {
+      method: 'GET'
+    }).then(function(response) {
+      response.json().then(function(result) {
+          console.log('Result: ', result);
+          var templates = [];
+          result.forEach(function (obj) {
+            templates.push(obj);
+          });
+          // x.setState({ templates: templates });
+          x.props.dispatch(initializeNodeTemplate(templates[0]));
+      });
+      
+      // this.setState({ node: });
+    }).catch(function(err) {
+      // Error :(
+    });
+  }
   
   render() {
-    console.log('this.state.node', this.state.node); // TODO --DM-- Remove
-    console.log('this.props.node', this.props.node); // TODO --DM-- Remove
+    console.log('this.state.nodeTemplate', this.state.nodeTemplate); // TODO --DM-- Remove
+    console.log('this.props.nodeTemplate', this.props.nodeTemplate); // TODO --DM-- Remove
 
     return (
       <div id="apix-node-builder-container">
@@ -198,6 +261,10 @@ class ApixNodeBuilder extends Component {
           <form className="form-inline">
             {this.renderProperties()}
             <AddPropertyButton disabled={this.state.addProperty} onClick={() => this.addProperty()}/>
+            <br /><br />
+            <GetTemplateButton onClick={() => this.getTemplate()}/>
+            <br /><br />
+            <SubmitTemplateButton onClick={() => this.submitTemplate()}/>
           </form>
         </div>
       </div>
@@ -211,6 +278,26 @@ export class AddPropertyButton extends React.Component {
       <button type="button" className="btn btn-info" disabled={this.props.disabled} onClick={() => this.props.onClick()}>
         <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
         Property
+      </button>
+    );
+  }
+}
+
+export class SubmitTemplateButton extends React.Component {
+  render() {
+    return (
+      <button type="button" className="btn btn-info" onClick={() => this.props.onClick()}>
+        Submit Template
+      </button>
+    );
+  }
+}
+
+export class GetTemplateButton extends React.Component {
+  render() {
+    return (
+      <button type="button" className="btn btn-info" onClick={() => this.props.onClick()}>
+        Get Template
       </button>
     );
   }

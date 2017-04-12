@@ -1,14 +1,11 @@
 {
-    "label": "", 
+    "label": "movie", 
     "properties": {
         "cover_image":"string",
         "director":"string",
         "name":"string",
         "profile_image":"string",
         "year":"integer",
-        "section": {
-            "title":"string",
-            "characters":"[string]"
-        }
+        "section": "{\"title\":\"string\",\"characters\":\"[string]\"}"
     }
 }

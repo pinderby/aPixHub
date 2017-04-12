@@ -20,7 +20,7 @@ let unsubscribe = store.subscribe(() =>
   console.log('getState(): ', store.getState())
 );
 
-store.dispatch(updateNodeTemplate(test_node_template)) // TODO --DM-- Change to API call
+// store.dispatch(updateNodeTemplate(test_node_template)) // TODO --DM-- Change to API call
 
 ReactDOM.render(
   <Provider store={store}>

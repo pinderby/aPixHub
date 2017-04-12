@@ -7,6 +7,20 @@ export const updateNodeTemplate = (nodeTemplate) => {
   }
 }
 
+export const initializeNodeTemplate = (nodeTemplate) => {
+  return {
+    type: ActionTypes.INITIALIZE_NODE_TEMPLATE,
+    nodeTemplate
+  }
+}
+
+export const submitNodeTemplate = (nodeTemplate) => {
+  return {
+    type: ActionTypes.SUBMIT_NODE_TEMPLATE,
+    nodeTemplate
+  }
+}
+
 export const updateNode = (node) => {
   return {
     type: ActionTypes.UPDATE_NODE,

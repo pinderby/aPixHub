@@ -4,7 +4,7 @@ import ApixNodeBuilder from '../components/ApixNodeBuilder'
 
 const mapStateToProps = (state) => {
   return {
-    node: state.node
+    nodeTemplate: state.nodeTemplate
   }
 }
 

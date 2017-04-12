@@ -14,7 +14,7 @@ class App extends Component {
     super();
     this.state = {
       styleIndex: 1,
-      pageIndex: 3,
+      pageIndex: 2,
     };
   }
 

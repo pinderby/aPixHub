@@ -8,6 +8,28 @@ const nodeTemplate = (state = {}, action) => {
       // Passes: action.nodeTemplate
       // Update nodeTemplate with passed object
       return action.nodeTemplate;
+    case ActionTypes.SUBMIT_NODE_TEMPLATE:
+      // Passes: action.nodeTemplate
+      // Update nodeTemplate with passed object
+      return action.nodeTemplate;
+    case ActionTypes.INITIALIZE_NODE_TEMPLATE:
+      // Passes: action.nodeTemplate
+      // Update nodeTemplate with passed object
+      var nodeTemplate = {}
+      nodeTemplate.label = action.nodeTemplate.label;
+      var props = action.nodeTemplate.properties;
+      nodeTemplate.properties = {};
+      props.forEach(function (prop) {
+        nodeTemplate.properties[prop.key] = {
+          label: prop.key,
+          type: prop.value_type
+        }
+      });
+
+      console.log(nodeTemplate);
+
+
+      return action.nodeTemplate;
     case ActionTypes.ADD_PROPERTY:
     case ActionTypes.SET_PROPERTY:
       // Passes: action.path, action.value

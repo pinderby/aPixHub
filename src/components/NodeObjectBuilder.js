@@ -3,20 +3,20 @@ import Helpers from '../helpers.js';
 import logan from '../logan.json';
 import PropertyBuilder from './PropertyBuilder';
 import { AddPropertyButton } from './ApixNodeBuilder.js';
-import { updateNode, addProp, setProp, removeProp, renameProp } from '../actions';
+import { updateNodeTemplate, addProp, setProp, removeProp, renameProp } from '../actions';
 
 class NodeObjectBuilder extends Component {
   constructor(props) {
     super(props);
 
     // Bind callbacks
-    this.updateNode = this.updateNode.bind(this);
+    this.updateNodeTemplate = this.updateNodeTemplate.bind(this);
     this.addProperty = this.addProperty.bind(this);
     this.setProperty = this.setProperty.bind(this);
     this.removeProperty = this.removeProperty.bind(this);
 
     this.state = {
-      node: props.node,
+      nodeTemplate: props.nodeTemplate,
       rootPath: props.path+'.properties',
       newPropIndex: 0,
       rerender: true,
@@ -25,13 +25,13 @@ class NodeObjectBuilder extends Component {
 
   componentDidMount() {
     // If object doesn't have 'properties', add it with initial values
-    const object = Helpers.getObjProp(this.props.node, this.props.path);
+    const object = Helpers.getObjProp(this.props.nodeTemplate, this.props.path);
     if (!object.hasOwnProperty('properties')) this.addProperty();
   }
   
   renderProperties() {
     // Initialize variables
-    const object = Helpers.getObjProp(this.props.node, this.props.path);
+    const object = Helpers.getObjProp(this.props.nodeTemplate, this.props.path);
     var props = [];
     let i = 0;
 
@@ -59,51 +59,51 @@ class NodeObjectBuilder extends Component {
     return nextState.rerender;
   }
 
-  updateNode(node) {
+  updateNodeTemplate(nodeTemplate) {
     // Dispatch new node to store
-    this.props.dispatch(updateNode(node));
+    this.props.dispatch(updateNodeTemplate(nodeTemplate));
   }
 
   addProperty() { // TODO --DM-- handle multiple properties at one time
     // Get index for new property
     let i = this.state.newPropIndex;
 
-    // Merge node from props (redux store) and state
-    let node = Object.assign(this.props.node, this.state.node);
+    // Merge template from props (redux store) and state
+    let nodeTemplate = Object.assign(this.props.nodeTemplate, this.state.nodeTemplate);
     
     // Initialize new property
     var prop = Helpers.getNewProp(i, this.props.path);
 
-    // Update node with new property
-    node = Helpers.setObjProp(node, prop.path, prop);
+    // Update template with new property
+    nodeTemplate = Helpers.setObjProp(nodeTemplate, prop.path, prop);
 
-    console.log('addProperty() node:', node); // TODO --DM-- Remove
+    console.log('addProperty() nodeTemplate:', nodeTemplate); // TODO --DM-- Remove
 
     // Increment new property index
     i++;
 
     // Set state for updated node and new property index and rerender
     this.setState({
-      node: node,
+      nodeTemplate: nodeTemplate,
       newPropIndex: i,
       rerender: true,
     });
 
     // Dispatch new property to store
-    this.updateNode(node);
+    this.updateNodeTemplate(nodeTemplate);
 
     return;
   }
 
   setProperty(changeType, oldPath, newPath, newProp) {
-    // Merge node from props (redux store) and state
-    let node = Object.assign(this.props.node, this.state.node);
+    // Merge template from props (redux store) and state
+    let nodeTemplate = Object.assign(this.props.nodeTemplate, this.state.nodeTemplate);
 
-    // Update node with new property value
-    node = Helpers.setObjProp(node, newPath, newProp);
+    // Update template with new property value
+    nodeTemplate = Helpers.setObjProp(nodeTemplate, newPath, newProp);
 
     // If oldPath exists, remove old property
-    if (oldPath) node = Helpers.removeObjProp(node, oldPath);
+    if (oldPath) nodeTemplate = Helpers.removeObjProp(nodeTemplate, oldPath);
 
     // Rerender if type changed, not if label changed
     var rerender = true;
@@ -111,7 +111,7 @@ class NodeObjectBuilder extends Component {
 
     // Set state for updated node and rerender if type changed
     this.setState({
-      node: node,
+      nodeTemplate: nodeTemplate,
       rerender: rerender,
     });
 
@@ -119,18 +119,18 @@ class NodeObjectBuilder extends Component {
   }
 
   removeProperty(path) {
-    // Merge node from props (redux store) and state
-    let node = Object.assign(this.props.node, this.state.node);
+    // Merge template from props (redux store) and state
+    let nodeTemplate = Object.assign(this.props.nodeTemplate, this.state.nodeTemplate);
 
     // Dispatch path to store to remove property
-    node = Helpers.removeObjProp(node, path);
+    nodeTemplate = Helpers.removeObjProp(nodeTemplate, path);
 
     // Dispatch updated node to store
-    this.props.dispatch(updateNode(node));
+    this.props.dispatch(updateNodeTemplate(nodeTemplate));
 
     // Set state for updated node and rerender
     this.setState({
-      node: node,
+      nodeTemplate: nodeTemplate,
       rerender: true,
     });
 
