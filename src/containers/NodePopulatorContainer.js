@@ -4,7 +4,8 @@ import ApixNodePopulator from '../components/ApixNodePopulator.js';
 const mapStateToProps = (state) => {
   return {
     nodeTemplate: state.nodeTemplate,
-    node: state.node
+    node: state.node,
+    nodeLabel: state.nodeTemplate.label
   }
 }
 

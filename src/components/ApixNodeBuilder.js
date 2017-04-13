@@ -193,7 +193,7 @@ class ApixNodeBuilder extends Component {
     //         name:"string",
     //         profile_image:"string",
     //         year:"integer",
-    //         section: {title:"string",characters:["string"]}
+    //         section: {title:"string", characters:["string"]}
     //     }
     // };
     // var templateJson = JSON.stringify( template );
@@ -201,7 +201,7 @@ class ApixNodeBuilder extends Component {
 
     console.log('Payload: ', payload);
     
-    payload = JSON.stringify(payload).replace('"[\\', '[').replace('\\\"]"', '\"]');
+    payload = JSON.stringify(payload).replace('"[\\', '[').replace('\\"]"', '"]');
     console.log('Payload string: ', payload);
 
     // var data = new FormData();
@@ -222,7 +222,9 @@ class ApixNodeBuilder extends Component {
   }
 
   getTemplate() {
-    var x = this;
+    // Initialize dispatch
+    var dispatch = this.props.dispatch;
+    
     // url (required), options (optional)
     fetch('https://apix.rocks/nodes', {
       method: 'GET'
@@ -234,7 +236,7 @@ class ApixNodeBuilder extends Component {
             templates.push(obj);
           });
           // x.setState({ templates: templates });
-          x.props.dispatch(initializeNodeTemplate(templates[2]));
+          dispatch(initializeNodeTemplate(templates[2]));
       });
       
       // this.setState({ node: });
