@@ -109,7 +109,7 @@ class NodeSearch extends Component {
   
     return (
       <div id="node-search-container">
-        <SearchNavbar searchNodes={(q) => this.searchNodes(q)} />
+        <SearchNavbar searchNodes={(e, q) => this.searchNodes(e, q)} />
         <div className="search-results-container container-fluid">
           <div className="row">
             <div className="col-md-1"></div>
