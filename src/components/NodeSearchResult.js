@@ -4,6 +4,16 @@ import StarRating from './StarRating.js';
 /* eslint no-eval: 0 */
 
 class NodeSearchResult extends Component {
+  render() {
+    return (
+      <div id="node-search-result-container" className="panel panel-default">
+        <div className="panel-body">
+          {Helpers.renderProps(this.props.node.properties)}
+        </div>
+      </div>
+    );
+  }
+/*  
   renderImages(images) {
     var imageComponents = [];
     images.forEach(function(image) {
@@ -43,7 +53,7 @@ class NodeSearchResult extends Component {
         
       </div>
     );
-  }
+  }*/
 }
 
 class Image extends Component {

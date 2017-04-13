@@ -1,34 +1,82 @@
 import React, { Component } from 'react';
 import './NodeSearch.css';
 import NodeSearchResult from './NodeSearchResult.js';
-import logan from '../logan.json';
+// import logan from '../logan.json';
+import { initializeNodeTemplate, updateNodes } from '../actions';
 
 class NodeSearch extends Component {
   constructor(props) {
     super(props);
+
+    this.getTemplate();
 
     this.state = {
       nodes: [],
     };
   }
 
-  searchNodes(query) {
+  getTemplate() {
+    // Initialize dispatch
+    var dispatch = this.props.dispatch;
+    
     // url (required), options (optional)
-    fetch('https://apix.rocks/x/movie/search', {
-      method: 'post',
-      body: JSON.stringify({
-		    properties: {title: query}
-      })
+    fetch('https://apix.rocks/nodes', {
+      method: 'GET'
     }).then(function(response) {
-      console.log('Response', response.json());
-      // response.json().then(function(result) {
-      //     // here you can use the result of promiseB
-      //     console.log('Response', result);
-      // });
+      response.json().then(function(result) {
+          console.log('Result: ', result);
+          var templates = [];
+          result.forEach(function (obj) {
+            templates.push(obj);
+          });
+          
+          dispatch(initializeNodeTemplate(templates[0]));
+      });
+      
+      // this.setState({ node: });
     }).catch(function(err) {
       // Error :(
     });
   }
+
+  searchNodes(query) {
+    // Initialize dispatch
+    var dispatch = this.props.dispatch;
+
+    if (query) {
+      // Get search results
+      fetch('https://apix.rocks/x/'+this.props.nodeLabel+'/search', {
+        headers: new Headers({
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          }),
+        method: 'POST',
+        body: JSON.stringify({
+          properties: {title: query}
+        })
+      })
+      .then(function(res){ return res.json(); })
+      .then(function(data){ 
+        console.log('Data: ', data ); 
+        dispatch(updateNodes(data));
+      });
+    } else {
+      // Get search results
+      fetch('https://apix.rocks/x/'+this.props.nodeLabel, {
+        headers: new Headers({
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          }),
+        method: 'GET'
+      })
+      .then(function(res){ return res.json(); })
+      .then(function(data){ 
+        console.log('Data: ', data ); 
+        dispatch(updateNodes(data));
+      });
+    }
+  }
+
 
   /*renderNodes() {
     var nodes = [];
@@ -50,9 +98,11 @@ class NodeSearch extends Component {
   }*/
   
   render() {
-    for (var i = 0; i < 10; i++) { 
-      this.state.nodes.push(logan);
-    }
+    // for (var i = 0; i < 10; i++) { 
+    //   this.state.nodes.push(logan);
+    // }
+    console.log("this.state: ", this.state); // TODO --DM-- Remove
+    console.log("this.props: ", this.props); // TODO --DM-- Remove
   
     return (
       <div id="node-search-container">
@@ -61,7 +111,7 @@ class NodeSearch extends Component {
           <div className="row">
             <div className="col-md-1"></div>
             <div className="col-md-8">
-              <SearchContentBody nodes={this.state.nodes} />
+              <SearchContentBody nodes={this.props.nodes} />
             </div>
             <div className="col-md-2">
               <SearchSidebar />

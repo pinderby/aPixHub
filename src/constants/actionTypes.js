@@ -6,3 +6,4 @@ export const ADD_PROPERTY = "ADD_PROPERTY";
 export const SET_PROPERTY = "SET_PROPERTY";
 export const RENAME_PROPERTY = "RENAME_PROPERTY";
 export const REMOVE_PROPERTY = "REMOVE_PROPERTY";
+export const UPDATE_NODES = "UPDATE_NODES";

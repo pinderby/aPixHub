@@ -59,3 +59,10 @@ export const removeProp = (path) => {
     path
   }
 }
+
+export const updateNodes = (nodes) => {
+  return {
+    type: ActionTypes.UPDATE_NODES,
+    nodes
+  }
+}
