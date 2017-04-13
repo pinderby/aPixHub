@@ -160,16 +160,21 @@ class ApixNodeBuilder extends Component {
     // Merge node from props (redux store) and state
     let nodeTemplate = Object.assign(this.props.nodeTemplate, this.state.nodeTemplate);
 
-    let payload;
+    let payload = {};
     payload.label = nodeTemplate.label;
     payload.properties = {};
-    for(var prop in nodeTemplate.properties) {
+
+    console.log('submitTemplate(): ', nodeTemplate); // TODO --DM-- Remove
+
+    for(var propLabel in nodeTemplate.properties) {
+      let prop = nodeTemplate.properties[propLabel];
+      console.log('submitTemplate() prop: ', prop); // TODO --DM-- Remove
       if (prop.type === 'object') {
         let object = {};
         for(var objProp in prop.properties) {
-          object.properties[objProp.label] = objProp.type;
+          object[objProp] = prop.properties[objProp].type;
         }
-        payload.properties[prop.label] = JSON.stringify(object);
+        payload.properties[prop.label] = object;
       } else {
         payload.properties[prop.label] = prop.type;
       }
@@ -191,26 +196,29 @@ class ApixNodeBuilder extends Component {
     //         section: {title:"string",characters:["string"]}
     //     }
     // };
-    // var payload = JSON.stringify( template );
+    // var templateJson = JSON.stringify( template );
+    // console.log('templateJson: ', templateJson);
 
     console.log('Payload: ', payload);
+    
+    payload = JSON.stringify(payload).replace('"[\\', '[').replace('\\\"]"', '\"]');
+    console.log('Payload string: ', payload);
 
     // var data = new FormData();
     // data.append( "json", JSON.stringify( payload ) );
 
     // console.log('Payload: ', data);
 
-    // fetch("https://apix.rocks/nodes",
-    // {
-    //     headers: new Headers({
-    //       'Content-Type': 'application/json',
-    //       Accept: 'application/json',
-    //     }),
-    //     method: "POST",
-    //     body: payload
-    // })
-    // .then(function(res){ return res.json(); })
-    // .then(function(data){ console.log('Data: ', JSON.stringify( data ) ); });
+    fetch("https://apix.rocks/nodes", {
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        }),
+        method: "POST",
+        body: payload
+    })
+    .then(function(res){ return res.json(); })
+    .then(function(data){ console.log('Data: ', JSON.stringify( data ) ); });
   }
 
   getTemplate() {
@@ -296,20 +304,30 @@ class ApixNodeBuilder extends Component {
 class LabelInput extends Component {
   constructor(props) {
     super(props);
+
+    // Initialize value
+    let value = '';
+    if (props.value) value = props.value;
+
     this.state = {
       key: 'label',
-      value: props.value,
+      value: value,
     };
   }
 
   textChanged(e, onChange) {
+    // Update state with new value
+    this.setState({
+      value: e.target.value
+    });
+
     // Call callback
     onChange(null, null, 'label', e.target.value);
   }
   
   render() {
     return (
-      <input className="form-control" 
+      <input className="form-control" type={'text'}
           id={this.state.key} value={this.state.value} placeholder={'Enter label here'}
           onChange={(e) => this.textChanged(e, this.props.onChange)} />
     );
