@@ -7,6 +7,7 @@ import appReducers from './reducers'
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { updateNode, updateNodeTemplate } from './actions';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 // import logan from './logan.json';
 import test_node_template from './test_node_template.json';
 
@@ -24,7 +25,9 @@ let unsubscribe = store.subscribe(() =>
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Router>
+      <Route path="/" component={App} />
+    </Router>
   </Provider>,
   document.getElementById('root')
 );

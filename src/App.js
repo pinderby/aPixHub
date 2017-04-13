@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // import logo from './logo.svg';
 import './App.css';
+import { Route, Link } from 'react-router-dom'
 import NodeSearch from './components/NodeSearch.js';
 import ApixNode from './components/ApixNode.js';
 import ApixTemplate from './components/ApixTemplate.js';
@@ -29,8 +30,20 @@ class App extends Component {
     
     return (
       <div className="App">
-        {/*<Navbar pageIndex={this.state.pageIndex} />*/}
-        {partial}
+        <ul className="nav nav-tabs">
+          <li role="presentation"><Link to="/movie/edit">TemplateBuilder</Link></li>
+          <li role="presentation"><Link to="/movie/show">TemplateRender</Link></li>
+          <li role="presentation"><Link to="/movie/add">NodePopulator</Link></li>
+          <li role="presentation"><Link to="/movie/search">NodeSearch</Link></li>
+          <li role="presentation"><Link to="/movie/0">NodeRender</Link></li>
+        </ul>
+        <div id="App-container">
+          <Route path="/movie/edit" component={NodeBuilderContainer}/>
+          <Route path="/movie/show" component={ApixTemplate}/>
+          <Route path="/movie/add" component={NodePopulatorContainer}/>
+          <Route path="/movie/search" component={NodeSearchContainer}/>
+          <Route path="/movie/0" component={ApixNode}/>
+        </div>
       </div>
     );
   }
