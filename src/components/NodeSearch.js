@@ -39,7 +39,10 @@ class NodeSearch extends Component {
     });
   }
 
-  searchNodes(query) {
+  searchNodes(e, query) {
+    // Prevent default behavior
+    e.preventDefault();
+
     // Initialize dispatch
     var dispatch = this.props.dispatch;
 
@@ -153,7 +156,7 @@ class SearchNavbar extends Component {
                 <a className="navbar-brand" href="#">MovieDb</a>
               </div>
               <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <form className="navbar-form topbar-form navbar-left" onSubmit={() => this.props.searchNodes(this.state.value)}>
+                <form className="navbar-form topbar-form navbar-left" onSubmit={(e) => this.props.searchNodes(e, this.state.value)}>
                   <div className="form-group">
                     <input type="text" className="search-bar form-control" value={this.state.value} onChange={this.handleChange} placeholder="Search" />
                   </div>
