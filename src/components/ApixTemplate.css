@@ -1,0 +1,14 @@
+.template-label {
+    font-size: 28px !important;
+    font-weight: bold;
+}
+
+.template-prop {
+    margin: 15px;
+}
+
+.template-prop-key {
+    margin-top: 15px;
+    font-size: 20px;
+    font-weight: bold;
+}

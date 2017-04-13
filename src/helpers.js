@@ -106,9 +106,11 @@ class Helpers {
     static renderTemplate(object) {
       if (typeof(object) !== "undefined") {
         var props = [];
+        props.push( <div className="template-prop-key">
+                      <NodeProperty key={'label'+object['id']} propKey={'label'} value={object['label']} type="string" />
+                    </div>);
         props.push(<NodeProperty key={'id'+object['id']} propKey={'id'} value={object['id']} type="string" />);
         props.push(<NodeProperty key={'created_at'+object['id']} propKey={'created_at'} value={object['created_at']} type="string" />);
-        props.push(<NodeProperty key={'label'+object['id']} propKey={'label'} value={object['label']} type="string" />);
         props.push(<NodeProperty key={'updated_at'+object['id']} propKey={'updated_at'} value={object['updated_at']} type="string" />);
         props.push(Helpers.renderTemplateProps(object['properties']));
         props.push(Helpers.renderTemplateRels(object['out_relationships']));
@@ -124,14 +126,16 @@ class Helpers {
       if (props.length > 1 && Object.prototype.toString.call( props ) === '[object Array]' ) {
         console.log('props ', props);
         props.forEach(function(prop) {
+          propComps.push(<div className="template-prop-key">
+                           <NodeProperty key={'prop-key'+prop['id']} propKey={'key'} value={prop['key']} type="string" />
+                         </div>);
+          propComps.push(<NodeProperty key={'prop-value_type'+prop['id']} propKey={'value_type'} value={prop['value_type']} type="string" />);
           propComps.push(<NodeProperty key={'prop-id'+prop['id']} propKey={'id'} value={prop['id']} type="string" />);
           propComps.push(<NodeProperty key={'prop-node_id'+prop['id']} propKey={'node_id'} value={prop['node_id']} type="string" />);
           propComps.push(<NodeProperty key={'prop-created_at'+prop['id']} propKey={'created_at'} value={prop['created_at']} type="string" />);
-          propComps.push(<NodeProperty key={'prop-updated_at'+prop['id']} propKey={'updated_at'} value={prop['updated_at']} type="string" />);
-          propComps.push(<NodeProperty key={'prop-key'+prop['id']} propKey={'key'} value={prop['key']} type="string" />);
-          propComps.push(<NodeProperty key={'prop-value_type'+prop['id']} propKey={'value_type'} value={prop['value_type']} type="string" />);   
+          propComps.push(<NodeProperty key={'prop-updated_at'+prop['id']} propKey={'updated_at'} value={prop['updated_at']} type="string" />);   
         });
-        return propComps;
+        return ( <div className="template-prop">{propComps}</div> );
       }
       return;
     }

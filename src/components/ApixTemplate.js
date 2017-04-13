@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Helpers from '../helpers.js';
+import './ApixTemplate.css';
 
 class ApixTemplate extends Component {
   constructor(props) {
@@ -36,9 +37,16 @@ class ApixTemplate extends Component {
     this.state.templates.forEach(function (template, index) {
       console.log('template', template);
       templates.push(
-        <div id="apix-template-container" key={template['id']+'1'}>
-          <div id="apix-template" key={template['id']+'2'}>
-            {Helpers.renderTemplate(template)}
+        <div className="apix-template-container" key={template['id']+'1'}>
+          <div className="apix-template" key={template['id']+'2'}>
+            <div className="panel-heading" key={template['id']+'3'}>
+              <h3 className="panel-title template-label" key={template['id']+'4'}>{template.label}</h3>
+            </div>
+            <div className="panel panel-default" key={template['id']+'5'}>
+              <div className="panel-body" key={template['id']+'6'}>
+                {Helpers.renderTemplate(template)}
+              </div>
+            </div>
           </div>
         </div>
       );
