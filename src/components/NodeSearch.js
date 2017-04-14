@@ -57,7 +57,7 @@ class NodeSearch extends Component {
         body: JSON.stringify({
           properties: {title: query}
         })
-      })
+    })
       .then(function(res){ return res.json(); })
       .then(function(data){ 
         console.log('Data: ', data ); 

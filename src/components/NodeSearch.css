@@ -1,9 +1,9 @@
 body {
-  background: #b3b3b0;
-  background: -webkit-linear-gradient(top, #b3b3b0 0%, #e3e2dd 500px);
+  /*background: #b3b3b0;*/
+  /*background: -webkit-linear-gradient(top, #b3b3b0 0%, #e3e2dd 500px);
   background: linear-gradient(top, #b3b3b0 0%,#e3e2dd 500px);
   background-color: #e3e2dd;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat;*/
   margin: 0;
 }
 

@@ -236,7 +236,7 @@ class ApixNodeBuilder extends Component {
             templates.push(obj);
           });
           // x.setState({ templates: templates });
-          dispatch(initializeNodeTemplate(templates[2]));
+          dispatch(initializeNodeTemplate(templates[0]));
       });
       
       // this.setState({ node: });
