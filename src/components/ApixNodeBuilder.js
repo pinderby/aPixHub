@@ -199,10 +199,10 @@ class ApixNodeBuilder extends Component {
     // var templateJson = JSON.stringify( template );
     // console.log('templateJson: ', templateJson);
 
-    console.log('Payload: ', payload);
+    console.log('Payload: ', payload); // TODO --DM-- Remove
     
     payload = JSON.stringify(payload).replace('"[\\', '[').replace('\\"]"', '"]');
-    console.log('Payload string: ', payload);
+    console.log('Payload string: ', payload); // TODO --DM-- Remove
 
     // var data = new FormData();
     // data.append( "json", JSON.stringify( payload ) );
@@ -279,8 +279,8 @@ class ApixNodeBuilder extends Component {
   }
   
   render() {
-    console.log('this.state.nodeTemplate', this.state.nodeTemplate); // TODO --DM-- Remove
-    console.log('this.props.nodeTemplate', this.props.nodeTemplate); // TODO --DM-- Remove
+    console.log('this.state', this.state); // TODO --DM-- Remove
+    console.log('this.props', this.props); // TODO --DM-- Remove
 
     return (
       <div id="apix-node-builder-container">

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './NodeSearch.css';
 import NodeSearchResult from './NodeSearchResult.js';
+import { Link } from 'react-router-dom';
 // import logan from '../logan.json';
-import { initializeNodeTemplate, updateNodes } from '../actions';
+import { initializeNodeTemplate, updateNodes, updateNode } from '../actions';
 
 class NodeSearch extends Component {
   constructor(props) {
@@ -80,6 +81,11 @@ class NodeSearch extends Component {
     }
   }
 
+  updateNode(node) {
+    // Dispatch chosen node to store
+    this.props.dispatch(updateNode(node));
+  }
+
 
   /*renderNodes() {
     var nodes = [];
@@ -114,7 +120,8 @@ class NodeSearch extends Component {
           <div className="row">
             <div className="col-md-1"></div>
             <div className="col-md-8">
-              <SearchContentBody nodes={this.props.nodes} />
+              <SearchContentBody nodes={this.props.nodes} label={this.props.nodeLabel}
+                  updateNode={(node) => this.updateNode(node)} />
             </div>
             <div className="col-md-2">
               <SearchSidebar />
@@ -180,10 +187,17 @@ class SearchNavbar extends Component {
 
 class SearchContentBody extends Component {
   renderSearchResults() {
-    var nodes = [];
+    // Initialize variables
+    let nodes = [], label = this.props.label, updateNode = this.props.updateNode;
+
+    // Iterate through nodes
     this.props.nodes.forEach(function (node, index) {
+      // Wrap router link and render props in NodeSearchResult
       nodes.push(
-        <NodeSearchResult key={index} node={node} />
+        <Link key={node.nid} to={"/"+label+"/show/"+node.nid} 
+                    onClick={() => updateNode(node)}>
+          <NodeSearchResult key={index} node={node} />
+        </Link>
       );
     });
     return nodes;

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
-import App from './App';
+import AppContainer from './containers/AppContainer';
 import appReducers from './reducers'
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -26,7 +26,7 @@ let unsubscribe = store.subscribe(() =>
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <Route path="/" component={App} />
+      <Route path="/" component={AppContainer} />
     </Router>
   </Provider>,
   document.getElementById('root')

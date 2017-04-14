@@ -40,7 +40,7 @@ class ApixNode extends Component {
   //   });
   // }
 
-  renderNodes() {
+  /*renderNodes() {
     var nodes = [];
     this.state.nodes.forEach(function (node) {
       nodes.push(
@@ -57,14 +57,15 @@ class ApixNode extends Component {
       );
     });
     return nodes;
-  }
+  }*/
   
   render() {
-    this.state.nodes.push(logan);
+    // this.state.nodes.push(logan);
+    
 
     return (
       <div>
-        {this.renderNodes()}
+        {Helpers.renderProps(this.props.node)}
       </div>
     );
   }

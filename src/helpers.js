@@ -106,7 +106,7 @@ class Helpers {
     static renderTemplate(object) {
       if (typeof(object) !== "undefined") {
         var props = [];
-        props.push( <div className="template-prop-key">
+        props.push( <div key={'div-'+object['id']} className="template-prop-key">
                       <NodeProperty key={'label'+object['id']} propKey={'label'} value={object['label']} type="string" />
                     </div>);
         props.push(<NodeProperty key={'id'+object['id']} propKey={'id'} value={object['id']} type="string" />);
@@ -126,7 +126,7 @@ class Helpers {
       if (props.length > 1 && Object.prototype.toString.call( props ) === '[object Array]' ) {
         console.log('props ', props);
         props.forEach(function(prop) {
-          propComps.push(<div className="template-prop-key">
+          propComps.push(<div key={'div-'+prop['id']} className="template-prop-key">
                            <NodeProperty key={'prop-key'+prop['id']} propKey={'key'} value={prop['key']} type="string" />
                          </div>);
           propComps.push(<NodeProperty key={'prop-value_type'+prop['id']} propKey={'value_type'} value={prop['value_type']} type="string" />);
@@ -135,7 +135,7 @@ class Helpers {
           propComps.push(<NodeProperty key={'prop-created_at'+prop['id']} propKey={'created_at'} value={prop['created_at']} type="string" />);
           propComps.push(<NodeProperty key={'prop-updated_at'+prop['id']} propKey={'updated_at'} value={prop['updated_at']} type="string" />);   
         });
-        return ( <div className="template-prop">{propComps}</div> );
+        return ( <div key={'div-'+index} className="template-prop">{propComps}</div> );
       }
       return;
     }
