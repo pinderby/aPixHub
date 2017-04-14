@@ -9,36 +9,34 @@ class NodeSearch extends Component {
   constructor(props) {
     super(props);
 
-    this.getTemplate();
-
     this.state = {
       nodes: [],
     };
   }
 
-  getTemplate() {
-    // Initialize dispatch
-    var dispatch = this.props.dispatch;
+  // getTemplate() {
+  //   // Initialize dispatch
+  //   var dispatch = this.props.dispatch;
     
-    // url (required), options (optional)
-    fetch('https://apix.rocks/nodes', {
-      method: 'GET'
-    }).then(function(response) {
-      response.json().then(function(result) {
-          console.log('Result: ', result);
-          var templates = [];
-          result.forEach(function (obj) {
-            templates.push(obj);
-          });
+  //   // url (required), options (optional)
+  //   fetch('https://apix.rocks/nodes', {
+  //     method: 'GET'
+  //   }).then(function(response) {
+  //     response.json().then(function(result) {
+  //         console.log('Result: ', result);
+  //         var templates = [];
+  //         result.forEach(function (obj) {
+  //           templates.push(obj);
+  //         });
           
-          dispatch(initializeNodeTemplate(templates[0]));
-      });
+  //         dispatch(initializeNodeTemplate(templates[0]));
+  //     });
       
-      // this.setState({ node: });
-    }).catch(function(err) {
-      // Error :(
-    });
-  }
+  //     // this.setState({ node: });
+  //   }).catch(function(err) {
+  //     // Error :(
+  //   });
+  // }
 
   searchNodes(e, query) {
     // Prevent default behavior
@@ -47,6 +45,7 @@ class NodeSearch extends Component {
     // Initialize dispatch
     var dispatch = this.props.dispatch;
 
+    // If query, search name
     if (query) {
       // Get search results
       fetch('https://apix.rocks/x/'+this.props.nodeLabel+'/search', {
@@ -64,6 +63,8 @@ class NodeSearch extends Component {
         console.log('Data: ', data ); 
         dispatch(updateNodes(data));
       });
+
+    // If no query, get all nodes
     } else {
       // Get search results
       fetch('https://apix.rocks/x/'+this.props.nodeLabel, {
@@ -189,6 +190,9 @@ class SearchContentBody extends Component {
   renderSearchResults() {
     // Initialize variables
     let nodes = [], label = this.props.label, updateNode = this.props.updateNode;
+
+    // Return if not array (can occur when API call does not return nodes)
+    if (Object.prototype.toString.call( this.props.nodes ) !== '[object Array]' ) return;
 
     // Iterate through nodes
     this.props.nodes.forEach(function (node, index) {
