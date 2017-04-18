@@ -17,11 +17,11 @@ const nodeTemplate = (state = {}, action) => {
       // Update nodeTemplate with passed object
       
       // Initialize template and properties
-      var nodeTemplate = {}, props = action.nodeTemplate.properties;
+      let nodeTemplate = Object.assign({}, action.nodeTemplate);
+      let props = action.nodeTemplate.properties;
       
-      // Initialize template label and empty properties object
-      nodeTemplate.label = action.nodeTemplate.label;
-      nodeTemplate.properties = {};
+      // Initialize template empty properties object if needed
+      if (!nodeTemplate.properties) nodeTemplate.properties = {};
 
       // Add all properties and store the key and type
       props.forEach(function (prop) {

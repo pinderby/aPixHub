@@ -4,6 +4,7 @@ import './App.css';
 import { Route, Link, Redirect } from 'react-router-dom';
 import NodeSearch from './components/NodeSearch.js';
 import ApixNodeContainer from './containers/ApixNodeContainer.js';
+import ApixTemplateContainer from './containers/ApixTemplateContainer.js';
 import TemplateSearchContainer from './containers/TemplateSearchContainer.js';
 import NodeBuilderContainer from './containers/NodeBuilderContainer.js';
 import NodePopulatorContainer from './containers/NodePopulatorContainer.js';
@@ -37,7 +38,8 @@ class App extends Component {
           <Route exact path="/" render={() => (
             <Redirect from="/" to="nodes/show"/>
           )}/>
-          <Route path="/t/templates" component={TemplateSearchContainer}/>
+          <Route exact path="/t/templates" component={TemplateSearchContainer}/>
+          <Route path="/t/templates/:id" component={ApixTemplateContainer}/>
           <Route path="/t/:label/edit" component={NodeBuilderContainer}/>
           <Route path="/n/:label/add" component={NodePopulatorContainer}/>
           <Route path="/n/:label/search" component={NodeSearchContainer}/>
