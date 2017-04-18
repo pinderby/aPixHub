@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Helpers from '../helpers.js';
+import { Link } from 'react-router-dom';
 // import './ApixTemplate.css'
 import './TemplateSearch.css'
 
@@ -26,6 +27,9 @@ class ApixTemplate extends Component {
           </div>
           <div className="panel panel-default" key={template['id']+'6'}>
             <div className="panel-body" key={template['id']+'7'}>
+              <div className="row">
+                <Link key={template['id']} to={"/t/"+template['label']+"/edit" }>Edit Template</Link>
+              </div>
               {Helpers.renderTemplate(template)}
             </div>
           </div>

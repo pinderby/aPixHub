@@ -227,6 +227,20 @@ class Helpers {
             placeholder:"Enter field name here", disabled:false, path:path+"properties.newProp"+i };
   }
 
+  // Checks for property in array of properties
+  static hasProp(props, key) {
+    console.log('hasProp ', props);
+    // Default to false
+    let hasKey = false;
+
+    // Iterate through each prop and check against key
+    props.forEach(function(prop) {
+      if (prop.key === key) hasKey = true;
+    });
+
+    return hasKey;
+  }
+
   // TODO --DM-- Remove
 //   static pushIfMissingInArray(array, element, key) {
 //     var found = false;

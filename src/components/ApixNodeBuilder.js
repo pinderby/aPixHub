@@ -16,31 +16,31 @@ class ApixNodeBuilder extends Component {
     
     // Check if node is already initialized
     if (!nodeTemplate || !props.nodeTemplate.hasOwnProperty('label')) { // TODO --DM-- Change how this is checked     
-      // Create new template with label
-      nodeTemplate = { label:'', properties: {}} // TODO --DM-- Add label, base model props
+      // Create new template with key
+      nodeTemplate = { label:'', properties: []} // TODO --DM-- Add key, base model props
     }
       
     // Get template properties
     let properties = nodeTemplate.properties;
 
     // Add mandatory name property
-    if (!properties.name) {
-      properties.name = { label:"name", display_label:"Name", type:"string", 
-                          placeholder:"Name", disabled: true,path:'properties.name' };
+    if (!Helpers.hasProp(properties, 'name')) {
+      properties.push({ key:"name", display_label:"Name", value_type:"string", 
+                        placeholder:"Name", disabled: true,path:'properties.name' });
     }
     
     // Add mandatory profile_image property
-    if (!properties.profile_image) {
-      properties.profile_image = { label:"profile_image", display_label:"Profile Picture", 
-                                  type:"string", placeholder:"Link to Profile Picture", 
-                                  disabled: true,path:'properties.profile_image' };
+    if (!Helpers.hasProp(properties, 'profile_image')) {
+      properties.push( { key:"profile_image", display_label:"Profile Picture", 
+                         value_type:"string", placeholder:"Link to Profile Picture", 
+                         disabled: true,path:'properties.profile_image' });
     }
     
     // Add mandatory cover_image property
-    if (!properties.cover_image) {
-      properties.cover_image = { label:"cover_image", display_label:"Cover Image", 
-                                type:"string", placeholder:"Link to Cover Image", 
-                                disabled: true, path:'properties.cover_image' };
+    if (!Helpers.hasProp(properties, 'cover_image')) {
+      properties.push({ key:"cover_image", display_label:"Cover Image", 
+                        value_type:"string", placeholder:"Link to Cover Image", 
+                        disabled: true, path:'properties.cover_image' });
     }
 
     // Dispatch new node to store
@@ -122,9 +122,9 @@ class ApixNodeBuilder extends Component {
     // If oldPath exists, remove old property
     if (oldPath) nodeTemplate = Helpers.removeObjProp(nodeTemplate, oldPath);
 
-    // Rerender if type changed, not if label changed
+    // Rerender if type changed, not if key changed
     var rerender = true;
-    if (changeType === 'label') rerender = false;
+    if (changeType === 'key') rerender = false;
 
     // Set state for updated node and rerender if type changed
     this.setState({
@@ -164,17 +164,17 @@ class ApixNodeBuilder extends Component {
 
     console.log('submitTemplate(): ', nodeTemplate); // TODO --DM-- Remove
 
-    for(var propLabel in nodeTemplate.properties) {
-      let prop = nodeTemplate.properties[propLabel];
+    for(var propKey in nodeTemplate.properties) {
+      let prop = nodeTemplate.properties[propKey];
       console.log('submitTemplate() prop: ', prop); // TODO --DM-- Remove
-      if (prop.type === 'object') {
+      if (prop.value_type === 'object') {
         let object = {};
         for(var objProp in prop.properties) {
-          object[objProp] = prop.properties[objProp].type;
+          object[objProp] = prop.properties[objProp].value_type;
         }
-        payload.properties[prop.label] = object;
+        payload.properties[prop.key] = object;
       } else {
-        payload.properties[prop.label] = prop.type;
+        payload.properties[prop.key] = prop.value_type;
       }
       
     }
@@ -258,7 +258,7 @@ class ApixNodeBuilder extends Component {
       if (!prop.path) prop.path = 'properties.'+key;
 
       // Initialize 'disabled' property if property is mandatory
-      if (BaseModel.mandatory_fields.indexOf(prop.label) !== -1) prop.disabled = true; 
+      if (BaseModel.mandatory_fields.indexOf(prop.key) !== -1) prop.disabled = true; 
       else prop.disabled = false;
 
       // Push property input for each prop

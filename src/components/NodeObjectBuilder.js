@@ -17,6 +17,7 @@ class NodeObjectBuilder extends Component {
 
     this.state = {
       nodeTemplate: props.nodeTemplate,
+      object: Helpers.getObjProp(props.nodeTemplate, props.path),
       rootPath: props.path+'.properties',
       newPropIndex: 0,
       rerender: true
@@ -27,62 +28,6 @@ class NodeObjectBuilder extends Component {
     // If object doesn't have 'properties', add it with initial values
     const object = Helpers.getObjProp(this.props.nodeTemplate, this.props.path);
     if (!object.hasOwnProperty('properties')) this.addProperty();
-  }
-  
-  renderProperties() {
-    // Initialize variables
-    const object = Helpers.getObjProp(this.props.nodeTemplate, this.props.path);
-    var props = [];
-    let i = 0;
-
-    // If object is JSON string, parse to object
-    if (object.type && object.type[0] === '{') {
-      // Convert string to JSON string
-      let objString = object.type.replace(/=>/g, ":");
-
-      // Set type to 'object', initialize properties
-      object.type = 'object';
-      object.properties = {};
-
-      // Parse string to object
-      let props = JSON.parse(objString);
-
-      // Iterate over properties and assign each property
-      Object.keys(props).forEach(function(key) {
-        // If is an array, stringify array into proper format, otherwise assign value
-        let value;
-        if (Object.prototype.toString.call( props[key] ) === '[object Array]' ) {
-          value = JSON.stringify(props[key]);
-        } else {
-          value = props[key];
-        }
-
-        // Assign properties
-        object.properties[key] = {
-          key: key,
-          label: key,
-          type: value
-        };
-      });
-    }
-
-    // Iterate through node properties
-    for (var key in object.properties) {
-      // Initialize prop
-      var prop = object.properties[key];
-
-      // Push property input for each prop
-      props.push(<PropertyBuilder key={key} index={i} prop={prop} nested={true}
-                        onClick={(path) => this.removeProperty(path)}
-                        addProperty={() => this.addProperty()} 
-                        onChange={(changeType, oldPath, newPath, prop) => this.setProperty(changeType, oldPath, newPath, prop)} />); // TODO --DM-- manage keys for iteration
-      props.push(<br key={key.toString()+'1000'} />)
-
-      // Increment index
-      i++;
-    }
-
-    return props;
   }
 
   // Decide whether or not to rerender
@@ -167,19 +112,70 @@ class NodeObjectBuilder extends Component {
 
     return;
   }
+
+    renderProperties() {
+    // Initialize variables
+    const object = Helpers.getObjProp(this.props.nodeTemplate, this.props.path);
+    var props = [];
+    let i = 0;
+
+    // If object is JSON string, parse to object
+    if (object.value_type && object.value_type[0] === '{') {
+      // Convert string to JSON string
+      let objString = object.value_type.replace(/=>/g, ":");
+
+      // Set value_type to 'object', initialize properties
+      object.value_type = 'object';
+      object.properties = {};
+
+      // Parse string to object
+      let props = JSON.parse(objString);
+
+      // Iterate over properties and assign each property
+      Object.keys(props).forEach(function(key) {
+        // If is an array, stringify array into proper format, otherwise assign value
+        let value;
+        if (Object.prototype.toString.call( props[key] ) === '[object Array]' ) {
+          value = JSON.stringify(props[key]);
+        } else {
+          value = props[key];
+        }
+
+        // Assign properties
+        object.properties[key] = {
+          key: key,
+          value_type: value
+        };
+      });
+    }
+
+    // Iterate through node properties
+    for (var key in object.properties) {
+      // Initialize prop
+      var prop = object.properties[key];
+
+      // Push property input for each prop
+      props.push(<PropertyBuilder key={key} index={i} prop={prop} nested={true}
+                        onClick={(path) => this.removeProperty(path)}
+                        addProperty={() => this.addProperty()} 
+                        onChange={(changeType, oldPath, newPath, prop) => this.setProperty(changeType, oldPath, newPath, prop)} />); // TODO --DM-- manage keys for iteration
+      props.push(<br key={key.toString()+'1000'} />)
+
+      // Increment index
+      i++;
+    }
+
+    return props;
+  }
   
   render() {
     console.log('this.state', this.state); // TODO --DM-- Remove
     console.log('this.props', this.props); // TODO --DM-- Remove
 
-    // Get name of parent object for display
-    var objectName = this.state.rootPath.split('.');
-    objectName = objectName[objectName.length-2].toUpperCase();
-
     return (
       <div className="node-object-builder-container">
         <div className="node-object-builder">
-          <h3>{objectName}</h3>
+          <h3>{this.state.object.key.toUpperCase()}</h3>
           {this.renderProperties()}
           <AddPropertyButton disabled={this.state.addProperty} onClick={() => this.addProperty()}/>
         </div>
