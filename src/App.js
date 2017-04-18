@@ -27,21 +27,21 @@ class App extends Component {
     return (
       <div className="App">
         <ul className="nav nav-tabs">
-          <li role="presentation"><Link to="/nodes/show">TemplateRender</Link></li>
+          <li role="presentation"><Link to="/t/templates">TemplateRender</Link></li>
           {/*<li role="presentation"><Link to="/movie/edit">TemplateBuilder</Link></li>*/}
-          <li role="presentation"><Link to={"/"+label+"/add"}>NodePopulator</Link></li>
-          <li role="presentation"><Link to={"/"+label+"/search"}>NodeSearch</Link></li>
+          <li role="presentation"><Link to={"/n/"+label+"/add"}>NodePopulator</Link></li>
+          <li role="presentation"><Link to={"/n/"+label+"/search"}>NodeSearch</Link></li>
           {/*<li role="presentation"><Link to={"/"+label+"/0"}>NodeRender</Link></li>*/}
         </ul>
         <div id="App-container">
           <Route exact path="/" render={() => (
             <Redirect from="/" to="nodes/show"/>
           )}/>
-          <Route path="/nodes/show" component={ApixTemplateContainer}/>
-          <Route path="/:label/edit" component={NodeBuilderContainer}/>
-          <Route path="/:label/add" component={NodePopulatorContainer}/>
-          <Route path="/:label/search" component={NodeSearchContainer}/>
-          <Route exact path="/:label/show/:id" component={ApixNodeContainer}/>
+          <Route path="/t/templates" component={ApixTemplateContainer}/>
+          <Route path="/t/:label/edit" component={NodeBuilderContainer}/>
+          <Route path="/n/:label/add" component={NodePopulatorContainer}/>
+          <Route path="/n/:label/search" component={NodeSearchContainer}/>
+          <Route exact path="/n/:label/:id" component={ApixNodeContainer}/>
         </div>
       </div>
     );

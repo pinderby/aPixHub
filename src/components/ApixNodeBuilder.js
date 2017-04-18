@@ -15,15 +15,14 @@ class ApixNodeBuilder extends Component {
     let nodeTemplate = props.nodeTemplate;
     
     // Check if node is already initialized
-    if (!nodeTemplate || !props.nodeTemplate.hasOwnProperty('label')) { // TODO --DM-- Change how this is checked
-      
+    if (!nodeTemplate || !props.nodeTemplate.hasOwnProperty('label')) { // TODO --DM-- Change how this is checked     
       // Create new template with label
       nodeTemplate = { label:'', properties: {}} // TODO --DM-- Add label, base model props
     }
       
     // Get template properties
     let properties = nodeTemplate.properties;
-    
+
     // Add mandatory name property
     if (!properties.name) {
       properties.name = { label:"name", display_label:"Name", type:"string", 
@@ -53,7 +52,6 @@ class ApixNodeBuilder extends Component {
     this.setProperty = this.setProperty.bind(this);
     this.removeProperty = this.removeProperty.bind(this);
 
-    console.log('props.nodeTemplate', props.nodeTemplate); // TODO --DM-- Remove
     this.state = {
       nodeTemplate: props.nodeTemplate,
       newPropIndex: 0,

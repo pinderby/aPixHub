@@ -198,7 +198,7 @@ class SearchContentBody extends Component {
     this.props.nodes.forEach(function (node, index) {
       // Wrap router link and render props in NodeSearchResult
       nodes.push(
-        <Link key={node.nid} to={"/"+label+"/show/"+node.nid} 
+        <Link key={node.nid} to={"/n/"+label+"/"+node.nid} 
                     onClick={() => updateNode(node)}>
           <NodeSearchResult key={index} node={node} />
         </Link>
