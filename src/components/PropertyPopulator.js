@@ -26,15 +26,15 @@ class PropertyBuilder extends Component {
     console.log('value: ', value);
 
     // If array, then give a 
-    if (prop.type[0] === '[') {
-      return <textarea type={prop.type} className="form-control" 
-          id={prop.label} value={value} placeholder="Input list here, comma-separated"
+    if (prop.value_type[0] === '[') {
+      return <textarea type={prop.value_type} className="form-control" 
+          id={prop.key} value={value} placeholder="Input list here, comma-separated"
           onChange={(e) => this.textChanged(e, prop, this.props.onChange)} />;
-    } else if (prop.type === 'object') {
+    } else if (prop.value_type === 'object') {
       // TODO --DM-- Handle object input
     } else {
-      return <input type={prop.type} className="form-control" 
-          id={prop.label} value={value}
+      return <input type={prop.value_type} className="form-control" 
+          id={prop.key} value={value}
           onChange={(e) => this.textChanged(e, prop, this.props.onChange)} />;
     }
   }
@@ -57,7 +57,8 @@ class PropertyBuilder extends Component {
                         node={this.props.node} path={this.props.prop.path} 
                         dispatch={this.props.dispatch} />;*/ // TODO --DM-- Implement
     }
-    this.props.prop.display_label = Helpers.formatPropKey(this.props.prop.label);
+    console.log("prop: ", this.props.prop);
+    this.props.prop.display_label = Helpers.formatPropKey(this.props.prop.key);
 
     return (
       <div className="property-populator-container">

@@ -18,19 +18,21 @@ const nodeTemplate = (state = {}, action) => {
       
       // Initialize template and properties
       let nodeTemplate = Object.assign({}, action.nodeTemplate);
-      let props = action.nodeTemplate.properties;
-      
-      // Initialize template empty properties object if needed
-      if (!nodeTemplate.properties) nodeTemplate.properties = {};
 
-      // Add all properties and store the key and type
-      props.forEach(function (prop) {
-        nodeTemplate.properties[prop.key] = {
-          key: prop.key,
-          label: prop.key,
-          type: prop.value_type
-        }
-      });
+      // TODO --DM-- Remove if no longer needed
+      // let props = action.nodeTemplate.properties;
+      
+      // // Initialize template empty properties object and overwrite
+      // nodeTemplate.properties = {};
+
+      // // Add all properties and store the key and type
+      // props.forEach(function (prop) {
+      //   nodeTemplate.properties[prop.key] = {
+      //     key: prop.key,
+      //     label: prop.key,
+      //     type: prop.value_type
+      //   }
+      // });
 
       return nodeTemplate;
     case ActionTypes.ADD_PROPERTY:
