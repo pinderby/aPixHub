@@ -14,6 +14,7 @@ class ApixTemplate extends Component {
 
     this.state = {
       templates: [],
+      query: "",
     };
   }
 
@@ -38,14 +39,62 @@ class ApixTemplate extends Component {
     });
   }
 
+  updateQuery(query) {
+    // Update query to user input
+    this.setState({
+      query: query
+    });
+  }
+
+  searchTemplates(e, query) {
+    // Prevent default behavior
+    e.preventDefault();
+
+    // Initialize dispatch
+    var dispatch = this.props.dispatch;
+
+// TODO --DM-- Reimplement when search for templates is implemented on server
+    // // If query, search name
+    // if (query) {
+    //   // Get search results
+    //   fetch('https://apix.rocks/nodes/search', {
+    //     headers: new Headers({
+    //         'Content-Type': 'application/json',
+    //         Accept: 'application/json',
+    //       }),
+    //     method: 'POST',
+    //     body: JSON.stringify({
+    //       properties: {label: query}
+    //     })
+    // })
+    //   .then(function(res){ return res.json(); })
+    //   .then(function(data){ 
+    //     console.log('Data: ', data ); 
+    //     // dispatch(initializeNodeTemplate(template));
+    //   });
+
+    // } 
+  }
+
   setNodeTemplate(template) {
     // Dispatch chosen template to store
     this.props.dispatch(initializeNodeTemplate(template));
   }
 
   renderTemplates() {
-    var templates = [], setNodeTemplate = this.setNodeTemplate;
-    this.state.templates.forEach(function (template, index) {
+    // Initialize variables
+    var templates = [], filteredTemplates = [], setNodeTemplate = this.setNodeTemplate, query = this.state.query;
+    
+    // Filter templates based on user query
+    filteredTemplates = this.state.templates.filter(function (template) {
+      // If there is a query, filter templates by query (testing on label)
+      if (query) return (new RegExp(query, 'i')).test(template.label);
+      // Otherwise, return entire array
+      else return true;
+    });
+
+    // Iterate through and render templates
+    filteredTemplates.forEach(function (template, index) {
       console.log('template', template); // TODO --DM-- Remove
       templates.push(
         <div className="apix-template-container" key={template['id']+'1'}>
@@ -73,11 +122,61 @@ class ApixTemplate extends Component {
 
     return (
       <div>
+        <TemplateNavbar searchTemplates={(e, q) => this.searchTemplates(e, q)}
+                        onChange={(e) => this.updateQuery(e)} />
         {this.renderTemplates()}
       </div>
     );
   }
 }
 
+
+class TemplateNavbar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: ''};
+
+    this.handleChange = this.handleChange.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    // Update state with new value
+    this.setState({value: event.target.value});
+
+    // Pass value to parent callback to update parent state
+    this.props.onChange(event.target.value);
+  }
+
+  // handleSubmit(event) {
+  //   console.log(this.state.value);
+  //   this.props.searchNodes(this.state.value);
+  //   event.preventDefault();
+  // }
+  
+  render() {
+    return (
+      <div id="search-navbar">
+        <div className="row">
+          <nav className="navbar navbar-inverse">
+            <div className="container-fluid">
+              <div className="navbar-header">
+                <a className="navbar-brand" href="#">NodeTemplates</a>
+              </div>
+              <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <form className="navbar-form topbar-form navbar-left" onSubmit={(e) => this.props.searchTemplates(e, this.state.value)}>
+                  <div className="form-group">
+                    <input type="text" className="search-bar form-control" value={this.state.value} onChange={this.handleChange} placeholder="Search" />
+                  </div>
+                  <button type="submit" className="btn btn-default">Search</button>
+                </form>
+              </div>
+            </div>
+          </nav>
+        </div> {/*row*/}
+      </div>
+    );
+  }
+}
 
 export default ApixTemplate;

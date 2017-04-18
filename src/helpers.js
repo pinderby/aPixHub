@@ -66,10 +66,10 @@ class Helpers {
   }
 
   static renderProps(object) {
-    console.log('renderProps: ', object);
+    // console.log('renderProps: ', object); // TODO --DM-- Remove
     if (typeof(object) !== "undefined") {
       var props = [];
-      console.log(object);
+      // console.log(object); // TODO --DM-- Remove
       if (Object.prototype.toString.call( object ) === '[object Object]' ) {
         for (var prop in object) {
           if (object.hasOwnProperty(prop) && object[prop]) {
@@ -124,7 +124,7 @@ class Helpers {
     static renderTemplateProps(props, index) {
       var propComps = [];
       if (props.length > 1 && Object.prototype.toString.call( props ) === '[object Array]' ) {
-        console.log('props ', props);
+        // console.log('props ', props); // TODO --DM-- Remove
         props.forEach(function(prop) {
           propComps.push(<div key={'div-'+prop['id']} className="template-prop-key">
                            <NodeProperty key={'prop-key'+prop['id']} propKey={'key'} value={prop['key']} type="string" />
