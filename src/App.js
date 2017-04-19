@@ -28,7 +28,7 @@ class App extends Component {
     return (
       <div className="App">
         <ul className="nav nav-tabs">
-          <li role="presentation"><Link to="/t/templates">TemplateRender</Link></li>
+          <li role="presentation"><Link to="/templates">TemplateRender</Link></li>
           {/*<li role="presentation"><Link to="/movie/edit">TemplateBuilder</Link></li>*/}
           <li role="presentation"><Link to={"/n/"+label+"/add"}>NodePopulator</Link></li>
           <li role="presentation"><Link to={"/n/"+label+"/search"}>NodeSearch</Link></li>
@@ -38,8 +38,8 @@ class App extends Component {
           <Route exact path="/" render={() => (
             <Redirect from="/" to="nodes/show"/>
           )}/>
-          <Route exact path="/t/templates" component={TemplateSearchContainer}/>
-          <Route path="/t/templates/:id" component={ApixTemplateContainer}/>
+          <Route exact path="/templates" component={TemplateSearchContainer}/>
+          <Route exact path="/t/:label" component={ApixTemplateContainer}/>
           <Route path="/t/:label/edit" component={NodeBuilderContainer}/>
           <Route path="/n/:label/add" component={NodePopulatorContainer}/>
           <Route path="/n/:label/search" component={NodeSearchContainer}/>

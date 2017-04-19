@@ -14,8 +14,10 @@ class ApixTemplate extends Component {
   }
 
   render() {
-    // Initialize template
+    // Initialize template and display label
     let template = this.props.nodeTemplate;
+    let displayLabel = "";
+    if (template['label']) displayLabel = Helpers.capitalizeFirstLetter(template['label']);
 
     console.log('Template:', template);
 
@@ -28,7 +30,11 @@ class ApixTemplate extends Component {
           <div className="panel panel-default" key={template['id']+'6'}>
             <div className="panel-body" key={template['id']+'7'}>
               <div className="row">
-                <Link key={template['id']} to={"/t/"+template['label']+"/edit" }>Edit Template</Link>
+                <Link key={template['id']+'-edit'} to={"/t/"+template['label']+"/edit" }>Edit Template</Link>
+                <br />
+                <Link key={template['id']+'-add'} to={"/n/"+template['label']+"/add" }>Add {displayLabel}</Link>
+                <br />
+                <Link key={template['id']+'-search'} to={"/n/"+template['label']+"/search" }>Search {displayLabel}</Link>
               </div>
               {Helpers.renderTemplate(template)}
             </div>

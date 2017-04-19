@@ -186,6 +186,11 @@ class Helpers {
     return string.join(' ');
   }
 
+  // Capitalize first letter of string
+  static capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   // Takes old path string and new object key and returns updated path string
   static parseNewPath(oldPath, newKey) {
     // Split old path by '.'
