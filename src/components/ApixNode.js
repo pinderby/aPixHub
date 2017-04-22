@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import Helpers from '../helpers.js';
 import './ApixNode.css'
-import NodeName from './NodeName.js';
-import InfoBox from './InfoBox.js';
-import MediaSection from './MediaSection.js';
-import ReviewsSection from './ReviewsSection.js';
+// import NodeName from './NodeName.js';
+// import InfoBox from './InfoBox.js';
+// import MediaSection from './MediaSection.js';
+// import ReviewsSection from './ReviewsSection.js';
 // import TagsSection from './TagsSection.js';
-import logan from '../logan.json';
+// import logan from '../logan.json';
 
 class ApixNode extends Component {
   constructor(props) {
@@ -61,6 +61,8 @@ class ApixNode extends Component {
   
   render() {
     // this.state.nodes.push(logan);
+    console.log("this.state: ", this.state); // TODO --DM-- Remove
+    console.log("this.props: ", this.props); // TODO --DM-- Remove
     
 
     return (

@@ -169,6 +169,11 @@ class TemplateNavbar extends Component {
                     <input type="text" className="search-bar form-control" value={this.state.value} onChange={this.handleChange} placeholder="Search" />
                   </div>
                   <button type="submit" className="btn btn-default">Search</button>
+                  <Link to={"/templates/add"}>
+                    <button type="submit" className="btn btn-default add-template-btn">
+                      <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>{" "}New Template
+                    </button>
+                  </Link>
                 </form>
               </div>
             </div>

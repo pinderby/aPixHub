@@ -23,21 +23,24 @@ class ApixNodeBuilder extends Component {
     // Get template properties
     let properties = nodeTemplate.properties;
 
-    // Add mandatory name property
-    if (!Helpers.hasProp(properties, 'name')) {
+    // Get path url
+    let splitUrlPath = this.props.match.url.split("/");
+
+    // Determine if use if creating a new template or editing an existing one
+    let creating = (splitUrlPath[splitUrlPath.length-1] === "add")
+
+    // Add mandatory name, profile_image, cover_image properties if creating new node
+    if (creating) {
+      // Add mandatory name property
       properties.push({ key:"name", display_label:"Name", value_type:"string", 
                         placeholder:"Name", disabled: true,path:'properties.name' });
-    }
-    
-    // Add mandatory profile_image property
-    if (!Helpers.hasProp(properties, 'profile_image')) {
+
+      // Add mandatory profile_image property
       properties.push( { key:"profile_image", display_label:"Profile Picture", 
                          value_type:"string", placeholder:"Link to Profile Picture", 
                          disabled: true,path:'properties.profile_image' });
-    }
-    
-    // Add mandatory cover_image property
-    if (!Helpers.hasProp(properties, 'cover_image')) {
+
+      // Add mandatory cover_image property
       properties.push({ key:"cover_image", display_label:"Cover Image", 
                         value_type:"string", placeholder:"Link to Cover Image", 
                         disabled: true, path:'properties.cover_image' });
@@ -56,6 +59,7 @@ class ApixNodeBuilder extends Component {
       nodeTemplate: props.nodeTemplate,
       newPropIndex: 0,
       rerender: true,
+      creating: creating
     };
   }
 

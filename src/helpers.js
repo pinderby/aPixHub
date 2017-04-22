@@ -124,7 +124,7 @@ class Helpers {
 
     static renderTemplateProps(props) {
       var propComps = [];
-      // console.log('props: ', props); // TODO --DM-- Remove
+      console.log('props: ', props); // TODO --DM-- Remove
       if (!props) return;
       if (props.length >= 1 && Object.prototype.toString.call( props ) === '[object Array]' ) {
         props.forEach(function(prop) {

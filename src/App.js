@@ -39,6 +39,7 @@ class App extends Component {
             <Redirect from="/" to="nodes/show"/>
           )}/>
           <Route exact path="/templates" component={TemplateSearchContainer}/>
+          <Route exact path="/templates/add" component={NodeBuilderContainer}/>
           <Route exact path="/t/:label" component={ApixTemplateContainer}/>
           <Route path="/t/:label/edit" component={NodeBuilderContainer}/>
           <Route path="/n/:label/add" component={NodePopulatorContainer}/>

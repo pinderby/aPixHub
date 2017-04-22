@@ -106,14 +106,14 @@ class ApixNodePopulator extends Component {
     for(var propLabel in node.properties) {
       let prop = node.properties[propLabel];
       console.log('submitNode() prop: ', prop); // TODO --DM-- Remove
-      if (prop.type === 'object') {
+      if (prop.value_type === 'object') {
         let object = {};
         for(var objProp in prop.properties) {
           object[objProp] = prop.properties[objProp].value;
         }
-        payload.properties[prop.label] = object;
+        payload.properties[prop.key] = object;
       } else {
-        payload.properties[prop.label] = prop.value;
+        payload.properties[prop.key] = prop.value;
       }
       
     }
