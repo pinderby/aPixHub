@@ -36,7 +36,7 @@ class App extends Component {
         </ul>
         <div id="App-container">
           <Route exact path="/" render={() => (
-            <Redirect from="/" to="nodes/show"/>
+            <Redirect from="/" to="/templates"/>
           )}/>
           <Route exact path="/templates" component={TemplateSearchContainer}/>
           <Route exact path="/templates/add" component={NodeBuilderContainer}/>

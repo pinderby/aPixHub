@@ -53,7 +53,7 @@ class PropertyBuilder extends Component {
     console.log('Key: ', prop.key); // TODO --DM-- Remove
 
     // Parse new path for property
-    prop.path = Helpers.parseNewPath(prop.path, prop.key);
+    // prop.path = Helpers.parseNewPath(prop.path, prop.key);
 
     // Set default prop.value_type if not defined
     if(!prop.value_type) prop.value_type = 'string';
@@ -61,7 +61,7 @@ class PropertyBuilder extends Component {
     console.log('textChanged(): ', oldPath, prop.path, prop); // TODO --DM-- Remove
 
     // Call callback
-    onChange('label', oldPath, prop.path, prop);
+    onChange('key', oldPath, prop.path, prop);
   }
 
   typeChanged(value, prop, onChange) {

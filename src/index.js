@@ -13,12 +13,12 @@ import test_node_template from './test_node_template.json';
 
 let store = createStore(appReducers);
 // Log the initial state
-console.log('getState(): ', store.getState())
+console.log('getState(): ', store.getState()) // TODO --DM-- Remove
 
 // Every time the state changes, log it
 // Note that subscribe() returns a function for unregistering the listener
 let unsubscribe = store.subscribe(() =>
-  console.log('getState(): ', store.getState())
+  console.log('getState(): ', store.getState()) // TODO --DM-- Remove
 );
 
 // store.dispatch(updateNodeTemplate(test_node_template)) // TODO --DM-- Change to API call

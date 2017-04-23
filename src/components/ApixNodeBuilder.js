@@ -57,7 +57,7 @@ class ApixNodeBuilder extends Component {
 
     this.state = {
       nodeTemplate: props.nodeTemplate,
-      newPropIndex: 0,
+      newPropIndex: props.nodeTemplate.properties.length,
       rerender: true,
       creating: creating
     };
@@ -84,7 +84,7 @@ class ApixNodeBuilder extends Component {
     var prop = Helpers.getNewProp(i);
 
     // Update node with new property
-    nodeTemplate = Helpers.setObjProp(nodeTemplate, prop.path, prop);
+    nodeTemplate = Helpers.addObjProp(nodeTemplate, prop.path, prop);
 
     console.log('addProperty() i:', i); // TODO --DM-- Remove
     console.log('addProperty() nodeTemplate:', nodeTemplate); // TODO --DM-- Remove
@@ -124,7 +124,7 @@ class ApixNodeBuilder extends Component {
     nodeTemplate = Helpers.setObjProp(nodeTemplate, newPath, newProp);
 
     // If oldPath exists, remove old property
-    if (oldPath) nodeTemplate = Helpers.removeObjProp(nodeTemplate, oldPath);
+    if (oldPath && oldPath !== newPath) nodeTemplate = Helpers.removeObjProp(nodeTemplate, oldPath);
 
     // Rerender if type changed, not if key changed
     var rerender = true;
@@ -174,11 +174,11 @@ class ApixNodeBuilder extends Component {
       if (prop.value_type === 'object') {
         let object = {};
         for(var objProp in prop.properties) {
-          object[objProp] = prop.properties[objProp].value_type;
+          object[objProp] = prop.properties[objProp].value;
         }
         payload.properties[prop.key] = object;
       } else {
-        payload.properties[prop.key] = prop.value_type;
+        payload.properties[prop.key] = prop.type;
       }
       
     }
@@ -257,6 +257,8 @@ class ApixNodeBuilder extends Component {
     for (var key in templateProps) {
       // Initialize prop
       var prop = templateProps[key];
+    // templateProps.forEach(function (prop) {
+      console.log("renderProps() prop:", prop);
 
       // Initialize path if needed
       if (!prop.path) prop.path = 'properties.'+key;

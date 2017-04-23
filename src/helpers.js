@@ -33,6 +33,21 @@ class Helpers {
     return node;
   }
 
+  static addObjProp(obj, path, value) {
+    var i, node = obj;
+    if (!path) return obj;
+
+    path = path.replace(/\[(\w+)\]/g, '.$1');
+    path = path.split('.');
+    for (i = 0; i < path.length - 2; i++) {
+      if (!obj[path[i]]) obj[path[i]] = {};
+      obj = obj[path[i]];
+    } 
+        
+    obj[path[i]].push(value);
+    return node;
+  }
+
   static removeObjProp(obj, path) {
     var i, node = obj;
     if (!path) return obj;
@@ -228,8 +243,8 @@ class Helpers {
     // Add '.' to path prefix if nested property, if not leave blank
     path ? path = path+"." : path = "";
 
-    return { label:"", display_label:"", type:"string", 
-            placeholder:"Enter field name here", disabled:false, path:path+"properties.newProp"+i };
+    return { key:"", display_label:"", value_type:"string", 
+            placeholder:"Enter field name here", disabled:false, path:path+"properties."+i };
   }
 
   // Checks for property in array of properties
