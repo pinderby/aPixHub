@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import Helpers from '../helpers.js';
-import logan from '../logan.json';
+import Helpers from '../../helpers.js';
 import PropertyBuilder from './PropertyBuilder';
-import './ApixNodeBuilder.css';
-import { updateNode, addProp, setProp, removeProp, renameProp, initializeNodeTemplate, updateNodeTemplate } from '../actions'; // TODO --DM-- Remove all except updateNode()?
-import BaseModel from '../constants/BaseModel.js';
-import test_template from '../test_server_node.json';
+import './TemplateBuilder.css';
+import { updateNode, addProp, setProp, removeProp, renameProp, initializeNodeTemplate, updateNodeTemplate } from '../../actions'; // TODO --DM-- Remove all except updateNode()?
+import BaseModel from '../../constants/BaseModel.js';
+import test_template from '../../test_server_node.json';
 
-class ApixNodeBuilder extends Component {
+class TemplateBuilder extends Component {
   constructor(props) {
     super(props);
 
@@ -387,4 +386,4 @@ export class GetTemplateButton extends Component {
   }
 }
 
-export default ApixNodeBuilder;
+export default TemplateBuilder;

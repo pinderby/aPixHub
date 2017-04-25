@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { AddPropertyButton } from './ApixNodeBuilder.js';
-import Helpers from '../helpers.js';
-import PropertyTypes from '../constants/PropertyTypes.js';
-import NodeObjectBuilder from './NodeObjectBuilder.js';
+import { AddPropertyButton } from './TemplateBuilder.js';
+import Helpers from '../../helpers.js';
+import PropertyTypes from '../../constants/PropertyTypes.js';
+import TemplateObjectBuilder from './TemplateObjectBuilder.js';
 
 class PropertyBuilder extends Component {
   constructor(props) {
@@ -87,7 +87,7 @@ class PropertyBuilder extends Component {
 
     var objectBuilder;
     if (this.state.propType === 'object' || this.state.propType[0] === '{') {
-      objectBuilder = <NodeObjectBuilder nodeTemplate={this.props.nodeTemplate} 
+      objectBuilder = <TemplateObjectBuilder nodeTemplate={this.props.nodeTemplate} 
                         path={this.props.prop.path} dispatch={this.props.dispatch} />;
     }
 
@@ -131,10 +131,10 @@ class PropertyTypeSelect extends Component {
     // If selecting type for array, modify value
     if (isArray) value = '["'+value+'"]';
 
-    // Update type in ApixNodeBuilder
+    // Update type in TemplateBuilder
     this.props.onChange(value);
 
-    // Update type in state to sync with ApixNodeBuilder
+    // Update type in state to sync with TemplateBuilder
     this.setState({
       value: Helpers.getKey(PropertyTypes, value),
     });

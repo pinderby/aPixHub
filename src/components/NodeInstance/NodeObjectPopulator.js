@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import Helpers from '../helpers.js';
-import logan from '../logan.json';
-import PropertyBuilder from './PropertyBuilder';
-import { AddPropertyButton } from './ApixNodeBuilder.js';
-import { updateNode, addProp, setProp, removeProp, renameProp } from '../actions';
+import Helpers from '../../helpers.js';
+import PropertyBuilder from '../NodeTemplate/PropertyBuilder';
+import { AddPropertyButton } from '../NodeTemplate/TemplateBuilder.js';
+import { updateNode, addProp, setProp, removeProp, renameProp } from '../../actions';
 
 class NodeObjectPopulator extends Component {
   constructor(props) {

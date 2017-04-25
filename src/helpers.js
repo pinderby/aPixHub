@@ -1,6 +1,6 @@
 import React from 'react';
 import NodeProperty from './components/NodeProperty.js'
-import Section from './components/Section.js'
+// import Section from './components/Section.js'
 import BaseModel from './constants/BaseModel.js';
 import _ from 'lodash';
 
@@ -70,17 +70,18 @@ class Helpers {
     return parts.join(".");
   }
 
-  static renderSections(sections) {
-    if (typeof(sections) !== "undefined") {
-      var sectionComponents = [];
-      sections.forEach(function(section) {
-        sectionComponents.push(<Section key={section.title} section={section} />);
-      });
-      return sectionComponents;
-    } else {
-      return;
-    }
-  }
+  // TODO --DM-- Reimplement
+  // static renderSections(sections) {
+  //   if (typeof(sections) !== "undefined") {
+  //     var sectionComponents = [];
+  //     sections.forEach(function(section) {
+  //       sectionComponents.push(<Section key={section.title} section={section} />);
+  //     });
+  //     return sectionComponents;
+  //   } else {
+  //     return;
+  //   }
+  // }
 
   static renderProps(object) {
     console.log('renderProps: ', object); // TODO --DM-- Remove

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import Helpers from '../helpers.js';
-import PropertyTypes from '../constants/PropertyTypes.js';
+import Helpers from '../../helpers.js';
+import PropertyTypes from '../../constants/PropertyTypes.js';
 import NodeObjectPopulator from './NodeObjectPopulator.js';
 
 class PropertyBuilder extends Component {

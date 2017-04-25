@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import './NodeSearch.css';
 import NodeSearchResult from './NodeSearchResult.js';
-import Helpers from '../helpers.js';
+import Helpers from '../../helpers.js';
 import { Link } from 'react-router-dom';
 // import logan from '../logan.json';
-import { initializeNodeTemplate, updateNodes, updateNode } from '../actions';
+import { initializeNodeTemplate, updateNodes, updateNode } from '../../actions';
 
 class NodeSearch extends Component {
   constructor(props) {

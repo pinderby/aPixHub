@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { addProp } from '../actions'
-import TemplateSearch from '../components/TemplateSearch'
+import TemplateSearch from '../components/NodeTemplate/TemplateSearch'
 
 const mapStateToProps = (state) => {
   return {

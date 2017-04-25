@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import Helpers from '../helpers.js';
+import Helpers from '../../helpers.js';
 import PropertyPopulator from './PropertyPopulator';
-import './ApixNodeBuilder.css';
-import { updateNode, addProp, setProp, removeProp, renameProp, initializeNodeTemplate } from '../actions'; // TODO --DM-- Remove all except updateNode()?
-import BaseModel from '../constants/BaseModel.js';
+import '../NodeTemplate/TemplateBuilder.css';
+import { updateNode, addProp, setProp, removeProp, renameProp, initializeNodeTemplate } from '../../actions'; // TODO --DM-- Remove all except updateNode()?
+import BaseModel from '../../constants/BaseModel.js';
 
-class ApixNodePopulator extends Component {
+class NodeInstancePopulator extends Component {
   constructor(props) {
     super(props);
 
@@ -199,4 +199,4 @@ export class RequestButton extends Component {
   }
 }
 
-export default ApixNodePopulator;
+export default NodeInstancePopulator;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Helpers from '../helpers.js';
-import './ApixNode.css'
+import Helpers from '../../helpers.js';
+import './NodeInstance.css'
 // import NodeName from './NodeName.js';
 // import InfoBox from './InfoBox.js';
 // import MediaSection from './MediaSection.js';
@@ -8,7 +8,7 @@ import './ApixNode.css'
 // import TagsSection from './TagsSection.js';
 // import logan from '../logan.json';
 
-class ApixNode extends Component {
+class NodeInstance extends Component {
   constructor(props) {
     super(props);
 
@@ -80,4 +80,4 @@ class ApixNode extends Component {
 
 
 
-export default ApixNode;
+export default NodeInstance;

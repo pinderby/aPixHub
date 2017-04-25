@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { addProp } from '../actions'
-import ApixNodeBuilder from '../components/ApixNodeBuilder'
+import TemplateBuilder from '../components/NodeTemplate/TemplateBuilder'
 
 const mapStateToProps = (state) => {
   return {
@@ -17,9 +17,9 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const NodeBuilderContainer = connect(
+const TemplateBuilderContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(ApixNodeBuilder)
+)(TemplateBuilder)
 
-export default NodeBuilderContainer
+export default TemplateBuilderContainer

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import ApixTemplate from '../components/ApixTemplate.js';
+import NodeTemplate from '../components/NodeTemplate/NodeTemplate.js';
 
 const mapStateToProps = (state) => {
   return {
@@ -16,9 +16,9 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const ApixTemplateContainer = connect(
+const NodeTemplateContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(ApixTemplate)
+)(NodeTemplate)
 
-export default ApixTemplateContainer
+export default NodeTemplateContainer

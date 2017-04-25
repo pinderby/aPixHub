@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import Helpers from '../helpers.js';
-import logan from '../logan.json';
+import Helpers from '../../helpers.js';
 import PropertyBuilder from './PropertyBuilder';
-import { AddPropertyButton } from './ApixNodeBuilder.js';
-import { updateNodeTemplate, addProp, setProp, removeProp, renameProp } from '../actions';
+import { AddPropertyButton } from './TemplateBuilder.js';
+import { updateNodeTemplate, addProp, setProp, removeProp, renameProp } from '../../actions';
 
-class NodeObjectBuilder extends Component {
+class TemplateObjectBuilder extends Component {
   constructor(props) {
     super(props);
 
@@ -184,4 +183,4 @@ class NodeObjectBuilder extends Component {
   }
 }
 
-export default NodeObjectBuilder;
+export default TemplateObjectBuilder;

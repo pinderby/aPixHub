@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import ApixNodePopulator from '../components/ApixNodePopulator.js';
+import NodeInstancePopulator from '../components/NodeInstance/NodeInstancePopulator.js';
 
 const mapStateToProps = (state) => {
   return {
@@ -18,6 +18,6 @@ const mapDispatchToProps = (dispatch) => {
 const NodePopulatorContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(ApixNodePopulator)
+)(NodeInstancePopulator)
 
 export default NodePopulatorContainer

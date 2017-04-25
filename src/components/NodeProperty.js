@@ -3,8 +3,6 @@ import Helpers from '../helpers.js';
 
 class NodeProperty extends Component {  
   render() {
-
-
     // If cover_img or profile_img, display img
     let value = <span className="node-prop-value"> {Helpers.renderProps(this.props.value)}</span>;
     if (this.props.propKey === 'profile_image') {

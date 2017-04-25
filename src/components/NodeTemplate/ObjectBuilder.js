@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import Helpers from '../helpers.js';
-import logan from '../logan.json';
+import Helpers from '../../helpers.js';
 import PropertyBuilder from './PropertyBuilder';
 import AddPropertyButton from './AddPropertyButton.js';
-import './ApixNodeBuilder.css';
+import './TemplateBuilder.css';
 
 class ObjectBuilder extends Component {
   constructor() {

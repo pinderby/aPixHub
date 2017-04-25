@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { addProp } from '../actions'
-import NodeObjectBuilder from '../components/NodeObjectBuilder'
+import TemplateObjectBuilder from '../components/NodeTemplate/TemplateObjectBuilder'
 
 const mapStateToProps = (state) => {
   return {
@@ -17,6 +17,6 @@ const mapDispatchToProps = (dispatch) => {
 const ObjectBuilderContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(NodeObjectBuilder)
+)(TemplateObjectBuilder)
 
 export default ObjectBuilderContainer

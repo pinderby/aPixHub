@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Helpers from '../helpers.js';
+import Helpers from '../../helpers.js';
 import './TemplateSearch.css';
 import { Link } from 'react-router-dom';
-import { initializeNodeTemplate } from '../actions';
+import { initializeNodeTemplate } from '../../actions';
 
 class TemplateSearch extends Component {
   constructor(props) {

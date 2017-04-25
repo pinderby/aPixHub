@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import Helpers from '../helpers.js';
+import Helpers from '../../helpers.js';
 import { Link } from 'react-router-dom';
-// import './ApixTemplate.css'
+// import './NodeTemplate.css'
 import './TemplateSearch.css'
 
-class ApixTemplate extends Component {
+class NodeTemplate extends Component {
   constructor(props) {
     super(props);
 
@@ -47,4 +47,4 @@ class ApixTemplate extends Component {
 
 
 
-export default ApixTemplate;
+export default NodeTemplate;

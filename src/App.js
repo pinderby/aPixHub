@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 // import logo from './logo.svg';
 import './App.css';
 import { Route, Link, Redirect } from 'react-router-dom';
-import NodeSearch from './components/NodeSearch.js';
-import ApixNodeContainer from './containers/ApixNodeContainer.js';
-import ApixTemplateContainer from './containers/ApixTemplateContainer.js';
+import NodeInstanceContainer from './containers/NodeInstanceContainer.js';
+import NodeTemplateContainer from './containers/NodeTemplateContainer.js';
 import TemplateSearchContainer from './containers/TemplateSearchContainer.js';
-import NodeBuilderContainer from './containers/NodeBuilderContainer.js';
+import TemplateBuilderContainer from './containers/TemplateBuilderContainer.js';
 import NodePopulatorContainer from './containers/NodePopulatorContainer.js';
 import NodeSearchContainer from './containers/NodeSearchContainer.js';
 import IMDbClone from './IMDbClone.js';
@@ -39,12 +38,12 @@ class App extends Component {
             <Redirect from="/" to="/templates"/>
           )}/>
           <Route exact path="/templates" component={TemplateSearchContainer}/>
-          <Route exact path="/templates/add" component={NodeBuilderContainer}/>
-          <Route exact path="/t/:label" component={ApixTemplateContainer}/>
-          <Route path="/t/:label/edit" component={NodeBuilderContainer}/>
+          <Route exact path="/templates/add" component={TemplateBuilderContainer}/>
+          <Route exact path="/t/:label" component={NodeTemplateContainer}/>
+          <Route path="/t/:label/edit" component={TemplateBuilderContainer}/>
           <Route path="/n/:label/add" component={NodePopulatorContainer}/>
           <Route path="/n/:label/search" component={NodeSearchContainer}/>
-          <Route exact path="/n/:label/:id" component={ApixNodeContainer}/>
+          <Route exact path="/n/:label/:id" component={NodeInstanceContainer}/>
         </div>
       </div>
     );
