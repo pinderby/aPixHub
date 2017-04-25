@@ -88,8 +88,14 @@ class Helpers {
       var props = [];
       // console.log(object); // TODO --DM-- Remove
       if (Object.prototype.toString.call( object ) === '[object Object]' ) {
+        // Render 'name' first, if present
+        if (object.name) props.push(<NodeProperty key={'name'} propKey={'name'} value={object.name} type="string" />);
+
         for (var prop in object) {
-          // console.log('renderProps prop: ', object); // TODO --DM-- Remove
+          console.log('renderProps prop: ', object); // TODO --DM-- Remove
+          // Skip name when rendering properties
+          if (prop === 'name') continue;
+
           if (object.hasOwnProperty(prop) && object[prop]) {
             switch(typeof(object[prop])) {
               case "string":
