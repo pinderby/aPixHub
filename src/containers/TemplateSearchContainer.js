@@ -4,7 +4,8 @@ import TemplateSearch from '../components/NodeTemplate/TemplateSearch'
 
 const mapStateToProps = (state) => {
   return {
-    nodeTemplate: state.nodeTemplate
+    nodeTemplate: state.nodeTemplate,
+    nodeTemplates: state.nodeTemplates
   }
 }
 

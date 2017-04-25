@@ -3,6 +3,7 @@ import Helpers from '../../helpers.js';
 import './TemplateSearch.css';
 import { Link } from 'react-router-dom';
 import { initializeNodeTemplate } from '../../actions';
+import { fetchTemplates } from '../../actions/templates';
 
 class TemplateSearch extends Component {
   constructor(props) {
@@ -20,23 +21,27 @@ class TemplateSearch extends Component {
 
   
   componentDidMount() {
-    var x = this;
-    // url (required), options (optional)
-    fetch('https://apix.rocks/nodes', {
-      method: 'GET'
-    }).then(function(response) {
-      response.json().then(function(result) {
-          var templates = [];
-          result.forEach(function (obj) {
-            templates.push(obj);
-          });
-          x.setState({ templates: templates });
-      });
+    // Send call to get all templates
+    this.props.dispatch(fetchTemplates());
+
+    // TODO --DM-- Remove
+    // var x = this;
+    // // url (required), options (optional)
+    // fetch('https://apix.rocks/nodes', {
+    //   method: 'GET'
+    // }).then(function(response) {
+    //   response.json().then(function(result) {
+    //       var templates = [];
+    //       result.forEach(function (obj) {
+    //         templates.push(obj);
+    //       });
+    //       x.setState({ templates: templates });
+    //   });
       
-      // this.setState({ node: });
-    }).catch(function(err) {
-      // Error :(
-    });
+    //   // this.setState({ node: });
+    // }).catch(function(err) {
+    //   // Error :(
+    // });
   }
 
   updateQuery(query) {
@@ -83,10 +88,14 @@ class TemplateSearch extends Component {
 
   renderTemplates() {
     // Initialize variables
-    var templates = [], filteredTemplates = [], setNodeTemplate = this.setNodeTemplate, query = this.state.query;
+    var templates = [], filteredTemplates = [], nodeTemplates = [], 
+    setNodeTemplate = this.setNodeTemplate, query = this.state.query;
     
+    // Initialize nodeTemplates if populated from server
+    if (this.props.nodeTemplates.templates) nodeTemplates = this.props.nodeTemplates.templates;
+
     // Filter templates based on user query
-    filteredTemplates = this.state.templates.filter(function (template) {
+    filteredTemplates = nodeTemplates.filter(function (template) {
       // If there is a query, filter templates by query (testing on label)
       if (query) return (new RegExp(query, 'i')).test(template.label);
       // Otherwise, return entire array
@@ -118,7 +127,8 @@ class TemplateSearch extends Component {
   }
   
   render() {
-    // this.state.nodes.push(logan);
+    console.log('this.state', this.state); // TODO --DM-- Remove
+    console.log('this.props', this.props); // TODO --DM-- Remove
 
     return (
       <div>

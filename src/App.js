@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 // import logo from './logo.svg';
 import './App.css';
 import { Route, Link, Redirect } from 'react-router-dom';
+import ReduxThunk from 'redux-thunk';
 import NodeInstanceContainer from './containers/NodeInstanceContainer.js';
 import NodeTemplateContainer from './containers/NodeTemplateContainer.js';
 import TemplateSearchContainer from './containers/TemplateSearchContainer.js';
