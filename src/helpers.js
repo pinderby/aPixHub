@@ -1,6 +1,7 @@
 import React from 'react';
 import NodeProperty from './components/NodeProperty.js'
 import Section from './components/Section.js'
+import BaseModel from './constants/BaseModel.js';
 import _ from 'lodash';
 
 class Helpers {
@@ -36,6 +37,7 @@ class Helpers {
   static addObjProp(obj, path, value) {
     var i, node = obj;
     if (!path) return obj;
+    if (!obj.properties) obj.properties = [];
 
     path = path.replace(/\[(\w+)\]/g, '.$1');
     path = path.split('.');
@@ -81,12 +83,13 @@ class Helpers {
   }
 
   static renderProps(object) {
-    // console.log('renderProps: ', object); // TODO --DM-- Remove
-    if (typeof(object) !== "undefined") {
+    console.log('renderProps: ', object); // TODO --DM-- Remove
+    if (object) {
       var props = [];
       // console.log(object); // TODO --DM-- Remove
       if (Object.prototype.toString.call( object ) === '[object Object]' ) {
         for (var prop in object) {
+          // console.log('renderProps prop: ', object); // TODO --DM-- Remove
           if (object.hasOwnProperty(prop) && object[prop]) {
             switch(typeof(object[prop])) {
               case "string":
@@ -192,13 +195,21 @@ class Helpers {
   }
 
   // Takes snake_case prop key and returns a formatted label string for display
-  static formatPropKey(string) {
-    string = string.toLowerCase().split('_');
-    for (var i = 0; i < string.length; i++) {
-      string[i] = string[i].charAt(0).toUpperCase() + string[i].slice(1); 
-    }
-    
-    return string.join(' ');
+  static formatPropKey(string, withSpaces = true) {
+    if (string) {
+      string = string.toLowerCase().split('_');
+      for (var i = 0; i < string.length; i++) {
+        string[i] = string[i].charAt(0).toUpperCase() + string[i].slice(1); 
+      }
+      
+      if (withSpaces) {
+        return string.join(' ');
+      } else {
+        return string.join('');
+      }
+    } else {
+      return "";
+    }   
   }
 
   // Capitalize first letter of string

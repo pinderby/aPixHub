@@ -25,7 +25,7 @@ class PropertyBuilder extends Component {
     // console.log('node, prop: ', node, prop);
     console.log('value: ', value);
 
-    // If array, then give a 
+    // If array, then give a textarea for input
     if (prop.value_type[0] === '[') {
       return <textarea type={prop.value_type} className="form-control" 
           id={prop.key} value={value} placeholder="Input list here, comma-separated"
@@ -40,8 +40,16 @@ class PropertyBuilder extends Component {
   }
 
   textChanged(e, prop, onChange) {
-    // Set prop label to user-entered value
-    prop.value = e.target.value;
+    // If array, then give a textarea for input
+    if (prop.value_type[0] === '[') {
+      // Set prop array to user-entered values
+      prop.value = e.target.value.split(',');
+    } else if (prop.value_type === 'object') {
+      // TODO --DM-- Handle object input
+    } else {
+      // Set prop value to user-entered value
+      prop.value = e.target.value;
+    }
 
     console.log('Value: ', prop.value); // TODO --DM-- Remove
     console.log('textChanged(): ', prop.path, prop); // TODO --DM-- Remove

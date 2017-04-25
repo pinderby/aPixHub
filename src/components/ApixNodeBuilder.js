@@ -11,25 +11,25 @@ class ApixNodeBuilder extends Component {
   constructor(props) {
     super(props);
 
-    // Initialize template
-    let nodeTemplate = props.nodeTemplate;
-    
-    // Check if node is already initialized
-    if (!nodeTemplate || !props.nodeTemplate.hasOwnProperty('label')) { // TODO --DM-- Change how this is checked     
-      // Create new template with key
-      nodeTemplate = { label:'', properties: []} // TODO --DM-- Add key, base model props
-    }
-      
-    // Get template properties
-    let properties = nodeTemplate.properties;
-
     // Get path url
     let splitUrlPath = this.props.match.url.split("/");
 
     // Determine if use if creating a new template or editing an existing one
-    let creating = (splitUrlPath[splitUrlPath.length-1] === "add")
+    let nodeTemplate, creating = (splitUrlPath[splitUrlPath.length-1] === "add");
 
-    // Add mandatory name, profile_image, cover_image properties if creating new node
+    // Initialize template
+    if (creating) {
+      // If creating, create new template with label and properties
+      nodeTemplate = { label:'', properties: []} // TODO --DM-- Add key, base model props
+    } else {
+      // If editing, assign template from props
+      nodeTemplate = props.nodeTemplate;
+    }
+      
+    // Get template properties
+    let properties = nodeTemplate.properties ? nodeTemplate.properties : [];
+
+    // If creating, add mandatory name, profile_image, cover_image properties
     if (creating) {
       // Add mandatory name property
       properties.push({ key:"name", display_label:"Name", value_type:"string", 
@@ -46,9 +46,6 @@ class ApixNodeBuilder extends Component {
                         disabled: true, path:'properties.cover_image' });
     }
 
-    // Dispatch new node to store
-    props.dispatch(updateNodeTemplate(nodeTemplate));
-
     // Bind callbacks
     this.updateNodeTemplate = this.updateNodeTemplate.bind(this);
     this.addProperty = this.addProperty.bind(this);
@@ -56,8 +53,8 @@ class ApixNodeBuilder extends Component {
     this.removeProperty = this.removeProperty.bind(this);
 
     this.state = {
-      nodeTemplate: props.nodeTemplate,
-      newPropIndex: props.nodeTemplate.properties.length,
+      nodeTemplate: nodeTemplate,
+      newPropIndex: properties.length,
       rerender: true,
       creating: creating
     };
@@ -66,6 +63,11 @@ class ApixNodeBuilder extends Component {
   // Decide whether or not to rerender
   shouldComponentUpdate(nextProps, nextState) {
     return nextState.rerender;
+  }
+
+  componentDidMount() {
+    // Dispatch new node to store after component mounts
+    this.props.dispatch(updateNodeTemplate(this.state.nodeTemplate));
   }
 
   updateNodeTemplate(nodeTemplate) {
@@ -171,16 +173,19 @@ class ApixNodeBuilder extends Component {
     for(var propKey in nodeTemplate.properties) {
       let prop = nodeTemplate.properties[propKey];
       console.log('submitTemplate() prop: ', prop); // TODO --DM-- Remove
+      
+      // Lower case prop key
+      prop.key = prop.key.toLowerCase();
+
       if (prop.value_type === 'object') {
         let object = {};
         for(var objProp in prop.properties) {
-          object[objProp] = prop.properties[objProp].value;
+          object[objProp] = prop.properties[objProp].value_type;
         }
         payload.properties[prop.key] = object;
       } else {
-        payload.properties[prop.key] = prop.type;
+        payload.properties[prop.key] = prop.value_type;
       }
-      
     }
 
     // Dispatch updated node to store
@@ -211,12 +216,23 @@ class ApixNodeBuilder extends Component {
 
     // console.log('Payload: ', data);
 
-    fetch("https://apix.rocks/nodes", {
+    // Initialize variables for network request
+    let url, method;
+    if (this.state.creating) {
+      url = 'https://apix.rocks/nodes';
+      method = 'POST';
+    } else {
+      url = 'https://apix.rocks/nodes/'+nodeTemplate.id;
+      method = 'PUT';
+    }
+
+    // Send network request
+    fetch(url, {
         headers: new Headers({
           'Content-Type': 'application/json',
           Accept: 'application/json',
         }),
-        method: "POST",
+        method: method,
         body: payload
     })
     .then(function(res){ return res.json(); })

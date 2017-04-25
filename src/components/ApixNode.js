@@ -63,6 +63,11 @@ class ApixNode extends Component {
     // this.state.nodes.push(logan);
     console.log("this.state: ", this.state); // TODO --DM-- Remove
     console.log("this.props: ", this.props); // TODO --DM-- Remove
+
+    let defined = ['add','search']
+    if (defined.indexOf(this.props.match.params.id) > -1) {
+      return null;
+    }
     
 
     return (

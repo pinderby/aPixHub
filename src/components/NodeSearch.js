@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './NodeSearch.css';
 import NodeSearchResult from './NodeSearchResult.js';
+import Helpers from '../helpers.js';
 import { Link } from 'react-router-dom';
 // import logan from '../logan.json';
 import { initializeNodeTemplate, updateNodes, updateNode } from '../actions';
@@ -116,7 +117,7 @@ class NodeSearch extends Component {
   
     return (
       <div id="node-search-container">
-        <SearchNavbar searchNodes={(e, q) => this.searchNodes(e, q)} />
+        <SearchNavbar nodeLabel={this.props.nodeLabel} searchNodes={(e, q) => this.searchNodes(e, q)} />
         <div className="search-results-container container-fluid">
           <div className="row">
             <div className="col-md-1"></div>
@@ -161,7 +162,7 @@ class SearchNavbar extends Component {
           <nav className="navbar navbar-inverse">
             <div className="container-fluid">
               <div className="navbar-header">
-                <a className="navbar-brand" href="#">MovieDb</a>
+                <a className="navbar-brand" href="#">{Helpers.formatPropKey(this.props.nodeLabel, false)+'Db'}</a>
               </div>
               <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <form className="navbar-form topbar-form navbar-left" onSubmit={(e) => this.props.searchNodes(e, this.state.value)}>
