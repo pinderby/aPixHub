@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Helpers from '../../helpers.js';
-import StarRating from '../StarRating.js';
+import StarRating from './StarRating.js';
 /* eslint no-eval: 0 */
 
 class NodeSearchResult extends Component {
