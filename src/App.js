@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 // import logo from './logo.svg';
 import './App.css';
 import { Route, Link, Redirect } from 'react-router-dom';
-import ReduxThunk from 'redux-thunk';
 import NodeInstanceContainer from './containers/NodeInstanceContainer.js';
 import NodeTemplateContainer from './containers/NodeTemplateContainer.js';
 import TemplateSearchContainer from './containers/TemplateSearchContainer.js';
 import TemplateBuilderContainer from './containers/TemplateBuilderContainer.js';
 import NodePopulatorContainer from './containers/NodePopulatorContainer.js';
 import NodeSearchContainer from './containers/NodeSearchContainer.js';
-import IMDbClone from './IMDbClone.js';
+// import IMDbClone from './IMDbClone.js';
 
 class App extends Component {
   constructor() {

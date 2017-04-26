@@ -2,16 +2,11 @@ import React, { Component } from 'react';
 import Helpers from '../../helpers.js';
 import PropertyPopulator from './PropertyPopulator';
 import '../NodeTemplate/TemplateBuilder.css';
-import { updateNode, addProp, setProp, removeProp, renameProp, initializeNodeTemplate } from '../../actions'; // TODO --DM-- Remove all except updateNode()?
-import BaseModel from '../../constants/BaseModel.js';
+import { updateNode, initializeNodeTemplate } from '../../actions';
 
 class NodeInstancePopulator extends Component {
   constructor(props) {
     super(props);
-
-    // Initialize node
-    let nodeTemplate = props.nodeTemplate;
-    let node = props.node;
 
     // Bind callbacks
     this.updateNode = this.updateNode.bind(this);
@@ -69,31 +64,7 @@ class NodeInstancePopulator extends Component {
       // Error :(
     });
   }
-
-  getNodes(nodeLabel) {
-    // Initialize dispatch
-    var dispatch = this.props.dispatch;
-    
-    // url (required), options (optional)
-    fetch('https://apix.rocks/x/'+nodeLabel+'/', {
-      method: 'GET'
-    }).then(function(response) {
-      response.json().then(function(result) {
-          console.log('Result: ', result);
-          var templates = [];
-          result.forEach(function (obj) {
-            templates.push(obj);
-          });
-          
-          // dispatch(initializeNodeTemplate(templates[2]));
-      });
-      
-      // this.setState({ node: });
-    }).catch(function(err) {
-      // Error :(
-    });
-  }
-
+  
   submitNode(nodeLabel) {
     // Merge node from props (redux store) and state
     let node = Object.assign(this.props.node, this.state.node);

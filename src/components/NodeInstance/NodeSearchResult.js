@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Helpers from '../../helpers.js';
-import StarRating from './StarRating.js';
+// import StarRating from './StarRating.js';
 /* eslint no-eval: 0 */
 
 class NodeSearchResult extends Component {
@@ -56,17 +56,17 @@ class NodeSearchResult extends Component {
   }*/
 }
 
-class Image extends Component {
+/*class Image extends Component {
   render() {
     return (
       <div className="image-container">
         <div className="image-result">
-          {/* TODO --DM-- Add alt text */}
+          {// TODO --DM-- Add alt text }
           <img src={this.props.url} alt="" className="img-rounded"/> 
         </div>
       </div>
     );
   }
-}
+}*/
 
 export default NodeSearchResult;

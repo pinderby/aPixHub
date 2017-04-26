@@ -4,15 +4,17 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import { createStore, applyMiddleware } from 'redux';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import AppContainer from './containers/AppContainer';
-import { fetchTemplates } from './actions/templates.js';
 import appReducers from './reducers';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import { updateNode, updateNodeTemplate } from './actions';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+
+// For Testing TODO --DM-- Remove
+// import { fetchTemplates } from './actions/templates.js';
+// import { updateNode, updateNodeTemplate } from './actions';
 // import logan from './logan.json';
-import test_node_template from './test_node_template.json';
+// import test_node_template from './test_node_template.json';
 
 const store = createStore(
   appReducers,

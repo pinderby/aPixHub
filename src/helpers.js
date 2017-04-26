@@ -1,7 +1,7 @@
 import React from 'react';
 import NodeProperty from './components/NodeProperty.js'
 // import Section from './components/Section.js'
-import BaseModel from './constants/BaseModel.js';
+// import BaseModel from './constants/BaseModel.js';
 import _ from 'lodash';
 
 class Helpers {
@@ -259,7 +259,7 @@ class Helpers {
   // Gets new blank property for display
   static getNewProp(i, path) {
     // Add '.' to path prefix if nested property, if not leave blank
-    path ? path = path+"." : path = "";
+    path ? path += "." : path = "";
 
     return { key:"", display_label:"", value_type:"string", 
             placeholder:"Enter field name here", disabled:false, path:path+"properties."+i };

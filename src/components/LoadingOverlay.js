@@ -3,12 +3,12 @@ import React, { Component } from 'react';
 class LoadingOverlay extends Component {
   // Generate classes for overlay
   getOverlayClasses(show) {
-    let classes = "shadow-overlay";
+    let overlayClasses = "shadow-overlay";
 
     // If not showing, add hide class
-    if (!show) classes += " hide";
+    if (!show) overlayClasses += " hide";
 
-    return classes;
+    return overlayClasses;
   }
   
   render() {

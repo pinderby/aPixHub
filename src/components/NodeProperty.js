@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Helpers from '../helpers.js';
+/* eslint jsx-a11y/img-redundant-alt: 0 */
 
 class NodeProperty extends Component {  
   render() {

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { AddPropertyButton } from './TemplateBuilder.js';
 import Helpers from '../../helpers.js';
 import PropertyTypes from '../../constants/PropertyTypes.js';
 import TemplateObjectBuilder from './TemplateObjectBuilder.js';

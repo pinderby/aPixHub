@@ -1,8 +1,6 @@
-import Helpers from '../helpers.js';
 import * as ActionTypes from '../constants/ActionTypes.js';
 
 const nodeTemplate = (state = {}, action) => {
-  var node = {};
   switch (action.type) {
     case ActionTypes.UPDATE_NODE_TEMPLATE:
       // Passes: action.nodeTemplate
@@ -35,46 +33,34 @@ const nodeTemplate = (state = {}, action) => {
       // });
 
       return nodeTemplate;
-    case ActionTypes.ADD_PROPERTY:
-    case ActionTypes.SET_PROPERTY:
-      // Passes: action.path, action.value
-      // Copy node from state
-      node = Object.assign({}, state);
-
-      // Set new node property to new value
-      node = Helpers.setObjProp(node, action.path, action.value);
-
-      return node;
-    case ActionTypes.RENAME_PROPERTY:
-      // Passes: action.oldPath, action.newPath, action.value?
-      // Copy node from state
-      node = Object.assign({}, state);
-
-      // If no new value is passed, get old value
-      if (action.oldPath && (typeof(action.value) === "undefined")) {
-        action.value = Helpers.getObjProp(node, action.oldPath);
-      }
-
-      // Create/overwrite new property
-      if (action.value) {
-        Helpers.setObjProp(node, action.newPath, action.value);
-      }
-
-      // Remove old property if oldPath
-      if (action.oldPath) {
-        Helpers.removeObjProp(node, action.oldPath);
-      }
-
-      return node;
-    case ActionTypes.REMOVE_PROPERTY:
-      // Passes: action.path
-      // Copy node from state
-      node = Object.assign({}, state);
-
-      // Remove property
-      node = Helpers.removeObjProp(node, action.path);
-
-      return node;
+    case ActionTypes.GET_TEMPLATE:
+      // Passes: TODO --DM-- fill out
+      // Get template from server
+      return Object.assign({}, state, {
+        isFetching: true,
+        didInvalidate: false
+      })
+    case ActionTypes.PUT_TEMPLATE:
+      // Passes: TODO --DM-- fill out
+      // Put updated template to server
+      return Object.assign({}, state, {
+        isFetching: true,
+        didInvalidate: false
+      })
+    case ActionTypes.POST_TEMPLATE:
+      // Passes: TODO --DM-- fill out
+      // Post new template to server
+      return Object.assign({}, state, {
+        isFetching: true,
+        didInvalidate: false
+      })
+    case ActionTypes.DELETE_TEMPLATE:
+      // Passes: TODO --DM-- fill out
+      // Delete template from server
+      return Object.assign({}, state, {
+        isFetching: true,
+        didInvalidate: false
+      })
     default:
       return state
   }

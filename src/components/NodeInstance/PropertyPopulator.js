@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import Helpers from '../../helpers.js';
-import PropertyTypes from '../../constants/PropertyTypes.js';
-import NodeObjectPopulator from './NodeObjectPopulator.js';
+// import NodeObjectPopulator from './NodeObjectPopulator.js';
+/* eslint no-eval: 0 */
 
 class PropertyBuilder extends Component {
   constructor(props) {

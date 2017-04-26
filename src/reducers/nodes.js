@@ -1,8 +1,6 @@
-import Helpers from '../helpers.js';
 import * as ActionTypes from '../constants/ActionTypes.js';
 
 const node = (state = [], action) => {
-  var nodes = [];
   switch (action.type) {
     case ActionTypes.UPDATE_NODES:
       // Passes: action.nodes

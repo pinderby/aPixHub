@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Helpers from '../../helpers.js';
 import PropertyBuilder from './PropertyBuilder';
 import { AddPropertyButton } from './TemplateBuilder.js';
-import { updateNodeTemplate, addProp, setProp, removeProp, renameProp } from '../../actions';
+import { updateNodeTemplate } from '../../actions';
 
 class TemplateObjectBuilder extends Component {
   constructor(props) {

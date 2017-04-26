@@ -57,9 +57,9 @@ class TemplateSearch extends Component {
     e.preventDefault();
 
     // Initialize dispatch
-    var dispatch = this.props.dispatch;
+    // var dispatch = this.props.dispatch;
 
-// TODO --DM-- Reimplement when search for templates is implemented on server
+    // TODO --DM-- Reimplement when search for templates is implemented on server
     // // If query, search name
     // if (query) {
     //   // Get search results
