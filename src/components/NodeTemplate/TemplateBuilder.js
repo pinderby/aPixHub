@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import Helpers from '../../helpers.js';
+import _ from 'lodash';
 import PropertyBuilder from './PropertyBuilder';
 import './TemplateBuilder.css';
 import { initializeNodeTemplate, updateNodeTemplate } from '../../actions';
+import { fetchTemplate } from '../../actions/templates';
 import BaseModel from '../../constants/BaseModel.js';
+import LoadingOverlay from '../LoadingOverlay';
 
 class TemplateBuilder extends Component {
   constructor(props) {
@@ -14,6 +17,18 @@ class TemplateBuilder extends Component {
 
     // Determine if use if creating a new template or editing an existing one
     let nodeTemplate, creating = (splitUrlPath[splitUrlPath.length-1] === "add");
+
+    // If nodeTemplate doesn't exist, query it from server
+    if (!nodeTemplate) {
+      this.getTemplate(props.match.params.id);
+      this.state = {
+        nodeTemplate: { isFetching: true },
+        newPropIndex: 0,
+        rerender: true,
+        creating: creating
+      };
+      return;
+    }
 
     // Initialize template
     if (creating) {
@@ -78,7 +93,7 @@ class TemplateBuilder extends Component {
     let i = this.state.newPropIndex;
 
     // Merge template from props (redux store) and state
-    let nodeTemplate = Object.assign(this.props.nodeTemplate, this.state.nodeTemplate);
+    let nodeTemplate = Object.assign(this.props.nodeTemplate.template, this.state.nodeTemplate);
     
     // Initialize new property
     var prop = Helpers.getNewProp(i);
@@ -107,7 +122,7 @@ class TemplateBuilder extends Component {
 
   setProperty(changeType, oldPath, newPath, newProp) {
     // Merge node from props (redux store) and state
-    let nodeTemplate = Object.assign(this.props.nodeTemplate, this.state.nodeTemplate);
+    let nodeTemplate = Object.assign(this.props.nodeTemplate.template, this.state.nodeTemplate);
     
     // TODO --DM-- Remove?
     // // Check for oldPath: True: rename property, False: set property
@@ -141,7 +156,7 @@ class TemplateBuilder extends Component {
 
   removeProperty(path) {
     // Merge node from props (redux store) and state
-    let nodeTemplate = Object.assign(this.props.nodeTemplate, this.state.nodeTemplate);
+    let nodeTemplate = Object.assign(this.props.nodeTemplate.template, this.state.nodeTemplate);
 
     // Dispatch path to store to remove property
     nodeTemplate = Helpers.removeObjProp(nodeTemplate, path);
@@ -160,7 +175,7 @@ class TemplateBuilder extends Component {
 
   submitTemplate() {
     // Merge node from props (redux store) and state
-    let nodeTemplate = Object.assign(this.props.nodeTemplate, this.state.nodeTemplate);
+    let nodeTemplate = Object.assign(this.props.nodeTemplate.template, this.state.nodeTemplate);
 
     let payload = {};
     payload.label = nodeTemplate.label;
@@ -237,33 +252,14 @@ class TemplateBuilder extends Component {
     .then(function(data){ console.log('Data: ', JSON.stringify( data ) ); });
   }
 
-  getTemplate() {
-    // Initialize dispatch
-    var dispatch = this.props.dispatch;
-    
-    // url (required), options (optional)
-    fetch('https://apix.rocks/nodes', {
-      method: 'GET'
-    }).then(function(response) {
-      response.json().then(function(result) {
-          console.log('Result: ', result);
-          var templates = [];
-          result.forEach(function (obj) {
-            templates.push(obj);
-          });
-          // x.setState({ templates: templates });
-          dispatch(initializeNodeTemplate(templates[0]));
-      });
-      
-      // this.setState({ node: });
-    }).catch(function(err) {
-      // Error :(
-    });
+  getTemplate(templateId) {
+    // Dispatch fetchTemplate to get template by id
+    this.props.dispatch(fetchTemplate(templateId));
   }
 
   renderProperties() {
     // Initialize variables
-    const templateProps = this.props.nodeTemplate.properties;
+    const templateProps = this.props.nodeTemplate.template.properties;
     var props = [];
     let i = 0;
 
@@ -282,7 +278,7 @@ class TemplateBuilder extends Component {
       else prop.disabled = false;
 
       // Push property input for each prop
-      props.push(<PropertyBuilder key={key} index={i} prop={prop} nodeTemplate={this.props.nodeTemplate} 
+      props.push(<PropertyBuilder key={key} index={i} prop={prop} nodeTemplate={this.props.nodeTemplate.template} 
                         dispatch={this.props.dispatch} nested={false}
                         onClick={(path) => this.removeProperty(path)}
                         addProperty={() => this.addProperty()} 
@@ -300,21 +296,28 @@ class TemplateBuilder extends Component {
     console.log('this.state', this.state); // TODO --DM-- Remove
     console.log('this.props', this.props); // TODO --DM-- Remove
 
+    let templateBuilder = "";
+    if (this.props.nodeTemplate.template) {
+      templateBuilder = 
+        <form className="form-inline">
+          <label htmlFor={'label'}>Label</label>
+          <LabelInput value={this.props.nodeTemplate.template.label}
+            onChange={(changeType, oldPath, newPath, prop) => this.setProperty(changeType, oldPath, newPath, prop)} />
+          <br /><br />
+          {this.renderProperties()}
+          <AddPropertyButton disabled={this.state.addProperty} onClick={() => this.addProperty()}/>
+          <br /><br />
+          <GetTemplateButton onClick={() => this.getTemplate()}/>
+          <br /><br />
+          <SubmitTemplateButton onClick={() => this.submitTemplate()}/>
+        </form>
+    }
+
     return (
       <div id="apix-node-builder-container">
         <div id="apix-node-builder">
-          <form className="form-inline">
-            <label htmlFor={'label'}>Label</label>
-            <LabelInput value={this.props.nodeTemplate.label}
-              onChange={(changeType, oldPath, newPath, prop) => this.setProperty(changeType, oldPath, newPath, prop)} />
-            <br /><br />
-            {this.renderProperties()}
-            <AddPropertyButton disabled={this.state.addProperty} onClick={() => this.addProperty()}/>
-            <br /><br />
-            <GetTemplateButton onClick={() => this.getTemplate()}/>
-            <br /><br />
-            <SubmitTemplateButton onClick={() => this.submitTemplate()}/>
-          </form>
+          <LoadingOverlay show={this.props.nodeTemplate.isFetching} />
+          {templateBuilder}
         </div>
       </div>
     );

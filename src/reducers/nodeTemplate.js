@@ -5,17 +5,22 @@ const nodeTemplate = (state = {}, action) => {
     case ActionTypes.UPDATE_NODE_TEMPLATE:
       // Passes: action.nodeTemplate
       // Update nodeTemplate with passed object
-      return action.nodeTemplate;
+      return Object.assign({}, state, action.nodeTemplate);
     case ActionTypes.SUBMIT_NODE_TEMPLATE:
       // Passes: action.nodeTemplate
       // Post nodeTemplate to server
-      return action.nodeTemplate;
+      return Object.assign({}, state, {
+        isFetching: false,
+        didInvalidate: false,
+        template: action.nodeTemplate,
+        lastUpdated: action.receivedAt
+      });
     case ActionTypes.INITIALIZE_NODE_TEMPLATE:
       // Passes: action.nodeTemplate
       // Update nodeTemplate with passed object
       
       // Initialize template and properties
-      let nodeTemplate = Object.assign({}, action.nodeTemplate);
+      // let nodeTemplate = Object.assign({}, action.nodeTemplate);
 
       // TODO --DM-- Remove if no longer needed
       // let props = action.nodeTemplate.properties;
@@ -32,7 +37,12 @@ const nodeTemplate = (state = {}, action) => {
       //   }
       // });
 
-      return nodeTemplate;
+      return Object.assign({}, state, {
+        isFetching: false,
+        didInvalidate: false,
+        template: action.nodeTemplate,
+        lastUpdated: action.receivedAt
+      });
     case ActionTypes.GET_TEMPLATE:
       // Passes: TODO --DM-- fill out
       // Get template from server
@@ -60,6 +70,15 @@ const nodeTemplate = (state = {}, action) => {
       return Object.assign({}, state, {
         isFetching: true,
         didInvalidate: false
+      })
+    case ActionTypes.RECEIVE_TEMPLATE:
+      // Passes: TODO --DM-- fill out
+      // Receive templates from server
+      return Object.assign({}, state, {
+        isFetching: false,
+        didInvalidate: false,
+        template: action.template,
+        lastUpdated: action.receivedAt
       })
     default:
       return state

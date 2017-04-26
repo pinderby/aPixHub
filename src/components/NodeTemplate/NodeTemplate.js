@@ -13,9 +13,13 @@ class NodeTemplate extends Component {
     };
   }
 
+  getTemplate() {
+    // this.props.match.params.id
+  }
+
   render() {
     // Initialize template and display label
-    let template = this.props.nodeTemplate;
+    let template = this.props.nodeTemplate.template;
     let displayLabel = "";
     if (template['label']) displayLabel = Helpers.capitalizeFirstLetter(template['label']);
 
@@ -30,7 +34,7 @@ class NodeTemplate extends Component {
           <div className="panel panel-default" key={template['id']+'6'}>
             <div className="panel-body" key={template['id']+'7'}>
               <div className="row">
-                <Link key={template['id']+'-edit'} to={"/t/"+template['label']+"/edit" }>Edit Template</Link>
+                <Link key={template['id']+'-edit'} to={"/t/"+template['id']+"/edit" }>Edit Template</Link>
                 <br />
                 <Link key={template['id']+'-add'} to={"/n/"+template['label']+"/add" }>Add {displayLabel}</Link>
                 <br />

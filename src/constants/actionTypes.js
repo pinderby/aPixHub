@@ -20,6 +20,7 @@ export const GET_TEMPLATE = "GET_TEMPLATE";
 export const PUT_TEMPLATE = "PUT_TEMPLATE";
 export const POST_TEMPLATE = "POST_TEMPLATE";
 export const DELETE_TEMPLATE = "DELETE_TEMPLATE";
+export const RECEIVE_TEMPLATE = "RECEIVE_TEMPLATE";
 
 // Nodes //
 export const SEARCH_NODES = "SEARCH_NODES";

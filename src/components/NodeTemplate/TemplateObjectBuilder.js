@@ -15,8 +15,8 @@ class TemplateObjectBuilder extends Component {
     this.removeProperty = this.removeProperty.bind(this);
 
     this.state = {
-      nodeTemplate: props.nodeTemplate,
-      object: Helpers.getObjProp(props.nodeTemplate, props.path),
+      nodeTemplate: props.nodeTemplate.template,
+      object: Helpers.getObjProp(props.nodeTemplate.template, props.path),
       rootPath: props.path+'.properties',
       newPropIndex: 0,
       rerender: true
@@ -25,7 +25,7 @@ class TemplateObjectBuilder extends Component {
 
   componentDidMount() {
     // If object doesn't have 'properties', add it with initial values
-    const object = Helpers.getObjProp(this.props.nodeTemplate, this.props.path);
+    const object = Helpers.getObjProp(this.props.nodeTemplate.template, this.props.path);
     if (!object.hasOwnProperty('properties')) this.addProperty();
   }
 
@@ -44,7 +44,7 @@ class TemplateObjectBuilder extends Component {
     let i = this.state.newPropIndex;
 
     // Merge template from props (redux store) and state
-    let nodeTemplate = Object.assign(this.props.nodeTemplate, this.state.nodeTemplate);
+    let nodeTemplate = Object.assign(this.props.nodeTemplate.template, this.state.nodeTemplate);
     
     // Initialize new property
     var prop = Helpers.getNewProp(i, this.props.path);
@@ -72,7 +72,7 @@ class TemplateObjectBuilder extends Component {
 
   setProperty(changeType, oldPath, newPath, newProp) {
     // Merge template from props (redux store) and state
-    let nodeTemplate = Object.assign(this.props.nodeTemplate, this.state.nodeTemplate);
+    let nodeTemplate = Object.assign(this.props.nodeTemplate.template, this.state.nodeTemplate);
 
     // Update template with new property value
     nodeTemplate = Helpers.setObjProp(nodeTemplate, newPath, newProp);
@@ -95,7 +95,7 @@ class TemplateObjectBuilder extends Component {
 
   removeProperty(path) {
     // Merge template from props (redux store) and state
-    let nodeTemplate = Object.assign(this.props.nodeTemplate, this.state.nodeTemplate);
+    let nodeTemplate = Object.assign(this.props.nodeTemplate.template, this.state.nodeTemplate);
 
     // Dispatch path to store to remove property
     nodeTemplate = Helpers.removeObjProp(nodeTemplate, path);
@@ -114,7 +114,7 @@ class TemplateObjectBuilder extends Component {
 
     renderProperties() {
     // Initialize variables
-    const object = Helpers.getObjProp(this.props.nodeTemplate, this.props.path);
+    const object = Helpers.getObjProp(this.props.nodeTemplate.template, this.props.path);
     var props = [];
     let i = 0;
 
