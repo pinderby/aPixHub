@@ -4,6 +4,7 @@ import './TemplateSearch.css';
 import { Link } from 'react-router-dom';
 import { initializeNodeTemplate } from '../../actions';
 import { fetchTemplates } from '../../actions/templates';
+import LoadingOverlay from '../LoadingOverlay';
 
 class TemplateSearch extends Component {
   constructor(props) {
@@ -134,6 +135,7 @@ class TemplateSearch extends Component {
       <div>
         <TemplateNavbar searchTemplates={(e, q) => this.searchTemplates(e, q)}
                         onChange={(e) => this.updateQuery(e)} />
+        <LoadingOverlay show={this.props.nodeTemplates.isFetching} />
         {this.renderTemplates()}
       </div>
     );

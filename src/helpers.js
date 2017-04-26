@@ -84,7 +84,7 @@ class Helpers {
   // }
 
   static renderProps(object) {
-    console.log('renderProps: ', object); // TODO --DM-- Remove
+    // console.log('renderProps: ', object); // TODO --DM-- Remove
     if (object) {
       var props = [];
       // console.log(object); // TODO --DM-- Remove
@@ -93,7 +93,7 @@ class Helpers {
         if (object.name) props.push(<NodeProperty key={'name'} propKey={'name'} value={object.name} type="string" />);
 
         for (var prop in object) {
-          console.log('renderProps prop: ', object); // TODO --DM-- Remove
+          // console.log('renderProps prop: ', object); // TODO --DM-- Remove
           // Skip name when rendering properties
           if (prop === 'name') continue;
 
