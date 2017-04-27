@@ -14,6 +14,8 @@ class TemplateObjectBuilder extends Component {
     this.setProperty = this.setProperty.bind(this);
     this.removeProperty = this.removeProperty.bind(this);
 
+    console.log('props: ', props);
+
     this.state = {
       nodeTemplate: props.nodeTemplate.template,
       object: Helpers.getObjProp(props.nodeTemplate.template, props.path),
@@ -112,41 +114,14 @@ class TemplateObjectBuilder extends Component {
     return;
   }
 
-    renderProperties() {
+  renderProperties() {
     // Initialize variables
-    const object = Helpers.getObjProp(this.props.nodeTemplate.template, this.props.path);
+    var object = Helpers.getObjProp(this.props.nodeTemplate.template, this.props.path);
     var props = [];
     let i = 0;
 
-    // If object is JSON string, parse to object
-    if (object.value_type && object.value_type[0] === '{') {
-      // Convert string to JSON string
-      let objString = object.value_type.replace(/=>/g, ":");
-
-      // Set value_type to 'object', initialize properties
-      object.value_type = 'object';
-      object.properties = {};
-
-      // Parse string to object
-      let props = JSON.parse(objString);
-
-      // Iterate over properties and assign each property
-      Object.keys(props).forEach(function(key) {
-        // If is an array, stringify array into proper format, otherwise assign value
-        let value;
-        if (Object.prototype.toString.call( props[key] ) === '[object Array]' ) {
-          value = JSON.stringify(props[key]);
-        } else {
-          value = props[key];
-        }
-
-        // Assign properties
-        object.properties[key] = {
-          key: key,
-          value_type: value
-        };
-      });
-    }
+    // Parse object to assign properties
+    object = Helpers.parseObjectProp(object);
 
     // Iterate through node properties
     for (var key in object.properties) {

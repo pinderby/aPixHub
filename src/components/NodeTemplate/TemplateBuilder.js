@@ -278,7 +278,7 @@ class TemplateBuilder extends Component {
       else prop.disabled = false;
 
       // Push property input for each prop
-      props.push(<PropertyBuilder key={key} index={i} prop={prop} nodeTemplate={this.props.nodeTemplate.template} 
+      props.push(<PropertyBuilder key={key} index={i} prop={prop} nodeTemplate={this.props.nodeTemplate} 
                         dispatch={this.props.dispatch} nested={false}
                         onClick={(path) => this.removeProperty(path)}
                         addProperty={() => this.addProperty()} 

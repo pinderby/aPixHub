@@ -267,7 +267,7 @@ class Helpers {
 
   // Checks for property in array of properties
   static hasProp(props, key) {
-    console.log('hasProp ', props);
+    console.log('hasProp ', props); // TODO --DM-- Remove
     // Default to false
     let hasKey = false;
 
@@ -277,6 +277,46 @@ class Helpers {
     });
 
     return hasKey;
+  }
+
+  // Parses template property of type object and 
+  // assigns object props based from json
+  static parseObjectProp(object) {
+    console.log('parseObjectProp(): ', object); // TODO --DM-- Remove
+    
+    // If not an object or value_type is not json, return original variable
+    if (!Object.prototype.toString.call( object ) === '[object Object]' ||  
+        !object.value_type[0] === '{') return object;
+
+    // If object is JSON string, parse to object
+    // Convert string to JSON string
+    let objString = object.value_type.replace(/=>/g, ":");
+
+    // Set value_type to 'object', initialize properties
+    object.value_type = 'object';
+    object.properties = [];
+
+    // Parse string to object
+    let props = JSON.parse(objString);
+
+    // Iterate over properties and assign each property
+    Object.keys(props).forEach(function(key) {
+      // If is an array, stringify array into proper format, otherwise assign value
+      let value;
+      if (Object.prototype.toString.call( props[key] ) === '[object Array]' ) {
+        value = JSON.stringify(props[key]);
+      } else {
+        value = props[key];
+      }
+
+      // Assign properties
+      object.properties.push({
+        key: key,
+        value_type: value
+      });
+    });
+
+    return object;
   }
 
   // TODO --DM-- Remove

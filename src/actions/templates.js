@@ -102,7 +102,7 @@ export function fetchTemplate(templateId) {
     dispatch(getTemplate(templateId));
 
     // Return api call
-    return fetch('https://apix.rocks/nodes/'+templateId, {
+    return fetch(`https://apix.rocks/nodes/${templateId}`, {
       method: 'GET'
     })
     .then(function(response) {

@@ -72,6 +72,9 @@ class PropertyBuilder extends Component {
   }
   
   render() {
+    console.log('this.state', this.state); // TODO --DM-- Remove
+    console.log('this.props', this.props); // TODO --DM-- Remove
+
     // Check if property is disabled (mandatory)
     var partial, disabled = this.props.prop.disabled ? 'disabled' : "";
 
@@ -84,9 +87,9 @@ class PropertyBuilder extends Component {
             </button>;
     }
 
-    var objectBuilder;
+    let objectBuilder;
     if (this.state.propType === 'object' || this.state.propType[0] === '{') {
-      objectBuilder = <TemplateObjectBuilder nodeTemplate={this.props.nodeTemplate.template} 
+      objectBuilder = <TemplateObjectBuilder nodeTemplate={this.props.nodeTemplate} 
                         path={this.props.prop.path} dispatch={this.props.dispatch} />;
     }
 
