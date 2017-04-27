@@ -3,7 +3,7 @@ import Helpers from '../../helpers.js';
 import _ from 'lodash';
 import PropertyBuilder from './PropertyBuilder';
 import './TemplateBuilder.css';
-import { initializeNodeTemplate, updateNodeTemplate } from '../../actions';
+import { updateNodeTemplate } from '../../actions';
 import { fetchTemplate } from '../../actions/templates';
 import BaseModel from '../../constants/BaseModel.js';
 import LoadingOverlay from '../LoadingOverlay';
@@ -19,7 +19,7 @@ class TemplateBuilder extends Component {
     let nodeTemplate, creating = (splitUrlPath[splitUrlPath.length-1] === "add");
 
     // If nodeTemplate doesn't exist, query it from server
-    if (!nodeTemplate) {
+    if (!props.nodeTemplate.template) {
       this.getTemplate(props.match.params.id);
       this.state = {
         nodeTemplate: { isFetching: true },

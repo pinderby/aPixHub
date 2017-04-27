@@ -2,37 +2,44 @@ import React, { Component } from 'react';
 import Helpers from '../../helpers.js';
 import { Link } from 'react-router-dom';
 // import './NodeTemplate.css'
-import './TemplateSearch.css'
+import './TemplateSearch.css';
+import LoadingOverlay from '../LoadingOverlay';
+import { fetchTemplate } from '../../actions/templates';
 
 class NodeTemplate extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      nodes: [],
-    };
+    // If nodeTemplate doesn't exist, query it from server
+    if (!props.nodeTemplate.template) {
+      this.getTemplate(props.match.params.id);
+      this.state = {
+        nodeTemplate: { isFetching: true },
+      };
+      return;
+    }
   }
 
-  getTemplate() {
-    // this.props.match.params.id
+  getTemplate(templateId) {
+    // Dispatch fetchTemplate to get template by id
+    this.props.dispatch(fetchTemplate(templateId));
   }
 
-  render() {
-    // Initialize template and display label
-    let template = this.props.nodeTemplate.template;
-    let displayLabel = "";
-    if (template['label']) displayLabel = Helpers.capitalizeFirstLetter(template['label']);
+  render() {  
+    // If template exists, generate template panel
+    let templatePanel = "";
+    if (this.props.nodeTemplate.template) {
+      // Initialize template and display label
+      let template = this.props.nodeTemplate.template, 
+      displayLabel = Helpers.capitalizeFirstLetter(template['label']);
 
-    console.log('Template:', template);
-
-    return (
-      <div className="apix-template-container" key={template['id']+'1'}>
-        <div className="apix-template" key={template['id']+'2'}>
-          <div className="panel-heading" key={template['id']+'3'}>
-            <h3 className="panel-title template-label" key={template['id']+'5'}>{template.label}</h3>
+      templatePanel =
+        <div className="apix-template">
+          <div className="panel-heading">
+            <h3 className="panel-title template-label">{template.label}</h3>
           </div>
-          <div className="panel panel-default" key={template['id']+'6'}>
-            <div className="panel-body" key={template['id']+'7'}>
+          <div className="panel panel-default">
+            <div className="panel-body">
               <div className="row">
                 <Link key={template['id']+'-edit'} to={"/t/"+template['id']+"/edit" }>Edit Template</Link>
                 <br />
@@ -44,6 +51,14 @@ class NodeTemplate extends Component {
             </div>
           </div>
         </div>
+      
+      console.log('Template:', template);
+    }
+
+    return (
+      <div className="apix-template-container">
+        <LoadingOverlay show={this.props.nodeTemplate.isFetching} />
+        {templatePanel}
       </div>
     );
   }
