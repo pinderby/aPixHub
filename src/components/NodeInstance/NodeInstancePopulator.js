@@ -2,11 +2,22 @@ import React, { Component } from 'react';
 import Helpers from '../../helpers.js';
 import PropertyPopulator from './PropertyPopulator';
 import '../NodeTemplate/TemplateBuilder.css';
-import { updateNode, initializeNodeTemplate } from '../../actions';
+import { updateNode } from '../../actions/nodes';
+import { fetchTemplate } from '../../actions/templates';
+import LoadingOverlay from '../LoadingOverlay';
 
 class NodeInstancePopulator extends Component {
   constructor(props) {
     super(props);
+
+    // If nodeTemplate doesn't exist, query it from server
+    if (!props.nodeTemplate.template) {
+      this.getTemplate(props.match.params.id);
+      this.state = {
+        nodeTemplate: { isFetching: true },
+      };
+      return;
+    }
 
     // Bind callbacks
     this.updateNode = this.updateNode.bind(this);
@@ -17,8 +28,13 @@ class NodeInstancePopulator extends Component {
     this.state = {
       nodeTemplate: props.nodeTemplate,
       node: props.node,
-      nodeLabel: props.nodeTemplate.label
+      nodeLabel: props.nodeTemplate.template.label
     };
+  }
+
+  getTemplate(templateId) {
+    // Dispatch fetchTemplate to get template by id
+    this.props.dispatch(fetchTemplate(templateId));
   }
 
   updateNode(node) {
@@ -39,30 +55,6 @@ class NodeInstancePopulator extends Component {
     });
 
     return;
-  }
-
-  getTemplate() {
-    // Initialize dispatch
-    var dispatch = this.props.dispatch;
-    
-    // url (required), options (optional)
-    fetch('https://apix.rocks/nodes', {
-      method: 'GET'
-    }).then(function(response) {
-      response.json().then(function(result) {
-          console.log('Result: ', result);
-          var templates = [];
-          result.forEach(function (obj) {
-            templates.push(obj);
-          });
-          
-          dispatch(initializeNodeTemplate(templates[0]));
-      });
-      
-      // this.setState({ node: });
-    }).catch(function(err) {
-      // Error :(
-    });
   }
   
   submitNode(nodeLabel) {
@@ -113,7 +105,7 @@ class NodeInstancePopulator extends Component {
 
   renderProperties() {
     // Initialize variables
-    const templateProps = this.props.nodeTemplate.properties;
+    const templateProps = this.props.nodeTemplate.template.properties;
     var props = [];
     let i = 0;
 
@@ -142,18 +134,28 @@ class NodeInstancePopulator extends Component {
     console.log('this.state', this.state); // TODO --DM-- Remove
     console.log('this.props', this.props); // TODO --DM-- Remove
 
+    // If template exists, generate template panel
+    let templatePropsForm = "";
+    if (this.props.nodeTemplate.template) {
+      // Initialize template and display label
+      let template = this.props.nodeTemplate.template;
+
+      templatePropsForm =
+        <form className="form-inline">
+          <h3>{template.label}</h3>
+          {this.renderProperties()}
+          <br />
+          <RequestButton text={'Submit Node'} onClick={() => this.submitNode(template.label)}/>
+        </form>
+      
+      console.log('Template:', template);
+    }
+
     return (
       <div id="apix-node-populator-container">
         <div id="apix-node-populator">
-          <form className="form-inline">
-            {this.renderProperties()}
-            <br /><br />
-            <RequestButton text={'Get Template'} onClick={() => this.getTemplate()}/>
-            <br /><br />
-            <RequestButton text={'Get Nodes'} onClick={() => this.getNodes(this.props.nodeLabel)}/>
-            <br /><br />
-            <RequestButton text={'Submit Node'} onClick={() => this.submitNode(this.props.nodeLabel)}/>
-          </form>
+          <LoadingOverlay show={this.props.nodeTemplate.isFetching} />
+          {templatePropsForm}
         </div>
       </div>
     );

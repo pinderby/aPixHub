@@ -3,7 +3,7 @@ import './NodeSearch.css';
 import NodeSearchResult from './NodeSearchResult.js';
 import Helpers from '../../helpers.js';
 import { Link } from 'react-router-dom';
-import { updateNodes, updateNode } from '../../actions';
+import { updateNodes, updateNode, fetchAllNodes, searchNodes } from '../../actions/nodes';
 
 class NodeSearch extends Component {
   constructor(props) {
@@ -14,71 +14,22 @@ class NodeSearch extends Component {
     };
   }
 
-  // getTemplate() {
-  //   // Initialize dispatch
-  //   var dispatch = this.props.dispatch;
-    
-  //   // url (required), options (optional)
-  //   fetch('https://apix.rocks/nodes', {
-  //     method: 'GET'
-  //   }).then(function(response) {
-  //     response.json().then(function(result) {
-  //         console.log('Result: ', result);
-  //         var templates = [];
-  //         result.forEach(function (obj) {
-  //           templates.push(obj);
-  //         });
-          
-  //         dispatch(initializeNodeTemplate(templates[0]));
-  //     });
-      
-  //     // this.setState({ node: });
-  //   }).catch(function(err) {
-  //     // Error :(
-  //   });
-  // }
-
   searchNodes(e, query) {
     // Prevent default behavior
     e.preventDefault();
 
     // Initialize dispatch
-    var dispatch = this.props.dispatch;
+    let dispatch = this.props.dispatch, nodeLabel = this.props.nodeTemplate.template.label;
 
     // If query, search name
     if (query) {
-      // Get search results
-      fetch('https://apix.rocks/x/'+this.props.nodeLabel+'/search', {
-        headers: new Headers({
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          }),
-        method: 'POST',
-        body: JSON.stringify({
-          properties: {title: query}
-        })
-    })
-      .then(function(res){ return res.json(); })
-      .then(function(data){ 
-        console.log('Data: ', data ); 
-        dispatch(updateNodes(data));
-      });
+      // Send request to get search results
+      dispatch(searchNodes(nodeLabel, 'title', query));
 
     // If no query, get all nodes
     } else {
-      // Get search results
-      fetch('https://apix.rocks/x/'+this.props.nodeLabel, {
-        headers: new Headers({
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          }),
-        method: 'GET'
-      })
-      .then(function(res){ return res.json(); })
-      .then(function(data){ 
-        console.log('Data: ', data ); 
-        dispatch(updateNodes(data));
-      });
+      // Send request to get all nodes
+      dispatch(fetchAllNodes(nodeLabel));
     }
   }
 
@@ -116,12 +67,13 @@ class NodeSearch extends Component {
   
     return (
       <div id="node-search-container">
-        <SearchNavbar nodeLabel={this.props.nodeLabel} searchNodes={(e, q) => this.searchNodes(e, q)} />
+        <SearchNavbar nodeLabel={this.props.nodeTemplate.template.label} 
+            searchNodes={(e, q) => this.searchNodes(e, q)} />
         <div className="search-results-container container-fluid">
           <div className="row">
             <div className="col-md-1"></div>
             <div className="col-md-8">
-              <SearchContentBody nodes={this.props.nodes} label={this.props.nodeLabel}
+              <SearchContentBody nodes={this.props.nodes} label={this.props.nodeTemplate.template.label}
                   updateNode={(node) => this.updateNode(node)} />
             </div>
             <div className="col-md-2">
@@ -192,10 +144,10 @@ class SearchContentBody extends Component {
     let nodes = [], label = this.props.label, updateNode = this.props.updateNode;
 
     // Return if not array (can occur when API call does not return nodes)
-    if (Object.prototype.toString.call( this.props.nodes ) !== '[object Array]' ) return;
+    if (Object.prototype.toString.call( this.props.nodes.instances ) !== '[object Array]' ) return;
 
     // Iterate through nodes
-    this.props.nodes.forEach(function (node, index) {
+    this.props.nodes.instances.forEach(function (node, index) {
       // Wrap router link and render props in NodeSearchResult
       nodes.push(
         <Link key={node.nid} to={"/n/"+label+"/"+node.nid} 

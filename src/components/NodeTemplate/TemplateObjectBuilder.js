@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Helpers from '../../helpers.js';
 import PropertyBuilder from './PropertyBuilder';
 import { AddPropertyButton } from './TemplateBuilder.js';
-import { updateNodeTemplate } from '../../actions';
+import { updateNodeTemplate } from '../../actions/templates';
 
 class TemplateObjectBuilder extends Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class TemplateObjectBuilder extends Component {
     console.log('props: ', props);
 
     this.state = {
-      nodeTemplate: props.nodeTemplate.template,
+      template: props.nodeTemplate.template,
       object: Helpers.getObjProp(props.nodeTemplate.template, props.path),
       rootPath: props.path+'.properties',
       newPropIndex: 0,
@@ -46,41 +46,41 @@ class TemplateObjectBuilder extends Component {
     let i = this.state.newPropIndex;
 
     // Merge template from props (redux store) and state
-    let nodeTemplate = Object.assign(this.props.nodeTemplate.template, this.state.nodeTemplate);
+    let template = Object.assign(this.props.nodeTemplate.template, this.state.template);
     
     // Initialize new property
     var prop = Helpers.getNewProp(i, this.props.path);
 
     // Update template with new property
-    nodeTemplate = Helpers.setObjProp(nodeTemplate, prop.path, prop);
+    template = Helpers.setObjProp(template, prop.path, prop);
 
-    console.log('addProperty() nodeTemplate:', nodeTemplate); // TODO --DM-- Remove
+    console.log('addProperty() template:', template); // TODO --DM-- Remove
 
     // Increment new property index
     i++;
 
     // Set state for updated node and new property index and rerender
     this.setState({
-      nodeTemplate: nodeTemplate,
+      template: template,
       newPropIndex: i,
       rerender: true,
     });
 
     // Dispatch new property to store
-    this.updateNodeTemplate(nodeTemplate);
+    this.updateNodeTemplate(template);
 
     return;
   }
 
   setProperty(changeType, oldPath, newPath, newProp) {
     // Merge template from props (redux store) and state
-    let nodeTemplate = Object.assign(this.props.nodeTemplate.template, this.state.nodeTemplate);
+    let template = Object.assign(this.props.nodeTemplate.template, this.state.template);
 
     // Update template with new property value
-    nodeTemplate = Helpers.setObjProp(nodeTemplate, newPath, newProp);
+    template = Helpers.setObjProp(template, newPath, newProp);
 
     // If oldPath exists, remove old property
-    if (oldPath) nodeTemplate = Helpers.removeObjProp(nodeTemplate, oldPath);
+    if (oldPath) template = Helpers.removeObjProp(template, oldPath);
 
     // Rerender if type changed, not if label changed
     var rerender = true;
@@ -88,7 +88,7 @@ class TemplateObjectBuilder extends Component {
 
     // Set state for updated node and rerender if type changed
     this.setState({
-      nodeTemplate: nodeTemplate,
+      template: template,
       rerender: rerender,
     });
 
@@ -97,17 +97,17 @@ class TemplateObjectBuilder extends Component {
 
   removeProperty(path) {
     // Merge template from props (redux store) and state
-    let nodeTemplate = Object.assign(this.props.nodeTemplate.template, this.state.nodeTemplate);
+    let template = Object.assign(this.props.nodeTemplate.template, this.state.template);
 
     // Dispatch path to store to remove property
-    nodeTemplate = Helpers.removeObjProp(nodeTemplate, path);
+    template = Helpers.removeObjProp(template, path);
 
     // Dispatch updated node to store
-    this.props.dispatch(updateNodeTemplate(nodeTemplate));
+    this.props.dispatch(updateNodeTemplate(template));
 
     // Set state for updated node and rerender
     this.setState({
-      nodeTemplate: nodeTemplate,
+      template: template,
       rerender: true,
     });
 

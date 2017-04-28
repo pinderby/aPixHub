@@ -73,7 +73,7 @@ const nodeTemplate = (state = {}, action) => {
       })
     case ActionTypes.RECEIVE_TEMPLATE:
       // Passes: TODO --DM-- fill out
-      // Receive templates from server
+      // Receive template from server
       return Object.assign({}, state, {
         isFetching: false,
         didInvalidate: false,

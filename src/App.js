@@ -41,7 +41,7 @@ class App extends Component {
           <Route exact path="/templates/add" component={TemplateBuilderContainer}/>
           <Route exact path="/t/:id" component={NodeTemplateContainer}/>
           <Route path="/t/:id/edit" component={TemplateBuilderContainer}/>
-          <Route path="/n/:label/add" component={NodePopulatorContainer}/>
+          <Route path="/n/:id/add" component={NodePopulatorContainer}/>
           <Route path="/n/:label/search" component={NodeSearchContainer}/>
           <Route exact path="/n/:label/:id" component={NodeInstanceContainer}/>
         </div>

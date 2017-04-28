@@ -43,7 +43,7 @@ class NodeTemplate extends Component {
               <div className="row">
                 <Link key={template['id']+'-edit'} to={"/t/"+template['id']+"/edit" }>Edit Template</Link>
                 <br />
-                <Link key={template['id']+'-add'} to={"/n/"+template['label']+"/add" }>Add {displayLabel}</Link>
+                <Link key={template['id']+'-add'} to={"/n/"+template['id']+"/add" }>Add {displayLabel}</Link>
                 <br />
                 <Link key={template['id']+'-search'} to={"/n/"+template['label']+"/search" }>Search {displayLabel}</Link>
               </div>

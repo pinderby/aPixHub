@@ -3,8 +3,7 @@ import Helpers from '../../helpers.js';
 import _ from 'lodash';
 import PropertyBuilder from './PropertyBuilder';
 import './TemplateBuilder.css';
-import { updateNodeTemplate } from '../../actions';
-import { fetchTemplate } from '../../actions/templates';
+import { updateNodeTemplate, fetchTemplate } from '../../actions/templates';
 import BaseModel from '../../constants/BaseModel.js';
 import LoadingOverlay from '../LoadingOverlay';
 
@@ -235,10 +234,11 @@ class TemplateBuilder extends Component {
       url = 'https://apix.rocks/nodes';
       method = 'POST';
     } else {
-      url = 'https://apix.rocks/nodes/'+nodeTemplate.id;
+      url = `https://apix.rocks/nodes/${nodeTemplate.id}`;
       method = 'PUT';
     }
 
+    // TODO --DM-- Refactor into thunk
     // Send network request
     fetch(url, {
         headers: new Headers({

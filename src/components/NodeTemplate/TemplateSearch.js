@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import Helpers from '../../helpers.js';
 import './TemplateSearch.css';
 import { Link } from 'react-router-dom';
-import { initializeNodeTemplate } from '../../actions';
-import { fetchTemplates } from '../../actions/templates';
+import { initializeNodeTemplate, fetchTemplates } from '../../actions/templates';
 import LoadingOverlay from '../LoadingOverlay';
 
 class TemplateSearch extends Component {

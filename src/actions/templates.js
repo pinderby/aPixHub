@@ -1,6 +1,27 @@
 import * as ActionTypes from '../constants/ActionTypes.js';
 
-export const getAllTemplates = () => {
+export const updateNodeTemplate = (nodeTemplate) => {
+  return {
+    type: ActionTypes.UPDATE_NODE_TEMPLATE,
+    nodeTemplate
+  }
+}
+
+export const initializeNodeTemplate = (nodeTemplate) => {
+  return {
+    type: ActionTypes.INITIALIZE_NODE_TEMPLATE,
+    nodeTemplate
+  }
+}
+
+export const submitNodeTemplate = (nodeTemplate) => {
+  return {
+    type: ActionTypes.SUBMIT_NODE_TEMPLATE,
+    nodeTemplate
+  }
+}
+
+export const startGetAllTemplates = () => {
   return {
     type: ActionTypes.GET_ALL_TEMPLATES,
   }
@@ -21,7 +42,7 @@ export const receiveTemplates = (templates) => {
   }
 }
 
-export const getTemplate = (templateId) => {
+export const startGetTemplate = (templateId) => {
   return {
     type: ActionTypes.GET_TEMPLATE,
     templateId
@@ -68,7 +89,7 @@ export function fetchTemplates() {
   return function (dispatch) {
 
     // Send action all templates are being fetched
-    dispatch(getAllTemplates());
+    dispatch(startGetAllTemplates());
 
     // Return api call
     return fetch('https://apix.rocks/nodes', {
@@ -98,8 +119,8 @@ export function fetchTemplate(templateId) {
 
   return function (dispatch) {
 
-    // Send action all templates are being fetched
-    dispatch(getTemplate(templateId));
+    // Send action template is being fetched
+    dispatch(startGetTemplate(templateId));
 
     // Return api call
     return fetch(`https://apix.rocks/nodes/${templateId}`, {
@@ -109,7 +130,7 @@ export function fetchTemplate(templateId) {
       response.json().then(function(result) {
           console.log('getTemplate() result: ', result); // TODO --DM-- Remove
 
-          // Receive all templates from server when request is completed
+          // Receive template from server when request is completed
           dispatch(receiveTemplate(result))
       });
 

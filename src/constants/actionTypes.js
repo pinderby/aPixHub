@@ -23,8 +23,11 @@ export const DELETE_TEMPLATE = "DELETE_TEMPLATE";
 export const RECEIVE_TEMPLATE = "RECEIVE_TEMPLATE";
 
 // Nodes //
+export const GET_ALL_NODES = "GET_ALL_NODES";
 export const SEARCH_NODES = "SEARCH_NODES";
+export const RECEIVE_NODES = "RECEIVE_NODES";
 export const GET_NODE = "GET_NODE";
 export const PUT_NODE = "PUT_NODE";
 export const POST_NODE = "POST_NODE";
 export const DELETE_NODE = "DELETE_NODE";
+export const RECEIVE_NODE = "RECEIVE_NODE";
