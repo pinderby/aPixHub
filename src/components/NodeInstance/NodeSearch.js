@@ -4,14 +4,22 @@ import NodeSearchResult from './NodeSearchResult.js';
 import Helpers from '../../helpers.js';
 import { Link } from 'react-router-dom';
 import { updateNodes, updateNode, fetchAllNodes, searchNodes } from '../../actions/nodes';
+// import LoadingOverlay from '../LoadingOverlay';
 
 class NodeSearch extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      nodes: [],
+      nodes: props.nodes,
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // Sync redux store with state
+    this.setState({
+      nodes: nextProps.nodes
+    });
   }
 
   searchNodes(e, query) {
@@ -23,6 +31,17 @@ class NodeSearch extends Component {
 
     // If query, search name
     if (query) {
+      // Initially filter current nodes until full results are received from server
+      let nodes = this.state.nodes;
+      nodes.instances = nodes.instances.filter(function(n) {
+        return (new RegExp(query, 'i')).test(n.properties.title);
+      } ); // TODO --DM-- filter based on property input
+
+      // Update state with filtered nodes
+      this.setState({
+        nodes: nodes
+      });
+
       // Send request to get search results
       dispatch(searchNodes(nodeLabel, 'title', query));
 
@@ -73,7 +92,7 @@ class NodeSearch extends Component {
           <div className="row">
             <div className="col-md-1"></div>
             <div className="col-md-8">
-              <SearchContentBody nodes={this.props.nodes} label={this.props.nodeTemplate.template.label}
+              <SearchContentBody nodes={this.state.nodes} label={this.props.nodeTemplate.template.label}
                   updateNode={(node) => this.updateNode(node)} />
             </div>
             <div className="col-md-2">
@@ -142,6 +161,8 @@ class SearchContentBody extends Component {
   renderSearchResults() {
     // Initialize variables
     let nodes = [], label = this.props.label, updateNode = this.props.updateNode;
+
+    console.log('node.instances: ', this.props.nodes.instances);
 
     // Return if not array (can occur when API call does not return nodes)
     if (Object.prototype.toString.call( this.props.nodes.instances ) !== '[object Array]' ) return;
