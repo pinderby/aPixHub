@@ -285,8 +285,8 @@ class Helpers {
     console.log('parseObjectProp(): ', object); // TODO --DM-- Remove
     
     // If not an object or value_type is not json, return original variable
-    if (!Object.prototype.toString.call( object ) === '[object Object]' ||  
-        !object.value_type[0] === '{') return object;
+    if ((Object.prototype.toString.call( object ) !== '[object Object]') ||  
+        (object.value_type[0] !== '{')) { return object; } 
 
     // If object is JSON string, parse to object
     // Convert string to JSON string
@@ -298,6 +298,7 @@ class Helpers {
 
     // Parse string to object
     let props = JSON.parse(objString);
+  
 
     // Iterate over properties and assign each property
     Object.keys(props).forEach(function(key) {

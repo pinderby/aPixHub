@@ -23,6 +23,16 @@ Design/CSS
 ---------------
 TODO - DTM -
 ---------------
+
+CRUD + Search Templates
+  Create: TemplateBuilder (/t/templates/add)
+  Read: NodeTemplate (/t/:label)
+  Update: TemplateBuilder (/t/:label/edit)
+  Delete: NodeTemplate
+  Search: TemplateSearch
+CRUD + Search Nodes
+
+
 ApixNode
 [ x ] Go over logan.json with Joe
 [ x ] Figure out what components I need
