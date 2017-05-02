@@ -19,7 +19,7 @@ class TemplateBuilder extends Component {
 
     // If nodeTemplate doesn't exist, query it from server
     if (!props.nodeTemplate.template) {
-      this.getTemplate(props.match.params.id);
+      this.getTemplate(props.match.params.label);
       this.state = {
         nodeTemplate: { isFetching: true },
         newPropIndex: 0,
@@ -252,9 +252,9 @@ class TemplateBuilder extends Component {
     .then(function(data){ console.log('Data: ', JSON.stringify( data ) ); });
   }
 
-  getTemplate(templateId) {
-    // Dispatch fetchTemplate to get template by id
-    this.props.dispatch(fetchTemplate(templateId));
+  getTemplate(templateLabel) {
+    // Dispatch fetchTemplate to get template by label
+    this.props.dispatch(fetchTemplate(templateLabel));
   }
 
   renderProperties() {

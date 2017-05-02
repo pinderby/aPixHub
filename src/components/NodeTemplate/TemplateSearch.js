@@ -109,7 +109,7 @@ class TemplateSearch extends Component {
         <div className="apix-template-container" key={template['id']+'1'}>
           <div className="apix-template" key={template['id']+'2'}>
             <div className="panel-heading" key={template['id']+'3'}>
-              <Link key={template['id']+'4'} to={"/t/"+template['id'] } 
+              <Link key={template['id']+'4'} to={"/t/"+template['label'] } 
                     onClick={() => setNodeTemplate(template)}>
                 <h3 className="panel-title template-label" key={template['id']+'5'}>{template.label}</h3>
               </Link>

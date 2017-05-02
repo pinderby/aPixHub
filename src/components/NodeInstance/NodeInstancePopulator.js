@@ -12,7 +12,7 @@ class NodeInstancePopulator extends Component {
 
     // If nodeTemplate doesn't exist, query it from server
     if (!props.nodeTemplate.template) {
-      this.getTemplate(props.match.params.id);
+      this.getTemplate(props.match.params.label);
       this.state = {
         nodeTemplate: { isFetching: true },
       };
@@ -32,9 +32,9 @@ class NodeInstancePopulator extends Component {
     };
   }
 
-  getTemplate(templateId) {
-    // Dispatch fetchTemplate to get template by id
-    this.props.dispatch(fetchTemplate(templateId));
+  getTemplate(templateLabel) {
+    // Dispatch fetchTemplate to get template by label
+    this.props.dispatch(fetchTemplate(templateLabel));
   }
 
   updateNode(node) {

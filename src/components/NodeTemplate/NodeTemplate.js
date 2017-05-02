@@ -12,7 +12,7 @@ class NodeTemplate extends Component {
 
     // If nodeTemplate doesn't exist, query it from server
     if (!props.nodeTemplate.template) {
-      this.getTemplate(props.match.params.id);
+      this.getTemplate(props.match.params.label);
       this.state = {
         nodeTemplate: { isFetching: true },
       };
@@ -20,9 +20,9 @@ class NodeTemplate extends Component {
     }
   }
 
-  getTemplate(templateId) {
-    // Dispatch fetchTemplate to get template by id
-    this.props.dispatch(fetchTemplate(templateId));
+  getTemplate(templateLabel) {
+    // Dispatch fetchTemplate to get template by label
+    this.props.dispatch(fetchTemplate(templateLabel));
   }
 
   render() {  
@@ -41,9 +41,9 @@ class NodeTemplate extends Component {
           <div className="panel panel-default">
             <div className="panel-body">
               <div className="row">
-                <Link key={template['id']+'-edit'} to={"/t/"+template['id']+"/edit" }>Edit Template</Link>
+                <Link key={template['id']+'-edit'} to={"/t/"+template['label']+"/edit" }>Edit Template</Link>
                 <br />
-                <Link key={template['id']+'-add'} to={"/n/"+template['id']+"/add" }>Add {displayLabel}</Link>
+                <Link key={template['id']+'-add'} to={"/n/"+template['label']+"/add" }>Add {displayLabel}</Link>
                 <br />
                 <Link key={template['id']+'-search'} to={"/n/"+template['label']+"/search" }>Search {displayLabel}</Link>
               </div>

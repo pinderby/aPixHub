@@ -42,10 +42,10 @@ export const receiveTemplates = (templates) => {
   }
 }
 
-export const startGetTemplate = (templateId) => {
+export const startGetTemplate = (templateLabel) => {
   return {
     type: ActionTypes.GET_TEMPLATE,
-    templateId
+    templateLabel
   }
 }
 
@@ -115,15 +115,15 @@ export function fetchTemplates() {
 }
 
 // Fetch template by id
-export function fetchTemplate(templateId) {
+export function fetchTemplate(templateLabel) {
 
   return function (dispatch) {
 
     // Send action template is being fetched
-    dispatch(startGetTemplate(templateId));
+    dispatch(startGetTemplate(templateLabel));
 
     // Return api call
-    return fetch(`https://apix.rocks/nodes/${templateId}`, {
+    return fetch(`https://apix.rocks/nodes?label=${templateLabel}`, {
       method: 'GET'
     })
     .then(function(response) {
