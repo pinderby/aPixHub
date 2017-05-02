@@ -82,6 +82,16 @@ class TemplateBuilder extends Component {
     this.props.dispatch(updateNodeTemplate(this.state.nodeTemplate));
   }
 
+  // Update state with props if template exists
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.nodeTemplate.template) {
+        this.setState({
+        nodeTemplate: nextProps.nodeTemplate,
+        newPropIndex: nextProps.nodeTemplate.template.properties.length
+      });
+    }
+  }
+
   updateNodeTemplate(nodeTemplate) {
     // Dispatch new node to store
     this.props.dispatch(updateNodeTemplate(nodeTemplate));
