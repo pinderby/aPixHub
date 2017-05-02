@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Helpers from '../../helpers.js';
 import PropertyPopulator from './PropertyPopulator';
 import '../NodeTemplate/TemplateBuilder.css';
-import { updateNode } from '../../actions/nodes';
+import { updateNode, fetchNode } from '../../actions/nodes';
 import { fetchTemplate } from '../../actions/templates';
 import LoadingOverlay from '../LoadingOverlay';
 
@@ -10,13 +10,32 @@ class NodeInstancePopulator extends Component {
   constructor(props) {
     super(props);
 
+    // Get path url
+    let splitUrlPath = this.props.match.url.split("/");
+
+    // Determine if use if creating a new node or editing an existing one
+    let node, creating = (splitUrlPath[splitUrlPath.length-1] === "add");
+
     // If nodeTemplate doesn't exist, query it from server
     if (!props.nodeTemplate.template) {
       this.getTemplate(props.match.params.label);
       this.state = {
         nodeTemplate: { isFetching: true },
       };
-      return;
+    }
+
+    // If node doesn't exist, query it from server
+    if (!props.node.instance) {
+      this.getNode(props.match.params.label, props.match.params.id);
+      this.state = {
+        node: { isFetching: true },
+      };
+    }
+
+    // Initialize node
+    if (!creating) {
+      // If editing, assign template from props
+      node = props.node;
     }
 
     // Bind callbacks
@@ -27,14 +46,18 @@ class NodeInstancePopulator extends Component {
     console.log('props.node', props.nodeTemplate); // TODO --DM-- Remove
     this.state = {
       nodeTemplate: props.nodeTemplate,
-      node: props.node,
-      nodeLabel: props.nodeTemplate.template.label
+      node: props.node
     };
   }
 
   getTemplate(templateLabel) {
     // Dispatch fetchTemplate to get template by label
     this.props.dispatch(fetchTemplate(templateLabel));
+  }
+
+  getNode(templateLabel, nodeId) {
+    // Dispatch fetchNode to get node by label and id
+    this.props.dispatch(fetchNode(templateLabel, nodeId));
   }
 
   updateNode(node) {

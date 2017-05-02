@@ -35,9 +35,10 @@ export const receiveNodes = (nodes) => {
   }
 }
 
-export const startGetNode = (nodeId) => {
+export const startGetNode = (templatelabel, nodeId) => {
   return {
     type: ActionTypes.GET_NODE,
+    templatelabel,
     nodeId
   }
 }
@@ -141,15 +142,15 @@ export function searchNodes(nodeLabel, propKey, query) {
 }
 
 // Fetch node by id
-export function fetchNode(nodeId) {
+export function fetchNode(templatelabel, nodeId) {
 
   return function (dispatch) {
 
     // Send action node is being fetched
-    dispatch(startGetNode(nodeId));
+    dispatch(startGetNode(templatelabel, nodeId));
 
     // Return api call
-    return fetch(`https://apix.rocks/nodes/${nodeId}`, {
+    return fetch(`https://apix.rocks/x/${templatelabel}/${nodeId}`, {
       method: 'GET'
     })
     .then(function(response) {

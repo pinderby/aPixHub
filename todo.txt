@@ -29,8 +29,13 @@ CRUD + Search Templates
   Read: NodeTemplate (/t/:label)
   Update: TemplateBuilder (/t/:label/edit)
   Delete: NodeTemplate
-  Search: TemplateSearch
+  Search: TemplateSearch (/templates)
 CRUD + Search Nodes
+  Create: NodePopulator (/n/:label/add)
+  Read: NodeInstance (/n/:label/:id)
+  Update: NodePopulator (/n/:label/:id/edit)
+  Delete: NodeTemplate
+  Search: TemplateSearch (/templates)
 
 
 ApixNode

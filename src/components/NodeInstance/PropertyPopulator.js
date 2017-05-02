@@ -4,7 +4,7 @@ import Helpers from '../../helpers.js';
 // import NodeObjectPopulator from './NodeObjectPopulator.js';
 /* eslint no-eval: 0 */
 
-class PropertyBuilder extends Component {
+class PropertyPopulator extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,13 +17,11 @@ class PropertyBuilder extends Component {
   
   renderInput(props) {
     // Initialize property
-    let prop = props.prop;
-    let node = props.node;
-    let value = Helpers.getObjProp(node, prop.path);
-    if (value) value = value.value;
+    let value = "", prop = props.prop, instance = props.node.instance;
+    if (instance) value = Helpers.getObjProp(instance, `properties.${prop.key}`);
 
-    // console.log('node, prop: ', node, prop);
-    console.log('value: ', value);
+    console.log('instance, prop: ', instance, prop); // TODO --DM-- Remove
+    console.log('value: ', value); // TODO --DM-- Remove
 
     // If array, then give a textarea for input
     if (prop.value_type[0] === '[') {
@@ -84,4 +82,4 @@ class PropertyBuilder extends Component {
   }
 }
 
-export default PropertyBuilder;
+export default PropertyPopulator;

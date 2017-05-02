@@ -44,6 +44,7 @@ class App extends Component {
           <Route path="/n/:label/add" component={NodePopulatorContainer}/>
           <Route path="/n/:label/search" component={NodeSearchContainer}/>
           <Route exact path="/n/:label/:id" component={NodeInstanceContainer}/>
+          <Route path="/n/:label/:id/edit" component={NodePopulatorContainer}/>
         </div>
       </div>
     );
