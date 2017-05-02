@@ -34,8 +34,12 @@ CRUD + Search Nodes
   Create: NodePopulator (/n/:label/add)
   Read: NodeInstance (/n/:label/:id)
   Update: NodePopulator (/n/:label/:id/edit)
-  Delete: NodeTemplate
-  Search: TemplateSearch (/templates)
+  Delete: NodeInstance
+  Search: NodeSearch (/n/:label/search)
+CRUD Object properties
+CRUD Relationships
+TDD Scripts
+Design
 
 
 ApixNode
