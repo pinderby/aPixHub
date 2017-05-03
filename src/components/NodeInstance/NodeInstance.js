@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import Helpers from '../../helpers.js';
 import './NodeInstance.css'
+import { updateNode, fetchNode } from '../../actions/nodes';
+import { fetchTemplate } from '../../actions/templates';
+import LoadingOverlay from '../LoadingOverlay';
 // import NodeName from './NodeName.js';
 // import InfoBox from './InfoBox.js';
 // import MediaSection from './MediaSection.js';
@@ -12,9 +15,41 @@ class NodeInstance extends Component {
   constructor(props) {
     super(props);
 
+    // If nodeTemplate doesn't exist, query it from server
+    if (!props.nodeTemplate.template) {
+      this.getTemplate(props.match.params.label);
+      this.state = {
+        nodeTemplate: { isFetching: true },
+      };
+    }
+
+    // If node doesn't exist, query it from server
+    if (!props.node.instance) {
+      this.getNode(props.match.params.label, props.match.params.id);
+      this.state = {
+        node: { isFetching: true },
+      };
+    }
+
     this.state = {
-      nodes: [],
+      nodeTemplate: props.nodeTemplate,
+      node: props.node
     };
+  }
+
+  getTemplate(templateLabel) {
+    // Dispatch fetchTemplate to get template by label
+    this.props.dispatch(fetchTemplate(templateLabel));
+  }
+
+  getNode(templateLabel, nodeId) {
+    // Dispatch fetchNode to get node by label and id
+    this.props.dispatch(fetchNode(templateLabel, nodeId));
+  }
+
+  updateNode(node) {
+    // Dispatch new node to store
+    this.props.dispatch(updateNode(node));
   }
 
   
@@ -72,6 +107,7 @@ class NodeInstance extends Component {
 
     return (
       <div>
+        <LoadingOverlay show={this.props.nodeTemplate.isFetching} />
         {Helpers.renderProps(this.props.node)}
       </div>
     );
