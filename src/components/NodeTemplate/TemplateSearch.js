@@ -3,6 +3,7 @@ import Helpers from '../../helpers.js';
 import './TemplateSearch.css';
 import { Link } from 'react-router-dom';
 import { initializeNodeTemplate, fetchTemplates } from '../../actions/templates';
+import { updateNodes } from '../../actions/nodes';
 import LoadingOverlay from '../LoadingOverlay';
 
 class TemplateSearch extends Component {
@@ -84,6 +85,9 @@ class TemplateSearch extends Component {
   setNodeTemplate(template) {
     // Dispatch chosen template to store
     this.props.dispatch(initializeNodeTemplate(template));
+
+    // Clear cached nodes
+    this.props.dispatch(updateNodes([]));
   }
 
   renderTemplates() {

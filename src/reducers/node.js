@@ -5,7 +5,12 @@ const node = (state = {}, action) => {
     case ActionTypes.UPDATE_NODE:
       // Passes: action.node
       // Update node with passed object
-      return action.node;
+      return Object.assign({}, state, {
+        isFetching: false,
+        didInvalidate: false,
+        instance: action.node,
+        lastUpdated: action.receivedAt
+      })
     case ActionTypes.GET_NODE:
       // Passes: TODO --DM-- fill out
       // Get node from server

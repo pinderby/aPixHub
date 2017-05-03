@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Helpers from '../../helpers.js';
 import './NodeInstance.css'
-import { updateNode, fetchNode } from '../../actions/nodes';
+import { Link } from 'react-router-dom';
+import { updateNodes, updateNode, fetchNode } from '../../actions/nodes';
 import { fetchTemplate } from '../../actions/templates';
 import LoadingOverlay from '../LoadingOverlay';
 // import NodeName from './NodeName.js';
@@ -25,10 +26,18 @@ class NodeInstance extends Component {
 
     // If node doesn't exist, query it from server
     if (!props.node.instance) {
-      this.getNode(props.match.params.label, props.match.params.id);
-      this.state = {
-        node: { isFetching: true },
-      };
+      let defined = ['add','search'];
+      if (defined.indexOf(this.props.match.params.id) > -1) {
+        this.state = {
+          node: { isFetching: false },
+        };
+      } else {
+        this.getNode(props.match.params.label, props.match.params.id);
+        this.state = {
+          node: { isFetching: true },
+        };
+      }
+      
     }
 
     this.state = {
@@ -99,16 +108,44 @@ class NodeInstance extends Component {
     console.log("this.state: ", this.state); // TODO --DM-- Remove
     console.log("this.props: ", this.props); // TODO --DM-- Remove
 
-    let defined = ['add','search']
-    if (defined.indexOf(this.props.match.params.id) > -1) {
-      return null;
+    let nodePanel = "";
+
+    // Generate nodePanel if node and nodeTemplate exist
+    if (this.props.node.instance && this.props.nodeTemplate.template) {
+      // Initialize node
+      let instance = this.props.node.instance;
+
+      // Check for and assign node name
+      let nodeName = instance.properties.name ? instance.properties.name : "";
+
+      nodePanel =
+        <div className="node-instance">
+          <div className="panel-heading">
+            <h3 className="panel-title node-name">{nodeName}</h3>
+          </div>
+          <div className="panel panel-default">
+            <div className="panel-body">
+              <div className="row">
+                <Link key={instance['nid']+'-edit'} 
+                    to={`/n/${this.props.nodeTemplate.template['label']}/${instance['nid']}/edit` }>
+                      Edit {nodeName}
+                </Link>
+                <br />
+                {/* TODO --DM-- Implement delete button */}
+              </div>
+              {Helpers.renderProps(this.props.node)}
+            </div>
+          </div>
+        </div>
+      
+      console.log('Node:', instance);
     }
-    
 
     return (
-      <div>
-        <LoadingOverlay show={this.props.nodeTemplate.isFetching} />
-        {Helpers.renderProps(this.props.node)}
+      
+      <div className="node-instance-container">
+        <LoadingOverlay show={this.props.node.isFetching} />
+        {nodePanel}
       </div>
     );
   }

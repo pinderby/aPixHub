@@ -56,7 +56,7 @@ class NodeTemplate extends Component {
     }
 
     return (
-      <div className="apix-template-container">
+      <div className="template-container">
         <LoadingOverlay show={this.props.nodeTemplate.isFetching} />
         {templatePanel}
       </div>

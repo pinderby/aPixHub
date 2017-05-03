@@ -4,15 +4,26 @@ import NodeSearchResult from './NodeSearchResult.js';
 import Helpers from '../../helpers.js';
 import { Link } from 'react-router-dom';
 import { updateNodes, updateNode, fetchAllNodes, searchNodes } from '../../actions/nodes';
-// import LoadingOverlay from '../LoadingOverlay';
+import { fetchTemplate } from '../../actions/templates';
+import LoadingOverlay from '../LoadingOverlay';
 
 class NodeSearch extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      nodes: props.nodes,
-    };
+    // If nodeTemplate doesn't exist, query it from server
+    if (!props.nodeTemplate.template) {
+      this.getTemplate(props.match.params.label);
+      this.state = {
+        nodeTemplate: { isFetching: true },
+      };
+      return;
+    }
+  }
+
+  getTemplate(templateLabel) {
+    // Dispatch fetchTemplate to get template by label
+    this.props.dispatch(fetchTemplate(templateLabel));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -78,29 +89,40 @@ class NodeSearch extends Component {
   }*/
   
   render() {
-    // for (var i = 0; i < 10; i++) { 
-    //   this.state.nodes.push(logan);
-    // }
     console.log("this.state: ", this.state); // TODO --DM-- Remove
     console.log("this.props: ", this.props); // TODO --DM-- Remove
+
+    // Check for and initialize nodeTemplate
+    let searchView = "";
+    if (this.props.nodeTemplate.template) {
+      // Initialize template and display label
+      let template = this.props.nodeTemplate.template, 
+      displayLabel = Helpers.capitalizeFirstLetter(template['label']);
+
+      searchView = 
+        <div id="node-search-view-container">
+          <SearchNavbar nodeLabel={this.props.nodeTemplate.template.label} 
+              searchNodes={(e, q) => this.searchNodes(e, q)} />
+          <div className="search-results-container container-fluid">
+            <div className="row">
+              <div className="col-md-1"></div>
+              <div className="col-md-8">
+                <SearchContentBody nodes={this.props.nodes} label={this.props.nodeTemplate.template.label}
+                    updateNode={(node) => this.updateNode(node)} />
+              </div>
+              <div className="col-md-2">
+                <SearchSidebar />
+              </div>
+              <div className="col-md-1"></div>
+            </div>
+          </div>
+        </div>;
+    }
   
     return (
       <div id="node-search-container">
-        <SearchNavbar nodeLabel={this.props.nodeTemplate.template.label} 
-            searchNodes={(e, q) => this.searchNodes(e, q)} />
-        <div className="search-results-container container-fluid">
-          <div className="row">
-            <div className="col-md-1"></div>
-            <div className="col-md-8">
-              <SearchContentBody nodes={this.state.nodes} label={this.props.nodeTemplate.template.label}
-                  updateNode={(node) => this.updateNode(node)} />
-            </div>
-            <div className="col-md-2">
-              <SearchSidebar />
-            </div>
-            <div className="col-md-1"></div>
-          </div>
-        </div>
+        <LoadingOverlay show={this.props.nodeTemplate.isFetching} />
+        {searchView}
       </div>
     );
   }
