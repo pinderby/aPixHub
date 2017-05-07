@@ -48,7 +48,8 @@ class NodeInstancePopulator extends Component {
     // Assign combined state
     this.state = Object.assign({
       nodeTemplate: props.nodeTemplate,
-      node: props.node
+      node: props.node,
+      creating: creating
     }, state);
   }
 
@@ -93,44 +94,31 @@ class NodeInstancePopulator extends Component {
   
   submitNode(nodeLabel) {
     // Merge node from props (redux store) and state
-    let node = Object.assign(this.props.node, this.state.node);
+    let instance = Object.assign(this.props.node.instance, this.state.node.instance);
 
-    let payload = {};
-    payload.properties = {};
-
-    console.log('submitNode(): ', nodeLabel, node); // TODO --DM-- Remove
-
-    for(var propLabel in node.properties) {
-      let prop = node.properties[propLabel];
-      console.log('submitNode() prop: ', prop); // TODO --DM-- Remove
-      if (prop.value_type === 'object') {
-        let object = {};
-        for(var objProp in prop.properties) {
-          object[objProp] = prop.properties[objProp].value;
-        }
-        payload.properties[prop.key] = object;
-      } else {
-        payload.properties[prop.key] = prop.value;
-      }
-      
-    }
-
-    console.log('Payload: ', payload);
+    console.log('submitNode(): ', nodeLabel, instance); // TODO --DM-- Remove
     
-    payload = JSON.stringify(payload).replace('"[\\', '[').replace('\\"]"', '"]');
+    let payload = JSON.stringify(instance).replace('"[\\', '[').replace('\\"]"', '"]');
     console.log('Payload string: ', payload);
 
-    // var data = new FormData();
-    // data.append( "json", JSON.stringify( payload ) );
+    // Initialize variables for network request
+    let url, method;
+    if (this.state.creating) {
+      url = `https://apix.rocks/x/${nodeLabel}`;
+      method = 'POST';
+    } else {
+      url = url = `https://apix.rocks/x/${nodeLabel}/${instance.nid}`;
+      method = 'PUT';
+    }
 
-    // console.log('Payload: ', data);
-
-    fetch("https://apix.rocks/x/"+nodeLabel, {
+    // TODO --DM-- Refactor into thunk
+    // Send network request
+    fetch(url, {
         headers: new Headers({
           'Content-Type': 'application/json',
           Accept: 'application/json',
         }),
-        method: "POST",
+        method: method,
         body: payload
     })
     .then(function(res){ return res.json(); })
