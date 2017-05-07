@@ -18,7 +18,7 @@ class PropertyPopulator extends Component {
   renderInput(props) {
     // Initialize property
     let value = "", prop = props.prop, instance = props.node.instance;
-    if (instance) value = Helpers.getObjProp(instance, `properties.${prop.key}`);
+    if (instance) value = Helpers.getObjProp(instance, prop.path);
 
     console.log('instance, prop: ', instance, prop); // TODO --DM-- Remove
     console.log('value: ', value); // TODO --DM-- Remove
@@ -53,7 +53,7 @@ class PropertyPopulator extends Component {
     console.log('textChanged(): ', prop.path, prop); // TODO --DM-- Remove
 
     // Call callback
-    onChange(prop.path, prop);
+    onChange(prop.path, prop.value);
   }
   
   render() {

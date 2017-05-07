@@ -14,28 +14,28 @@ class NodeInstancePopulator extends Component {
     let splitUrlPath = this.props.match.url.split("/");
 
     // Determine if use if creating a new node or editing an existing one
-    let node, creating = (splitUrlPath[splitUrlPath.length-1] === "add");
+    let state, node, creating = (splitUrlPath[splitUrlPath.length-1] === "add");
 
     // If nodeTemplate doesn't exist, query it from server
     if (!props.nodeTemplate.template) {
       this.getTemplate(props.match.params.label);
-      this.state = {
+      state = {
         nodeTemplate: { isFetching: true },
       };
     }
 
     // If node doesn't exist, query it from server
     if (!props.node.instance) {
-      this.getNode(props.match.params.label, props.match.params.id);
-      this.state = {
-        node: { isFetching: true },
-      };
-    }
-
-    // Initialize node
-    if (!creating) {
-      // If editing, assign template from props
-      node = props.node;
+      if (creating) {
+        state = {
+          node: { isFetching: false },
+        };
+      } else {
+        this.getNode(props.match.params.label, props.match.params.id);
+        state = {
+          node: { isFetching: true },
+        };
+      }
     }
 
     // Bind callbacks
@@ -44,10 +44,19 @@ class NodeInstancePopulator extends Component {
 
     console.log('props.node', props.node); // TODO --DM-- Remove
     console.log('props.node', props.nodeTemplate); // TODO --DM-- Remove
-    this.state = {
+    
+    // Assign combined state
+    this.state = Object.assign({
       nodeTemplate: props.nodeTemplate,
       node: props.node
-    };
+    }, state);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // Sync redux store with state
+    this.setState({
+      node: nextProps.node
+    });
   }
 
   getTemplate(templateLabel) {
@@ -70,7 +79,9 @@ class NodeInstancePopulator extends Component {
     let node = Object.assign(this.props.node, this.state.node);
 
     // Update node with new property value
-    node = Helpers.setObjProp(node, path, newValue);
+    node.instance = Helpers.setObjProp(node.instance, path, newValue);
+
+    console.log('setProperty()  node: ', node); // TODO --DM-- Remove
 
     // Set state for updated node
     this.setState({
@@ -138,10 +149,10 @@ class NodeInstancePopulator extends Component {
       var prop = templateProps[key];
 
       // Initialize path if needed
-      if (!prop.path) prop.path = 'properties.'+key;
+      if (!prop.path) prop.path = 'properties.'+prop.key;
 
       // Push property input for each prop
-      props.push(<PropertyPopulator key={key} index={i} prop={prop} node={this.props.node} 
+      props.push(<PropertyPopulator key={key} index={i} prop={prop} node={this.state.node} 
                         nodeTemplate={this.props.nodeTemplate} dispatch={this.props.dispatch} nested={false}
                         onChange={(path, value) => this.setProperty(path, value)} />); // TODO --DM-- manage keys for iteration
       props.push(<br key={key.toString()+'1000'} />)
@@ -177,7 +188,7 @@ class NodeInstancePopulator extends Component {
     return (
       <div id="apix-node-populator-container">
         <div id="apix-node-populator">
-          <LoadingOverlay show={this.props.nodeTemplate.isFetching} />
+          <LoadingOverlay show={this.state.node.isFetching} />
           {templatePropsForm}
         </div>
       </div>

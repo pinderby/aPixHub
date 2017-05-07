@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Helpers from '../../helpers.js';
 import './NodeInstance.css'
 import { Link } from 'react-router-dom';
-import { updateNodes, updateNode, fetchNode } from '../../actions/nodes';
+import { updateNode, fetchNode } from '../../actions/nodes';
 import { fetchTemplate } from '../../actions/templates';
 import LoadingOverlay from '../LoadingOverlay';
 // import NodeName from './NodeName.js';
@@ -15,11 +15,12 @@ import LoadingOverlay from '../LoadingOverlay';
 class NodeInstance extends Component {
   constructor(props) {
     super(props);
+    let state;
 
     // If nodeTemplate doesn't exist, query it from server
     if (!props.nodeTemplate.template) {
       this.getTemplate(props.match.params.label);
-      this.state = {
+      state = {
         nodeTemplate: { isFetching: true },
       };
     }
@@ -28,22 +29,30 @@ class NodeInstance extends Component {
     if (!props.node.instance) {
       let defined = ['add','search'];
       if (defined.indexOf(this.props.match.params.id) > -1) {
-        this.state = {
+        state = {
           node: { isFetching: false },
         };
       } else {
         this.getNode(props.match.params.label, props.match.params.id);
-        this.state = {
+        state = {
           node: { isFetching: true },
         };
       }
       
     }
 
-    this.state = {
+    // Assign combined state
+    this.state = Object.assign({
       nodeTemplate: props.nodeTemplate,
       node: props.node
-    };
+    }, state);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // Sync redux store with state
+    this.setState({
+      node: nextProps.node
+    });
   }
 
   getTemplate(templateLabel) {
@@ -144,7 +153,7 @@ class NodeInstance extends Component {
     return (
       
       <div className="node-instance-container">
-        <LoadingOverlay show={this.props.node.isFetching} />
+        <LoadingOverlay show={this.state.node.isFetching} />
         {nodePanel}
       </div>
     );
