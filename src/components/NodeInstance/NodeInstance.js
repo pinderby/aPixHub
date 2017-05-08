@@ -15,7 +15,13 @@ import LoadingOverlay from '../LoadingOverlay';
 class NodeInstance extends Component {
   constructor(props) {
     super(props);
-    let state;
+
+    // Check if url matches a preset route
+    let defined = ['add','search'], state, display;
+
+    // If searching or adding, don't display
+    if (defined.indexOf(this.props.match.params.id) > -1) display = false;
+    else display = true;
 
     // If nodeTemplate doesn't exist, query it from server
     if (!props.nodeTemplate.template) {
@@ -27,10 +33,10 @@ class NodeInstance extends Component {
 
     // If node doesn't exist, query it from server
     if (!props.node.instance) {
-      let defined = ['add','search'];
-      if (defined.indexOf(this.props.match.params.id) > -1) {
+      // If route is preset, remove loader
+      if (!display) {
         state = {
-          node: { isFetching: false },
+          node: { isFetching: false},
         };
       } else {
         this.getNode(props.match.params.label, props.match.params.id);
@@ -44,14 +50,21 @@ class NodeInstance extends Component {
     // Assign combined state
     this.state = Object.assign({
       nodeTemplate: props.nodeTemplate,
-      node: props.node
+      node: props.node,
+      display: display
     }, state);
   }
 
   componentWillReceiveProps(nextProps) {
+    // Check if url matches a preset route
+    let defined = ['add','search'], display;
+    if (defined.indexOf(nextProps.match.params.id) > -1) display = false;
+    else display = true;
+
     // Sync redux store with state
     this.setState({
-      node: nextProps.node
+      node: nextProps.node,
+      display: display
     });
   }
 
@@ -120,7 +133,7 @@ class NodeInstance extends Component {
     let nodePanel = "";
 
     // Generate nodePanel if node and nodeTemplate exist
-    if (this.props.node.instance && this.props.nodeTemplate.template) {
+    if (this.props.node.instance && this.props.nodeTemplate.template && this.state.display) {
       // Initialize node
       let instance = this.props.node.instance;
 
