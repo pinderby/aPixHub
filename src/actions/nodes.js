@@ -43,21 +43,21 @@ export const startGetNode = (templatelabel, nodeId) => {
   }
 }
 
-export const putNode = (node) => {
+export const startPutNode = (node) => {
   return {
     type: ActionTypes.PUT_NODE,
     node
   }
 }
 
-export const postNode = (node) => {
+export const startPostNode = (node) => {
   return {
     type: ActionTypes.POST_NODE,
     node
   }
 }
 
-export const deleteNode = (nodeId) => {
+export const startDeleteNode = (nodeId) => {
   return {
     type: ActionTypes.DELETE_NODE,
     nodeId
@@ -156,6 +156,37 @@ export function fetchNode(templatelabel, nodeId) {
     .then(function(response) {
       response.json().then(function(result) {
           console.log('getNode() result: ', result); // TODO --DM-- Remove
+
+          // Receive node from server when request is completed
+          dispatch(receiveNode(result))
+      });
+
+    }).catch(function(err) {
+      // Error :( TODO --DM-- Handle error
+    });
+  }
+}
+
+// Update node by id
+export function putNode(node, payload) {
+
+  return function (dispatch) {
+
+    // Send action node is being fetched
+    dispatch(startPutNode(node));
+
+    // Return api call
+    return fetch(`https://apix.rocks/x/${nodeLabel}/${instance.nid}`, {
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        }),
+        method: 'PUT',
+        body: payload
+    })
+    .then(function(response) {
+      response.json().then(function(result) {
+          console.log('putNode() result: ', result); // TODO --DM-- Remove
 
           // Receive node from server when request is completed
           dispatch(receiveNode(result))

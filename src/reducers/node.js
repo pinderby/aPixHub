@@ -19,11 +19,12 @@ const node = (state = {}, action) => {
         didInvalidate: false
       })
     case ActionTypes.PUT_NODE:
-      // Passes: TODO --DM-- fill out
+      // Passes: action.node
       // Put updated node to server
       return Object.assign({}, state, {
         isFetching: true,
-        didInvalidate: false
+        didInvalidate: false,
+        instance: action.node
       })
     case ActionTypes.POST_NODE:
       // Passes: TODO --DM-- fill out
