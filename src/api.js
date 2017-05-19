@@ -1,9 +1,11 @@
-
 // Define api root address
 export const API_ROOT = 'https://apix.rocks'
 export const STATUS_FETCHING = 'fetching'
 export const STATUS_SUCCESS = 'success'
 export const STATUS_ERROR = 'error'
+
+// Base curried function to create dispatchActionWithStatus function for callApi()
+export const dispatchActionWithArgs = (dispatch) => (actionCreator) => (...args) => (status) => dispatch(actionCreator(status, args));
 
 /////////////////// TODO --DM-- Implement Normalizr //////////////////
 
@@ -38,7 +40,7 @@ export const callApi = (dispatchActionWithStatus, apiArgs) => {
   })
   .then(function(response){ 
     // Log response from server
-    console.log('callApi() success response: ', response); // TODO --DM-- Remove
+    console.log('callApi() response: ', response); // TODO --DM-- Remove
     return response.json();
   })
   .then(function(data){ 

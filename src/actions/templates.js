@@ -1,4 +1,6 @@
 import * as ActionTypes from '../constants/ActionTypes.js';
+import { dispatchActionWithArgs, callApi } from '../api';
+import { actionByStatus } from './actionHelpers';
 
 export const updateNodeTemplate = (nodeTemplate) => {
   return {
@@ -21,10 +23,18 @@ export const submitNodeTemplate = (nodeTemplate) => {
   }
 }
 
-export const startGetAllTemplates = () => {
-  return {
+export const getAllTemplates = (statusObj, args) => {
+  let fetchingAction = {
     type: ActionTypes.GET_ALL_TEMPLATES,
   }
+  
+  if (typeof(statusObj) === 'undefined') return fetchingAction;
+
+  let successAction = receiveTemplatesSuccess(statusObj);
+
+  let errorAction = { type: ActionTypes.TEMPLATES_REQUEST_ERROR } // TODO --DM-- Implement
+  
+  return actionByStatus(statusObj.status, fetchingAction, successAction, errorAction)
 }
 
 export const searchTemplates = (query) => {
@@ -42,18 +52,42 @@ export const receiveTemplates = (templates) => {
   }
 }
 
-export const startGetTemplate = (templateLabel) => {
-  return {
+export const getTemplate = (statusObj, args) => {
+  let fetchingAction = {
     type: ActionTypes.GET_TEMPLATE,
-    templateLabel
+    templatelabel: args[0]
   }
+  
+  if (typeof(statusObj) === 'undefined') return fetchingAction;
+
+  let successAction = receiveTemplateSuccess(statusObj);
+
+  let errorAction = { type: ActionTypes.TEMPLATE_REQUEST_ERROR } // TODO --DM-- Implement
+  
+  return actionByStatus(statusObj.status, fetchingAction, successAction, errorAction)
 }
 
-export const putTemplate = (template) => {
-  return {
+// export const putTemplate = (template) => {
+//   return {
+//     type: ActionTypes.PUT_TEMPLATE,
+//     template
+//   }
+// }
+
+export const putTemplate = (statusObj, args) => {
+  let fetchingAction = {
     type: ActionTypes.PUT_TEMPLATE,
-    template
+    templateId: args[0],
+    payload: args[1]
   }
+  
+  if (typeof(statusObj) === 'undefined') return fetchingAction;
+
+  let successAction = receiveTemplateSuccess(statusObj);
+
+  let errorAction = { type: ActionTypes.TEMPLATE_REQUEST_ERROR } // TODO --DM-- Implement
+  
+  return actionByStatus(statusObj.status, fetchingAction, successAction, errorAction)
 }
 
 export const postTemplate = (template) => {
@@ -78,6 +112,24 @@ export const receiveTemplate = (template) => {
   }
 }
 
+// Action Creator Helpers //
+
+export const receiveTemplateSuccess = (statusObj) => {
+  return {
+    type: ActionTypes.RECEIVE_TEMPLATE,
+    template: statusObj ? statusObj.response : '',
+    receivedAt: Date.now()
+  }
+}
+
+export const receiveTemplatesSuccess = (statusObj) => {
+  return {
+    type: ActionTypes.RECEIVE_TEMPLATES,
+    templates: statusObj ? statusObj.response : '',
+    receivedAt: Date.now()
+  }
+}
+
 
 ///////////////////////////
 // THUNK ACTION CREATORS //
@@ -88,29 +140,16 @@ export function fetchTemplates() {
 
   return function (dispatch) {
 
-    // Send action all templates are being fetched
-    dispatch(startGetAllTemplates());
+    // Define args for callApi()
+    let dispatchActionWithStatus = dispatchActionWithArgs(dispatch)(getAllTemplates)();
+    let apiArgs = {
+      endpoint: `/nodes`,
+      method: 'GET',
+      payload: {}
+    }
 
-    // Return api call
-    return fetch('https://apix.rocks/nodes', {
-      method: 'GET'
-    })
-    .then(function(response) {
-      let templates = [];
-      response.json().then(function(result) {
-          
-          // Push all templates into templates array
-          result.forEach(function (template) {
-            templates.push(template);
-          });
-
-          // Receive all templates from server when request is completed
-          dispatch(receiveTemplates(templates))
-      });
-
-    }).catch(function(err) {
-      // Error :( TODO --DM-- Handle error
-    });
+    // Execute api call
+    callApi(dispatchActionWithStatus, apiArgs);
   }
 }
 
@@ -119,23 +158,52 @@ export function fetchTemplate(templateLabel) {
 
   return function (dispatch) {
 
-    // Send action template is being fetched
-    dispatch(startGetTemplate(templateLabel));
+    // Define args for callApi()
+    let dispatchActionWithStatus = dispatchActionWithArgs(dispatch)(getTemplate)(templateLabel);
+    let apiArgs = {
+      endpoint: `/nodes?label=${templateLabel}`,
+      method: 'GET',
+      payload: {}
+    }
 
-    // Return api call
-    return fetch(`https://apix.rocks/nodes?label=${templateLabel}`, {
-      method: 'GET'
-    })
-    .then(function(response) {
-      response.json().then(function(result) {
-          console.log('getTemplate() result: ', result); // TODO --DM-- Remove
+    // Execute api call
+    callApi(dispatchActionWithStatus, apiArgs);
+  }
+}
 
-          // Receive template from server when request is completed
-          dispatch(receiveTemplate(result))
-      });
+// Create new template
+export function fetchPostTemplate(payload) {
 
-    }).catch(function(err) {
-      // Error :( TODO --DM-- Handle error
-    });
+  return function (dispatch) {
+
+    // Define args for callApi()
+    let dispatchActionWithStatus = dispatchActionWithArgs(dispatch)(postTemplate)(payload);
+    let apiArgs = {
+      endpoint: `/nodes`,
+      method: 'POST',
+      payload: payload
+    }
+
+    // Execute api call
+    callApi(dispatchActionWithStatus, apiArgs);
+  }
+}
+
+// Update template by label
+export function fetchPutTemplate(templateId, payload) {
+
+  return function (dispatch) {
+    console.log('fetchPutTemplate() templateId, payload: ', templateId, payload); // TODO --DM-- Remove
+
+    // Define args for callApi()
+    let dispatchActionWithStatus = dispatchActionWithArgs(dispatch)(putTemplate)(templateId, payload);
+    let apiArgs = {
+      endpoint: `/nodes/${templateId}`,
+      method: 'PUT',
+      payload: payload
+    }
+
+    // Execute api call
+    callApi(dispatchActionWithStatus, apiArgs);
   }
 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Helpers from '../../helpers.js';
 import PropertyPopulator from './PropertyPopulator';
 import '../NodeTemplate/TemplateBuilder.css';
-import { updateNode, fetchNode } from '../../actions/nodes';
+import { updateNode, fetchNode, fetchPostNode, fetchPutNode } from '../../actions/nodes';
 import { fetchTemplate } from '../../actions/templates';
 import LoadingOverlay from '../LoadingOverlay';
 
@@ -54,9 +54,27 @@ class NodeInstancePopulator extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // Assign node
+    let node = nextProps.node;
+
+    // If template exists and creating, add properties to node
+    if (nextProps.nodeTemplate.template && this.state.creating) {
+      // Assign props
+      let template = nextProps.nodeTemplate.template;
+      let props = template.properties;
+
+      // Create base node instance object
+      node.instance = { label: template.label, properties: {} };
+
+      // Assign properties from template to base node
+      props.forEach((prop) => {
+        node.instance.properties[prop.key] = '';
+      }) 
+    }
+
     // Sync redux store with state
     this.setState({
-      node: nextProps.node
+      node: node
     });
   }
 
@@ -96,7 +114,10 @@ class NodeInstancePopulator extends Component {
     // Merge node from props (redux store) and state
     let instance = Object.assign(this.props.node.instance, this.state.node.instance);
 
-    console.log('submitNode(): ', nodeLabel, instance); // TODO --DM-- Remove
+    // Assign dispatch
+    let dispatch = this.props.dispatch;
+
+    console.log('submitNode(): ', instance); // TODO --DM-- Remove
     
     let payload = JSON.stringify(instance).replace('"[\\', '[').replace('\\"]"', '"]');
     console.log('Payload string: ', payload);
@@ -104,25 +125,27 @@ class NodeInstancePopulator extends Component {
     // Initialize variables for network request
     let url, method;
     if (this.state.creating) {
-      url = `https://apix.rocks/x/${nodeLabel}`;
-      method = 'POST';
+      // url = `https://apix.rocks/x/${nodeLabel}`;
+      // method = 'POST';
+      dispatch(fetchPostNode(instance, payload));
     } else {
-      url = url = `https://apix.rocks/x/${nodeLabel}/${instance.nid}`;
-      method = 'PUT';
+      // url = url = `https://apix.rocks/x/${nodeLabel}/${instance.nid}`;
+      // method = 'PUT';
+      dispatch(fetchPutNode(instance, payload));
     }
 
     // TODO --DM-- Refactor into thunk
     // Send network request
-    fetch(url, {
-        headers: new Headers({
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        }),
-        method: method,
-        body: payload
-    })
-    .then(function(res){ return res.json(); })
-    .then(function(data){ console.log('Data: ', JSON.stringify( data ) ); });
+    // fetch(url, {
+    //     headers: new Headers({
+    //       'Content-Type': 'application/json',
+    //       Accept: 'application/json',
+    //     }),
+    //     method: method,
+    //     body: payload
+    // })
+    // .then(function(res){ return res.json(); })
+    // .then(function(data){ console.log('Data: ', JSON.stringify( data ) ); });
   }
 
   renderProperties() {

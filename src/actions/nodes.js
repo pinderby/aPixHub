@@ -1,5 +1,5 @@
 import * as ActionTypes from '../constants/ActionTypes.js';
-import { callApi } from '../api';
+import { dispatchActionWithArgs, callApi } from '../api';
 import { actionByStatus } from './actionHelpers';
 
 export const updateNode = (node) => {
@@ -23,11 +23,7 @@ export const getAllNodes = (statusObj, args) => {
   
   if (typeof(statusObj) === 'undefined') return fetchingAction;
 
-  let successAction = {
-    type: ActionTypes.RECEIVE_NODES,
-    nodes: statusObj ? statusObj.response : '',
-    receivedAt: Date.now()
-  }
+  let successAction = receiveNodesSuccess(statusObj);
 
   let errorAction = { type: ActionTypes.NODES_REQUEST_ERROR } // TODO --DM-- Implement
   
@@ -42,11 +38,7 @@ export const searchNodes = (statusObj, args) => {
   
   if (typeof(statusObj) === 'undefined') return fetchingAction;
 
-  let successAction = {
-    type: ActionTypes.RECEIVE_NODES,
-    nodes: statusObj ? statusObj.response : '',
-    receivedAt: Date.now()
-  }
+  let successAction = receiveNodesSuccess(statusObj);
 
   let errorAction = { type: ActionTypes.NODES_REQUEST_ERROR } // TODO --DM-- Implement
   
@@ -62,11 +54,23 @@ export const getNode = (statusObj, args) => {
   
   if (typeof(statusObj) === 'undefined') return fetchingAction;
 
-  let successAction = {
-    type: ActionTypes.RECEIVE_NODE,
-    node: statusObj ? statusObj.response : '',
-    receivedAt: Date.now()
+  let successAction = receiveNodeSuccess(statusObj);
+
+  let errorAction = { type: ActionTypes.NODE_REQUEST_ERROR } // TODO --DM-- Implement
+  
+  return actionByStatus(statusObj.status, fetchingAction, successAction, errorAction)
+}
+
+export const postNode = (statusObj, args) => {
+  let fetchingAction = {
+    type: ActionTypes.POST_NODE,
+    templateLabel: args[0],
+    payload: args[1]
   }
+  
+  if (typeof(statusObj) === 'undefined') return fetchingAction;
+
+  let successAction = receiveNodeSuccess(statusObj);
 
   let errorAction = { type: ActionTypes.NODE_REQUEST_ERROR } // TODO --DM-- Implement
   
@@ -82,11 +86,7 @@ export const putNode = (statusObj, args) => {
   
   if (typeof(statusObj) === 'undefined') return fetchingAction;
 
-  let successAction = {
-    type: ActionTypes.RECEIVE_NODE,
-    node: statusObj ? statusObj.response : '',
-    receivedAt: Date.now()
-  }
+  let successAction = receiveNodeSuccess(statusObj);
 
   let errorAction = { type: ActionTypes.NODE_REQUEST_ERROR } // TODO --DM-- Implement
   
@@ -101,28 +101,12 @@ export const receiveNodes = (nodes) => {
   }
 }
 
-export const startGetNode = (templatelabel, nodeId) => {
-  return {
-    type: ActionTypes.GET_NODE,
-    templatelabel,
-    nodeId
-  }
-}
-
-// TODO --DM-- Remove
-export const startPutNode = (node) => {
-  return {
-    type: ActionTypes.PUT_NODE,
-    node
-  }
-}
-
-export const startPostNode = (node) => {
-  return {
-    type: ActionTypes.POST_NODE,
-    node
-  }
-}
+// export const startPostNode = (node) => {
+//   return {
+//     type: ActionTypes.POST_NODE,
+//     node
+//   }
+// }
 
 export const startDeleteNode = (nodeId) => {
   return {
@@ -139,13 +123,28 @@ export const receiveNode = (node) => {
   }
 }
 
+// Action Creator Helpers //
+
+export const receiveNodeSuccess = (statusObj) => {
+  return {
+    type: ActionTypes.RECEIVE_NODE,
+    node: statusObj ? statusObj.response : '',
+    receivedAt: Date.now()
+  }
+}
+
+export const receiveNodesSuccess = (statusObj) => {
+  return {
+    type: ActionTypes.RECEIVE_NODES,
+    nodes: statusObj ? statusObj.response : '',
+    receivedAt: Date.now()
+  }
+}
+
 
 ///////////////////////////
 // THUNK ACTION CREATORS //
 ///////////////////////////
-
-// Base curried function to create dispatchActionWithStatus function for callApi()
-const dispatchActionWithArgs = (dispatch) => (actionCreator) => (...args) => (status) => dispatch(actionCreator(status, args));
 
 // Fetch all nodes
 export function fetchAllNodes(templateLabel) {
@@ -207,6 +206,24 @@ export function fetchNode(templateLabel, nodeId) {
   }
 }
 
+// Create new node
+export function fetchPostNode(node, payload) {
+
+  return function (dispatch) {
+
+    // Define args for callApi()
+    let dispatchActionWithStatus = dispatchActionWithArgs(dispatch)(postNode)(node.label, payload);
+    let apiArgs = {
+      endpoint: `/x/${node.label}`,
+      method: 'POST',
+      payload: payload
+    }
+
+    // Execute api call
+    callApi(dispatchActionWithStatus, apiArgs);
+  }
+}
+
 // Update node by id
 export function fetchPutNode(node, payload) {
 
@@ -215,7 +232,7 @@ export function fetchPutNode(node, payload) {
     // Define args for callApi()
     let dispatchActionWithStatus = dispatchActionWithArgs(dispatch)(putNode)(node, payload);
     let apiArgs = {
-      endpoint: `/x/${node.label}/${node.instance.nid}`,
+      endpoint: `/x/${node.label}/${node.nid}`,
       method: 'PUT',
       payload: payload
     }
