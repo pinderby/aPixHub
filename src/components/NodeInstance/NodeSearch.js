@@ -3,7 +3,7 @@ import './NodeSearch.css';
 import NodeSearchResult from './NodeSearchResult.js';
 import Helpers from '../../helpers.js';
 import { Link } from 'react-router-dom';
-import { updateNodes, updateNode, fetchAllNodes, searchNodes } from '../../actions/nodes';
+import { updateNodes, updateNode, fetchAllNodes, fetchSearchNodes } from '../../actions/nodes';
 import { fetchTemplate } from '../../actions/templates';
 import LoadingOverlay from '../LoadingOverlay';
 
@@ -18,6 +18,10 @@ class NodeSearch extends Component {
         nodeTemplate: { isFetching: true },
       };
       return;
+    }
+
+    this.state = {
+      nodes: []
     }
   }
 
@@ -44,9 +48,13 @@ class NodeSearch extends Component {
     if (query) {
       // Initially filter current nodes until full results are received from server
       let nodes = this.state.nodes;
-      nodes.instances = nodes.instances.filter(function(n) {
-        return (new RegExp(query, 'i')).test(n.properties.title);
-      } ); // TODO --DM-- filter based on property input
+      
+      // If instances exist, filter node instances
+      if (nodes.instances) {
+        nodes.instances = nodes.instances.filter(function(n) {
+          return (new RegExp(query, 'i')).test(n.properties.title);
+        } ); // TODO --DM-- filter based on property input
+      }
 
       // Update state with filtered nodes
       this.setState({
@@ -54,7 +62,7 @@ class NodeSearch extends Component {
       });
 
       // Send request to get search results
-      dispatch(searchNodes(nodeLabel, 'title', query));
+      dispatch(fetchSearchNodes(nodeLabel, 'title', query));
 
     // If no query, get all nodes
     } else {

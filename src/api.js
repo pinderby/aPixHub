@@ -1,9 +1,9 @@
 
 // Define api root address
-export const API_ROOT = 'https://apix.rocks/'
-export const FETCHING = 'fetching'
-export const SUCCESS = 'success'
-export const ERROR = 'error'
+export const API_ROOT = 'https://apix.rocks'
+export const STATUS_FETCHING = 'fetching'
+export const STATUS_SUCCESS = 'success'
+export const STATUS_ERROR = 'error'
 
 /////////////////// TODO --DM-- Implement Normalizr //////////////////
 
@@ -18,17 +18,17 @@ export const ERROR = 'error'
 /////////////////// TODO --DM-- Implement Normalizr ///////////////////
 
 // Performs the call and promises when such actions are dispatched.
-const callApi = (dispatchActionWithStatus, apiArgs) => {
+export const callApi = (dispatchActionWithStatus, apiArgs) => {
   // apiArgs must include: { endpoint, method, payload }
 
   // TODO --DM-- Error handling of api request
   checkApiArgs(apiArgs)
 
   // Dispatch fetching action
-  dispatchActionWithStatus({ status: FETCHING })
+  dispatchActionWithStatus({ status: STATUS_FETCHING })
 
   // Return api call to get search results
-  fetch(`${API_ROOT}/${apiArgs.endpoint}`, {
+  fetch(`${API_ROOT}${apiArgs.endpoint}`, {
     headers: new Headers({
         'Content-Type': 'application/json',
         Accept: 'application/json',
@@ -37,25 +37,34 @@ const callApi = (dispatchActionWithStatus, apiArgs) => {
     body: apiArgs.payload
   })
   .then(function(response){ 
-    dispatchActionWithStatus({ status: SUCCESS, response: response })
+    // Log response from server
+    console.log('callApi() success response: ', response); // TODO --DM-- Remove
+    return response.json();
+  })
+  .then(function(data){ 
+    console.log('callApi() success data: ', data); // TODO --DM-- Remove
+
+    // Receive data from server when request is completed and dispatch success action
+    dispatchActionWithStatus({ status: STATUS_SUCCESS, response: data })
   })
   .catch(function(error) {
-    dispatchActionWithStatus({ status: ERROR, error: error })
+    // Log error from server
+    console.log('callApi() error: ', error); // TODO --DM-- Remove
+
+    // Receive error from server when request is completed and dispatch error action
+    dispatchActionWithStatus({ status: STATUS_ERROR, error: error })
   });
 }
 
-checkApiArgs(apiArgs) {
+function checkApiArgs(apiArgs) {
   // TODO --DM-- add additional checking
-  if (apiArgs.hasOwnProperty('type')) {
-    throw new Error('API Arguments must contain an action type.')
-  }
-  if (apiArgs.hasOwnProperty('endpoint')) {
+  if (!apiArgs.hasOwnProperty('endpoint')) {
     throw new Error('API Arguments must contain an API endpoint.')
   }
-  if (apiArgs.hasOwnProperty('method')) {
+  if (!apiArgs.hasOwnProperty('method')) {
     throw new Error('API Arguments must contain an HTTP request method.')
   }
-  if (apiArgs.hasOwnProperty('payload')) {
+  if (!apiArgs.hasOwnProperty('payload')) {
     throw new Error('API Arguments must contain a payload.' +
     ' Pass an empty object if the request does not require a payload.')
   }

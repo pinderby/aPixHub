@@ -1,4 +1,6 @@
 import * as ActionTypes from '../constants/ActionTypes.js';
+import { callApi } from '../api';
+import { actionByStatus } from './actionHelpers';
 
 export const updateNode = (node) => {
   return {
@@ -14,17 +16,81 @@ export const updateNodes = (nodes) => {
   }
 }
 
-export const startGetAllNodes = () => {
-  return {
+export const getAllNodes = (statusObj, args) => {
+  let fetchingAction = {
     type: ActionTypes.GET_ALL_NODES,
   }
+  
+  if (typeof(statusObj) === 'undefined') return fetchingAction;
+
+  let successAction = {
+    type: ActionTypes.RECEIVE_NODES,
+    nodes: statusObj ? statusObj.response : '',
+    receivedAt: Date.now()
+  }
+
+  let errorAction = { type: ActionTypes.NODES_REQUEST_ERROR } // TODO --DM-- Implement
+  
+  return actionByStatus(statusObj.status, fetchingAction, successAction, errorAction)
 }
 
-export const startSearchNodes = (query) => {
-  return {
+export const searchNodes = (statusObj, args) => {
+  let fetchingAction = {
     type: ActionTypes.SEARCH_NODES,
-    query
+    query: args[0]
   }
+  
+  if (typeof(statusObj) === 'undefined') return fetchingAction;
+
+  let successAction = {
+    type: ActionTypes.RECEIVE_NODES,
+    nodes: statusObj ? statusObj.response : '',
+    receivedAt: Date.now()
+  }
+
+  let errorAction = { type: ActionTypes.NODES_REQUEST_ERROR } // TODO --DM-- Implement
+  
+  return actionByStatus(statusObj.status, fetchingAction, successAction, errorAction)
+}
+
+export const getNode = (statusObj, args) => {
+  let fetchingAction = {
+    type: ActionTypes.GET_NODE,
+    templatelabel: args[0],
+    nodeId: args[1]
+  }
+  
+  if (typeof(statusObj) === 'undefined') return fetchingAction;
+
+  let successAction = {
+    type: ActionTypes.RECEIVE_NODE,
+    node: statusObj ? statusObj.response : '',
+    receivedAt: Date.now()
+  }
+
+  let errorAction = { type: ActionTypes.NODE_REQUEST_ERROR } // TODO --DM-- Implement
+  
+  return actionByStatus(statusObj.status, fetchingAction, successAction, errorAction)
+}
+
+export const putNode = (statusObj, args) => {
+  let fetchingAction = {
+    type: ActionTypes.PUT_NODE,
+    node: args[0],
+    payload: args[1]
+  }
+  
+  if (typeof(statusObj) === 'undefined') return fetchingAction;
+
+  let successAction = {
+    type: ActionTypes.RECEIVE_NODE,
+    node: statusObj ? statusObj.response : '',
+    receivedAt: Date.now()
+  }
+
+  let errorAction = { type: ActionTypes.NODE_REQUEST_ERROR } // TODO --DM-- Implement
+  
+  return actionByStatus(statusObj.status, fetchingAction, successAction, errorAction)
 }
 
 export const receiveNodes = (nodes) => {
@@ -43,6 +109,7 @@ export const startGetNode = (templatelabel, nodeId) => {
   }
 }
 
+// TODO --DM-- Remove
 export const startPutNode = (node) => {
   return {
     type: ActionTypes.PUT_NODE,
@@ -77,123 +144,83 @@ export const receiveNode = (node) => {
 // THUNK ACTION CREATORS //
 ///////////////////////////
 
+// Base curried function to create dispatchActionWithStatus function for callApi()
+const dispatchActionWithArgs = (dispatch) => (actionCreator) => (...args) => (status) => dispatch(actionCreator(status, args));
+
 // Fetch all nodes
-export function fetchAllNodes(nodeLabel) {
+export function fetchAllNodes(templateLabel) {
 
   return function (dispatch) {
 
-    // Send action all nodes are being fetched
-    dispatch(startGetAllNodes());
-    
-    // Return api call to get all nodes
-    fetch(`https://apix.rocks/x/${nodeLabel}`, {
-      headers: new Headers({
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        }),
-      method: 'GET'
-    })
-    .then(function(res){ return res.json(); })
-    .then(function(data){ 
-      console.log('fetchNodes() Data: ', data ); // TODO --DM-- Remove
+    // Define args for callApi()
+    let dispatchActionWithStatus = dispatchActionWithArgs(dispatch)(getAllNodes)();
+    let apiArgs = {
+      endpoint: `/x/${templateLabel}`,
+      method: 'GET',
+      payload: {}
+    }
 
-      // Receive all nodes from server when request is completed
-      dispatch(receiveNodes(data));
-
-    }).catch(function(err) {
-      // Error :( TODO --DM-- Handle error
-    });
+    // Execute api call
+    callApi(dispatchActionWithStatus, apiArgs);
   }
 }
 
 // Search nodes based on user query
-export function searchNodes(nodeLabel, propKey, query) {
+export function fetchSearchNodes(templateLabel, propKey, query) {
 
   return function (dispatch) {
-
-    // Send action nodes are being fetched
-    dispatch(startSearchNodes());
 
     // Initialize query object
     let queryObj = {};
     queryObj[propKey] = query;
 
-    // Return api call to get search results
-    fetch(`https://apix.rocks/x/${nodeLabel}/search`, {
-      headers: new Headers({
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        }),
+    // Define args for callApi()
+    let dispatchActionWithStatus = dispatchActionWithArgs(dispatch)(searchNodes)(query);
+    let apiArgs = {
+      endpoint: `/x/${templateLabel}/search`,
       method: 'POST',
-      body: JSON.stringify({
+      payload: JSON.stringify({
         properties: queryObj // TODO --DM-- Change to select property
       })
-    })
-    .then(function(res){ return res.json(); })
-    .then(function(data){ 
-      console.log('searchNodes() Data: ', data ); // TODO --DM-- Remove
-      
-      // Receive all nodes from server when request is completed
-      dispatch(receiveNodes(data))
-    }).catch(function(err) {
-      // Error :( TODO --DM-- Handle error
-    });
+    }
+
+    // Execute api call
+    callApi(dispatchActionWithStatus, apiArgs);
   }
 }
 
 // Fetch node by id
-export function fetchNode(templatelabel, nodeId) {
+export function fetchNode(templateLabel, nodeId) {
 
   return function (dispatch) {
 
-    // Send action node is being fetched
-    dispatch(startGetNode(templatelabel, nodeId));
+    // Define args for callApi()
+    let dispatchActionWithStatus = dispatchActionWithArgs(dispatch)(getNode)(templateLabel, nodeId);
+    let apiArgs = {
+      endpoint: `/x/${templateLabel}/${nodeId}`,
+      method: 'GET',
+      payload: {}
+    }
 
-    // Return api call
-    return fetch(`https://apix.rocks/x/${templatelabel}/${nodeId}`, {
-      method: 'GET'
-    })
-    .then(function(response) {
-      response.json().then(function(result) {
-          console.log('getNode() result: ', result); // TODO --DM-- Remove
-
-          // Receive node from server when request is completed
-          dispatch(receiveNode(result))
-      });
-
-    }).catch(function(err) {
-      // Error :( TODO --DM-- Handle error
-    });
+    // Execute api call
+    callApi(dispatchActionWithStatus, apiArgs);
   }
 }
 
 // Update node by id
-export function putNode(node, payload) {
+export function fetchPutNode(node, payload) {
 
   return function (dispatch) {
 
-    // Send action node is being fetched
-    dispatch(startPutNode(node));
+    // Define args for callApi()
+    let dispatchActionWithStatus = dispatchActionWithArgs(dispatch)(putNode)(node, payload);
+    let apiArgs = {
+      endpoint: `/x/${node.label}/${node.instance.nid}`,
+      method: 'PUT',
+      payload: payload
+    }
 
-    // Return api call
-    return fetch(`https://apix.rocks/x/${nodeLabel}/${instance.nid}`, {
-        headers: new Headers({
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        }),
-        method: 'PUT',
-        body: payload
-    })
-    .then(function(response) {
-      response.json().then(function(result) {
-          console.log('putNode() result: ', result); // TODO --DM-- Remove
-
-          // Receive node from server when request is completed
-          dispatch(receiveNode(result))
-      });
-
-    }).catch(function(err) {
-      // Error :( TODO --DM-- Handle error
-    });
+    // Execute api call
+    callApi(dispatchActionWithStatus, apiArgs);
   }
 }
