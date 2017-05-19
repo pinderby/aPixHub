@@ -177,6 +177,11 @@ class SearchNavbar extends Component {
                     <option>Companies</option>
                   </select>
                   <button type="submit" className="btn btn-default">Search</button>
+                  <Link to={`/n/${this.props.nodeLabel}/add`}>
+                    <button type="submit" className="btn btn-default add-node-btn">
+                      <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>{" "}New Node
+                    </button>
+                  </Link>
                 </form>
               </div>
             </div>

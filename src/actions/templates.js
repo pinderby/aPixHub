@@ -67,12 +67,20 @@ export const getTemplate = (statusObj, args) => {
   return actionByStatus(statusObj.status, fetchingAction, successAction, errorAction)
 }
 
-// export const putTemplate = (template) => {
-//   return {
-//     type: ActionTypes.PUT_TEMPLATE,
-//     template
-//   }
-// }
+export const postTemplate = (statusObj, args) => {
+  let fetchingAction = {
+    type: ActionTypes.POST_TEMPLATE,
+    payload: args[0]
+  }
+  
+  if (typeof(statusObj) === 'undefined') return fetchingAction;
+
+  let successAction = receiveTemplateSuccess(statusObj);
+
+  let errorAction = { type: ActionTypes.TEMPLATE_REQUEST_ERROR } // TODO --DM-- Implement
+  
+  return actionByStatus(statusObj.status, fetchingAction, successAction, errorAction)
+}
 
 export const putTemplate = (statusObj, args) => {
   let fetchingAction = {
@@ -90,18 +98,19 @@ export const putTemplate = (statusObj, args) => {
   return actionByStatus(statusObj.status, fetchingAction, successAction, errorAction)
 }
 
-export const postTemplate = (template) => {
-  return {
-    type: ActionTypes.POST_TEMPLATE,
-    template
-  }
-}
-
-export const deleteTemplate = (templateId) => {
-  return {
+export const deleteTemplate = (statusObj, args) => {
+  let fetchingAction = {
     type: ActionTypes.DELETE_TEMPLATE,
-    templateId
+    templateId: args[0]
   }
+  
+  if (typeof(statusObj) === 'undefined') return fetchingAction;
+
+  let successAction = receiveTemplateSuccess(statusObj);
+
+  let errorAction = { type: ActionTypes.TEMPLATE_REQUEST_ERROR } // TODO --DM-- Implement
+  
+  return actionByStatus(statusObj.status, fetchingAction, successAction, errorAction)
 }
 
 export const receiveTemplate = (template) => {
@@ -201,6 +210,24 @@ export function fetchPutTemplate(templateId, payload) {
       endpoint: `/nodes/${templateId}`,
       method: 'PUT',
       payload: payload
+    }
+
+    // Execute api call
+    callApi(dispatchActionWithStatus, apiArgs);
+  }
+}
+
+// Delete node by id
+export function fetchDeleteTemplate(templateId) {
+
+  return function (dispatch) {
+
+    // Define args for callApi()
+    let dispatchActionWithStatus = dispatchActionWithArgs(dispatch)(deleteTemplate)(templateId);
+    let apiArgs = {
+      endpoint: `/nodes/${templateId}`,
+      method: 'DELETE',
+      payload: {}
     }
 
     // Execute api call

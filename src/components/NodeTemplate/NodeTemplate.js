@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 // import './NodeTemplate.css'
 import './TemplateSearch.css';
 import LoadingOverlay from '../LoadingOverlay';
-import { fetchTemplate } from '../../actions/templates';
+import { fetchTemplate, fetchDeleteTemplate } from '../../actions/templates';
 
 class NodeTemplate extends Component {
   constructor(props) {
@@ -23,6 +23,11 @@ class NodeTemplate extends Component {
   getTemplate(templateLabel) {
     // Dispatch fetchTemplate to get template by label
     this.props.dispatch(fetchTemplate(templateLabel));
+  }
+
+  deleteTemplate(templateId) {
+    // Dispatch fetchDeleteTemplate to delete template by id
+    this.props.dispatch(fetchDeleteTemplate(templateId));
   }
 
   render() {  
@@ -46,6 +51,8 @@ class NodeTemplate extends Component {
                 <Link key={template['id']+'-add'} to={"/n/"+template['label']+"/add" }>Add {displayLabel}</Link>
                 <br />
                 <Link key={template['id']+'-search'} to={"/n/"+template['label']+"/search" }>Search {displayLabel}</Link>
+                <br />
+                <a key={template['id']+'-delete'} onClick={() => this.deleteTemplate(template.id)} >Delete {displayLabel}</a>
               </div>
               {Helpers.renderTemplate(template)}
             </div>

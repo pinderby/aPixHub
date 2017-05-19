@@ -24,25 +24,6 @@ class TemplateSearch extends Component {
   componentDidMount() {
     // Send call to get all templates
     this.props.dispatch(fetchTemplates());
-
-    // TODO --DM-- Remove
-    // var x = this;
-    // // url (required), options (optional)
-    // fetch('https://apix.rocks/nodes', {
-    //   method: 'GET'
-    // }).then(function(response) {
-    //   response.json().then(function(result) {
-    //       var templates = [];
-    //       result.forEach(function (obj) {
-    //         templates.push(obj);
-    //       });
-    //       x.setState({ templates: templates });
-    //   });
-      
-    //   // this.setState({ node: });
-    // }).catch(function(err) {
-    //   // Error :(
-    // });
   }
 
   updateQuery(query) {
@@ -55,31 +36,6 @@ class TemplateSearch extends Component {
   searchTemplates(e, query) {
     // Prevent default behavior
     e.preventDefault();
-
-    // Initialize dispatch
-    // var dispatch = this.props.dispatch;
-
-    // TODO --DM-- Reimplement when search for templates is implemented on server
-    // // If query, search name
-    // if (query) {
-    //   // Get search results
-    //   fetch('https://apix.rocks/nodes/search', {
-    //     headers: new Headers({
-    //         'Content-Type': 'application/json',
-    //         Accept: 'application/json',
-    //       }),
-    //     method: 'POST',
-    //     body: JSON.stringify({
-    //       properties: {label: query}
-    //     })
-    // })
-    //   .then(function(res){ return res.json(); })
-    //   .then(function(data){ 
-    //     console.log('Data: ', data ); 
-    //     // dispatch(initializeNodeTemplate(template));
-    //   });
-
-    // } 
   }
 
   setNodeTemplate(template) {

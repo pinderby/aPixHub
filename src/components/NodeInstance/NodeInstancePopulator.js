@@ -125,27 +125,10 @@ class NodeInstancePopulator extends Component {
     // Initialize variables for network request
     let url, method;
     if (this.state.creating) {
-      // url = `https://apix.rocks/x/${nodeLabel}`;
-      // method = 'POST';
       dispatch(fetchPostNode(instance, payload));
     } else {
-      // url = url = `https://apix.rocks/x/${nodeLabel}/${instance.nid}`;
-      // method = 'PUT';
       dispatch(fetchPutNode(instance, payload));
     }
-
-    // TODO --DM-- Refactor into thunk
-    // Send network request
-    // fetch(url, {
-    //     headers: new Headers({
-    //       'Content-Type': 'application/json',
-    //       Accept: 'application/json',
-    //     }),
-    //     method: method,
-    //     body: payload
-    // })
-    // .then(function(res){ return res.json(); })
-    // .then(function(data){ console.log('Data: ', JSON.stringify( data ) ); });
   }
 
   renderProperties() {

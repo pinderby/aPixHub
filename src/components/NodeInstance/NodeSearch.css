@@ -12,11 +12,11 @@ body {
 }
 
 .topbar-form {
-  width: 80% !important;
+  width: 90% !important;
 }
 
 .topbar-form > .form-group {
-  width: 70%;
+  width: 50%;
 }
 
 .topbar-form > .form-group > input {
@@ -30,6 +30,10 @@ body {
 
 .search-bar {
   width: 60%;
+}
+
+.add-node-btn {
+    margin-left: 15px;
 }
 
 .image-container {

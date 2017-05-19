@@ -192,6 +192,7 @@ class TemplateBuilder extends Component {
 
     console.log('submitTemplate(): ', nodeTemplate); // TODO --DM-- Remove
 
+    // Generate template payload
     for(var propKey in nodeTemplate.properties) {
       let prop = nodeTemplate.properties[propKey];
       console.log('submitTemplate() prop: ', prop); // TODO --DM-- Remove
@@ -210,59 +211,16 @@ class TemplateBuilder extends Component {
       }
     }
 
-    // Dispatch updated node to store
-    // this.props.dispatch(submitNodeTemplate(node));
-    // var payload = test_template;
-
-    // var template = {
-    //     label: "test_movie", 
-    //     properties: {
-    //         cover_image:"string",
-    //         director:"string",
-    //         name:"string",
-    //         profile_image:"string",
-    //         year:"integer",
-    //         section: {title:"string", characters:["string"]}
-    //     }
-    // };
-    // var templateJson = JSON.stringify( template );
-    // console.log('templateJson: ', templateJson);
-
     console.log('Payload: ', payload); // TODO --DM-- Remove
     
     payload = JSON.stringify(payload).replace('"[\\', '[').replace('\\"]"', '"]');
     console.log('Payload string: ', payload); // TODO --DM-- Remove
-
-    // var data = new FormData();
-    // data.append( "json", JSON.stringify( payload ) );
-
-    // console.log('Payload: ', data);
-
-    // Initialize variables for network request
-    // let url, method;
     
     if (this.state.creating) {
-      // url = 'https://apix.rocks/nodes';
-      // method = 'POST';
       dispatch(fetchPostTemplate(payload));
     } else {
-      // url = `https://apix.rocks/nodes/${nodeTemplate.id}`;
-      // method = 'PUT';
       dispatch(fetchPutTemplate(nodeTemplate.id, payload));
     }
-
-    // TODO --DM-- Refactor into thunk
-    // Send network request
-    // fetch(url, {
-    //     headers: new Headers({
-    //       'Content-Type': 'application/json',
-    //       Accept: 'application/json',
-    //     }),
-    //     method: method,
-    //     body: payload
-    // })
-    // .then(function(res){ return res.json(); })
-    // .then(function(data){ console.log('Data: ', JSON.stringify( data ) ); });
   }
 
   getTemplate(templateLabel) {

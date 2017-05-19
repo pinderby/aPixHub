@@ -93,25 +93,26 @@ export const putNode = (statusObj, args) => {
   return actionByStatus(statusObj.status, fetchingAction, successAction, errorAction)
 }
 
+export const deleteNode = (statusObj, args) => {
+  let fetchingAction = {
+    type: ActionTypes.DELETE_NODE,
+    node: args[0]
+  }
+  
+  if (typeof(statusObj) === 'undefined') return fetchingAction;
+
+  let successAction = receiveNodeSuccess(statusObj);
+
+  let errorAction = { type: ActionTypes.NODE_REQUEST_ERROR } // TODO --DM-- Implement
+  
+  return actionByStatus(statusObj.status, fetchingAction, successAction, errorAction)
+}
+
 export const receiveNodes = (nodes) => {
   return {
     type: ActionTypes.RECEIVE_NODES,
     nodes,
     receivedAt: Date.now()
-  }
-}
-
-// export const startPostNode = (node) => {
-//   return {
-//     type: ActionTypes.POST_NODE,
-//     node
-//   }
-// }
-
-export const startDeleteNode = (nodeId) => {
-  return {
-    type: ActionTypes.DELETE_NODE,
-    nodeId
   }
 }
 
@@ -235,6 +236,24 @@ export function fetchPutNode(node, payload) {
       endpoint: `/x/${node.label}/${node.nid}`,
       method: 'PUT',
       payload: payload
+    }
+
+    // Execute api call
+    callApi(dispatchActionWithStatus, apiArgs);
+  }
+}
+
+// Delete node by id
+export function fetchDeleteNode(node) {
+
+  return function (dispatch) {
+
+    // Define args for callApi()
+    let dispatchActionWithStatus = dispatchActionWithArgs(dispatch)(deleteNode)(node);
+    let apiArgs = {
+      endpoint: `/x/${node.label}/${node.nid}`,
+      method: 'DELETE',
+      payload: {}
     }
 
     // Execute api call
