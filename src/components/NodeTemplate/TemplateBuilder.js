@@ -18,7 +18,7 @@ class TemplateBuilder extends Component {
     let nodeTemplate, creating = (splitUrlPath[splitUrlPath.length-1] === "add");
 
     // If nodeTemplate doesn't exist, query it from server
-    if (!props.nodeTemplate.template) {
+    if (!props.nodeTemplate.template && !creating) {
       this.getTemplate(props.match.params.label);
       this.state = {
         nodeTemplate: { isFetching: true },
@@ -32,14 +32,14 @@ class TemplateBuilder extends Component {
     // Initialize template
     if (creating) {
       // If creating, create new template with label and properties
-      nodeTemplate = { label:'', properties: []} // TODO --DM-- Add key, base model props
+      nodeTemplate = { label:'', template: { properties: [] }} // TODO --DM-- Add key, base model props
     } else {
       // If editing, assign template from props
       nodeTemplate = props.nodeTemplate;
     }
       
     // Get template properties
-    let properties = nodeTemplate.properties ? nodeTemplate.properties : [];
+    let properties = nodeTemplate.template.properties ? nodeTemplate.template.properties : [];
 
     // If creating, add mandatory name, profile_image, cover_image properties
     if (creating) {

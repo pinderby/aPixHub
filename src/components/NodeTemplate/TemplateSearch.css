@@ -16,3 +16,7 @@
 .add-template-btn {
     margin-left: 15px;
 }
+
+.topbar-form.navbar-left {
+  float: none !important;
+}
