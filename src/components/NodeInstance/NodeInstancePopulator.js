@@ -24,18 +24,22 @@ class NodeInstancePopulator extends Component {
       };
     }
 
-    // If node doesn't exist, query it from server
-    if (!props.node.instance) {
-      if (creating) {
-        state = {
-          node: { isFetching: false },
-        };
-      } else {
-        this.getNode(props.match.params.label, props.match.params.id);
-        state = {
-          node: { isFetching: true },
-        };
-      }
+    // If creating new node, instantiate blank node
+    if (creating) {
+      state = {
+        node: {  
+          isFetching: false, 
+          instance: { label: props.match.params.label, properties: {} } 
+        },
+      };
+    }
+
+    // If node doesn't exist and editing, query it from server
+    if (!props.node.instance && !creating) {
+      this.getNode(props.match.params.label, props.match.params.id);
+      state = {
+        node: { isFetching: true },
+      };
     }
 
     // Bind callbacks
@@ -174,6 +178,8 @@ class NodeInstancePopulator extends Component {
           {this.renderProperties()}
           <br />
           <RequestButton text={'Submit Node'} onClick={() => this.submitNode(template.label)}/>
+          <br />
+          <RequestButton text={'Update Node'} onClick={() => this.updateNode(this.state.node)}/>
         </form>
       
       console.log('Template:', template);

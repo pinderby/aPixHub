@@ -48,7 +48,7 @@ const node = (state = {}, action) => {
         didInvalidate: false,
         instance: action.node,
         lastUpdated: action.receivedAt
-      })
+      });
     default:
       return state
   }
