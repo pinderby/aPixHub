@@ -54,11 +54,13 @@ img.node-img {
 }
 
 .profile-img {
+  margin: auto;
   width: 200px;
   max-height: 300px;
 }
 
 .cover-img {
+  margin: auto;
   height: 200px;
   width: 533px;
 }
