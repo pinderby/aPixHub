@@ -13,7 +13,7 @@
     font-weight: bold;
 }
 
-.add-template-btn {
+.add-template-btn, .add-relationship-btn {
     margin-left: 15px;
 }
 

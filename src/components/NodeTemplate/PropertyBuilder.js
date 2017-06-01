@@ -31,6 +31,17 @@ class PropertyBuilder extends Component {
       return comps;
     }
 
+    if(prop.value_type === 'node') {
+      var comps = [];
+      // TODO --DM-- Implement getting nodes from server
+      // Use react-autocomplete: https://github.com/reactjs/react-autocomplete
+      comps.push(<input key={prop.key} type={prop.value_type} className="form-control" 
+          id={prop.key} value={prop.key} placeholder={prop.placeholder} disabled={disabled}
+          onChange={(e) => this.textChanged(e, prop, this.props.onChange)}
+            />);
+      return comps;
+    }
+
     if (prop.key) {
       return <input type={prop.value_type} className="form-control" 
           id={prop.key} value={prop.key} placeholder={prop.placeholder} disabled={disabled}

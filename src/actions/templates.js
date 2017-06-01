@@ -2,6 +2,46 @@ import * as ActionTypes from '../constants/ActionTypes.js';
 import { dispatchActionWithArgs, callApi } from '../api';
 import { actionByStatus } from './actionHelpers';
 
+// Action Creator Helpers //
+
+export const receiveTemplateSuccess = (statusObj) => {
+  return {
+    type: ActionTypes.RECEIVE_TEMPLATE,
+    template: statusObj ? statusObj.response : '',
+    receivedAt: Date.now()
+  }
+}
+
+export const receiveTemplatesSuccess = (statusObj) => {
+  return {
+    type: ActionTypes.RECEIVE_TEMPLATES,
+    templates: statusObj ? statusObj.response : '',
+    receivedAt: Date.now()
+  }
+}
+
+export const receiveRelationshipTemplateSuccess = (statusObj) => {
+  return {
+    type: ActionTypes.RECEIVE_RELATIONSHIP_TEMPLATE,
+    template: statusObj ? statusObj.response : '',
+    receivedAt: Date.now()
+  }
+}
+
+export const receiveRelationshipTemplatesSuccess = (statusObj) => {
+  return {
+    type: ActionTypes.RECEIVE_RELATIONSHIP_TEMPLATES,
+    templates: statusObj ? statusObj.response : '',
+    receivedAt: Date.now()
+  }
+}
+
+/////////////////////
+// ACTION CREATORS //
+/////////////////////
+
+// For Node Templates //
+
 export const updateNodeTemplate = (nodeTemplate) => {
   return {
     type: ActionTypes.UPDATE_NODE_TEMPLATE,
@@ -12,13 +52,6 @@ export const updateNodeTemplate = (nodeTemplate) => {
 export const initializeNodeTemplate = (nodeTemplate) => {
   return {
     type: ActionTypes.INITIALIZE_NODE_TEMPLATE,
-    nodeTemplate
-  }
-}
-
-export const submitNodeTemplate = (nodeTemplate) => {
-  return {
-    type: ActionTypes.SUBMIT_NODE_TEMPLATE,
     nodeTemplate
   }
 }
@@ -121,28 +154,97 @@ export const receiveTemplate = (template) => {
   }
 }
 
-// Action Creator Helpers //
+// For Relationship Templates //
 
-export const receiveTemplateSuccess = (statusObj) => {
+export const updateRelationshipTemplate = (relationshipTemplate) => {
   return {
-    type: ActionTypes.RECEIVE_TEMPLATE,
-    template: statusObj ? statusObj.response : '',
+    type: ActionTypes.UPDATE_RELATIONSHIP_TEMPLATE,
+    relationshipTemplate
+  }
+}
+
+export const receiveRelationshipTemplates = (relationshipTemplates) => {
+  return {
+    type: ActionTypes.RECEIVE_RELATIONSHIP_TEMPLATES,
+    relationshipTemplates,
     receivedAt: Date.now()
   }
 }
 
-export const receiveTemplatesSuccess = (statusObj) => {
+export const getRelationshipTemplate = (statusObj, args) => {
+  let fetchingAction = {
+    type: ActionTypes.GET_RELATIONSHIP_TEMPLATE,
+    relationshipTemplateId: args[0]
+  }
+  
+  if (typeof(statusObj) === 'undefined') return fetchingAction;
+
+  let successAction = receiveRelationshipTemplateSuccess(statusObj);
+
+  let errorAction = { type: ActionTypes.TEMPLATE_REQUEST_ERROR } // TODO --DM-- Implement
+  
+  return actionByStatus(statusObj.status, fetchingAction, successAction, errorAction)
+}
+
+export const postRelationshipTemplate = (statusObj, args) => {
+  let fetchingAction = {
+    type: ActionTypes.POST_RELATIONSHIP_TEMPLATE,
+    payload: args[0]
+  }
+  
+  if (typeof(statusObj) === 'undefined') return fetchingAction;
+
+  let successAction = receiveRelationshipTemplateSuccess(statusObj);
+
+  let errorAction = { type: ActionTypes.TEMPLATE_REQUEST_ERROR } // TODO --DM-- Implement
+  
+  return actionByStatus(statusObj.status, fetchingAction, successAction, errorAction)
+}
+
+export const putRelationshipTemplate = (statusObj, args) => {
+  let fetchingAction = {
+    type: ActionTypes.PUT_RELATIONSHIP_TEMPLATE,
+    relationshipTemplateId: args[0],
+    payload: args[1]
+  }
+  
+  if (typeof(statusObj) === 'undefined') return fetchingAction;
+
+  let successAction = receiveRelationshipTemplateSuccess(statusObj);
+
+  let errorAction = { type: ActionTypes.TEMPLATE_REQUEST_ERROR } // TODO --DM-- Implement
+  
+  return actionByStatus(statusObj.status, fetchingAction, successAction, errorAction)
+}
+
+export const deleteRelationshipTemplate = (statusObj, args) => {
+  let fetchingAction = {
+    type: ActionTypes.DELETE_RELATIONSHIP_TEMPLATE,
+    relationshipTemplateId: args[0]
+  }
+  
+  if (typeof(statusObj) === 'undefined') return fetchingAction;
+
+  let successAction = receiveRelationshipTemplateSuccess(statusObj);
+
+  let errorAction = { type: ActionTypes.TEMPLATE_REQUEST_ERROR } // TODO --DM-- Implement
+  
+  return actionByStatus(statusObj.status, fetchingAction, successAction, errorAction)
+}
+
+export const receiveRelationshipTemplate = (relationshipTemplate) => {
   return {
-    type: ActionTypes.RECEIVE_TEMPLATES,
-    templates: statusObj ? statusObj.response : '',
+    type: ActionTypes.RECEIVE_RELATIONSHIP_TEMPLATE,
+    relationshipTemplate,
     receivedAt: Date.now()
   }
 }
-
 
 ///////////////////////////
 // THUNK ACTION CREATORS //
 ///////////////////////////
+
+// For Node Templates //
 
 // Fetch all templates
 export function fetchTemplates() {
@@ -162,7 +264,7 @@ export function fetchTemplates() {
   }
 }
 
-// Fetch template by id
+// Fetch template by label
 export function fetchTemplate(templateLabel) {
 
   return function (dispatch) {
@@ -234,3 +336,78 @@ export function fetchDeleteTemplate(templateId) {
     callApi(dispatchActionWithStatus, apiArgs);
   }
 }
+
+// For Relationship Templates //
+
+// Fetch relationship template by id
+export function fetchRelationshipTemplate(templateId) {
+
+  return function (dispatch) {
+
+    // Define args for callApi()
+    let dispatchActionWithStatus = dispatchActionWithArgs(dispatch)(getRelationshipTemplate)(templateId);
+    let apiArgs = {
+      endpoint: `/relationships/${templateId}`,
+      method: 'GET',
+      payload: {}
+    }
+
+    // Execute api call
+    callApi(dispatchActionWithStatus, apiArgs);
+  }
+}
+
+// // Create new relationship template
+// export function fetchPostTemplate(payload) {
+
+//   return function (dispatch) {
+
+//     // Define args for callApi()
+//     let dispatchActionWithStatus = dispatchActionWithArgs(dispatch)(postTemplate)(payload);
+//     let apiArgs = {
+//       endpoint: `/nodes`,
+//       method: 'POST',
+//       payload: payload
+//     }
+
+//     // Execute api call
+//     callApi(dispatchActionWithStatus, apiArgs);
+//   }
+// }
+
+// // Update relationship template by label
+// export function fetchPutTemplate(templateId, payload) {
+
+//   return function (dispatch) {
+//     console.log('fetchPutTemplate() templateId, payload: ', templateId, payload); // TODO --DM-- Remove
+
+//     // Define args for callApi()
+//     let dispatchActionWithStatus = dispatchActionWithArgs(dispatch)(putTemplate)(templateId, payload);
+//     let apiArgs = {
+//       endpoint: `/nodes/${templateId}`,
+//       method: 'PUT',
+//       payload: payload
+//     }
+
+//     // Execute api call
+//     callApi(dispatchActionWithStatus, apiArgs);
+//   }
+// }
+
+// // Delete relationship template by id
+// export function fetchDeleteTemplate(templateId) {
+
+//   return function (dispatch) {
+
+//     // Define args for callApi()
+//     let dispatchActionWithStatus = dispatchActionWithArgs(dispatch)(deleteTemplate)(templateId);
+//     let apiArgs = {
+//       endpoint: `/nodes/${templateId}`,
+//       method: 'DELETE',
+//       payload: {}
+//     }
+
+//     // Execute api call
+//     callApi(dispatchActionWithStatus, apiArgs);
+//   }
+// }

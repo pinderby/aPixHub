@@ -145,6 +145,11 @@ class TemplateNavbar extends Component {
                       <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>{" "}New Template
                     </button>
                   </Link>
+                  <Link to={"/relationships/add"}>
+                    <button type="submit" className="btn btn-default add-relationship-btn">
+                      <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>{" "}New Relationship
+                    </button>
+                  </Link>
                 </form>
               </div>
             </div>
