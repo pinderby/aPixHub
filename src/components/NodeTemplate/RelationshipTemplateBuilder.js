@@ -3,7 +3,7 @@ import Helpers from '../../helpers.js';
 import _ from 'lodash';
 import PropertyBuilder from './PropertyBuilder';
 import './TemplateBuilder.css';
-import { fetchRelationship, updateRelationshipTemplate, fetchPostRelationship, fetchPutRelationship } from '../../actions/templates';
+import { fetchRelationshipTemplate, updateRelationshipTemplate, fetchPostRelTemplate, fetchPutRelTemplate } from '../../actions/templates';
 import BaseModel from '../../constants/BaseModel.js';
 import LoadingOverlay from '../LoadingOverlay';
 
@@ -18,44 +18,32 @@ class RelationshipTemplateBuilder extends Component {
     let relationshipTemplate, creating = (splitUrlPath[splitUrlPath.length-1] === "add");
 
     // If relationshipTemplate doesn't exist, query it from server
-    if (!props.relationshipTemplate && !creating) {
+    if (!props.relationshipTemplate.template && !creating) {
       // TODO --DM-- Implement getting relationship and setting state
-      // this.getRelationshipTemplate(props.match.params.id);
-      // this.state = {
-      //   relationshipTemplate: { isFetching: true },
-      //   newPropIndex: 0,
-      //   rerender: true,
-      //   creating: creating
-      // };
+      this.getRelationshipTemplate(props.match.params.rel_template_id);
+      this.state = {
+        relationshipTemplate: { isFetching: true },
+        newPropIndex: 0,
+        rerender: true,
+        creating: creating
+      };
       return;
     }
 
     // Initialize template
-    if (creating) {
+    if (creating || !props.relationshipTemplate.template) {
       // If creating, create new template with label and properties
-      relationshipTemplate = { rel_type:'', properties: []} // TODO --DM-- Add key, base model props
+      relationshipTemplate = { rel_type:'', template: { properties: [] } }  // TODO --DM-- Add key, base model props
     } else {
       // If editing, assign template from props
       relationshipTemplate = props.relationshipTemplate;
     }
-      
+
     // Get template properties
-    let properties = relationshipTemplate.properties ? relationshipTemplate.properties : [];
+    let properties = relationshipTemplate.template.properties ? relationshipTemplate.template.properties : [];
 
-    // If creating, add mandatory name, profile_image, cover_image properties
-    if (creating) {
-      // Add mandatory rel_type property
-      properties.push({ key:"rel_type", display_label:"Relationship Type", value_type:"string", 
-                        placeholder:"Relationship Type", disabled: false, path:'rel_type' });
-
-      // Add mandatory from_node_id property
-      properties.push({ key:"from_node_id", display_label:"From Node", value_type:"node", 
-                        placeholder:"Node", disabled: false, path:'from_node_id' });
-
-      // Add mandatory to_node_id property
-      properties.push({ key:"to_node_id", display_label:"To Node", value_type:"node", 
-                        placeholder:"Node", disabled: false, path:'to_node_id' });
-    }
+    // Add mandatory fields
+    relationshipTemplate.template = this.addMandatoryFields(relationshipTemplate.template);
 
     // Bind callbacks
     this.addProperty = this.addProperty.bind(this);
@@ -83,11 +71,64 @@ class RelationshipTemplateBuilder extends Component {
   // Update state with props if template exists
   componentWillReceiveProps(nextProps) {
     if (nextProps.relationshipTemplate.template) {
-        this.setState({
+      nextProps.relationshipTemplate.template = this.addMandatoryFields(nextProps.relationshipTemplate.template);
+      this.setState({
         relationshipTemplate: nextProps.relationshipTemplate,
         newPropIndex: nextProps.relationshipTemplate.template.properties.length
       });
     }
+  }
+
+  addMandatoryFields(template) {
+    let nextTemplate = Object.assign({}, template);
+    
+    // Add mandatory rel_type property
+    // TODO --DM-- DELETE???
+    // if(!template.rel_type || typeof(template.rel_type) !== '[object Object]') {
+    //   nextTemplate.rel_type = { key:"rel_type", display_label:"Relationship Type", value_type:"string", 
+    //                   placeholder:"Relationship Type", disabled: false, path:'rel_type' };
+    //   if(template.rel_type && (typeof(template.rel_type) === 'string')) nextTemplate.rel_type.value = template.rel_type;
+    // }
+
+    if(!template.rel_type || typeof(template.rel_type) !== 'string') {
+      nextTemplate.rel_type = "";
+      if(template.rel_type && (typeof(template.rel_type) === 'string')) nextTemplate.rel_type = template.rel_type;
+    }
+    
+    // Add mandatory from_node_id property
+    if(!template.from_node_id) {
+      nextTemplate.from_node_id = { key:"from_node_id", display_label:"From Node", value_type:"node", 
+                      placeholder:"Node", disabled: false, path:'from_node_id' };
+    } else {
+      if(typeof(template.from_node_id) === 'string') {
+        nextTemplate.from_node_id = { key:"from_node_id", display_label:"From Node", value_type:"node", 
+                        value: template.from_node_id, placeholder:"Node", disabled: false, path:'from_node_id' };
+      }
+      if(typeof(template.from_node_id) === '[object Object]') {
+        nextTemplate.to_node_id.value = template.to_node_id.value;
+      }
+    }
+
+    // Add mandatory to_node_id property
+    if(!template.to_node_id) {
+      nextTemplate.to_node_id = { key:"to_node_id", display_label:"To Node", value_type:"node", 
+                      placeholder:"Node", disabled: false, path:'to_node_id' };
+    } else {
+      if(typeof(template.to_node_id) === 'string') {
+        nextTemplate.to_node_id = { key:"to_node_id", display_label:"To Node", value_type:"node", 
+                        value: template.to_node_id, placeholder:"Node", disabled: false, path:'to_node_id' };
+      }
+      if(typeof(template.to_node_id) === '[object Object]') {
+        nextTemplate.to_node_id.value = template.to_node_id.value;
+      }
+    }
+
+    return nextTemplate;
+  }
+
+  getRelationshipTemplate(relTemplateId) {
+    // Dispatch fetchRelationshipTemplate to get template by id
+    this.props.dispatch(fetchRelationshipTemplate(relTemplateId));
   }
 
   addProperty() { // TODO --DM-- handle multiple properties at one time
@@ -95,13 +136,13 @@ class RelationshipTemplateBuilder extends Component {
     let i = this.state.newPropIndex;
 
     // Merge template from props (redux store) and state
-    let relationshipTemplate = Object.assign(this.props.relationshipTemplate.template, this.state.relationshipTemplate);
+    let relationshipTemplate = Object.assign(this.props.relationshipTemplate, this.state.relationshipTemplate);
     
     // Initialize new property
     var prop = Helpers.getNewProp(i);
 
     // Update node with new property
-    relationshipTemplate = Helpers.addObjProp(relationshipTemplate, prop.path, prop);
+    relationshipTemplate.template = Helpers.addObjProp(relationshipTemplate.template, prop.path, prop);
 
     console.log('addProperty() i:', i); // TODO --DM-- Remove
     console.log('addProperty() relationshipTemplate:', relationshipTemplate); // TODO --DM-- Remove
@@ -117,20 +158,20 @@ class RelationshipTemplateBuilder extends Component {
     });
 
     // Dispatch new property to store
-    this.updateRelationshipTemplate(relationshipTemplate);
+    this.props.dispatch(updateRelationshipTemplate(relationshipTemplate));
 
     return;
   }
 
   setProperty(changeType, oldPath, newPath, newProp) {
     // Merge node from props (redux store) and state
-    let relationshipTemplate = Object.assign(this.props.relationshipTemplate.template, this.state.relationshipTemplate);
+    let relationshipTemplate = Object.assign(this.props.relationshipTemplate, this.state.relationshipTemplate);
 
     // Update template with new property value
-    relationshipTemplate = Helpers.setObjProp(relationshipTemplate, newPath, newProp);
+    relationshipTemplate.template = Helpers.setObjProp(relationshipTemplate.template, newPath, newProp);
 
     // If oldPath exists, remove old property
-    if (oldPath && oldPath !== newPath) relationshipTemplate = Helpers.removeObjProp(relationshipTemplate, oldPath);
+    if (oldPath && oldPath !== newPath) relationshipTemplate.template = Helpers.removeObjProp(relationshipTemplate.template, oldPath);
 
     // Rerender if type changed, not if key changed
     var rerender = true;
@@ -147,10 +188,10 @@ class RelationshipTemplateBuilder extends Component {
 
   removeProperty(path) {
     // Merge node from props (redux store) and state
-    let relationshipTemplate = Object.assign(this.props.relationshipTemplate.template, this.state.relationshipTemplate);
+    let relationshipTemplate = Object.assign(this.props.relationshipTemplate, this.state.relationshipTemplate);
 
     // Dispatch path to store to remove property
-    relationshipTemplate = Helpers.removeObjProp(relationshipTemplate, path);
+    relationshipTemplate.template = Helpers.removeObjProp(relationshipTemplate.template, path);
 
     // Dispatch updated node to store
     this.props.dispatch(updateRelationshipTemplate(relationshipTemplate));
@@ -166,19 +207,19 @@ class RelationshipTemplateBuilder extends Component {
 
   submitTemplate() {
     // Merge node from props (redux store) and state
-    let relationshipTemplate = Object.assign(this.props.relationshipTemplate.template, this.state.relationshipTemplate);
+    let template = Object.assign(this.props.relationshipTemplate.template, this.state.relationshipTemplate.template);
 
     let dispatch = this.props.dispatch, payload = {};
-    payload.rel_type = relationshipTemplate.rel_type;
-    payload.from_node_id = relationshipTemplate.from_node_id;
-    payload.to_node_id = relationshipTemplate.to_node_id;
+    payload.rel_type = template.rel_type;
+    payload.from = template.from_node_id.value;
+    payload.to = template.to_node_id.value;
     payload.properties = {};
 
-    console.log('submitTemplate() relationship: ', relationshipTemplate); // TODO --DM-- Remove
+    console.log('submitTemplate() relationship: ', template); // TODO --DM-- Remove
 
     // Generate template payload
-    for(var propKey in relationshipTemplate.properties) {
-      let prop = relationshipTemplate.properties[propKey];
+    for(var propKey in template.properties) {
+      let prop = template.properties[propKey];
       console.log('submitTemplate() prop: ', prop); // TODO --DM-- Remove
       
       // Lower case prop key
@@ -201,22 +242,26 @@ class RelationshipTemplateBuilder extends Component {
     console.log('Payload string: ', payload); // TODO --DM-- Remove
     
     if (this.state.creating) {
-      dispatch(fetchPostRelationship(payload));
+      dispatch(fetchPostRelTemplate(payload));
     } else {
-      dispatch(fetchPutRelationship(relationshipTemplate.id, payload));
+      dispatch(fetchPutRelTemplate(template.id, payload));
     }
-  }
-
-  getTemplate(relationshipId) {
-    // Dispatch fetchTemplate to get template by label
-    this.props.dispatch(fetchRelationship(relationshipId));
   }
 
   renderProperties() {
     // Initialize variables
-    const templateProps = this.props.nodeTemplate.template.properties;
+    const template = this.props.relationshipTemplate.template;
+    const templateProps = template.properties;
     var props = [];
-    let i = 0;
+    let i = 2;
+
+    // Render mandatory fields first
+    props.push(<PropertyInput key={'from_node_id'} propKey={'from_node_id.value'} 
+            label={'From Node'} prop={template.from_node_id} value_type={'node'}
+            onChange={(changeType, oldPath, newPath, prop) => this.setProperty(changeType, oldPath, newPath, prop)} />);
+    props.push(<PropertyInput key={'to_node_id'} propKey={'to_node_id.value'} 
+            label={'To Node'} prop={template.to_node_id} value_type={'node'}
+            onChange={(changeType, oldPath, newPath, prop) => this.setProperty(changeType, oldPath, newPath, prop)} />);
 
     // Iterate through node properties
     for (var key in templateProps) {
@@ -233,7 +278,7 @@ class RelationshipTemplateBuilder extends Component {
       else prop.disabled = false;
 
       // Push property input for each prop
-      props.push(<PropertyBuilder key={key} index={i} prop={prop} nodeTemplate={this.props.nodeTemplate} 
+      props.push(<PropertyBuilder key={key} index={i} prop={prop} relationshipTemplate={this.props.relationshipTemplate} 
                         dispatch={this.props.dispatch} nested={false}
                         onClick={(path) => this.removeProperty(path)}
                         addProperty={() => this.addProperty()} 
@@ -252,11 +297,10 @@ class RelationshipTemplateBuilder extends Component {
     console.log('this.props', this.props); // TODO --DM-- Remove
 
     let templateBuilder = "";
-    if (this.props.nodeTemplate.template) {
+    if (this.props.relationshipTemplate.template) {
       templateBuilder = 
         <form className="form-inline">
-          <label htmlFor={'label'}>Label</label>
-          <LabelInput value={this.props.nodeTemplate.template.label}
+          <PropertyInput propKey={'rel_type'} label={'Relationship Type'} value={this.props.relationshipTemplate.template.rel_type}
             onChange={(changeType, oldPath, newPath, prop) => this.setProperty(changeType, oldPath, newPath, prop)} />
           <br /><br />
           {this.renderProperties()}
@@ -269,9 +313,9 @@ class RelationshipTemplateBuilder extends Component {
     }
 
     return (
-      <div id="apix-node-builder-container">
-        <div id="apix-node-builder">
-          <LoadingOverlay show={this.props.nodeTemplate.isFetching} />
+      <div id="apix-relationship-builder-container">
+        <div id="apix-relationship-builder">
+          <LoadingOverlay show={this.props.relationshipTemplate.isFetching} />
           {templateBuilder}
         </div>
       </div>
@@ -279,17 +323,22 @@ class RelationshipTemplateBuilder extends Component {
   }
 }
 
-class LabelInput extends Component {
+class PropertyInput extends Component {
   constructor(props) {
     super(props);
 
     // Initialize value
-    let value = '';
+    let value = '', value_type = 'string';
     if (props.value) value = props.value;
+    if (props.value_type) value_type = props.value_type;
+
+    // Bind callbacks
+    this.textChanged = this.textChanged.bind(this);
 
     this.state = {
-      key: 'label',
+      key: props.propKey,
       value: value,
+      value_type: value_type,
     };
   }
 
@@ -300,14 +349,35 @@ class LabelInput extends Component {
     });
 
     // Call callback
-    onChange(null, null, 'label', e.target.value);
+    onChange(null, null, this.state.key, e.target.value);
+  }
+
+  renderInput(prop) {
+    console.log('renderInput(prop): ', prop);
+    if(this.state.value_type === 'node') {
+      // TODO --DM-- Implement getting nodes from server
+      // Use react-autocomplete: https://github.com/reactjs/react-autocomplete
+      return(<input key={this.state.key} type={this.state.value_type} className="form-control" 
+          id={this.state.key} value={prop.value} placeholder={`Enter ${this.props.label} here`}
+          onChange={(e) => this.textChanged(e, this.props.onChange)}
+            />);
+    } else {
+      return(
+        <input className="form-control" type={'text'}
+            id={this.state.key} value={this.state.value} placeholder={`Enter ${this.props.label} here`}
+            onChange={(e) => this.textChanged(e, this.props.onChange)} />
+      );
+    }
   }
   
   render() {
+    console.log('this.state', this.state); // TODO --DM-- Remove
+    console.log('this.props', this.props); // TODO --DM-- Remove
     return (
-      <input className="form-control" type={'text'}
-          id={this.state.key} value={this.state.value} placeholder={'Enter label here'}
-          onChange={(e) => this.textChanged(e, this.props.onChange)} />
+      <div>
+        <label htmlFor={this.state.key}>{this.props.label}</label>
+        {this.renderInput(this.props.prop)}
+      </div>
     );
   }
 }

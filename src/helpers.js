@@ -189,6 +189,9 @@ class Helpers {
         return [relComps, propComps];
       } else if (Object.prototype.toString.call( rels ) === '[object Object]' ) {
         console.log('rels: ', rels);
+        relComps.push(<div key={'div-'+rels['id']} className="template-rel-key">
+                        <NodePropertyContainer key={'rel-rel_type'+rels['id']} relationshipTemplate={rels} propKey={'rel_type'} value={rels['rel_type']} type="string" />
+                      </div>);
         relComps.push(<NodeProperty key={'rel-id'+rels['id']} propKey={'id'} value={rels['id']} type="string" />);
         relComps.push(<NodeProperty key={'rel-from_node_id'+rels['id']} propKey={'from_node_id'} value={rels['from_node_id']} type="string" />);
         relComps.push(<NodeProperty key={'rel-to_node_id'+rels['id']} propKey={'to_node_id'} value={rels['to_node_id']} type="string" />);

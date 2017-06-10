@@ -3,7 +3,7 @@ import Helpers from '../../helpers.js';
 import { Link } from 'react-router-dom';
 import './TemplateSearch.css';
 import LoadingOverlay from '../LoadingOverlay';
-import { fetchRelationshipTemplate, fetchDeleteRelationshipTemplate } from '../../actions/templates';
+import { fetchRelationshipTemplate, fetchDeleteRelTemplate } from '../../actions/templates';
 
 class RelationshipTemplate extends Component {
   constructor(props) {
@@ -26,7 +26,7 @@ class RelationshipTemplate extends Component {
 
   deleteTemplate(templateId) {
     // Dispatch fetchDeleteTemplate to delete template by id
-    this.props.dispatch(fetchDeleteRelationshipTemplate(templateId));
+    this.props.dispatch(fetchDeleteRelTemplate(templateId));
   }
 
   render() {  
@@ -48,7 +48,7 @@ class RelationshipTemplate extends Component {
           <div className="panel panel-default">
             <div className="panel-body">
               <div className="row">
-                <Link key={template['id']+'-edit'} to={"/t/"+template['rel_type']+"/edit" }>Edit Template</Link>
+                <Link key={template['id']+'-edit'} to={"/r/"+template['id']+"/edit" }>Edit Template</Link>
                 <br />
                 <Link key={template['id']+'-add'} to={"/n/"+template['rel_type']+"/add" }>Add {displayLabel}</Link>
                 <br />

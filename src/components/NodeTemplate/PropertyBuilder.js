@@ -17,6 +17,7 @@ class PropertyBuilder extends Component {
   
   renderInput(props, disabled) {
     var prop = props.prop;
+    console.log('renderInput() prop: ', prop); // TODO --DM-- Remove
     if(prop.value_type === 'object' || prop.value_type[0] === '{') {
       var comps = [];
       comps.push(<input key={prop.key} type={prop.value_type} className="form-control" 
@@ -28,17 +29,6 @@ class PropertyBuilder extends Component {
         <span key={prop.key+'2'} className="glyphicon glyphicon-plus" aria-hidden="true"></span>
         Property
       </button>);*/
-      return comps;
-    }
-
-    if(prop.value_type === 'node') {
-      var comps = [];
-      // TODO --DM-- Implement getting nodes from server
-      // Use react-autocomplete: https://github.com/reactjs/react-autocomplete
-      comps.push(<input key={prop.key} type={prop.value_type} className="form-control" 
-          id={prop.key} value={prop.key} placeholder={prop.placeholder} disabled={disabled}
-          onChange={(e) => this.textChanged(e, prop, this.props.onChange)}
-            />);
       return comps;
     }
 

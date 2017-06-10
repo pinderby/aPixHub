@@ -45,7 +45,7 @@ class App extends Component {
           <Route exact path="/t/:label" component={NodeTemplateContainer}/>
           <Route exact path="/r/:rel_template_id" component={RelationshipTemplateContainer}/>
           <Route path="/t/:label/edit" component={TemplateBuilderContainer}/>
-          {/*<Route exact path="/r/:rel_template_id/edit" component={RelationshipBuilderContainer}/>*/}
+          <Route exact path="/r/:rel_template_id/edit" component={RelationshipBuilderContainer}/>
           <Route path="/n/:label/add" component={NodePopulatorContainer}/>
           {/*<Route exact path="/r/:rel_template_id/add" component={RelationshipPopulatorContainer}/>*/}
           <Route path="/n/:label/search" component={NodeSearchContainer}/>

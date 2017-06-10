@@ -357,57 +357,57 @@ export function fetchRelationshipTemplate(templateId) {
   }
 }
 
-// // Create new relationship template
-// export function fetchPostTemplate(payload) {
+// Create new relationship template
+export function fetchPostRelTemplate(payload) {
 
-//   return function (dispatch) {
+  return function (dispatch) {
 
-//     // Define args for callApi()
-//     let dispatchActionWithStatus = dispatchActionWithArgs(dispatch)(postTemplate)(payload);
-//     let apiArgs = {
-//       endpoint: `/nodes`,
-//       method: 'POST',
-//       payload: payload
-//     }
+    // Define args for callApi()
+    let dispatchActionWithStatus = dispatchActionWithArgs(dispatch)(postRelationshipTemplate)(payload);
+    let apiArgs = {
+      endpoint: `/relationships`,
+      method: 'POST',
+      payload: payload
+    }
 
-//     // Execute api call
-//     callApi(dispatchActionWithStatus, apiArgs);
-//   }
-// }
+    // Execute api call
+    callApi(dispatchActionWithStatus, apiArgs);
+  }
+}
 
-// // Update relationship template by label
-// export function fetchPutTemplate(templateId, payload) {
+// Update relationship template by id
+export function fetchPutRelTemplate(templateId, payload) {
 
-//   return function (dispatch) {
-//     console.log('fetchPutTemplate() templateId, payload: ', templateId, payload); // TODO --DM-- Remove
+  return function (dispatch) {
+    console.log('fetchPutRelTemplate() templateId, payload: ', templateId, payload); // TODO --DM-- Remove
 
-//     // Define args for callApi()
-//     let dispatchActionWithStatus = dispatchActionWithArgs(dispatch)(putTemplate)(templateId, payload);
-//     let apiArgs = {
-//       endpoint: `/nodes/${templateId}`,
-//       method: 'PUT',
-//       payload: payload
-//     }
+    // Define args for callApi()
+    let dispatchActionWithStatus = dispatchActionWithArgs(dispatch)(putRelationshipTemplate)(templateId, payload);
+    let apiArgs = {
+      endpoint: `/relationships/${templateId}`,
+      method: 'PUT',
+      payload: payload
+    }
 
-//     // Execute api call
-//     callApi(dispatchActionWithStatus, apiArgs);
-//   }
-// }
+    // Execute api call
+    callApi(dispatchActionWithStatus, apiArgs);
+  }
+}
 
-// // Delete relationship template by id
-// export function fetchDeleteTemplate(templateId) {
+// Delete relationship template by id
+export function fetchDeleteRelTemplate(templateId) {
 
-//   return function (dispatch) {
+  return function (dispatch) {
 
-//     // Define args for callApi()
-//     let dispatchActionWithStatus = dispatchActionWithArgs(dispatch)(deleteTemplate)(templateId);
-//     let apiArgs = {
-//       endpoint: `/nodes/${templateId}`,
-//       method: 'DELETE',
-//       payload: {}
-//     }
+    // Define args for callApi()
+    let dispatchActionWithStatus = dispatchActionWithArgs(dispatch)(deleteRelationshipTemplate)(templateId);
+    let apiArgs = {
+      endpoint: `/relationships/${templateId}`,
+      method: 'DELETE',
+      payload: {}
+    }
 
-//     // Execute api call
-//     callApi(dispatchActionWithStatus, apiArgs);
-//   }
-// }
+    // Execute api call
+    callApi(dispatchActionWithStatus, apiArgs);
+  }
+}
