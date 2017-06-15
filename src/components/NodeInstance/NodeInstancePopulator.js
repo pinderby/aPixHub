@@ -164,6 +164,9 @@ class NodeInstancePopulator extends Component {
       properties[prop.key] = '';
     })
 
+    // Add relationships property if absent
+    if (!node.instance.relationships) node.instance.relationships = { in: [], out: [] };
+
     // Create new base relationship
     node.instance.relationships[direction].push({
       rel_type: rel_type,
@@ -272,18 +275,27 @@ class NodeInstancePopulator extends Component {
     // Iterate through relationships
     inRels.forEach( (rel) => {
       console.log('rel: ', rel);
-      // // Initialize prop
-      // var prop = templateProps[key];
-
-      // // Initialize path if needed
-      // if (!prop.path) prop.path = 'properties.'+prop.key;
 
       // Push property input for each prop
       relComps.push(<RelationshipInstancePopulator key={rel.id} index={i} relationships={rels.in[rel.rel_type]} relationshipTemplate={rel} 
-                        node={this.state.node} nodeTemplate={this.props.nodeTemplate} dispatch={this.props.dispatch} 
+                        relationship={rel} nodeTemplate={this.props.nodeTemplate} dispatch={this.props.dispatch} 
                         direction={DIRECTION.IN} path={'relationships.in'}
                         setProperty={(path, value) => this.setProperty(path, value)}
                         addRelationship={(rel_type) => this.addRelationship(DIRECTION.IN, rel_type) } />); // TODO --DM-- manage keys for iteration
+      relComps.push(<br key={rel.id.toString()+'1000'} />)
+
+      // Increment index
+      i++;
+    });
+    outRels.forEach( (rel) => {
+      console.log('rel: ', rel);
+
+      // Push property input for each prop
+      relComps.push(<RelationshipInstancePopulator key={rel.id} index={i} relationships={rels.in[rel.rel_type]} relationshipTemplate={rel} 
+                        relationship={rel} nodeTemplate={this.props.nodeTemplate} dispatch={this.props.dispatch} 
+                        direction={DIRECTION.OUT} path={'relationships.out'}
+                        setProperty={(path, value) => this.setProperty(path, value)}
+                        addRelationship={(rel_type) => this.addRelationship(DIRECTION.OUT, rel_type) } />); // TODO --DM-- manage keys for iteration
       relComps.push(<br key={rel.id.toString()+'1000'} />)
 
       // Increment index

@@ -17,7 +17,10 @@ class PropertyPopulator extends Component {
   
   renderInput(props) {
     // Initialize property
-    let value = "", prop = props.prop, instance = props.node.instance;
+    let instance, value = "", prop = props.prop;
+    if (props.node) instance = props.node.instance;
+    else instance = props.relationship;
+
     if (instance) value = Helpers.getObjProp(instance, prop.path);
 
     console.log('instance, prop: ', instance, prop); // TODO --DM-- Remove
@@ -57,6 +60,9 @@ class PropertyPopulator extends Component {
   }
   
   render() {
+    console.log('this.state', this.state); // TODO --DM-- Remove
+    console.log('this.props', this.props); // TODO --DM-- Remove
+    
     var objectPopulator;
     if (this.state.propType === 'object') {
       /*objectPopulator = <NodeObjectPopulator nodeTemplate={this.props.nodeTemplate} 

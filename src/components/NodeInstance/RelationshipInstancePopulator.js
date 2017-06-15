@@ -118,7 +118,7 @@ class RelationshipInstancePopulator extends Component {
     relationships.forEach((rel, index) => {
       comps.push(<PropertyInput key={rel_type+index} label={'Connected To'} propKey={'nid'} prop={''} value={rel.nid}
                         onChange={(changeType, oldPath, path, value) => this.props.setProperty(`${this.props.path}.${index}.nid`, value)} />);
-      comps.push(this.renderProperties());
+      comps.push(this.renderProperties(rel));
     });
 
     // Add an add relationship button
@@ -127,7 +127,7 @@ class RelationshipInstancePopulator extends Component {
     return comps;
   }
 
-  renderProperties() {
+  renderProperties(rel) {
     // Initialize variables
     const templateProps = this.props.relationshipTemplate.properties;
     var props = [];
@@ -139,12 +139,12 @@ class RelationshipInstancePopulator extends Component {
       var prop = templateProps[key];
 
       // Initialize path if needed
-      if (!prop.path) prop.path = 'properties.'+prop.key;
+      if (!prop.path) prop.path = `${this.props.path}.${this.props.index}.properties.${prop.key}`;
 
       // Push property input for each prop
-      props.push(<PropertyPopulator key={key} index={i} prop={prop} relationship={this.state.relationship} 
+      props.push(<PropertyPopulator key={key} index={i} prop={prop} relationship={rel} 
                         relationshipTemplate={this.props.relationshipTemplate} dispatch={this.props.dispatch} nested={false}
-                        onChange={(path, value) => this.setProperty(path, value)} />); // TODO --DM-- manage keys for iteration
+                        onChange={(path, value) => this.props.setProperty(path, value)} />); // TODO --DM-- manage keys for iteration
       props.push(<br key={key.toString()+'1000'} />)
 
       // Increment index
