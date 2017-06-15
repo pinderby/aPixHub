@@ -115,6 +115,7 @@ class NodeInstance extends Component {
                 {/* TODO --DM-- Implement delete button */}
               </div>
               {Helpers.renderProps(this.props.node)}
+              {Helpers.renderRels(this.props.node.instance.relationships)}
             </div>
           </div>
         </div>

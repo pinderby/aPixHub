@@ -181,6 +181,11 @@ class NodeInstancePopulator extends Component {
     // Merge node from props (redux store) and state
     let instance = Object.assign(this.props.node.instance, this.state.node.instance);
 
+    // Remove relationships if empty
+    if (!instance.relationships.in.length && !instance.relationships.out.length) {
+      delete instance.relationships;
+    }
+
     // Assign dispatch
     let dispatch = this.props.dispatch;
 

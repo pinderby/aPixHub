@@ -23,7 +23,7 @@ class NodeProperty extends Component {
       value = <div className="profile-img"><img src={this.props.value} alt="Profile Image" className="img-rounded node-img" /></div>
     } else if (this.props.propKey === 'cover_image') {
       value = <div className="cover-img"><img src={this.props.value} alt="Cover Image" className="img-rounded node-img" /></div>
-    } else if (this.props.propKey === 'rel_type') {
+    } else if (this.props.propKey === 'rel_type' && this.props.relTemp) {
       let relTemp = this.props.relationshipTemplate;
       value = <Link key={relTemp['id']} to={`/r/${relTemp.id}` } 
                     onClick={() => this.setRelationshipTemplate(relTemp)} >

@@ -4,6 +4,7 @@ import NodePropertyContainer from './containers/NodePropertyContainer.js'
 // import Section from './components/Section.js'
 // import BaseModel from './constants/BaseModel.js';
 import _ from 'lodash';
+import { DIRECTION } from './constants/PropertyTypes'
 
 class Helpers {
   static getObjProp(obj, path) {
@@ -84,6 +85,7 @@ class Helpers {
   //   }
   // }
 
+  // Render object properties
   static renderProps(object) {
     // console.log('renderProps: ', object); // TODO --DM-- Remove
     if (object) {
@@ -95,8 +97,9 @@ class Helpers {
 
         for (var prop in object) {
           // console.log('renderProps prop: ', object); // TODO --DM-- Remove
-          // Skip name when rendering properties
+          // Skip name, relationships when rendering properties
           if (prop === 'name') continue;
+          if (prop === 'relationships') continue;
 
           if (object.hasOwnProperty(prop) && object[prop]) {
             switch(typeof(object[prop])) {
@@ -119,99 +122,177 @@ class Helpers {
                   break;
               default:
                   return;
-              }
             }
           }
-          return props;
         }
-        return object;
-      }
-      return;
-    }
-
-    static renderTemplate(object) {
-      // console.log('object: ', object); // TODO --DM-- Remove
-      if (object) {
-        var props = [];
-        props.push( <div key={'div-'+object['id']} className="template-prop-key">
-                      <NodeProperty key={'label'+object['id']} propKey={'label'} value={object['label']} type="string" />
-                    </div>);
-        props.push(<NodeProperty key={'id'+object['id']} propKey={'id'} value={object['id']} type="string" />);
-        props.push(<NodeProperty key={'created_at'+object['id']} propKey={'created_at'} value={object['created_at']} type="string" />);
-        props.push(<NodeProperty key={'updated_at'+object['id']} propKey={'updated_at'} value={object['updated_at']} type="string" />);
-        props.push(Helpers.renderTemplateProps(object['properties']));
-        props.push(Helpers.renderTemplateRels(object['out_relationships'], 'OUT'));
-        props.push(Helpers.renderTemplateRels(object['in_relationships'], 'IN'));
-
         return props;
       }
-      return;
+      return object;
     }
-
-    static renderTemplateProps(props) {
-      var propComps = [];
-      console.log('props: ', props); // TODO --DM-- Remove
-      if (!props) return;
-      if (props.length >= 1 && Object.prototype.toString.call( props ) === '[object Array]' ) {
-        props.forEach(function(prop) {
-          propComps.push(<div key={'div-'+prop['id']} className="template-prop-key">
-                           <NodeProperty key={'prop-key'+prop['id']} propKey={'key'} value={prop['key']} type="string" />
-                         </div>);
-          propComps.push(<NodeProperty key={'prop-value_type'+prop['id']} propKey={'value_type'} value={prop['value_type']} type="string" />);
-          propComps.push(<NodeProperty key={'prop-id'+prop['id']} propKey={'id'} value={prop['id']} type="string" />);
-          propComps.push(<NodeProperty key={'prop-node_id'+prop['id']} propKey={'node_id'} value={prop['node_id']} type="string" />);
-          propComps.push(<NodeProperty key={'prop-created_at'+prop['id']} propKey={'created_at'} value={prop['created_at']} type="string" />);
-          propComps.push(<NodeProperty key={'prop-updated_at'+prop['id']} propKey={'updated_at'} value={prop['updated_at']} type="string" />);   
-        });
-        return ( <div key={'div-'+props[0].id} className="template-prop">{propComps}</div> );
-      }
-      return;
-    }
-
-    static renderTemplateRels(rels, direction) {
-      // console.log('rels: ', rels); // TODO --DM-- Remove
-      var relComps = [];
-      var propComps = [];
-      if (!rels) return;
-      if (rels.length >= 1 && Object.prototype.toString.call( rels ) === '[object Array]' ) {
-        rels.forEach(function(rel) {
-          relComps.push(<div key={'div-'+rel['id']} className="template-rel-key">
-                          <NodePropertyContainer key={'rel-rel_type'+rel['id']} relationshipTemplate={rel} propKey={'rel_type'} value={rel['rel_type']} type="string" />
-                        </div>);
-          relComps.push(<NodeProperty key={'rel-direction'+rel['id']} propKey={'direction'} value={direction} type="string" />);
-          relComps.push(<NodeProperty key={'rel-id'+rel['id']} propKey={'id'} value={rel['id']} type="string" />);
-          relComps.push(<NodeProperty key={'rel-from_node_id'+rel['id']} propKey={'from_node_id'} value={rel['from_node_id']} type="string" />);
-          relComps.push(<NodeProperty key={'rel-to_node_id'+rel['id']} propKey={'to_node_id'} value={rel['to_node_id']} type="string" />);
-          relComps.push(<NodeProperty key={'rel-created_at'+rel['id']} propKey={'created_at'} value={rel['created_at']} type="string" />);
-          relComps.push(<NodeProperty key={'rel-updated_at'+rel['id']} propKey={'updated_at'} value={rel['updated_at']} type="string" />);
-          propComps = Helpers.renderTemplateProps(rel['properties']);
-        });
-        return [relComps, propComps];
-      } else if (Object.prototype.toString.call( rels ) === '[object Object]' ) {
-        console.log('rels: ', rels);
-        relComps.push(<div key={'div-'+rels['id']} className="template-rel-key">
-                        <NodePropertyContainer key={'rel-rel_type'+rels['id']} relationshipTemplate={rels} propKey={'rel_type'} value={rels['rel_type']} type="string" />
-                      </div>);
-        relComps.push(<NodeProperty key={'rel-id'+rels['id']} propKey={'id'} value={rels['id']} type="string" />);
-        relComps.push(<NodeProperty key={'rel-from_node_id'+rels['id']} propKey={'from_node_id'} value={rels['from_node_id']} type="string" />);
-        relComps.push(<NodeProperty key={'rel-to_node_id'+rels['id']} propKey={'to_node_id'} value={rels['to_node_id']} type="string" />);
-        relComps.push(<NodeProperty key={'rel-created_at'+rels['id']} propKey={'created_at'} value={rels['created_at']} type="string" />);
-        relComps.push(<NodeProperty key={'rel-updated_at'+rels['id']} propKey={'updated_at'} value={rels['updated_at']} type="string" />);
-        propComps = Helpers.renderTemplateProps(rels['properties']);
-        return [relComps, propComps];
-      }
-      return;
-    }
-
-    static renderObjects(objects) {
-      var explodedObjects = [];
-      if (typeof(objects) !== "undefined") {
-        objects.forEach(function(object) {
-          explodedObjects.push(Helpers.renderProps(object));
-        });
-        return explodedObjects;
-      }
     return;
+  }
+
+  // Render relationship instances
+  static renderRels(relationships) {
+    // console.log('renderRels(): ', relationships); // TODO --DM-- Remove
+    if (!relationships) return;
+
+    var relComps = [];
+
+    // Render 'in' relationships
+    if (relationships.in && relationships.in.length) {
+      relComps.push(<div key={'div-'+DIRECTION.IN} className="rel-direction-title">
+                    <NodeProperty key={'direction'} propKey={'direction'} value={DIRECTION.IN} type="string" />
+                  </div>);
+      relComps.push(this.renderRelArray(relationships.in));
+    }
+    
+    // Render 'out' relationships
+    if (relationships.out && relationships.out.length) {
+      relComps.push(<div key={'div-'+DIRECTION.OUT} className="rel-direction-title">
+                      <NodeProperty key={'direction'} propKey={'direction'} value={DIRECTION.OUT} type="string" />
+                    </div>);
+      relComps.push(this.renderRelArray(relationships.out));
+    }
+
+    // Generate block component for relationships
+    let relBlock = 
+      <div className="relationships-container">
+        <h3>Relationships</h3>
+        {relComps}
+      </div>
+    
+    return relBlock;
+  }
+
+  static renderRelArray(relationships) {
+    var relComps = [];
+
+    // Iterate through and render relationships
+    relationships.forEach((rel) => {
+      if (rel.rel_type) {
+        relComps.push(<div key={'div-'+rel['rel_type']} className="rel-instance-type">
+                        <NodeProperty key={'rel_type'} propKey={'rel_type'} value={rel.rel_type} type="string" />
+                      </div>);
+      }
+      if (rel.nid) relComps.push(<NodeProperty key={'nid'} propKey={'nid'} value={rel.nid} type="string" />);
+
+      // Render relationship properties
+      let props = rel.properties;
+      for (var prop in props) {
+        if (props.hasOwnProperty(prop) && props[prop]) {
+          switch(typeof(props[prop])) {
+            case "string":
+                relComps.push(<NodeProperty key={prop} propKey={prop} value={props[prop]} type="string" />);
+                break;
+            case "number":
+                relComps.push(<NodeProperty key={prop} propKey={prop} value={props[prop]} type="number" />);
+                break;
+            case "object":
+                if (Object.prototype.toString.call( props[prop] ) === '[object Array]' ) {
+                  if (Object.prototype.toString.call( props[prop][0] ) === '[object Object]' ) {
+                    relComps.push(Helpers.renderObjects(props[prop]));
+                  } else {
+                    relComps.push(<NodeProperty key={prop} propKey={prop} value={props[prop].join(', ')} type="array" />);
+                  }
+                } else {
+                  relComps.push(<NodeProperty key={prop} propKey={prop} value={props[prop]} type="object" />);
+                }
+                break;
+            default:
+                return;
+          }
+        }
+
+      }
+    });
+
+    return relComps;
+  }
+
+  static renderTemplate(object) {
+    // console.log('object: ', object); // TODO --DM-- Remove
+    if (object) {
+      var props = [];
+      props.push( <div key={'div-'+object['id']} className="template-prop-key">
+                    <NodeProperty key={'label'+object['id']} propKey={'label'} value={object['label']} type="string" />
+                  </div>);
+      props.push(<NodeProperty key={'id'+object['id']} propKey={'id'} value={object['id']} type="string" />);
+      props.push(<NodeProperty key={'created_at'+object['id']} propKey={'created_at'} value={object['created_at']} type="string" />);
+      props.push(<NodeProperty key={'updated_at'+object['id']} propKey={'updated_at'} value={object['updated_at']} type="string" />);
+      props.push(Helpers.renderTemplateProps(object['properties']));
+      props.push(Helpers.renderTemplateRels(object['out_relationships'], 'OUT'));
+      props.push(Helpers.renderTemplateRels(object['in_relationships'], 'IN'));
+
+      return props;
+    }
+    return;
+  }
+
+  static renderTemplateProps(props) {
+    var propComps = [];
+    console.log('props: ', props); // TODO --DM-- Remove
+    if (!props) return;
+    if (props.length >= 1 && Object.prototype.toString.call( props ) === '[object Array]' ) {
+      props.forEach(function(prop) {
+        propComps.push(<div key={'div-'+prop['id']} className="template-prop-key">
+                          <NodeProperty key={'prop-key'+prop['id']} propKey={'key'} value={prop['key']} type="string" />
+                        </div>);
+        propComps.push(<NodeProperty key={'prop-value_type'+prop['id']} propKey={'value_type'} value={prop['value_type']} type="string" />);
+        propComps.push(<NodeProperty key={'prop-id'+prop['id']} propKey={'id'} value={prop['id']} type="string" />);
+        propComps.push(<NodeProperty key={'prop-node_id'+prop['id']} propKey={'node_id'} value={prop['node_id']} type="string" />);
+        propComps.push(<NodeProperty key={'prop-created_at'+prop['id']} propKey={'created_at'} value={prop['created_at']} type="string" />);
+        propComps.push(<NodeProperty key={'prop-updated_at'+prop['id']} propKey={'updated_at'} value={prop['updated_at']} type="string" />);   
+      });
+      return ( <div key={'div-'+props[0].id} className="template-prop">{propComps}</div> );
+    }
+    return;
+  }
+
+  static renderTemplateRels(rels, direction) {
+    // console.log('rels: ', rels); // TODO --DM-- Remove
+    var relComps = [];
+    var propComps = [];
+    if (!rels) return;
+    if (rels.length >= 1 && Object.prototype.toString.call( rels ) === '[object Array]' ) {
+      rels.forEach(function(rel) {
+        relComps.push(<div key={'div-'+rel['id']} className="template-rel-key">
+                        <NodePropertyContainer key={'rel-rel_type'+rel['id']} relationshipTemplate={rel} propKey={'rel_type'} value={rel['rel_type']} type="string" />
+                      </div>);
+        relComps.push(<NodeProperty key={'rel-direction'+rel['id']} propKey={'direction'} value={direction} type="string" />);
+        relComps.push(<NodeProperty key={'rel-id'+rel['id']} propKey={'id'} value={rel['id']} type="string" />);
+        relComps.push(<NodeProperty key={'rel-from_node_id'+rel['id']} propKey={'from_node_id'} value={rel['from_node_id']} type="string" />);
+        relComps.push(<NodeProperty key={'rel-to_node_id'+rel['id']} propKey={'to_node_id'} value={rel['to_node_id']} type="string" />);
+        relComps.push(<NodeProperty key={'rel-created_at'+rel['id']} propKey={'created_at'} value={rel['created_at']} type="string" />);
+        relComps.push(<NodeProperty key={'rel-updated_at'+rel['id']} propKey={'updated_at'} value={rel['updated_at']} type="string" />);
+        propComps = Helpers.renderTemplateProps(rel['properties']);
+      });
+      return [relComps, propComps];
+    } else if (Object.prototype.toString.call( rels ) === '[object Object]' ) {
+      console.log('rels: ', rels);
+      relComps.push(<div key={'div-'+rels['id']} className="template-rel-key">
+                      <NodePropertyContainer key={'rel-rel_type'+rels['id']} relationshipTemplate={rels} propKey={'rel_type'} value={rels['rel_type']} type="string" />
+                    </div>);
+      relComps.push(<NodeProperty key={'rel-id'+rels['id']} propKey={'id'} value={rels['id']} type="string" />);
+      relComps.push(<NodeProperty key={'rel-from_node_id'+rels['id']} propKey={'from_node_id'} value={rels['from_node_id']} type="string" />);
+      relComps.push(<NodeProperty key={'rel-to_node_id'+rels['id']} propKey={'to_node_id'} value={rels['to_node_id']} type="string" />);
+      relComps.push(<NodeProperty key={'rel-created_at'+rels['id']} propKey={'created_at'} value={rels['created_at']} type="string" />);
+      relComps.push(<NodeProperty key={'rel-updated_at'+rels['id']} propKey={'updated_at'} value={rels['updated_at']} type="string" />);
+      propComps = Helpers.renderTemplateProps(rels['properties']);
+      return [relComps, propComps];
+    }
+    return;
+  }
+
+  static renderObjects(objects) {
+    var explodedObjects = [];
+    if (typeof(objects) !== "undefined") {
+      objects.forEach(function(object) {
+        explodedObjects.push(Helpers.renderProps(object));
+      });
+      return explodedObjects;
+    }
+  return;
   }
 
   // Takes snake_case prop key and returns a formatted label string for display

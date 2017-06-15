@@ -69,3 +69,18 @@
 .glyphicon {
     margin-right: 5px;
 }
+
+.relationships-container {
+  margin-top: 15px;
+}
+
+.rel-direction-title {
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+.rel-instance-type {
+  margin-top: 10px;
+  font-size: 16px;
+}
