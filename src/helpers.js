@@ -333,21 +333,75 @@ class Helpers {
     return object;
   }
 
-  // TODO --DM-- Remove
-//   static pushIfMissingInArray(array, element, key) {
-//     var found = false;
-//     for(var i = array.length - 1; i >= 0; i--) {
-//       if(array[i] === element || array[i][key] === element[key]) {
-//        found = true;
-//       }
-//     }
-//     if(!found) {;
-//       var a = [];
-//       a = array.slice();
-//       a.push(element);
-//     }
-//     return a;
-//   }
+  // Restructure node relationships property 
+  // to match format for POST calls
+  static restructureNodeRelationships(node) {
+
+    // If node has no relationships, 
+    // return with base relationships object
+    if (!node.relationships) {
+      node.relationships = { in: [], out: [] };
+      return node;
+    } 
+
+    // If node relationships is already in proper format, return node
+    if (node.relationships.in && 
+        Object.prototype.toString.call( node.relationships.in ) === '[object Array]') {
+      return node;
+
+    // If node relationships is in format from server, restructure relationships  
+    } else {
+      // Initialize variables
+      let nextNode = Object.assign({}, node);
+      let nid = node.nid, nodeRelationships = node.relationships;
+      let relationships = { in: [], out: [] };
+
+      // Iterate through relationships and 
+      nodeRelationships.forEach((rel) => {
+        // If relationships is 'out' relationship, assign to 'out' array
+        if (rel.from_nid === nid) {
+          
+          // Copy relationship
+          let tempRel = Object.assign({}, rel);
+
+          // Assign to_nid to nid (the non-self-referencing node id)
+          tempRel.nid = rel.to_nid;
+
+          // Delete unused properties
+          delete tempRel.from_nid
+          delete tempRel.to_nid
+
+          // Push into relationships 'out' array
+          relationships.out.push(tempRel);
+
+        // If relationships is 'in' relationship, assign to 'in' array
+        } else if (rel.to_nid === nid) {
+          
+          // Copy relationship
+          let tempRel = Object.assign({}, rel);
+
+          // Assign to_nid to nid (the non-self-referencing node id)
+          tempRel.nid = rel.from_nid;
+
+          // Delete unused properties
+          delete tempRel.from_nid
+          delete tempRel.to_nid
+
+          // Push into relationships 'out' array
+          relationships.in.push(tempRel);
+        } else {
+          console.log('restructureNodeRelationships() error, node: ', node);
+        }
+      });
+
+      // Delete old relationships property and assign new one
+      delete nextNode.relationships;
+      nextNode.relationships = relationships;
+
+      return nextNode;
+    }
+
+  }
 
 }
 

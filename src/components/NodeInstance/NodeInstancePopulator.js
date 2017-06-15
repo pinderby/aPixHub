@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import Helpers from '../../helpers.js';
 import PropertyPopulator from './PropertyPopulator';
+import RelationshipInstancePopulator from './RelationshipInstancePopulator';
 import '../NodeTemplate/TemplateBuilder.css';
 import { updateNode, fetchNode, fetchPostNode, fetchPutNode } from '../../actions/nodes';
+import { DIRECTION } from '../../constants/PropertyTypes';
 import { fetchTemplate } from '../../actions/templates';
 import LoadingOverlay from '../LoadingOverlay';
 
@@ -14,7 +16,7 @@ class NodeInstancePopulator extends Component {
     let splitUrlPath = this.props.match.url.split("/");
 
     // Determine if use if creating a new node or editing an existing one
-    let state, node, creating = (splitUrlPath[splitUrlPath.length-1] === "add");
+    let state, node, relationshipTemplates, creating = (splitUrlPath[splitUrlPath.length-1] === "add");
 
     // If nodeTemplate doesn't exist, query it from server
     if (!props.nodeTemplate.template) {
@@ -29,7 +31,9 @@ class NodeInstancePopulator extends Component {
       state = {
         node: {  
           isFetching: false, 
-          instance: { label: props.match.params.label, properties: {} } 
+          instance: { label: props.match.params.label, 
+                      properties: {},
+                      relationships: { in: [], out: [] } } 
         },
       };
     }
@@ -42,6 +46,11 @@ class NodeInstancePopulator extends Component {
       };
     }
 
+    // Pluck relationshipTemplates and organize into single object
+    if (props.nodeTemplate.template) {
+      relationshipTemplates = this.assignRelationshipTemplates(props.nodeTemplate.template);
+    }
+
     // Bind callbacks
     this.updateNode = this.updateNode.bind(this);
     this.setProperty = this.setProperty.bind(this);
@@ -52,6 +61,7 @@ class NodeInstancePopulator extends Component {
     // Assign combined state
     this.state = Object.assign({
       nodeTemplate: props.nodeTemplate,
+      relationshipTemplates: relationshipTemplates,
       node: props.node,
       creating: creating
     }, state);
@@ -59,7 +69,12 @@ class NodeInstancePopulator extends Component {
 
   componentWillReceiveProps(nextProps) {
     // Assign node
-    let node = nextProps.node;
+    let relationshipTemplates, node = nextProps.node;
+
+    // If template exists, assign relationshipTemplates
+    if (nextProps.nodeTemplate.template) {
+      relationshipTemplates = this.assignRelationshipTemplates(nextProps.nodeTemplate.template);
+    }
 
     // If template exists and creating, add properties to node
     if (nextProps.nodeTemplate.template && this.state.creating) {
@@ -68,7 +83,9 @@ class NodeInstancePopulator extends Component {
       let props = template.properties;
 
       // Create base node instance object
-      node.instance = { label: template.label, properties: {} };
+      node.instance = { label: template.label, 
+                        properties: {},
+                        relationships: { in: [], out: [] } };
 
       // Assign properties from template to base node
       props.forEach((prop) => {
@@ -76,10 +93,33 @@ class NodeInstancePopulator extends Component {
       }) 
     }
 
+    // Add relationships property if missing
+    if (node.instance && !node.instance.relationships) {
+      node.instance.relationships = { in: [], out: [] };
+    }
+
     // Sync redux store with state
     this.setState({
+      relationshipTemplates: relationshipTemplates,
       node: node
     });
+  }
+
+  assignRelationshipTemplates(nodeTemplate) {
+    // Instantiate base templates object
+    let relationshipTemplates = { in: {}, out: {} };
+
+    // Iterate through and assign in relationships
+    nodeTemplate.in_relationships.forEach((rel) => {
+      relationshipTemplates.in[rel.rel_type] = rel;
+    });
+
+    // Iterate through and assign out relationships
+    nodeTemplate.in_relationships.forEach((rel) => {
+      relationshipTemplates.out[rel.rel_type] = rel;
+    });
+
+    return relationshipTemplates;
   }
 
   getTemplate(templateLabel) {
@@ -112,6 +152,29 @@ class NodeInstancePopulator extends Component {
     });
 
     return;
+  }
+
+  addRelationship(direction, rel_type) {
+    // Merge node from props (redux store) and state
+    let properties = {}, node = Object.assign(this.props.node, this.state.node);
+
+    // Assign properties from template to base relationship
+    let props = this.state.relationshipTemplates[direction][rel_type]['properties'];
+    props.forEach((prop) => {
+      properties[prop.key] = '';
+    })
+
+    // Create new base relationship
+    node.instance.relationships[direction].push({
+      rel_type: rel_type,
+      nid: '',
+      properties: properties
+    });
+    
+    // Set state for updated node
+    this.setState({
+      node: node
+    });
   }
   
   submitNode(nodeLabel) {
@@ -161,6 +224,69 @@ class NodeInstancePopulator extends Component {
 
     return props;
   }
+
+  renderRelationships() {
+    // Initialize variables
+    const inRels = this.props.nodeTemplate.template.in_relationships;
+    const outRels = this.props.nodeTemplate.template.out_relationships;
+    const node = Object.assign(this.props.node, this.state.node);
+    var relComps = [];
+    let i = 0;
+
+    // TODO --DM-- Sort relationships into temp object
+    let rels = { in: {}, out: {} };
+
+    // Iterate through relationships and assign rel_type to temp object
+    inRels.forEach( (rel) => {
+      rels.in[rel.rel_type] = [];
+    });
+    outRels.forEach( (rel) => {
+      rels.out[rel.rel_type] = [];
+    });
+
+    // Assign node relationships to temp object if available
+    if (node.instance && node.instance.relationships) {
+      const nodeRels = node.instance.relationships;
+      // Add relationships to temp object
+      nodeRels.in.forEach((rel) => {
+        // If doesn't exists, add rel_type array
+        if (!rels.in[rel.rel_type]) rels.in[rel.rel_type] = [];
+
+        // Assign to appropriate array
+        rels.in[rel.rel_type].push(rel);
+      });
+      nodeRels.out.forEach((rel) => {
+        // If doesn't exists, add rel_type array
+        if (!rels.out[rel.rel_type]) rels.out[rel.rel_type] = [];
+
+        // Assign to appropriate array
+        rels.out[rel.rel_type].push(rel);
+      });
+    }
+
+    // Iterate through relationships
+    inRels.forEach( (rel) => {
+      console.log('rel: ', rel);
+      // // Initialize prop
+      // var prop = templateProps[key];
+
+      // // Initialize path if needed
+      // if (!prop.path) prop.path = 'properties.'+prop.key;
+
+      // Push property input for each prop
+      relComps.push(<RelationshipInstancePopulator key={rel.id} index={i} relationships={rels.in[rel.rel_type]} relationshipTemplate={rel} 
+                        node={this.state.node} nodeTemplate={this.props.nodeTemplate} dispatch={this.props.dispatch} 
+                        direction={DIRECTION.IN} path={'relationships.in'}
+                        setProperty={(path, value) => this.setProperty(path, value)}
+                        addRelationship={(rel_type) => this.addRelationship(DIRECTION.IN, rel_type) } />); // TODO --DM-- manage keys for iteration
+      relComps.push(<br key={rel.id.toString()+'1000'} />)
+
+      // Increment index
+      i++;
+    });
+
+    return relComps;
+  }
   
   render() {
     console.log('this.state', this.state); // TODO --DM-- Remove
@@ -176,6 +302,7 @@ class NodeInstancePopulator extends Component {
         <form className="form-inline">
           <h3>{template.label}</h3>
           {this.renderProperties()}
+          {this.renderRelationships()}
           <br />
           <RequestButton text={'Submit Node'} onClick={() => this.submitNode(template.label)}/>
           <br />

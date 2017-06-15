@@ -8,4 +8,9 @@ export const propertyTypes = {
     'Object':'object' // TODO --DM-- Rename
 };
 
+export const DIRECTION = {
+  IN: 'in',
+  OUT: 'out'
+}
+
 export default propertyTypes;

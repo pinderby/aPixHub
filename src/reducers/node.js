@@ -1,4 +1,5 @@
 import * as ActionTypes from '../constants/ActionTypes.js';
+import Helpers from '../helpers.js';
 
 const node = (state = {}, action) => {
   switch (action.type) {
@@ -42,11 +43,16 @@ const node = (state = {}, action) => {
       })
     case ActionTypes.RECEIVE_NODE:
       // Passes: action.node
+
+      // Restructure object's relationships use helper function
+      let instance = Helpers.restructureNodeRelationships(action.node);
+      console.log('new instance: ', instance); // TODO --DM-- Remove
+
       // Receive node from server
       return Object.assign({}, state, {
         isFetching: false,
         didInvalidate: false,
-        instance: action.node,
+        instance: instance,
         lastUpdated: action.receivedAt
       });
     default:

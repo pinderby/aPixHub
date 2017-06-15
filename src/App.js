@@ -9,7 +9,7 @@ import TemplateBuilderContainer from './containers/TemplateBuilderContainer.js';
 import RelationshipBuilderContainer from './containers/RelationshipBuilderContainer.js';
 import RelationshipTemplateContainer from './containers/RelationshipTemplateContainer.js';
 // import RelationshipInstanceContainer from './containers/RelationshipInstanceContainer.js';
-// import RelationshipPopulatorContainer from './containers/RelationshipPopulatorContainer.js';
+import RelationshipPopulatorContainer from './containers/RelationshipPopulatorContainer.js';
 import NodePopulatorContainer from './containers/NodePopulatorContainer.js';
 import NodeSearchContainer from './containers/NodeSearchContainer.js';
 // import IMDbClone from './IMDbClone.js';
@@ -47,7 +47,7 @@ class App extends Component {
           <Route path="/t/:label/edit" component={TemplateBuilderContainer}/>
           <Route exact path="/r/:rel_template_id/edit" component={RelationshipBuilderContainer}/>
           <Route path="/n/:label/add" component={NodePopulatorContainer}/>
-          {/*<Route exact path="/r/:rel_template_id/add" component={RelationshipPopulatorContainer}/>*/}
+          <Route exact path="/r/:rel_template_id/add" component={RelationshipPopulatorContainer}/>
           <Route path="/n/:label/search" component={NodeSearchContainer}/>
           <Route exact path="/n/:label/:id" component={NodeInstanceContainer}/>
           {/*<Route exact path="/r/:rel_template_id/:id" component={RelationshipInstanceContainer}/>*/}

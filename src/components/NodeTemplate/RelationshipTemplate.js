@@ -5,6 +5,7 @@ import './TemplateSearch.css';
 import LoadingOverlay from '../LoadingOverlay';
 import { fetchRelationshipTemplate, fetchDeleteRelTemplate } from '../../actions/templates';
 
+
 class RelationshipTemplate extends Component {
   constructor(props) {
     super(props);
@@ -50,9 +51,10 @@ class RelationshipTemplate extends Component {
               <div className="row">
                 <Link key={template['id']+'-edit'} to={"/r/"+template['id']+"/edit" }>Edit Template</Link>
                 <br />
-                <Link key={template['id']+'-add'} to={"/n/"+template['rel_type']+"/add" }>Add {displayLabel}</Link>
+                <Link key={template['id']+'-add'} to={"/r/"+template['id']+"/add" }>Add {displayLabel}</Link>
                 <br />
-                <Link key={template['id']+'-search'} to={"/n/"+template['rel_type']+"/search" }>Search {displayLabel}</Link>
+                {/* TODO --DM-- Remove */}
+                {/*<Link key={template['id']+'-search'} to={"/r/"+template['rel_type']+"/search" }>Search {displayLabel}</Link>*/}
                 <br />
                 <a key={template['id']+'-delete'} onClick={() => this.deleteTemplate(template.id)} >Delete {displayLabel}</a>
               </div>
