@@ -185,7 +185,8 @@ class NodeInstancePopulator extends Component {
     let instance = Object.assign(this.props.node.instance, this.state.node.instance);
 
     // Remove relationships if empty
-    if (!instance.relationships.in.length && !instance.relationships.out.length) {
+    if (!instance.relationships || 
+        (!instance.relationships.in.length && !instance.relationships.out.length)) {
       delete instance.relationships;
     }
 

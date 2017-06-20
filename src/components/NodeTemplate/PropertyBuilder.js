@@ -90,8 +90,9 @@ class PropertyBuilder extends Component {
 
     let objectBuilder;
     if (this.state.propType === 'object' || this.state.propType[0] === '{') {
-      objectBuilder = <TemplateObjectBuilder nodeTemplate={this.props.nodeTemplate} 
-                        path={this.props.prop.path} dispatch={this.props.dispatch} />;
+      // TODO --DM-- Reimplement
+      /*objectBuilder = <TemplateObjectBuilder nodeTemplate={this.props.nodeTemplate} 
+                        path={this.props.prop.path} dispatch={this.props.dispatch} />;*/
     }
 
     return (

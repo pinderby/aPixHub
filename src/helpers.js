@@ -133,7 +133,7 @@ class Helpers {
   }
 
   // Render relationship instances
-  static renderRels(relationships) {
+  static renderRels(relationships, redirectOnClick) {
     // console.log('renderRels(): ', relationships); // TODO --DM-- Remove
     if (!relationships) return;
 

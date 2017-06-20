@@ -1,24 +1,31 @@
 import React, { Component } from 'react';
 import Helpers from '../../helpers.js';
 import './NodeInstance.css'
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { updateNode, fetchNode, fetchDeleteNode } from '../../actions/nodes';
-import { fetchTemplate } from '../../actions/templates';
+import { updateNodeTemplate, fetchTemplate } from '../../actions/templates';
 import LoadingOverlay from '../LoadingOverlay';
 
 class NodeInstance extends Component {
   constructor(props) {
     super(props);
 
+    // Add status constants
+    this.REDIR_STATUS = {
+      DONE: 'DONE',
+      FETCHING_NODE: 'FETCHING_NODE',
+      FETCHING_TEMPLATE: 'FETCHING_TEMPLATE'
+    }
+
     // Check if url matches a preset route
-    let defined = ['add','search'], state, display;
+    let defined = ['add','search'], state, display, redirStatus = this.REDIR_STATUS.DONE;
 
     // If searching or adding, don't display
     if (defined.indexOf(this.props.match.params.id) > -1) display = false;
     else display = true;
 
     // If nodeTemplate doesn't exist, query it from server
-    if (!props.nodeTemplate.template) {
+    if (!props.nodeTemplate.template && props.match.params.label !== 'node') {
       this.getTemplate(props.match.params.label);
       state = {
         nodeTemplate: { isFetching: true },
@@ -45,26 +52,48 @@ class NodeInstance extends Component {
     this.state = Object.assign({
       nodeTemplate: props.nodeTemplate,
       node: props.node,
-      display: display
+      display: display,
+      redirStatus: redirStatus
     }, state);
   }
 
   componentWillReceiveProps(nextProps) {
     // Check if url matches a preset route
-    let defined = ['add','search'], display;
+    let defined = ['add','search'], display = true, redirStatus = this.REDIR_STATUS.DONE;
     if (defined.indexOf(nextProps.match.params.id) > -1) display = false;
-    else display = true;
+
+    // If redirected without content updated, fetch new node
+    if (nextProps.match.params.label === 'node' && 
+        nextProps.node.instance &&
+        nextProps.node.instance.nid !== nextProps.match.params.id) {
+        this.getNode(nextProps.match.params.label, nextProps.match.params.id);
+        redirStatus = this.REDIR_STATUS.FETCHING_NODE;
+    }
+
+    // If node received and redirecting, then redirect to correct node
+    if (nextProps.node.instance && this.state.redirStatus === this.REDIR_STATUS.FETCHING_NODE) {
+      this.getTemplate(nextProps.node.instance.label);
+      redirStatus = this.REDIR_STATUS.FETCHING_TEMPLATE;
+    }
 
     // Sync redux store with state
     this.setState({
       node: nextProps.node,
-      display: display
+      display: display,
+      redirStatus: redirStatus
     });
+
+
   }
 
   getTemplate(templateLabel) {
     // Dispatch fetchTemplate to get template by label
     this.props.dispatch(fetchTemplate(templateLabel));
+  }
+
+  updateTemplate(template) {
+    // Dispatch new template to store
+    this.props.dispatch(updateNodeTemplate(template));
   }
 
   getNode(templateLabel, nodeId) {
@@ -88,6 +117,15 @@ class NodeInstance extends Component {
     console.log("this.props: ", this.props); // TODO --DM-- Remove
 
     let nodePanel = "";
+
+    // if redirect is true, then redirect to correct node
+    if (this.state.redirStatus === this.REDIR_STATUS.FETCHING_TEMPLATE) {
+      // Initialize node
+      let instance = this.props.node.instance;
+
+      // Redirect to correct path
+      return (<Redirect to={`/n/${instance.label}/${instance.nid}`}/>);
+    }
 
     // Generate nodePanel if node and nodeTemplate exist
     if (this.props.node.instance && this.props.nodeTemplate.template && this.state.display) {
@@ -132,7 +170,5 @@ class NodeInstance extends Component {
     );
   }
 }
-
-
 
 export default NodeInstance;
