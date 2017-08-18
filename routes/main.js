@@ -6,7 +6,7 @@ const express = require('express')
 ;
 
 // Controllers
-const ApixNodes = require('../controllers/apixNodes');
+const ApixNodes = require('../src/controllers/apixNodes');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

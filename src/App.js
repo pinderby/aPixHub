@@ -18,9 +18,20 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      styleIndex: 1,
-      pageIndex: 4,
+      pageIndex: 1,
     };
+  }
+  
+  setNodeTemplate(nodeTemplate) {
+    this.setState({
+      nodeTemplate: nodeTemplate
+    });
+  }
+
+  setApixNode(apixNode) {
+    this.setState({
+      apixNode: apixNode
+    });
   }
 
   render() {
