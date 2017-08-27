@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // import logo from './logo.svg';
 import './App.css';
+import '../node_modules/auth0-js/build/auth0.js';
 import { Route, Link, Redirect } from 'react-router-dom';
 import NodeInstanceContainer from './containers/NodeInstanceContainer.js';
 import NodeTemplateContainer from './containers/NodeTemplateContainer.js';

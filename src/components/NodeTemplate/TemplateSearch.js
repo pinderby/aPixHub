@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Helpers from '../../helpers.js';
 import './TemplateSearch.css';
+import Auth from '../../services/Auth.js';
 import { Link } from 'react-router-dom';
 import { initializeNodeTemplate, fetchTemplates } from '../../actions/templates';
 import { updateNodes } from '../../actions/nodes';
@@ -109,6 +110,7 @@ class TemplateNavbar extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     // this.handleSubmit = this.handleSubmit.bind(this);
+    this.login = this.login.bind(this);
   }
 
   handleChange(event) {
@@ -117,6 +119,12 @@ class TemplateNavbar extends Component {
 
     // Pass value to parent callback to update parent state
     this.props.onChange(event.target.value);
+  }
+
+  login(e) {
+    // Begin auth0 auth process
+    const auth = new Auth();
+    auth.login();
   }
 
   // handleSubmit(event) {
@@ -150,6 +158,7 @@ class TemplateNavbar extends Component {
                       <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>{" "}New Relationship
                     </button>
                   </Link>
+                  <button className="btn btn-default" onClick={this.login} >{" "}Login</button>
                 </form>
               </div>
             </div>
