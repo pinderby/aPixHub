@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import './App.css';
 import '../node_modules/auth0-js/build/auth0.js';
 import { Route, Link, Redirect } from 'react-router-dom';
+import HomeContainer from './containers/HomeContainer.js';
 import NodeInstanceContainer from './containers/NodeInstanceContainer.js';
 import NodeTemplateContainer from './containers/NodeTemplateContainer.js';
 import TemplateSearchContainer from './containers/TemplateSearchContainer.js';
@@ -49,8 +50,9 @@ class App extends Component {
         </ul>
         <div id="App-container">
           <Route exact path="/" render={() => (
-            <Redirect from="/" to="/templates"/>
+            <Redirect from="/" to="/home"/>
           )}/>
+          <Route exact path="/home" component={HomeContainer}/>
           <Route exact path="/templates" component={TemplateSearchContainer}/>
           <Route exact path="/templates/add" component={TemplateBuilderContainer}/>
           <Route exact path="/relationships/add" component={RelationshipBuilderContainer}/>
