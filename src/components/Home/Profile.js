@@ -33,7 +33,9 @@ class Profile extends Component {
   }
 
   updateMetadata() {
-    this.state.auth.updateMetadata({ test: 'test' });
+    let payload = {};
+    // TODO --DTM-- Prepare payload
+    this.state.auth.updateMetadata(payload);
   }
 
   render() {

@@ -90,28 +90,10 @@ export default class Auth {
   }
 
   updateMetadata(data) {
-    // var request = require("request");
-    
-    // var options = { method: 'PATCH',
-    //   url: 'https://pinderby.auth0.com/api/v2/users/user_id',
-    //   headers: 
-    //    { 'content-type': 'application/json',
-    //      authorization: 'Bearer ABCD' },
-    //   body: { user_metadata: { addresses: { home: '123 Main Street, Anytown, ST 12345' } } },
-    //   json: true };
-    
-    // request(options, function (error, response, body) {
-    //   if (error) throw new Error(error);
-    
-    //   console.log(body);
-    // });
-
-    // Merge data with existing metadata
-    console.log("this.userProfile: ", Auth.userProfile);
+    // Merge data with existing metadata and prepare payload
     Auth.userProfile.user_metadata = Object.assign({}, Auth.userProfile.user_metadata);
     let metadata = Object.assign(Auth.userProfile.user_metadata, data);
     let payload = JSON.stringify({ user_metadata: metadata }).replace('"[\\', '[').replace('\\"]"', '"]');
-    console.log("metadata: ", Auth.userProfile.user_metadata, data, metadata);
 
     // Send api call to update auth0 metadata
     fetch(`https://pinderby.auth0.com/api/v2/users/${Auth.userProfile.sub}`, {
