@@ -19,6 +19,7 @@ class Home extends Component {
     // Instantiate authentication check from Auth0
     const { isAuthenticated } = this.state.auth;
 
+    // Log if user is authenticated
     console.log("isAuthenticated(): ", isAuthenticated());
     
     // Instantiate body
@@ -36,6 +37,10 @@ class Home extends Component {
 class Splash extends Component {
   constructor(props) {
     super(props);
+
+    // Bind methods
+    this.login = this.login.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   login(e) {
@@ -50,6 +55,8 @@ class Splash extends Component {
 
   render() {
     const { isAuthenticated } = this.props.auth;
+    console.log('this.state', this.state); // TODO --DM-- Remove
+    console.log('this.props', this.props); // TODO --DM-- Remove
 
     return (
       <div className="home">
