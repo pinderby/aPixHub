@@ -9,7 +9,7 @@ export default class Auth {
     redirectUri: 'http://localhost:3000/callback',
     audience: 'https://pinderby.auth0.com/userinfo',
     responseType: 'token id_token',
-    scope: 'openid profile'
+    scope: 'openid profile user_id'
   });
 
   constructor() {
@@ -19,8 +19,6 @@ export default class Auth {
     this.isAuthenticated = this.isAuthenticated.bind(this);
     this.getProfile = this.getProfile.bind(this);
   }  
-
-  userProfile;
 
   login() {
     this.auth0.authorize();
@@ -44,6 +42,14 @@ export default class Auth {
       throw new Error('No access token found');
     }
     return accessToken;
+  }
+
+  getIdToken() {
+    const idToken = localStorage.getItem('id_token');
+    if (!idToken) {
+      throw new Error('No id token found');
+    }
+    return idToken;
   }
 
   setSession(authResult) {
@@ -76,9 +82,58 @@ export default class Auth {
     let accessToken = this.getAccessToken();
     this.auth0.client.userInfo(accessToken, (err, profile) => {
       if (profile) {
-        this.userProfile = profile;
+        Auth.userProfile = profile;
       }
       cb(err, profile);
+    });
+    console.log("this.userProfile: ", this);
+  }
+
+  updateMetadata(data) {
+    // var request = require("request");
+    
+    // var options = { method: 'PATCH',
+    //   url: 'https://pinderby.auth0.com/api/v2/users/user_id',
+    //   headers: 
+    //    { 'content-type': 'application/json',
+    //      authorization: 'Bearer ABCD' },
+    //   body: { user_metadata: { addresses: { home: '123 Main Street, Anytown, ST 12345' } } },
+    //   json: true };
+    
+    // request(options, function (error, response, body) {
+    //   if (error) throw new Error(error);
+    
+    //   console.log(body);
+    // });
+
+    // Merge data with existing metadata
+    console.log("this.userProfile: ", Auth.userProfile);
+    Auth.userProfile.user_metadata = Object.assign({}, Auth.userProfile.user_metadata);
+    let metadata = Object.assign(Auth.userProfile.user_metadata, data);
+    let payload = JSON.stringify({ user_metadata: metadata }).replace('"[\\', '[').replace('\\"]"', '"]');
+    console.log("metadata: ", Auth.userProfile.user_metadata, data, metadata);
+
+    // Send api call to update auth0 metadata
+    fetch(`https://pinderby.auth0.com/api/v2/users/${Auth.userProfile.sub}`, {
+      headers: new Headers({
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${this.getIdToken()}`
+        }),
+      method: 'PATCH',
+      body: payload,
+      json: true
+    })
+    .then(function(response){ 
+      // Log response from server
+      console.log('updateMetadata() response: ', response); // TODO --DM-- Remove
+      return response.json();
+    })
+    .then(function(data){ 
+      console.log('updateMetadata() success data: ', data); // TODO --DM-- Remove
+    })
+    .catch(function(error) {
+      // Log error from server
+      console.log('updateMetadata() error: ', error); // TODO --DM-- Remove
     });
   }
 }

@@ -1,10 +1,25 @@
 // src/Profile/Profile.js
 
 import React, { Component } from 'react';
-import { Panel, ControlLabel, Glyphicon } from 'react-bootstrap';
+import { Button, Panel, ControlLabel, Glyphicon } from 'react-bootstrap';
+import Auth from '../../services/Auth.js';
 import './Profile.css';
 
 class Profile extends Component {
+  constructor(props) {
+    super(props);
+        
+    // Instantiate Auth object
+    const auth = new Auth();
+
+    // Bind methods
+    this.updateMetadata = this.updateMetadata.bind(this);
+
+    this.state = {
+      auth: auth,
+    };
+  }
+
   componentWillMount() {
     this.setState({ profile: {} });
     const { userProfile, getProfile } = this.props.auth;
@@ -16,7 +31,14 @@ class Profile extends Component {
       this.setState({ profile: userProfile });
     }
   }
+
+  updateMetadata() {
+    this.state.auth.updateMetadata({ test: 'test' });
+  }
+
   render() {
+    console.log("state", this.state); // TODO --DTM-- Remove
+
     const { profile } = this.state;
     return (
       <div className="profile-container">
@@ -29,6 +51,7 @@ class Profile extends Component {
               <h3>{profile.nickname}</h3>
             </div>
             <pre>{JSON.stringify(profile, null, 2)}</pre>
+            <Button onClick={this.updateMetadata} bsStyle="primary">Update Metadata</Button>
           </Panel>
         </div>
       </div>
