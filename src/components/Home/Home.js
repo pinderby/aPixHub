@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Auth from '../../services/Auth.js';
 import logo from '../../assets/apixhub-icon.svg';
+import Profile from './Profile.js';
 import './Home.css';
 
 class Home extends Component {
@@ -19,12 +20,16 @@ class Home extends Component {
     // Instantiate authentication check from Auth0
     const { isAuthenticated } = this.state.auth;
 
+    console.log('this.state', this.state); // TODO --DM-- Remove
+    console.log('this.props', this.props); // TODO --DM-- Remove
+
     // Log if user is authenticated
     console.log("isAuthenticated(): ", isAuthenticated());
     
     // Instantiate body
     let body = "";
-    if (!isAuthenticated()) { body = <Splash auth={this.state.auth} /> };
+    if (!isAuthenticated()) { body = <Splash auth={this.state.auth} /> }
+    else { body = <Profile auth={this.state.auth} /> };
 
     return (
       <div className="home-container">
@@ -55,8 +60,6 @@ class Splash extends Component {
 
   render() {
     const { isAuthenticated } = this.props.auth;
-    console.log('this.state', this.state); // TODO --DM-- Remove
-    console.log('this.props', this.props); // TODO --DM-- Remove
 
     return (
       <div className="home">

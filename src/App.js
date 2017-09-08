@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import './App.css';
 import '../node_modules/auth0-js/build/auth0.js';
 import { Route, Link, Redirect } from 'react-router-dom';
+import Auth from './services/Auth.js';
+import Callback from './components/Home/Callback.js';
 import HomeContainer from './containers/HomeContainer.js';
 import NodeInstanceContainer from './containers/NodeInstanceContainer.js';
 import NodeTemplateContainer from './containers/NodeTemplateContainer.js';
@@ -15,6 +17,13 @@ import RelationshipPopulatorContainer from './containers/RelationshipPopulatorCo
 import NodePopulatorContainer from './containers/NodePopulatorContainer.js';
 import NodeSearchContainer from './containers/NodeSearchContainer.js';
 // import IMDbClone from './IMDbClone.js';
+
+const auth = new Auth();
+const handleAuthentication = (nextState, replace) => {
+  if (/access_token|id_token|error/.test(nextState.location.hash)) {
+    auth.handleAuthentication();
+  }
+}
 
 class App extends Component {
   constructor() {
@@ -52,7 +61,11 @@ class App extends Component {
           <Route exact path="/" render={() => (
             <Redirect from="/" to="/home"/>
           )}/>
-          <Route exact path="/home" component={HomeContainer}/>
+          <Route exact path="/home" component={HomeContainer} />
+          <Route path="/callback" render={(props) => {
+            handleAuthentication(props);
+            return <Callback {...props} /> 
+          }}/>
           <Route exact path="/templates" component={TemplateSearchContainer}/>
           <Route exact path="/templates/add" component={TemplateBuilderContainer}/>
           <Route exact path="/relationships/add" component={RelationshipBuilderContainer}/>

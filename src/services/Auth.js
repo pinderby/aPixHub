@@ -6,10 +6,10 @@ export default class Auth {
   auth0 = new auth0.WebAuth({
     domain: 'pinderby.auth0.com',
     clientID: 'VWLgAvNY9t10QtsHZauXKzCCWNG3bPv8',
-    redirectUri: 'http://localhost:3000',
+    redirectUri: 'http://localhost:3000/callback',
     audience: 'https://pinderby.auth0.com/userinfo',
     responseType: 'token id_token',
-    scope: 'openid'
+    scope: 'openid profile'
   });
 
   constructor() {
@@ -17,7 +17,10 @@ export default class Auth {
     this.logout = this.logout.bind(this);
     this.handleAuthentication = this.handleAuthentication.bind(this);
     this.isAuthenticated = this.isAuthenticated.bind(this);
+    this.getProfile = this.getProfile.bind(this);
   }  
+
+  userProfile;
 
   login() {
     this.auth0.authorize();
@@ -27,12 +30,20 @@ export default class Auth {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
-        history.replace('/home');
+        history.replaceState({}, 'Home', '/home');
       } else if (err) {
-        history.replace('/home');
+        history.replaceState({}, 'Home', '/home');
         console.log(err);
       }
     });
+  }
+
+  getAccessToken() {
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      throw new Error('No access token found');
+    }
+    return accessToken;
   }
 
   setSession(authResult) {
@@ -42,7 +53,7 @@ export default class Auth {
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
     // navigate to the home route
-    history.replace('/home');
+    history.replaceState({}, 'Home', '/home');
   }
 
   logout() {
@@ -51,7 +62,7 @@ export default class Auth {
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
     // navigate to the home route
-    history.replace('/home');
+    history.replaceState({}, 'Home', '/home');
   }
 
   isAuthenticated() {
@@ -59,5 +70,15 @@ export default class Auth {
     // access token's expiry time
     let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     return new Date().getTime() < expiresAt;
+  }
+
+  getProfile(cb) {
+    let accessToken = this.getAccessToken();
+    this.auth0.client.userInfo(accessToken, (err, profile) => {
+      if (profile) {
+        this.userProfile = profile;
+      }
+      cb(err, profile);
+    });
   }
 }
