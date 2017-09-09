@@ -39,11 +39,10 @@ class Home extends Component {
     // Instantiate body
     let body = "";
     if (!isAuthenticated()) { body = <Splash auth={this.state.auth} /> }
-    else { body = <ProfileContainer auth={this.state.auth} /> };
+    else { body = <ProfileContainer auth={this.state.auth} logout={this.logout} /> };
 
     return (
       <div className="home-container">
-        <Button onClick={this.logout} bsStyle="danger">Log out</Button>
         {body}
       </div>
     );

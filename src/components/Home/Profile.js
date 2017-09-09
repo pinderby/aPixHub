@@ -119,6 +119,7 @@ class Profile extends Component {
             </div>
             <pre>{JSON.stringify(profile, null, 2)}</pre>
             <Button onClick={this.updateMetadata} bsStyle="primary">Update Metadata</Button>
+            <Button onClick={this.props.logout} bsStyle="danger">Log out</Button>
           </Panel>
         </div>
         <div className="repo-area">
