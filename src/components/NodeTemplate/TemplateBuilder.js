@@ -41,22 +41,23 @@ class TemplateBuilder extends Component {
     // Get template properties
     let properties = nodeTemplate.template.properties ? nodeTemplate.template.properties : [];
 
-    // If creating, add mandatory name, profile_image, cover_image properties
-    if (creating) {
-      // Add mandatory name property
-      properties.push({ key:"name", display_label:"Name", value_type:"string", 
-                        placeholder:"Name", disabled: true,path:'properties.name' });
+    // TODO --DTM-- Delete
+    // // If creating, add mandatory name, profile_image, cover_image properties
+    // if (creating) {
+    //   // Add mandatory name property
+    //   properties.push({ key:"name", display_label:"Name", value_type:"string", 
+    //                     placeholder:"Name", disabled: true,path:'properties.name' });
 
-      // Add mandatory profile_image property
-      properties.push( { key:"profile_image", display_label:"Profile Picture", 
-                         value_type:"string", placeholder:"Link to Profile Picture", 
-                         disabled: true,path:'properties.profile_image' });
+    //   // Add mandatory profile_image property
+    //   properties.push( { key:"profile_image", display_label:"Profile Picture", 
+    //                      value_type:"string", placeholder:"Link to Profile Picture", 
+    //                      disabled: true,path:'properties.profile_image' });
 
-      // Add mandatory cover_image property
-      properties.push({ key:"cover_image", display_label:"Cover Image", 
-                        value_type:"string", placeholder:"Link to Cover Image", 
-                        disabled: true, path:'properties.cover_image' });
-    }
+    //   // Add mandatory cover_image property
+    //   properties.push({ key:"cover_image", display_label:"Cover Image", 
+    //                     value_type:"string", placeholder:"Link to Cover Image", 
+    //                     disabled: true, path:'properties.cover_image' });
+    // }
 
     // Bind callbacks
     this.updateNodeTemplate = this.updateNodeTemplate.bind(this);

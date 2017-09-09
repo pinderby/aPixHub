@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { Button } from 'react-bootstrap';
 import Auth from '../../services/Auth.js';
 import logo from '../../assets/apixhub-icon.svg';
-import Profile from './Profile.js';
+import ProfileContainer from '../../containers/ProfileContainer';
 import './Home.css';
 
 class Home extends Component {
@@ -11,9 +12,18 @@ class Home extends Component {
     // Instantiate Auth object
     const auth = new Auth();
 
+    // Bind methods
+    this.logout = this.logout.bind(this);
+
     this.state = {
       auth: auth,
     };
+  }
+
+  logout(e) {
+    // Log out using auth0
+    this.state.auth.logout();
+    this.forceUpdate()
   }
   
   render() {
@@ -29,10 +39,11 @@ class Home extends Component {
     // Instantiate body
     let body = "";
     if (!isAuthenticated()) { body = <Splash auth={this.state.auth} /> }
-    else { body = <Profile auth={this.state.auth} /> };
+    else { body = <ProfileContainer auth={this.state.auth} /> };
 
     return (
       <div className="home-container">
+        <Button onClick={this.logout} bsStyle="danger">Log out</Button>
         {body}
       </div>
     );
@@ -45,17 +56,11 @@ class Splash extends Component {
 
     // Bind methods
     this.login = this.login.bind(this);
-    this.logout = this.logout.bind(this);
   }
 
   login(e) {
     // Begin auth0 auth process
     this.props.auth.login();
-  }
-
-  logout(e) {
-    // Log out using auth0
-    this.props.auth.logout();
   }
 
   render() {

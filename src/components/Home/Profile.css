@@ -1,0 +1,17 @@
+.profile-area {
+  float: left;
+  max-width: 500px;
+}
+
+.profile-pic {
+  max-width: 300px;
+}
+
+.repo-area {
+  float: left;
+  min-width: 600px;
+}
+
+.repo-area > .panel {
+  width: 100%;
+}

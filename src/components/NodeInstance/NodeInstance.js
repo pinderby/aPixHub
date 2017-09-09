@@ -112,7 +112,6 @@ class NodeInstance extends Component {
   }
   
   render() {
-    // this.state.nodes.push(logan);
     console.log("this.state: ", this.state); // TODO --DM-- Remove
     console.log("this.props: ", this.props); // TODO --DM-- Remove
 

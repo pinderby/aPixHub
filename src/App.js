@@ -20,6 +20,7 @@ import NodeSearchContainer from './containers/NodeSearchContainer.js';
 
 const auth = new Auth();
 const handleAuthentication = (nextState, replace) => {
+  console.log('nextState: ', nextState, replace);
   if (/access_token|id_token|error/.test(nextState.location.hash)) {
     auth.handleAuthentication();
   }

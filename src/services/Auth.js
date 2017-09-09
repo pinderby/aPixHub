@@ -18,6 +18,7 @@ export default class Auth {
     this.handleAuthentication = this.handleAuthentication.bind(this);
     this.isAuthenticated = this.isAuthenticated.bind(this);
     this.getProfile = this.getProfile.bind(this);
+    this.getMetadata = this.getMetadata.bind(this);
   }  
 
   login() {
@@ -28,9 +29,10 @@ export default class Auth {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
-        history.replaceState({}, 'Home', '/home');
+        history.pushState({ rerender: true }, 'Home', '/home');
+        console.log("history ", history);
       } else if (err) {
-        history.replaceState({}, 'Home', '/home');
+        history.replaceState({}, 'Home', '/home ');
         console.log(err);
       }
     });
@@ -87,6 +89,33 @@ export default class Auth {
       cb(err, profile);
     });
     console.log("this.userProfile: ", this);
+  }
+
+  getMetadata(cb) {
+    let idToken = this.getIdToken();
+
+    // Send api call to update auth0 metadata
+    fetch(`https://pinderby.auth0.com/api/v2/users/${Auth.userProfile.sub}`, {
+      headers: new Headers({
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${idToken}`
+        }),
+      method: 'GET',
+      qs: { fields: 'user_metadata', include_fields: 'true' },
+    })
+    .then(function(response){ 
+      // Log response from server
+      console.log('getMetadata() response: ', response); // TODO --DM-- Remove
+      // Auth.userProfile = Object.assign(Auth.userProfile, response);
+      response.json().then(function(data){ 
+        console.log('getMetadata() success data: ', data); // TODO --DM-- Remove
+        cb(data);
+      });
+    })
+    .catch(function(error) {
+      // Log error from server
+      console.log('getMetadata() error: ', error); // TODO --DM-- Remove
+    });
   }
 
   updateMetadata(data) {
