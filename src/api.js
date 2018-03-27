@@ -1,5 +1,7 @@
 // Define api root address
-export const API_ROOT = 'https://apix.rocks'
+export const API_ROOT_PROD = 'https://apix.rocks'
+export const API_ROOT_LOCAL = 'http://192.168.12.34'
+export const API_ROOT = API_ROOT_PROD
 export const STATUS_FETCHING = 'fetching'
 export const STATUS_SUCCESS = 'success'
 export const STATUS_ERROR = 'error'
