@@ -1,5 +1,14 @@
 # aPixHub
 
+```
+src/
+  constants/
+    ActionTypes.js
+    BaseModel.js
+    PropertyTypes.js
+```
+Make sure these file have the proper filenames to avoid reference errors.
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
