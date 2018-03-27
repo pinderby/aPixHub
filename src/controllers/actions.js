@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch'
+import API_ROOT from '../api.js'
 
 export const REQUEST_APIX_NODE = 'REQUEST_APIX_NODE'
 export const REQUEST_NODE_TEMPLATE = 'REQUEST_NODE_TEMPLATE'
@@ -6,7 +7,7 @@ export const SET_APIX_NODE = 'SET_APIX_NODE'
 export const SET_NODE_TEMPLATE = 'SET_NODE_TEMPLATE'
 export const SET_NODES = 'SET_NODES'
 
-const API_URL = 'https://apix.rocks'
+const API_URL = API_ROOT
 
 function appendEndpoint(endpoint) {
     return API_URL + endpoint
