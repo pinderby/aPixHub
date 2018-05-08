@@ -24,6 +24,22 @@ Design/CSS
 TODO - DTM -
 ---------------
 
+Adding an API call:
+1. Create method in component: 
+      getTemplate(templateLabel) {
+        // Dispatch fetchTemplate to get template by label
+        this.props.dispatch(fetchTemplate(templateLabel));
+      }
+2. Create Thunk Action Creator in src/actions/...
+3. Create Action Creator in same file
+4. Make sure reducer is correctly configured in src/reducers/...
+
+Remove auth0
+Sign up/Login
+[ ] Sign up
+[ ] Actually log in to homepage
+Design
+
 CRUD + Search Templates
   Create: TemplateBuilder (/t/templates/add)
   Read: NodeTemplate (/t/:label)

@@ -1,7 +1,8 @@
 // Define api root address
 export const API_ROOT_PROD = 'https://apix.rocks'
-export const API_ROOT_LOCAL = 'http://192.168.12.34'
-export const API_ROOT = API_ROOT_PROD
+export const API_ROOT_VAGRANT = 'http://192.168.12.34'
+export const API_ROOT_LOCAL = 'http://localhost:4567'
+export const API_ROOT = API_ROOT_LOCAL
 export const STATUS_FETCHING = 'fetching'
 export const STATUS_SUCCESS = 'success'
 export const STATUS_ERROR = 'error'
@@ -23,19 +24,25 @@ export const dispatchActionWithArgs = (dispatch) => (actionCreator) => (...args)
 
 // Performs the call and promises when such actions are dispatched.
 export const callApi = (dispatchActionWithStatus, apiArgs) => {
-  // apiArgs must include: { endpoint, method, payload }
+  // apiArgs must include: { endpoint, method, payload }, contentType is optional
 
   // TODO --DM-- Error handling of api request
-  checkApiArgs(apiArgs)
+  checkApiArgs(apiArgs);
+
+  // Set Content-Type
+  var contentType = 'application/json'; // Default
+  if (apiArgs.hasOwnProperty('contentType')) {
+    contentType = apiArgs.contentType;
+  }
 
   // Dispatch fetching action
-  dispatchActionWithStatus({ status: STATUS_FETCHING })
+  dispatchActionWithStatus({ status: STATUS_FETCHING });
 
   // Return api call to get search results
   fetch(`${API_ROOT}${apiArgs.endpoint}`, {
     headers: new Headers({
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
+        'Content-Type': contentType,
+        // Accept: 'application/json', TODO --DTM-- Needed?
       }),
     method: apiArgs.method,
     body: apiArgs.payload

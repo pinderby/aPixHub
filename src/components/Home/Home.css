@@ -18,6 +18,11 @@
   margin-top: 100px;
 }
 
+.home-header > .form {
+  margin: 5px;
+  color: #000;
+}
+
 .home-header > .btn-success {
   margin: 5px;
   color: #ffffff;

@@ -9,9 +9,24 @@ export const RENAME_PROPERTY = "RENAME_PROPERTY";
 export const REMOVE_PROPERTY = "REMOVE_PROPERTY";
 export const UPDATE_NODES = "UPDATE_NODES";
 
+// Users //
+export const UPDATE_USER = "UPDATE_USER";
+
 //////////////////////
 // NETWORK REQUESTS //
 //////////////////////
+
+// Users //
+// export const GET_ALL_USERS = "GET_ALL_USERS"; // TODO --DTM-- Not needed?
+// export const SEARCH_NODES = "SEARCH_NODES"; // TODO --DTM-- Implement once backend is done
+// export const RECEIVE_USERS = "RECEIVE_USERS"; // TODO --DTM-- Implement once backend is done
+export const AUTH_USER = "AUTH_USER";
+export const GET_USER = "GET_USER";
+export const PUT_USER = "PUT_USER";
+export const POST_USER = "POST_USER";
+// export const DELETE_USER = "DELETE_USER"; // TODO --DTM-- Implement once backend is done
+export const RECEIVE_USER = "RECEIVE_USER";
+
 
 // Node Templates //
 export const GET_ALL_TEMPLATES = "GET_ALL_TEMPLATES";

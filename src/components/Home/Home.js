@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import Auth from '../../services/Auth.js';
 import logo from '../../assets/apixhub-icon.svg';
 import ProfileContainer from '../../containers/ProfileContainer';
+import { fetchAuthUser } from '../../actions/users';
 import './Home.css';
 
 class Home extends Component {
@@ -38,7 +39,7 @@ class Home extends Component {
     
     // Instantiate body
     let body = "";
-    if (!isAuthenticated()) { body = <Splash auth={this.state.auth} /> }
+    if (!isAuthenticated()) { body = <Splash dispatch={this.props.dispatch} auth={this.state.auth} /> }
     else { body = <ProfileContainer auth={this.state.auth} logout={this.logout} /> };
 
     return (
@@ -55,14 +56,32 @@ class Splash extends Component {
 
     // Bind methods
     this.login = this.login.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+
+    // Initialize state
+    this.state = {
+      username: "",
+      password: "",
+    };
   }
 
   login(e) {
     // Begin auth0 auth process
-    this.props.auth.login();
+    // this.props.auth.login();
+
+    // Dispatch login to log user in with input credentials
+    e.preventDefault();
+    this.props.dispatch(fetchAuthUser(this.state.username, this.state.password));
+  }
+
+  handleInputChange(event) {
+    this.setState({[event.target.name]: event.target.value});
   }
 
   render() {
+    console.log("this.state: ", this.state); // TODO --DM-- Remove
+    console.log("this.props: ", this.props); // TODO --DM-- Remove
+
     const { isAuthenticated } = this.props.auth;
 
     return (
@@ -71,6 +90,27 @@ class Splash extends Component {
           <div className="home-header">
             <img src={logo} className="home-logo" alt="logo" />
             <h2>Welcome to aPixHub</h2>
+            <div className="form">
+              <form onSubmit={this.handleSubmit}>
+                <label>
+                  Username:
+                  <input 
+                    name="username" 
+                    type="text" 
+                    value={this.state.username} 
+                    onChange={this.handleInputChange} />
+                </label>
+                <br/>
+                <label>
+                  Password:
+                  <input 
+                    name="password" 
+                    type="password" 
+                    value={this.state.password} 
+                    onChange={this.handleInputChange} />
+                </label>
+              </form>
+            </div>
             <button type="button" onClick={this.login} className="btn btn-success btn-lg">Sign up</button>
             <button type="button" onClick={this.login} className="btn btn-success btn-lg">Log in</button>
           </div>

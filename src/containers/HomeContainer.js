@@ -3,8 +3,7 @@ import Home from '../components/Home/Home';
 
 const mapStateToProps = (state) => {
   return {
-    // TODO --DM-- Fill in
-    // user: state.user
+    user: state.user
   }
 }
 
