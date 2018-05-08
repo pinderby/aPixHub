@@ -90,27 +90,34 @@ class Splash extends Component {
           <div className="home-header">
             <img src={logo} className="home-logo" alt="logo" />
             <h2>Welcome to aPixHub</h2>
-            <div className="form">
-              <form onSubmit={this.handleSubmit}>
-                <label>
-                  Username:
+            <form className="form-horizontal col-md-offset-4" onSubmit={this.handleSubmit}>
+              <div className="form-group">
+                <label className="control-label col-sm-2" for="username">Username:</label>
+                <div className="col-sm-3">
                   <input 
+                    id="username"
+                    className="form-control"
+                    placeholder="Username"
                     name="username" 
                     type="text" 
                     value={this.state.username} 
                     onChange={this.handleInputChange} />
-                </label>
-                <br/>
-                <label>
-                  Password:
+                </div>
+              </div>
+              <div className="form-group">
+                <label className="control-label col-sm-2" for="password">Password:</label>
+                <div className="col-sm-3">
                   <input 
+                    id="password"
+                    className="form-control"
+                    placeholder="Password"
                     name="password" 
                     type="password" 
                     value={this.state.password} 
                     onChange={this.handleInputChange} />
-                </label>
-              </form>
-            </div>
+                </div>
+              </div>
+            </form>
             <button type="button" onClick={this.login} className="btn btn-success btn-lg">Sign up</button>
             <button type="button" onClick={this.login} className="btn btn-success btn-lg">Log in</button>
           </div>
