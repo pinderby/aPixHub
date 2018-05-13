@@ -9,13 +9,13 @@
 
 .home-header-container {
   background-color: #222;
-  height: 500px;
-  padding: 20px;
+  min-height: 500px;
+  padding: 75px;
   color: white;
 }
 
 .home-header {
-  margin-top: 100px;
+  margin-top: 0px;
 }
 
 .home-header > .form {
@@ -23,23 +23,44 @@
   color: #000;
 }
 
-.home-header > .btn-success {
+.home-header form > label {
+  text-align: center;
+}
+
+.home-header form > .form-group {
+  display: inline-block;
+}
+
+.home-header .form-group .invalid-feedback {
+  display: none;
+}
+
+.home-header .form-group.has-error .invalid-feedback {
+  display: block;
+}
+
+.home-header .form-control.is-invalid~.invalid-feedback {
+  font-size: 80%;
+  color: #dc3545;
+}
+
+.home-header .btn-success {
   margin: 5px;
   color: #ffffff;
   background-color: #00967B;
   border-color: #00836C;
 }
 
-.home-header > .btn-success:hover,
-.home-header > .btn-success:focus,
-.home-header > .btn-success:active,
-.home-header > .btn-success.active {
+.home-header .btn-success:hover,
+.home-header .btn-success:focus,
+.home-header .btn-success:active,
+.home-header .btn-success.active {
   color: #fff;
   background-color: #00836C;
   border-color: #00836C;
 }
 
-.home-header > .btn-success:focus:active {
+.home-header .btn-success:focus:active {
   color: #fff;
   background-color: #006F5B;
   border-color: #00836C;
