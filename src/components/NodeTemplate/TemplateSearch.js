@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Helpers from '../../helpers.js';
 import './TemplateSearch.css';
-import Auth from '../../services/Auth.js';
 import { Link } from 'react-router-dom';
 import { initializeNodeTemplate, fetchTemplates } from '../../actions/templates';
 import { updateNodes } from '../../actions/nodes';
@@ -119,12 +118,6 @@ class TemplateNavbar extends Component {
 
     // Pass value to parent callback to update parent state
     this.props.onChange(event.target.value);
-  }
-
-  login(e) {
-    // Begin auth0 auth process
-    const auth = new Auth();
-    auth.login();
   }
 
   // handleSubmit(event) {

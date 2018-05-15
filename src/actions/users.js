@@ -232,6 +232,24 @@ export function fetchAuthUser(username, password) {
   }
 }
 
+// Fetch me
+export function fetchMe() {
+
+  return function (dispatch) {
+
+    // Define args for callApi()
+    let dispatchActionWithStatus = dispatchActionWithArgs(dispatch)(getUser)('me');
+    let apiArgs = {
+      endpoint: `/users/me`,
+      method: 'GET',
+      payload: {}
+    }
+
+    // Execute api call
+    callApi(dispatchActionWithStatus, apiArgs);
+  }
+}
+
 // Fetch user by username
 export function fetchUser(username) {
 

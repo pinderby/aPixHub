@@ -36,17 +36,26 @@ export const callApi = (dispatchActionWithStatus, apiArgs) => {
     contentType = apiArgs.contentType;
   }
 
-  console.log('callApi() contentType: ', contentType); // TODO --DM-- Remove
+  // Set token
+  var token = '';
+  if (localStorage.getItem('user_token') === null) {
+    token = localStorage.getItem('user_token');
+  }
+
+  var header = new Headers({
+    'Content-Type': contentType,
+    'Authorization': token,
+    // Accept: 'application/json', TODO --DTM-- Needed?
+  })
+
+  console.log('callApi() header: ', header); // TODO --DM-- Remove
 
   // Dispatch fetching action
   dispatchActionWithStatus({ status: STATUS_FETCHING });
 
   // Return api call to get search results
   fetch(`${API_ROOT}${apiArgs.endpoint}`, {
-    headers: new Headers({
-        'Content-Type': contentType,
-        // Accept: 'application/json', TODO --DTM-- Needed?
-      }),
+    headers: header,
     method: apiArgs.method,
     body: apiArgs.payload
   })

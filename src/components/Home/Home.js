@@ -1,45 +1,69 @@
 import React, { Component } from 'react';
-import Auth from '../../services/Auth.js';
+import _ from 'lodash';
 import logo from '../../assets/apixhub-icon.svg';
 import ProfileContainer from '../../containers/ProfileContainer';
-import { fetchAuthUser, fetchPostUser } from '../../actions/users';
+import { fetchAuthUser, fetchPostUser, fetchMe } from '../../actions/users';
 import './Home.css';
 
 class Home extends Component {
   constructor(props) {
     super(props);
-        
-    // Instantiate Auth object
-    const auth = new Auth();
+
+    // Check if user token is already stored
+    let token = '';
+    if (localStorage.getItem('user_token') === null) {
+      // If token exists, assign it to state
+      token = localStorage.getItem('user_token');
+
+      // If token exists but user does not, get "me"
+      if (_.isEmpty(props.user)) props.dispatch(fetchMe()); 
+    } 
 
     // Bind methods
     this.logout = this.logout.bind(this);
 
     this.state = {
-      auth: auth,
+      user: {},
+      token: token
+    };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    // Check if user is now logged in (user object exists)
+    let user = {};
+    if (nextProps.user && nextProps.user.hasOwnProperty('user')) {
+      // Assign user object for state
+      user = nextProps.user.user;
+
+      // Save token
+      localStorage.setItem('user_token', user.token);
+      // Read to persist
+      localStorage.getItem('user_token');
+    }
+
+    return {
+      user: user
     };
   }
 
   logout(e) {
-    // Log out using auth0
-    this.state.auth.logout();
-    this.forceUpdate()
+    // TODO --DTM-- Implement log out logic
   }
   
   render() {
-    // Instantiate authentication check from Auth0
-    const { isAuthenticated } = this.state.auth;
-
     console.log('this.state', this.state); // TODO --DM-- Remove
     console.log('this.props', this.props); // TODO --DM-- Remove
 
     // Log if user is authenticated
-    console.log("isAuthenticated(): ", isAuthenticated());
+    // console.log("isAuthenticated(): ", isAuthenticated());
     
     // Instantiate body
     let body = "";
-    if (!isAuthenticated()) { body = <Splash dispatch={this.props.dispatch} auth={this.state.auth} /> }
-    else { body = <ProfileContainer auth={this.state.auth} logout={this.logout} /> };
+
+    // If user is empty, show login screen
+    if (_.isEmpty(this.state.user)) { body = <Splash dispatch={this.props.dispatch} /> }
+    // If user is not empty, show profile
+    else { body = <ProfileContainer logout={this.logout} user={this.state.user} /> };
 
     return (
       <div className="home-container">
@@ -73,9 +97,6 @@ class Splash extends Component {
   }
 
   login(e) {
-    // Begin auth0 auth process
-    // this.props.auth.login();
-
     // Dispatch login to log user in with input credentials
     e.preventDefault();
     this.props.dispatch(fetchAuthUser(this.state.username, this.state.password));
@@ -97,7 +118,6 @@ class Splash extends Component {
     }
 
     // Dispatch API call
-    console.log("payload: ", payload); // TODO --DM-- Remove
     this.props.dispatch(fetchPostUser(JSON.stringify(payload)));
   }
 
@@ -119,8 +139,6 @@ class Splash extends Component {
   render() {
     console.log("this.state: ", this.state); // TODO --DM-- Remove
     console.log("this.props: ", this.props); // TODO --DM-- Remove
-
-    const { isAuthenticated } = this.props.auth;
 
     let form = "";
     let passwordInvalid = this.validatePassword(this.state.password, this.state.confirm_password);
