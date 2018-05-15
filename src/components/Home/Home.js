@@ -11,7 +11,7 @@ class Home extends Component {
 
     // Check if user token is already stored
     let token = '';
-    if (localStorage.getItem('user_token') === null) {
+    if (localStorage.getItem('user_token') !== null) {
       // If token exists, assign it to state
       token = localStorage.getItem('user_token');
 
@@ -37,8 +37,6 @@ class Home extends Component {
 
       // Save token
       localStorage.setItem('user_token', user.token);
-      // Read to persist
-      localStorage.getItem('user_token');
     }
 
     return {
@@ -146,7 +144,7 @@ class Splash extends Component {
     if (this.state.isLoggingIn) {
       // Show login form
       form = 
-        <form className="form-horizontal" onSubmit={this.handleSubmit}>
+        <form className="form-horizontal" onSubmit={this.login}>
           <div className="form-group">
             <label className="control-label" htmlFor="username">Username:</label>
             <input 
@@ -171,14 +169,14 @@ class Splash extends Component {
                 onChange={this.handleInputChange} />
           </div>
           <br />
-          <button type="button" onClick={this.login} className="btn btn-success btn-lg">Log in</button>
+          <button type="submit" onClick={this.login} className="btn btn-success btn-lg">Log in</button>
           <br />
           <p>Or click here to <a onClick={() => this.changeForm(false)}>sign up.</a></p>
         </form>
     } else {
       // Show sign up form
       form = 
-        <form className="form-horizontal" onSubmit={this.handleSubmit}>
+        <form className="form-horizontal" onSubmit={this.signup}>
           <div className="form-group">
             <label className="control-label" htmlFor="firstname">First Name:</label>
             <input 
@@ -252,7 +250,7 @@ class Splash extends Component {
               <div className="invalid-feedback">Passwords must match.</div>
           </div>          
           <br />
-          <button type="button" onClick={this.signup} className="btn btn-success btn-lg">Sign up</button>
+          <button type="submit" onClick={this.signup} className="btn btn-success btn-lg">Sign up</button>
           <br />
           <p>Already have an account? Click here to <a onClick={() => this.changeForm(true)}>log in.</a></p>
         </form>

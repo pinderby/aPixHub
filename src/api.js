@@ -38,7 +38,7 @@ export const callApi = (dispatchActionWithStatus, apiArgs) => {
 
   // Set token
   var token = '';
-  if (localStorage.getItem('user_token') === null) {
+  if (localStorage.getItem('user_token') !== null) {
     token = localStorage.getItem('user_token');
   }
 
