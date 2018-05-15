@@ -28,12 +28,15 @@ export const callApi = (dispatchActionWithStatus, apiArgs) => {
 
   // TODO --DM-- Error handling of api request
   checkApiArgs(apiArgs);
+  console.log('callApi() apiArgs: ', apiArgs); // TODO --DM-- Remove
 
   // Set Content-Type
   var contentType = 'application/json'; // Default
   if (apiArgs.hasOwnProperty('contentType')) {
     contentType = apiArgs.contentType;
   }
+
+  console.log('callApi() contentType: ', contentType); // TODO --DM-- Remove
 
   // Dispatch fetching action
   dispatchActionWithStatus({ status: STATUS_FETCHING });

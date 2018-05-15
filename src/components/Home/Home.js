@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Auth from '../../services/Auth.js';
 import logo from '../../assets/apixhub-icon.svg';
 import ProfileContainer from '../../containers/ProfileContainer';
-import { fetchAuthUser } from '../../actions/users';
+import { fetchAuthUser, fetchPostUser } from '../../actions/users';
 import './Home.css';
 
 class Home extends Component {
@@ -55,8 +55,10 @@ class Splash extends Component {
 
     // Bind methods
     this.login = this.login.bind(this);
+    this.signup = this.signup.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.changeForm = this.changeForm.bind(this);
+    this.validatePassword = this.validatePassword.bind(this);
 
     // Initialize state
     this.state = {
@@ -82,7 +84,21 @@ class Splash extends Component {
   signup(e) {
     // Dispatch sign up call to POST new user with form data
     e.preventDefault();
-    // this.props.dispatch(fetchAuthUser(this.state.username, this.state.password));
+
+    // Instantiate user object
+    let payload = {
+      "user": {
+        "username": this.state.username,
+        "email": this.state.email,
+        "password": this.state.password,
+        "fname": this.state.firstname,
+        "lname": this.state.lastname
+      }
+    }
+
+    // Dispatch API call
+    console.log("payload: ", payload); // TODO --DM-- Remove
+    this.props.dispatch(fetchPostUser(JSON.stringify(payload)));
   }
 
   handleInputChange(event) {
@@ -108,7 +124,6 @@ class Splash extends Component {
 
     let form = "";
     let passwordInvalid = this.validatePassword(this.state.password, this.state.confirm_password);
-    console.log("passwordInvalid: ", passwordInvalid); // TODO --DM-- Remove
 
     if (this.state.isLoggingIn) {
       // Show login form

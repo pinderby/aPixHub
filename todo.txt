@@ -36,8 +36,9 @@ Adding an API call:
 
 Remove auth0
 Sign up/Login
-[ ] Sign up
+[ x ] Sign up
 [ ] Actually log in to homepage
+[ ] Cache token
 Design
 
 CRUD + Search Templates

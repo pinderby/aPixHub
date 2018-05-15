@@ -258,7 +258,7 @@ export function fetchPostUser(payload) {
     // Define args for callApi()
     let dispatchActionWithStatus = dispatchActionWithArgs(dispatch)(postUser)(payload);
     let apiArgs = {
-      endpoint: `/users/`,
+      endpoint: `/users`,
       method: 'POST',
       payload: payload
     }
