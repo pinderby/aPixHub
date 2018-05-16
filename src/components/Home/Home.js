@@ -9,12 +9,12 @@ class Home extends Component {
   constructor(props) {
     super(props);
 
-    // Check if user token is already stored
-    let token = '';
-
     console.log('user_token: ', localStorage.getItem('user_token')); // TODO --DM-- Remove
 
-    if (localStorage.getItem('user_token') !== null) {
+    // Check if user token is already stored
+    let token = '';
+    if (localStorage.getItem('user_token') && 
+        localStorage.getItem('user_token') !== 'undefined') {
       // If token exists, assign it to state
       token = localStorage.getItem('user_token');
 
@@ -27,24 +27,38 @@ class Home extends Component {
 
     this.state = {
       user: {},
-      token: token
+      isLoggingIn: true,
+      token: token,
+      errors: {}
     };
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     // Check if user is now logged in (user object exists)
-    let user = {};
+    let nextState = {};
     if (nextProps.user && nextProps.user.hasOwnProperty('user')) {
+      
       // Assign user object for state
-      user = nextProps.user.user;
+      let user = nextProps.user.user;
+      
+      // Check if user creation was successful (check token)
+      if (user.hasOwnProperty('token')) {
+        // If user creation successful, pass user to state
+        nextState = {user: user};
+      } else {
+        // If user creation unsuccessful, pass error(s)
+        nextState = {
+          user: {},
+          errors: user,
+          isLoggingIn: prevState.isLoggingIn,
+        };
+      }
 
       // Save token
       localStorage.setItem('user_token', user.token);
     } 
 
-    return {
-      user: user
-    };
+    return nextState;
   }
 
   logout(e) {
@@ -68,7 +82,11 @@ class Home extends Component {
     let body = "";
 
     // If user is empty, show login screen
-    if (_.isEmpty(this.state.user)) { body = <Splash dispatch={this.props.dispatch} /> }
+    if (_.isEmpty(this.state.user)) { 
+      body = <Splash isLoggingIn={this.state.isLoggingIn} 
+                     errors={this.state.errors} 
+                     dispatch={this.props.dispatch} /> 
+    }
     // If user is not empty, show profile
     else { body = <ProfileContainer logout={this.logout} user={this.state.user} /> };
 
@@ -90,23 +108,35 @@ class Splash extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.changeForm = this.changeForm.bind(this);
     this.validatePassword = this.validatePassword.bind(this);
+    this.renderErrors = this.renderErrors.bind(this);
 
     // Initialize state
     this.state = {
-      isLoggingIn: true,
+      isLoggingIn: props.isLoggingIn,
       username: "",
       password: "",
       confirm_password: "",
       firstname: "",
       lastname: "",
-      email: ""
+      email: "",
+      errors: props.errors
     };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    // Update state with errors
+    return {errors: nextProps.errors};
   }
 
   login(e) {
     // Dispatch login to log user in with input credentials
     e.preventDefault();
     this.props.dispatch(fetchAuthUser(this.state.username, this.state.password));
+
+    // Reset errors
+    this.setState({
+      errors: {}
+    });
   }
 
   signup(e) {
@@ -126,6 +156,11 @@ class Splash extends Component {
 
     // Dispatch API call
     this.props.dispatch(fetchPostUser(JSON.stringify(payload)));
+
+    // Reset errors
+    this.setState({
+      errors: {}
+    });
   }
 
   handleInputChange(event) {
@@ -134,13 +169,39 @@ class Splash extends Component {
 
   changeForm(isLoggingIn, event) {
     // isLoggingIn: true = show login form , false = show signup form
-    this.setState({isLoggingIn: isLoggingIn});
+    this.setState({
+      isLoggingIn: isLoggingIn, 
+      errors: {}
+    });
   }
 
   validatePassword(password, confirm_password) {
     // Return true if passwords match
     let invalid = (password !== confirm_password) && (confirm_password.length > 0);
     return invalid;
+  }
+
+  renderErrors() {
+    // Initialize errors array
+    var errorsArray = [];
+
+    // Check for object type
+    if (Object.prototype.toString.call(this.state.errors) === '[object Object]' ) {
+      
+      // Iterate through all errors
+      for (var error in this.state.errors) {
+        // Itereate through errors for this property
+        for (var errorIter in this.state.errors[error]) {
+          // Push each error
+          errorsArray.push(
+            <p key={error+errorIter}>{_.startCase(_.toLower(error)) + " " + this.state.errors[error][errorIter]}</p>
+          );
+        }
+        console.log('error: ', error, this.state.errors[error]);
+      }
+    }
+
+    return errorsArray;
   }
 
   render() {
@@ -271,6 +332,11 @@ class Splash extends Component {
           <div className="home-header">
             <img src={logo} className="home-logo" alt="logo" />
             <h2>Welcome to aPixHub</h2>
+            { !(_.isEmpty(this.state.errors)) && 
+              <div className="errors-alert alert alert-danger" role="alert">
+                {this.renderErrors()}
+              </div>
+            }
             {form}
           </div>
         </div>

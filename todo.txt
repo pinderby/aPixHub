@@ -39,9 +39,10 @@ Sign up/Login
 [ x ] Sign up
 [ x ] Actually log in to homepage
 [ x ] Cache token
-[ ] Implement log out
+[ x ] Implement log out
 [ ] Bounce to login if no token
 [ ] Serverside validation errors
+[ ] Unexpected end of input
 Design
 
 CRUD + Search Templates
