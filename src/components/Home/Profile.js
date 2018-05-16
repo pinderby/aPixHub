@@ -44,6 +44,7 @@ class Profile extends Component {
         </div>
         <div className="repo-area">
           <Panel header="Repos">
+            <h4>Data Repositories</h4>
             <ReposList repos={this.state.repos} />
           </Panel>
         </div>

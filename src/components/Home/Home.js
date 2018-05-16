@@ -41,12 +41,12 @@ class Home extends Component {
       // Assign user object for state
       let user = nextProps.user.user;
       
-      // Check if user creation was successful (check token)
-      if (user.hasOwnProperty('token')) {
-        // If user creation successful, pass user to state
+      // Check if user is valid (check username)
+      if (user.hasOwnProperty('username')) {
+        // If user is valid, pass user to state
         nextState = {user: user};
       } else {
-        // If user creation unsuccessful, pass error(s)
+        // If user is not valid, pass error(s)
         nextState = {
           user: {},
           errors: user,
