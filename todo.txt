@@ -37,11 +37,11 @@ Adding an API call:
 Remove auth0
 Sign up/Login
 [ x ] Sign up
-[ ] Actually log in to homepage
-[ ] Cache token
+[ x ] Actually log in to homepage
+[ x ] Cache token
 [ ] Implement log out
+[ ] Bounce to login if no token
 [ ] Serverside validation errors
-[ ] brew upgrade yarn
 Design
 
 CRUD + Search Templates

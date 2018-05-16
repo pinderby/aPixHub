@@ -11,6 +11,9 @@ class Home extends Component {
 
     // Check if user token is already stored
     let token = '';
+
+    console.log('user_token: ', localStorage.getItem('user_token')); // TODO --DM-- Remove
+
     if (localStorage.getItem('user_token') !== null) {
       // If token exists, assign it to state
       token = localStorage.getItem('user_token');
@@ -37,7 +40,7 @@ class Home extends Component {
 
       // Save token
       localStorage.setItem('user_token', user.token);
-    }
+    } 
 
     return {
       user: user
@@ -45,7 +48,13 @@ class Home extends Component {
   }
 
   logout(e) {
-    // TODO --DTM-- Implement log out logic
+    // Delete token
+    localStorage.removeItem('user_token');
+
+    // Erase user from state and rerender
+    this.setState({
+      user: {}
+    });
   }
   
   render() {
