@@ -33,7 +33,10 @@ Adding an API call:
 2. Create Thunk Action Creator in src/actions/...
 3. Create Action Creator in same file
 4. Make sure reducer is correctly configured in src/reducers/...
+(5.) Make sure all necessary data is passed to component through container
 
+[ ] Repo view
+[ ] Tests (TDD)
 Remove auth0
 Sign up/Login
 [ x ] Sign up
@@ -43,7 +46,16 @@ Sign up/Login
 [ ] Bounce to login if no token
 [ ] Serverside validation errors
 [ ] Unexpected end of input
+[ ] Sign up with username that's taken
 Design
+Users
+[ ] View other users
+Repos
+[ ] Repo view
+[ ] View repos
+[ ] Create repos
+[ ] Update repos
+Sortable Bootstrap: https://github.com/psfpro/bootstrap-html5sortable
 
 CRUD + Search Templates
   Create: TemplateBuilder (/t/templates/add)

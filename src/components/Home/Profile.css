@@ -3,6 +3,10 @@
   max-width: 500px;
 }
 
+.profile-area > .panel {
+  padding-bottom: 20px;
+}
+
 .profile-pic {
   max-width: 300px;
 }
