@@ -35,6 +35,11 @@ Adding an API call:
 4. Make sure reducer is correctly configured in src/reducers/...
 (5.) Make sure all necessary data is passed to component through container
 
+Creating a new view:
+1. Create a new container in src/components/containers/...
+2. Create a new component in src/components/.../...js
+(3.) Create a css file for stying in src/components/.../...css
+
 [ ] Repo view
 [ ] Tests (TDD)
 Remove auth0
@@ -47,11 +52,13 @@ Sign up/Login
 [ ] Serverside validation errors
 [ ] Unexpected end of input
 [ ] Sign up with username that's taken
+[ ] Loading dialog while API calls are made
 Design
 Users
 [ ] View other users
 Repos
 [ ] Repo view
+[ ] Refactor repo view into Home
 [ ] View repos
 [ ] Create repos
 [ ] Update repos

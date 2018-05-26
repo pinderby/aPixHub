@@ -109,7 +109,7 @@ class TemplateNavbar extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     // this.handleSubmit = this.handleSubmit.bind(this);
-    this.login = this.login.bind(this);
+    // this.login = this.login.bind(this);
   }
 
   handleChange(event) {
@@ -151,7 +151,7 @@ class TemplateNavbar extends Component {
                       <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>{" "}New Relationship
                     </button>
                   </Link>
-                  <button className="btn btn-default" onClick={this.login} >{" "}Login</button>
+                  {/* <button className="btn btn-default" onClick={this.login} >{" "}Login</button> */}
                 </form>
               </div>
             </div>

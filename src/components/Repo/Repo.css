@@ -1,0 +1,17 @@
+.panel-title {
+  text-align: left;
+}
+
+.panel-title .dropdown {
+  margin-left: 10px;
+  display: inline;
+}
+
+.panel-title .dropdown .caret {
+  margin-left: 5px;
+  margin-right: -5px;
+}
+
+.panel-body .node-col {
+  overflow: scroll;
+}

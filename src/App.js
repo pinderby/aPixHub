@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import './App.css';
 import { Route, Link, Redirect } from 'react-router-dom';
 import HomeContainer from './containers/HomeContainer.js';
+import RepoContainer from './containers/RepoContainer.js';
 import NodeInstanceContainer from './containers/NodeInstanceContainer.js';
 import NodeTemplateContainer from './containers/NodeTemplateContainer.js';
 import TemplateSearchContainer from './containers/TemplateSearchContainer.js';
@@ -52,6 +53,7 @@ class App extends Component {
             <Redirect from="/" to="/home"/>
           )}/>
           <Route exact path="/home" component={HomeContainer} />
+          <Route exact path="/u/:user/:repo" component={RepoContainer} />
           <Route exact path="/templates" component={TemplateSearchContainer}/>
           <Route exact path="/templates/add" component={TemplateBuilderContainer}/>
           <Route exact path="/relationships/add" component={RelationshipBuilderContainer}/>
