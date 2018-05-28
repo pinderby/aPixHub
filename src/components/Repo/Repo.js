@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import logo from '../../assets/apixhub-icon.svg';
-import RepoContainer from '../../containers/RepoContainer';
+import { slide as Menu } from 'react-burger-menu';
 import NodeSearchResult from '../NodeInstance/NodeSearchResult';
+import PropertyPopulator from '../NodeInstance/PropertyPopulator';
 import Helpers from '../../helpers.js';
 import { fetchAuthUser, fetchPostUser, fetchMe } from '../../actions/users';
 import './Repo.css';
@@ -25,6 +25,11 @@ class Repo extends Component {
     } 
 
     // Bind methods
+    this.handleSideMenuStateChange = this.handleSideMenuStateChange.bind(this);
+    this.openSideMenu = this.openSideMenu.bind(this);
+    this.closeSideMenu = this.closeSideMenu.bind(this);
+    this.toggleSideMenu = this.toggleSideMenu.bind(this);
+    this.renderSideMenu = this.renderSideMenu.bind(this);
     this.renderTemplates = this.renderTemplates.bind(this);
     this.renderNodes = this.renderNodes.bind(this);
     this.changeTemplate = this.changeTemplate.bind(this);
@@ -34,9 +39,14 @@ class Repo extends Component {
 
     this.state = {
       user: {},
-      isLoggingIn: true,
+      menuIsOpen: false,
+      activeTemplate: props.nodeTemplates['0'],
+      editing: {
+        type: 0, // 0 = nothing, 1 = template, 2 = node
+        template: {},
+        node: {}
+      },
       token: token,
-      errors: {}
     };
   }
 
@@ -78,6 +88,33 @@ class Repo extends Component {
     });
   }
 
+  // This keeps the state in sync with the opening/closing of the menu
+  // via the default means, e.g. clicking the X, pressing the ESC key etc.
+  handleSideMenuStateChange(state) {
+    this.setState({menuIsOpen: state.isOpen})  
+  }
+
+  // This can be used to open the menu, e.g. when a user clicks an edit button
+  openSideMenu() {
+    this.setState({menuIsOpen: true})
+  }
+
+  // This can be used to close the menu, e.g. when a user clicks a menu item
+  closeSideMenu() {
+    this.setState({menuIsOpen: false})
+  }
+
+  // This can be used to toggle the menu, e.g. when using a custom icon
+  // Tip: You probably want to hide either/both default icons if using a custom icon
+  // See https://github.com/negomi/react-burger-menu#custom-icons
+  toggleSideMenu () {
+    this.setState({menuIsOpen: !this.state.menuIsOpen})
+  }
+
+  toggleSideMenu () {
+    this.setState({menuIsOpen: !this.state.menuIsOpen})
+  }
+
   changeTemplate(template) {
     // TODO --DTM-- Implement
     console.log('changeTemplate() template: ', template);
@@ -90,7 +127,36 @@ class Repo extends Component {
 
   editNode(node) {
     // TODO --DTM-- Implement
+    this.setState({menuIsOpen: true})
     console.log('editNode() node: ', node);
+  }
+
+  // Render sidemenu
+  renderSideMenu() {
+    // Initialize variables
+    const templateProps = this.state.activeTemplate.properties;
+    var props = [];
+    let i = 0;
+
+    // Iterate through template properties
+    for (var key in templateProps) {
+      // Initialize prop
+      var prop = templateProps[key];
+
+      // Initialize path if needed
+      if (!prop.path) prop.path = 'properties.'+prop.key;
+
+      // Push property input for each prop
+      props.push(<PropertyPopulator key={key} index={i} prop={prop} node={this.state.node} 
+                        nodeTemplate={this.props.nodeTemplate} dispatch={this.props.dispatch} nested={false}
+                        onChange={(path, value) => this.setProperty(path, value)} />); // TODO --DM-- manage keys for iteration
+      props.push(<br key={key.toString()+'1000'} />)
+
+      // Increment index
+      i++;
+    }
+
+    return props;
   }
 
   renderTemplates() {
@@ -158,7 +224,16 @@ class Repo extends Component {
 
     return (
       <div className="repo-container">
-        <div className="panel panel-default">
+        <Menu right
+          isOpen={this.state.menuIsOpen}
+          onStateChange={(state) => this.handleSideMenuStateChange(state)} >
+          {this.renderSideMenu()}
+          <a id="home" className="menu-item" href="/">Home</a>
+          <a id="about" className="menu-item" href="/about">About</a>
+          <a id="contact" className="menu-item" href="/contact">Contact</a>
+          <a onClick={ this.showSettings } className="menu-item--small" href="">Settings</a>
+        </Menu>
+        <div className="nodes-panel panel panel-default">
           <div className="panel-heading">
             <h3 className="panel-title">
               {this.props.match.params.user} / 
