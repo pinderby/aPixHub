@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { slide as Menu } from 'react-burger-menu';
+import { DropdownButton, MenuItem } from 'react-bootstrap';
 import NodeSearchResult from '../NodeInstance/NodeSearchResult';
 import PropertyPopulator from '../NodeInstance/PropertyPopulator';
+import Sidemenu from './Sidemenu';
 import Helpers from '../../helpers.js';
 import { fetchAuthUser, fetchPostUser, fetchMe } from '../../actions/users';
 import './Repo.css';
@@ -25,11 +27,6 @@ class Repo extends Component {
     } 
 
     // Bind methods
-    this.handleSideMenuStateChange = this.handleSideMenuStateChange.bind(this);
-    this.openSideMenu = this.openSideMenu.bind(this);
-    this.closeSideMenu = this.closeSideMenu.bind(this);
-    this.toggleSideMenu = this.toggleSideMenu.bind(this);
-    this.renderSideMenu = this.renderSideMenu.bind(this);
     this.renderTemplates = this.renderTemplates.bind(this);
     this.renderNodes = this.renderNodes.bind(this);
     this.changeTemplate = this.changeTemplate.bind(this);
@@ -86,33 +83,6 @@ class Repo extends Component {
     this.setState({
       user: {}
     });
-  }
-
-  // This keeps the state in sync with the opening/closing of the menu
-  // via the default means, e.g. clicking the X, pressing the ESC key etc.
-  handleSideMenuStateChange(state) {
-    this.setState({menuIsOpen: state.isOpen})  
-  }
-
-  // This can be used to open the menu, e.g. when a user clicks an edit button
-  openSideMenu() {
-    this.setState({menuIsOpen: true})
-  }
-
-  // This can be used to close the menu, e.g. when a user clicks a menu item
-  closeSideMenu() {
-    this.setState({menuIsOpen: false})
-  }
-
-  // This can be used to toggle the menu, e.g. when using a custom icon
-  // Tip: You probably want to hide either/both default icons if using a custom icon
-  // See https://github.com/negomi/react-burger-menu#custom-icons
-  toggleSideMenu () {
-    this.setState({menuIsOpen: !this.state.menuIsOpen})
-  }
-
-  toggleSideMenu () {
-    this.setState({menuIsOpen: !this.state.menuIsOpen})
   }
 
   changeTemplate(template) {
@@ -224,31 +194,22 @@ class Repo extends Component {
 
     return (
       <div className="repo-container">
-        <Menu right
-          isOpen={this.state.menuIsOpen}
-          onStateChange={(state) => this.handleSideMenuStateChange(state)} >
-          {this.renderSideMenu()}
-          <a id="home" className="menu-item" href="/">Home</a>
-          <a id="about" className="menu-item" href="/about">About</a>
-          <a id="contact" className="menu-item" href="/contact">Contact</a>
-          <a onClick={ this.showSettings } className="menu-item--small" href="">Settings</a>
-        </Menu>
+        <Sidemenu 
+          menuIsOpen={this.state.menuIsOpen}
+          nodeTemplates={this.props.nodeTemplates} />
         <div className="nodes-panel panel panel-default">
           <div className="panel-heading">
             <h3 className="panel-title">
               {this.props.match.params.user} / 
-              <div className="dropdown">
-                <button className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                  Movies
-                  <span className="caret"></span>
-                </button>
-                <ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
-                  <li><a href="#">Games</a></li>
-                  <li><a href="#">TV Shows</a></li>
-                  <li role="separator" className="divider"></li>
-                  <li><a href="#">Separated link</a></li>
-                </ul>
-              </div>
+              <DropdownButton title={"Movies"} >
+                <MenuItem eventKey="1">Action</MenuItem>
+                <MenuItem eventKey="2">Another action</MenuItem>
+                <MenuItem eventKey="3" active>
+                  Active Item
+                </MenuItem>
+                <MenuItem divider />
+                <MenuItem eventKey="4">Separated link</MenuItem>
+              </DropdownButton>
             </h3>
           </div>
           <div className="panel-body">
@@ -256,7 +217,6 @@ class Repo extends Component {
               <div className="template-col col-md-6">
                 <div className="list-group">
                   {this.renderTemplates()}
-                  {/* <a href="#" className="list-group-item active">Movie</a> */}
                   <a href="#" className="list-group-item">Director</a>
                   <a href="#" className="list-group-item">Genre</a>
                   <a href="#" className="list-group-item">Studio</a>
