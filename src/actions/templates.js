@@ -1,6 +1,7 @@
 import * as ActionTypes from '../constants/ActionTypes.js';
 import { dispatchActionWithArgs, callApi } from '../api';
 import { actionByStatus } from './actionHelpers';
+import { fetchAllNodes } from './nodes';
 
 // Action Creator Helpers //
 
@@ -245,6 +246,31 @@ export const receiveRelationshipTemplate = (relationshipTemplate) => {
 ///////////////////////////
 
 // For Node Templates //
+
+// Change template and fetch nodes
+export function changeTemplate(template) {
+
+  return function (dispatch) {
+
+    // Dispatch action to update template, then update nodes
+    return Promise.all([
+      dispatch(updateNodeTemplate(template)),
+      dispatch(fetchAllNodes(template.label))
+    ]);
+
+    // TODO --DTM-- Implement with new API
+    // // Define args for callApi()
+    // let dispatchActionWithStatus = dispatchActionWithArgs(dispatch)(getAllTemplates)();
+    // let apiArgs = {
+    //   endpoint: `/nodes`,
+    //   method: 'GET',
+    //   payload: {}
+    // }
+
+    // // Execute api call
+    // callApi(dispatchActionWithStatus, apiArgs);
+  }
+}
 
 // Fetch all templates
 export function fetchTemplates() {

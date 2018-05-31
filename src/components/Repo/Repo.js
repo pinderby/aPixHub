@@ -7,7 +7,7 @@ import PropertyPopulator from '../NodeInstance/PropertyPopulator';
 import Sidemenu from './Sidemenu';
 import Helpers from '../../helpers.js';
 import { fetchAuthUser, fetchPostUser, fetchMe } from '../../actions/users';
-import { updateNodeTemplate } from '../../actions/templates';
+import { changeTemplate } from '../../actions/templates';
 import './Repo.css';
 
 class Repo extends Component {
@@ -91,7 +91,7 @@ class Repo extends Component {
     console.log('changeTemplate() template: ', template);
 
     // Dispatch action creator to update template
-    this.props.dispatch(updateNodeTemplate(template))
+    this.props.dispatch(changeTemplate(template))
   }
 
   editTemplate(template) {
@@ -207,7 +207,7 @@ class Repo extends Component {
           <div className="panel-heading">
             <h3 className="panel-title">
               {this.props.match.params.user} / 
-              <DropdownButton title={"Movies"} >
+              <DropdownButton title={"Movies"} key="1" id={`dropdown-basic-1`} >
                 <MenuItem eventKey="1">Action</MenuItem>
                 <MenuItem eventKey="2">Another action</MenuItem>
                 <MenuItem eventKey="3" active>

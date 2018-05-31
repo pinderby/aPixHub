@@ -1,6 +1,7 @@
 import * as ActionTypes from '../constants/ActionTypes.js';
 import { dispatchActionWithArgs, callApi } from '../api';
 import { actionByStatus } from './actionHelpers';
+import test_data from '../test_data.json';
 
 // Action Creator Helpers //
 
@@ -265,17 +266,21 @@ export const receiveRelationship = (relationship) => {
 export function fetchAllNodes(templateLabel) {
 
   return function (dispatch) {
+    // TODO --DTM-- Update to comply with new API
 
-    // Define args for callApi()
-    let dispatchActionWithStatus = dispatchActionWithArgs(dispatch)(getAllNodes)();
-    let apiArgs = {
-      endpoint: `/x/${templateLabel}`,
-      method: 'GET',
-      payload: {}
-    }
+    // TODO --DTM-- Delete test_data reference
+    console.log("fetchAllNodes() templateLabel: ", templateLabel);
+    dispatch(updateNodes(test_data.nodes[templateLabel]));
+    // // Define args for callApi()
+    // let dispatchActionWithStatus = dispatchActionWithArgs(dispatch)(getAllNodes)();
+    // let apiArgs = {
+    //   endpoint: `/x/${templateLabel}`,
+    //   method: 'GET',
+    //   payload: {}
+    // }
 
-    // Execute api call
-    callApi(dispatchActionWithStatus, apiArgs);
+    // // Execute api call
+    // callApi(dispatchActionWithStatus, apiArgs);
   }
 }
 

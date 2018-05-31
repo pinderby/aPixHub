@@ -58,6 +58,16 @@ Users
 [ ] View other users
 Repos
 [ ] Repo view
+  [ ] Sidemenu
+    [ ] Creating Nodes
+    [ ] Creating Templates
+    [ ] Editing Nodes
+    [ ] Creating Templates
+  [ ] Nodes Panel
+  [ ] Templates Panel?
+  [ ] Changing templates
+  [ ] Filtering nodes
+[ ] Update for new API calls (fetchAllNodes)
 [ ] Refactor repo view into Home
 [ ] Create/edit overlay
 [ ] View repos
