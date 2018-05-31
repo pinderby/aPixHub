@@ -7,6 +7,7 @@ import PropertyPopulator from '../NodeInstance/PropertyPopulator';
 import Sidemenu from './Sidemenu';
 import Helpers from '../../helpers.js';
 import { fetchAuthUser, fetchPostUser, fetchMe } from '../../actions/users';
+import { updateNodeTemplate } from '../../actions/templates';
 import './Repo.css';
 
 class Repo extends Component {
@@ -86,8 +87,11 @@ class Repo extends Component {
   }
 
   changeTemplate(template) {
-    // TODO --DTM-- Implement
+    // TODO --DTM-- Implement with API
     console.log('changeTemplate() template: ', template);
+
+    // Dispatch action creator to update template
+    this.props.dispatch(updateNodeTemplate(template))
   }
 
   editTemplate(template) {
@@ -132,6 +136,7 @@ class Repo extends Component {
   renderTemplates() {
     // Initialize variables
     let nodeTemplates = this.props.nodeTemplates, 
+        nodeTemplate = this.props.nodeTemplate, 
         templateComps = [],
         label = this.props.label, 
         changeTemplate = this.changeTemplate;
@@ -144,9 +149,10 @@ class Repo extends Component {
     // Iterate through templates
     nodeTemplates.forEach(function (template, index) {
       // Add each template to list
-      console.log('template: ', template);
+      console.log('template, index: ', template, index);
       templateComps.push(
-        <a key={template.id} href="#" onClick={() => changeTemplate(template)} className="list-group-item active">
+        <a key={template.id} href="#" onClick={() => changeTemplate(template)} 
+           className={(template.id === nodeTemplate.id) ? "list-group-item active" : "list-group-item" }>
           {Helpers.formatPropKey(template.label)}
         </a>
       );
@@ -217,10 +223,6 @@ class Repo extends Component {
               <div className="template-col col-md-6">
                 <div className="list-group">
                   {this.renderTemplates()}
-                  <a href="#" className="list-group-item">Director</a>
-                  <a href="#" className="list-group-item">Genre</a>
-                  <a href="#" className="list-group-item">Studio</a>
-                  <a href="#" className="list-group-item">Production Company</a>
                 </div>
               </div>
               <div className="node-col col-md-6">
