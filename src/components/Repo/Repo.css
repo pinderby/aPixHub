@@ -15,6 +15,17 @@
   overflow: scroll;
 }
 
+.template-item > .btn {
+  position: relative;
+  top: -5px;
+  float: right;
+  padding: 4px 8px;
+}
+
+.template-item .glyphicon {
+  margin-right: 0;
+}
+
 /* SIDEBAR CLASSES */
 .sidemenu-header {
   margin: 0 -2.3em 2em -2.3em;

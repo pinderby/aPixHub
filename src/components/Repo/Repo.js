@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { slide as Menu } from 'react-burger-menu';
-import { DropdownButton, MenuItem } from 'react-bootstrap';
+import { DropdownButton, MenuItem, Button, Glyphicon } from 'react-bootstrap';
 import NodeSearchResult from '../NodeInstance/NodeSearchResult';
 import PropertyPopulator from '../NodeInstance/PropertyPopulator';
 import Sidemenu from './Sidemenu';
@@ -96,6 +96,7 @@ class Repo extends Component {
 
   editTemplate(template) {
     // TODO --DTM-- Implement
+    this.setState({menuIsOpen: true})
     console.log('editTemplate() template: ', template);
   }
 
@@ -139,7 +140,8 @@ class Repo extends Component {
         nodeTemplate = this.props.nodeTemplate, 
         templateComps = [],
         label = this.props.label, 
-        changeTemplate = this.changeTemplate;
+        changeTemplate = this.changeTemplate,
+        editTemplate = this.editTemplate;
 
     console.log('nodeTemplates: ', nodeTemplates);
 
@@ -152,8 +154,11 @@ class Repo extends Component {
       console.log('template, index: ', template, index);
       templateComps.push(
         <a key={template.id} href="#" onClick={() => changeTemplate(template)} 
-           className={(template.id === nodeTemplate.id) ? "list-group-item active" : "list-group-item" }>
+           className={(template.id === nodeTemplate.id) ? "list-group-item template-item active" : "list-group-item template-item" }>
           {Helpers.formatPropKey(template.label)}
+          <Button bsStyle="default" onClick={() => editTemplate(template)}>
+            <Glyphicon glyph="pencil" />
+          </Button>
         </a>
       );
     });
