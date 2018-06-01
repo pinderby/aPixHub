@@ -76,7 +76,10 @@ class PropertyPopulator extends Component {
       <div className="property-populator-container">
         <div className="property-populator">
           <div className="form-group">
-            <label htmlFor={this.props.prop.label}>{this.props.prop.display_label}</label>
+            <label htmlFor={this.props.prop.label}>
+              {this.props.prop.display_label + " : " + 
+              Helpers.formatPropKey(this.props.prop.value_type)}
+            </label>
             {this.renderInput(this.props)}
             <br />
             {objectPopulator}

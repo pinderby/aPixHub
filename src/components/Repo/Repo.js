@@ -108,7 +108,7 @@ class Repo extends Component {
 
   editTemplate(template) {
     // TODO --DTM-- Implement
-    this.setState({sidemenu: {open: true}});
+    // this.setState({sidemenu: {open: true}});
     console.log('editTemplate() template: ', template);
   }
 
