@@ -251,10 +251,7 @@ class Repo extends Component {
           <FormControl className="searchbar" type="text" placeholder="Search" />
           <Nav pullRight>
             <NavItem eventKey={1} href="#">
-              Link Right
-            </NavItem>
-            <NavItem eventKey={2} href="#">
-              Link Right
+              Logout
             </NavItem>
           </Nav>
         </Navbar>

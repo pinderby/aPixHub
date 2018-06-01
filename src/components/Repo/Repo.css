@@ -1,3 +1,8 @@
+.repo-container {
+  min-height: 700px;
+  padding-bottom: 50px;
+}
+
 .user-repo-title {
   text-align: left;
   width: 75%;
