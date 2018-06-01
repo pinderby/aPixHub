@@ -5,6 +5,7 @@ import { DropdownButton, MenuItem, Button, Glyphicon } from 'react-bootstrap';
 import NodeSearchResult from '../NodeInstance/NodeSearchResult';
 import PropertyPopulator from '../NodeInstance/PropertyPopulator';
 import Sidemenu from './Sidemenu';
+import NodeTemplate from '../NodeTemplate/NodeTemplate';
 import Helpers from '../../helpers.js';
 import { fetchAuthUser, fetchPostUser, fetchMe } from '../../actions/users';
 import { changeTemplate } from '../../actions/templates';
@@ -156,9 +157,11 @@ class Repo extends Component {
         <a key={template.id} href="#" onClick={() => changeTemplate(template)} 
            className={(template.id === nodeTemplate.id) ? "list-group-item template-item active" : "list-group-item template-item" }>
           {Helpers.formatPropKey(template.label)}
-          <Button bsStyle="default" onClick={() => editTemplate(template)}>
+          <Button onClick={() => editTemplate(template)}>
             <Glyphicon glyph="pencil" />
           </Button>
+          <NodeTemplate open={(template.id === nodeTemplate.id)}
+            template={template} />
         </a>
       );
     });

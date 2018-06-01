@@ -26,6 +26,23 @@
   margin-right: 0;
 }
 
+.apix-template {
+  color: #555;
+}
+
+.apix-template > .panel {
+  margin-top: 20px;
+  width: 95%;
+}
+
+.template-table thead th {
+  text-align: center;
+}
+
+.template-rel .rel-title {
+  margin-right: 5px;
+}
+
 /* SIDEBAR CLASSES */
 .sidemenu-header {
   margin: 0 -2.3em 2em -2.3em;

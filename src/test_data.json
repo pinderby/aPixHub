@@ -20,13 +20,43 @@
           "id": "80174196-958a-4038-a739-8fa17c81e480",
           "rel_type": "DIRECTED",
           "to_node_id": "3152f3c7-ebc8-4e7a-981c-11951f65bebb",
+          "from_node_id": "Director",
+          "from_node_id_orig": "cb8677a1-6106-4010-933d-db4522302c83",
+          "created_at": "2017-09-08T16:21:02.178Z",
+          "updated_at": "2017-09-08T16:21:02.178Z",
+          "properties": [
+            {
+              "id": "c60b7311-b3d8-4812-a1c1-33669b8c9c2a",
+              "key": "name",
+              "value_type": "string",
+              "node_id": "3152f3c7-ebc8-4e7a-981c-11951f65bebb",
+              "created_at": "2017-09-08T16:21:02.026Z",
+              "updated_at": "2017-09-08T16:21:02.122Z"
+            }
+          ]
+        }
+      ],
+      "out_relationships": [
+        {
+          "id": "80174196-958a-4038-a739-8fa17c81e490",
+          "rel_type": "STARRING",
+          "to_node_id": "Actor",
+          "to_node_id_orig": "3152f3c7-ebc8-4e7a-981c-11951f65bebb",
           "from_node_id": "cb8677a1-6106-4010-933d-db4522302c83",
           "created_at": "2017-09-08T16:21:02.178Z",
           "updated_at": "2017-09-08T16:21:02.178Z",
-          "properties": []
+          "properties": [
+            {
+              "id": "c60b7311-b3d8-4812-a1c1-33669b8c9c2a",
+              "key": "name",
+              "value_type": "string",
+              "node_id": "3152f3c7-ebc8-4e7a-981c-11951f65bebb",
+              "created_at": "2017-09-08T16:21:02.026Z",
+              "updated_at": "2017-09-08T16:21:02.122Z"
+            }
+          ]
         }
-      ],
-      "out_relationships": []
+      ]
     },
     {
       "id": "3152f3c7-ebc8-4e7a-981c-11951f65becc",
@@ -44,17 +74,28 @@
         }
       ],
       "in_relationships": [
+      ],
+      "out_relationships": [
         {
           "id": "80174196-958a-4038-a739-8fa17c81e480",
           "rel_type": "DIRECTED",
-          "to_node_id": "3152f3c7-ebc8-4e7a-981c-11951f65bebb",
+          "to_node_id": "Movie",
+          "to_node_id_orig": "3152f3c7-ebc8-4e7a-981c-11951f65bebb",
           "from_node_id": "cb8677a1-6106-4010-933d-db4522302c83",
           "created_at": "2017-09-08T16:21:02.178Z",
           "updated_at": "2017-09-08T16:21:02.178Z",
-          "properties": []
+          "properties": [
+            {
+              "id": "c60b7311-b3d8-4812-a1c1-33669b8c9c2a",
+              "key": "name",
+              "value_type": "string",
+              "node_id": "3152f3c7-ebc8-4e7a-981c-11951f65bebb",
+              "created_at": "2017-09-08T16:21:02.026Z",
+              "updated_at": "2017-09-08T16:21:02.122Z"
+            }
+          ]
         }
-      ],
-      "out_relationships": []
+      ]
     },
     {
       "id": "3152f3c7-ebc8-4e7a-981c-11951f65beee",
@@ -71,17 +112,7 @@
           "updated_at": "2017-09-08T16:21:02.122Z"
         }
       ],
-      "in_relationships": [
-        {
-          "id": "80174196-958a-4038-a739-8fa17c81e480",
-          "rel_type": "DIRECTED",
-          "to_node_id": "3152f3c7-ebc8-4e7a-981c-11951f65bebb",
-          "from_node_id": "cb8677a1-6106-4010-933d-db4522302c83",
-          "created_at": "2017-09-08T16:21:02.178Z",
-          "updated_at": "2017-09-08T16:21:02.178Z",
-          "properties": []
-        }
-      ],
+      "in_relationships": [],
       "out_relationships": []
     },
     {
@@ -99,17 +130,7 @@
           "updated_at": "2017-09-08T16:21:02.122Z"
         }
       ],
-      "in_relationships": [
-        {
-          "id": "80174196-958a-4038-a739-8fa17c81e480",
-          "rel_type": "DIRECTED",
-          "to_node_id": "3152f3c7-ebc8-4e7a-981c-11951f65bebb",
-          "from_node_id": "cb8677a1-6106-4010-933d-db4522302c83",
-          "created_at": "2017-09-08T16:21:02.178Z",
-          "updated_at": "2017-09-08T16:21:02.178Z",
-          "properties": []
-        }
-      ],
+      "in_relationships": [],
       "out_relationships": []
     },
     {
@@ -127,17 +148,7 @@
           "updated_at": "2017-09-08T16:21:02.122Z"
         }
       ],
-      "in_relationships": [
-        {
-          "id": "80174196-958a-4038-a739-8fa17c81e480",
-          "rel_type": "DIRECTED",
-          "to_node_id": "3152f3c7-ebc8-4e7a-981c-11951f65bebb",
-          "from_node_id": "cb8677a1-6106-4010-933d-db4522302c83",
-          "created_at": "2017-09-08T16:21:02.178Z",
-          "updated_at": "2017-09-08T16:21:02.178Z",
-          "properties": []
-        }
-      ],
+      "in_relationships": [],
       "out_relationships": []
     }
   ],

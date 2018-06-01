@@ -61,12 +61,16 @@ Repos
   [ ] Sidemenu
     [ ] Creating Nodes
     [ ] Creating Templates
+      [ ] Creating Relationships
     [ ] Editing Nodes
-    [ ] Creating Templates
+    [ ] Editing Templates
   [ ] Nodes Panel
-  [ ] Templates Panel?
+  [ ] Templates Panel? (pop open)
   [ ] Changing templates
-  [ ] Filtering nodes
+  [ ] Filtering/searching nodes
+  [ ] View nodes
+  [ ] Delete nodes
+  [ ] Delete templates
 [ ] Update for new API calls (fetchAllNodes)
 [ ] Refactor repo view into Home
 [ ] Create/edit overlay

@@ -210,6 +210,7 @@ class Helpers {
     return relComps;
   }
 
+  // TODO --DTM-- Remove?
   static renderTemplate(object) {
     // console.log('object: ', object); // TODO --DM-- Remove
     if (object) {
@@ -242,7 +243,7 @@ class Helpers {
         propComps.push(<NodeProperty key={'prop-id'+prop['id']} propKey={'id'} value={prop['id']} type="string" />);
         propComps.push(<NodeProperty key={'prop-node_id'+prop['id']} propKey={'node_id'} value={prop['node_id']} type="string" />);
         propComps.push(<NodeProperty key={'prop-created_at'+prop['id']} propKey={'created_at'} value={prop['created_at']} type="string" />);
-        propComps.push(<NodeProperty key={'prop-updated_at'+prop['id']} propKey={'updated_at'} value={prop['updated_at']} type="string" />);   
+        propComps.push(<NodeProperty key={'prop-updated_at'+prop['id']} propKey={'updated_at'} value={prop['updated_at']} type="string" />);
       });
       return ( <div key={'div-'+props[0].id} className="template-prop">{propComps}</div> );
     }
