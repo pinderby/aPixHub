@@ -1,9 +1,17 @@
-body {
-  background-color: #ddd !important; /* TODO --DM-- Remove */
-}
-
 .App {
   text-align: center;
+  /* TODO --DM-- Remove */
+  background-color: #eee;
+}
+
+.navbar {
+  border-radius: 0px !important;
+}
+
+.searchbar {
+  width: 60% !important;
+  display: inline !important;
+  margin-top: 7px !important;
 }
 
 .App-logo {

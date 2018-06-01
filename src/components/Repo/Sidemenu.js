@@ -23,12 +23,8 @@ class Sidemenu extends Component {
     this.state = {
       user: {},
       menuIsOpen: props.menuIsOpen,
-      activeTemplate: props.nodeTemplates['0'],
-      editing: {
-        type: 0, // 0 = nothing, 1 = template, 2 = node
-        template: {},
-        node: {}
-      }
+      editing: props.editing,
+      node: props.node,
     };
   }
 
@@ -82,27 +78,27 @@ class Sidemenu extends Component {
   // Render sidemenu
   renderSideMenu() {
     // Initialize variables
-    const templateProps = this.state.activeTemplate.properties;
+    // const templateProps = this.state.activeTemplate.properties;
     var props = [];
     let i = 0;
 
-    // Iterate through template properties
-    for (var key in templateProps) {
-      // Initialize prop
-      var prop = templateProps[key];
+    // // Iterate through template properties
+    // for (var key in templateProps) {
+    //   // Initialize prop
+    //   var prop = templateProps[key];
 
-      // Initialize path if needed
-      if (!prop.path) prop.path = 'properties.'+prop.key;
+    //   // Initialize path if needed
+    //   if (!prop.path) prop.path = 'properties.'+prop.key;
 
-      // Push property input for each prop
-      props.push(<PropertyPopulator key={key} index={i} prop={prop} node={this.state.node} 
-                        nodeTemplate={this.props.nodeTemplate} dispatch={this.props.dispatch} nested={false}
-                        onChange={(path, value) => this.setProperty(path, value)} />); // TODO --DM-- manage keys for iteration
-      props.push(<br key={key.toString()+'1000'} />)
+    //   // Push property input for each prop
+    //   props.push(<PropertyPopulator key={key} index={i} prop={prop} node={this.state.node} 
+    //                     nodeTemplate={this.props.nodeTemplate} dispatch={this.props.dispatch} nested={false}
+    //                     onChange={(path, value) => this.setProperty(path, value)} />); // TODO --DM-- manage keys for iteration
+    //   props.push(<br key={key.toString()+'1000'} />)
 
-      // Increment index
-      i++;
-    }
+    //   // Increment index
+    //   i++;
+    // }
 
     return props;
   }
@@ -115,7 +111,7 @@ class Sidemenu extends Component {
       <Menu right
         isOpen={this.state.menuIsOpen}
         onStateChange={(state) => this.handleSideMenuStateChange(state)} >
-        <div className="sidemenu-header">Edit Node</div>
+        <div className="sidemenu-header">{(this.props.editing) ? "Edit Node" : "Add Node" }</div>
         {this.renderSideMenu()}
         <a id="home" className="menu-item" href="/">Home</a>
         <a id="about" className="menu-item" href="/about">About</a>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { slide as Menu } from 'react-burger-menu';
-import { DropdownButton, MenuItem, Button, Glyphicon } from 'react-bootstrap';
+import { Navbar, Nav, NavItem, DropdownButton, MenuItem, Button, Glyphicon, FormControl } from 'react-bootstrap';
 import NodeSearchResult from '../NodeInstance/NodeSearchResult';
 import PropertyPopulator from '../NodeInstance/PropertyPopulator';
 import Sidemenu from './Sidemenu';
@@ -32,17 +32,18 @@ class Repo extends Component {
     this.renderTemplates = this.renderTemplates.bind(this);
     this.renderNodes = this.renderNodes.bind(this);
     this.changeTemplate = this.changeTemplate.bind(this);
+    this.addTemplate = this.addTemplate.bind(this);
     this.editTemplate = this.editTemplate.bind(this);
+    this.addNode = this.addNode.bind(this);
     this.editNode = this.editNode.bind(this);
     this.logout = this.logout.bind(this);
 
     this.state = {
       user: {},
-      menuIsOpen: false,
       activeTemplate: props.nodeTemplates['0'],
-      editing: {
-        type: 0, // 0 = nothing, 1 = template, 2 = node
-        template: {},
+      sidemenu: {
+        open: false,
+        editing: false,
         node: {}
       },
       token: token,
@@ -95,15 +96,43 @@ class Repo extends Component {
     this.props.dispatch(changeTemplate(template))
   }
 
+  addTemplate() {
+    // TODO --DTM-- Implement
+    // this.setState({
+    //   sidemenu: {
+    //     open: true,
+    //     editing: false,
+    //     node: {}
+    //   }
+    // });
+  }
+
   editTemplate(template) {
     // TODO --DTM-- Implement
-    this.setState({menuIsOpen: true})
+    this.setState({sidemenu: {open: true}});
     console.log('editTemplate() template: ', template);
+  }
+
+  addNode() {
+    // TODO --DTM-- Implement
+    this.setState({
+      sidemenu: {
+        open: true,
+        editing: false,
+        node: {}
+      }
+    });
   }
 
   editNode(node) {
     // TODO --DTM-- Implement
-    this.setState({menuIsOpen: true})
+    this.setState({
+      sidemenu: {
+        open: true,
+        editing: true,
+        node: node
+      }
+    });
     console.log('editNode() node: ', node);
   }
 
@@ -156,7 +185,7 @@ class Repo extends Component {
       templateComps.push(
         <a key={template.id} href="#" onClick={() => changeTemplate(template)} 
            className={(template.id === nodeTemplate.id) ? "list-group-item template-item active" : "list-group-item template-item" }>
-          {Helpers.formatPropKey(template.label)}
+          <span className="template-label">{Helpers.formatPropKey(template.label)}</span>
           <Button onClick={() => editTemplate(template)}>
             <Glyphicon glyph="pencil" />
           </Button>
@@ -209,22 +238,54 @@ class Repo extends Component {
     return (
       <div className="repo-container">
         <Sidemenu 
-          menuIsOpen={this.state.menuIsOpen}
-          nodeTemplates={this.props.nodeTemplates} />
-        <div className="nodes-panel panel panel-default">
+          menuIsOpen={this.state.sidemenu.open}
+          editing={this.state.sidemenu.editing}
+          node={this.state.sidemenu.node} />
+        <Navbar inverse collapseOnSelect>
+          <Navbar.Header>
+            <Navbar.Brand>
+              <a href="#brand">aPixHub</a>
+            </Navbar.Brand>
+            <Navbar.Toggle />
+          </Navbar.Header>
+          <FormControl className="searchbar" type="text" placeholder="Search" />
+          <Nav pullRight>
+            <NavItem eventKey={1} href="#">
+              Link Right
+            </NavItem>
+            <NavItem eventKey={2} href="#">
+              Link Right
+            </NavItem>
+          </Nav>
+        </Navbar>
+        <h3 className="user-repo-title">
+          {this.props.match.params.user} / 
+          <DropdownButton title={"Movies"} key="1" id={`dropdown-basic-1`} >
+            <MenuItem eventKey="1">Action</MenuItem>
+            <MenuItem eventKey="2">Another action</MenuItem>
+            <MenuItem eventKey="3" active>
+              Active Item
+            </MenuItem>
+            <MenuItem divider />
+            <MenuItem eventKey="4">Separated link</MenuItem>
+          </DropdownButton>
+        </h3>
+        <div className="repo-panel panel panel-default">
           <div className="panel-heading">
-            <h3 className="panel-title">
-              {this.props.match.params.user} / 
-              <DropdownButton title={"Movies"} key="1" id={`dropdown-basic-1`} >
-                <MenuItem eventKey="1">Action</MenuItem>
-                <MenuItem eventKey="2">Another action</MenuItem>
-                <MenuItem eventKey="3" active>
-                  Active Item
-                </MenuItem>
-                <MenuItem divider />
-                <MenuItem eventKey="4">Separated link</MenuItem>
-              </DropdownButton>
-            </h3>
+            <div className="row">
+              <div className="template-col col-md-6">
+                <h3>Templates</h3>
+                <Button bsStyle="primary" onClick={() => this.addTemplate()}>
+                  <Glyphicon glyph="plus" />
+                </Button>
+              </div>
+              <div className="node-col col-md-6">
+                <h3>Nodes</h3>
+                <Button bsStyle="primary" onClick={() => this.addNode()}>
+                  <Glyphicon glyph="plus" />
+                </Button>
+                </div>
+            </div>
           </div>
           <div className="panel-body">
             <div className="row">

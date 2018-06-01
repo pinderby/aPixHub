@@ -42,12 +42,7 @@ class App extends Component {
     else label = 'movie';
 
     return (
-      <div className="App">
-        <ul className="nav nav-tabs">
-          <li role="presentation"><Link to="/templates">TemplateRender</Link></li>
-          <li role="presentation"><Link to={"/n/"+label+"/add"}>NodePopulator</Link></li>
-          <li role="presentation"><Link to={"/n/"+label+"/search"}>NodeSearch</Link></li>
-        </ul>
+      <div id="app-container" className="App">
         <div id="App-container">
           <Route exact path="/" render={() => (
             <Redirect from="/" to="/home"/>

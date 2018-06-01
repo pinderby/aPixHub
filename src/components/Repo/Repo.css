@@ -1,9 +1,32 @@
-.panel-title {
+.user-repo-title {
   text-align: left;
+  width: 75%;
+  margin: 20px auto;
 }
 
-.panel-title .dropdown {
+.user-repo-title .dropdown {
   margin-left: 10px;
+}
+
+.repo-panel h3 {
+  float: left;
+  display: inline;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.repo-panel .btn {
+  float: right;
+  margin-top: 10px;
+  margin-right: 5px;
+}
+
+.repo-panel .glyphicon {
+  margin-right: 0;
+}
+
+.panel-title {
+  text-align: left;
 }
 
 .panel-title .dropdown .caret {
@@ -13,6 +36,11 @@
 
 .panel-body .node-col {
   overflow: scroll;
+}
+
+.template-item .template-label {
+  font-weight: bold;
+  font-size: 1.5em;
 }
 
 .template-item > .btn {
