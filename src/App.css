@@ -12,6 +12,8 @@
   width: 60% !important;
   display: inline !important;
   margin-top: 7px !important;
+  float: left;
+  margin-left: 20px;
 }
 
 .App-logo {

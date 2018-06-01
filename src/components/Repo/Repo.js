@@ -40,7 +40,6 @@ class Repo extends Component {
 
     this.state = {
       user: {},
-      activeTemplate: props.nodeTemplates['0'],
       sidemenu: {
         open: false,
         editing: false,
@@ -238,8 +237,10 @@ class Repo extends Component {
     return (
       <div className="repo-container">
         <Sidemenu 
+          dispatch={this.props.dispatch}
           menuIsOpen={this.state.sidemenu.open}
           editing={this.state.sidemenu.editing}
+          template={this.props.nodeTemplate}
           node={this.state.sidemenu.node} />
         <Navbar inverse collapseOnSelect>
           <Navbar.Header>

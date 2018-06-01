@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { slide as Menu } from 'react-burger-menu';
+import NodeInstancePopulator from '../NodeInstance/NodeInstancePopulator';
 import PropertyPopulator from '../NodeInstance/PropertyPopulator';
 import Helpers from '../../helpers.js';
 import { fetchAuthUser, fetchPostUser, fetchMe } from '../../actions/users';
@@ -112,11 +113,12 @@ class Sidemenu extends Component {
         isOpen={this.state.menuIsOpen}
         onStateChange={(state) => this.handleSideMenuStateChange(state)} >
         <div className="sidemenu-header">{(this.props.editing) ? "Edit Node" : "Add Node" }</div>
+        <NodeInstancePopulator 
+          dispatch={this.props.dispatch}
+          editing={this.props.editing} 
+          template={this.props.template} 
+          node={this.props.node} />
         {this.renderSideMenu()}
-        <a id="home" className="menu-item" href="/">Home</a>
-        <a id="about" className="menu-item" href="/about">About</a>
-        <a id="contact" className="menu-item" href="/contact">Contact</a>
-        <a onClick={ this.showSettings } className="menu-item--small" href="">Settings</a>
       </Menu>
     );
   }

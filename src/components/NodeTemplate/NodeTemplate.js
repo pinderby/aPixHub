@@ -48,7 +48,7 @@ class NodeTemplate extends Component {
     if (props.length >= 1 && Object.prototype.toString.call( props ) === '[object Array]' ) {
       // Add nid prop for all templates
       propComps.push(
-        <tr className="template-prop">
+        <tr key={'id'} className="template-prop">
           <td>{"nid"}</td>
           <td>{"ID"}</td>
         </tr>
@@ -94,7 +94,7 @@ class NodeTemplate extends Component {
           let propComps = [];
           
           // If props is an array and has at least one key, render components
-          if (rel.properties.length >= 1 && Object.prototype.toString.call( rel.properties ) === '[object Array]' ) {            
+          if (rel.properties.length >= 1 && Object.prototype.toString.call( rel.properties ) === '[object Array]' ) {
             // Push row for all properties
             rel.properties.forEach(function(prop) {
               propComps.push(
@@ -109,7 +109,7 @@ class NodeTemplate extends Component {
           // Push row for relationship including properties
           relComps.push(
             <tr key={'div-'+rel['id']} className="template-rel">
-              <th colspan="2">
+              <th colSpan="2">
                 <span className="rel-title">{(isIn) ? rel.rel_type + " (IN); " : rel.rel_type + " (OUT); " }</span>
                 {(isIn) ? "From: " : "To: " }
                 {/* TODO --DTM-- Implement with real id reference */}
@@ -150,7 +150,7 @@ class NodeTemplate extends Component {
               <Table striped bordered hover className="template-table">
                 <thead>
                   <tr className="template-table-header">
-                    <th colspan="2">Template Properties</th>
+                    <th colSpan="2">Template Properties</th>
                   </tr>
                   <tr>
                     <th>Key</th>
@@ -166,7 +166,7 @@ class NodeTemplate extends Component {
               <Table striped bordered hover className="template-table">
                 <thead>
                   <tr className="template-table-header">
-                    <th colspan="2">Template Relationships</th>
+                    <th colSpan="2">Template Relationships</th>
                   </tr>
                   <tr>
                     <th>Key</th>

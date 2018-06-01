@@ -18,7 +18,7 @@ class PropertyPopulator extends Component {
   renderInput(props) {
     // Initialize property
     let instance, value = "", prop = props.prop;
-    if (props.node) instance = props.node.instance;
+    if (props.node) instance = props.node;
     else instance = props.relationship;
 
     if (instance) value = Helpers.getObjProp(instance, prop.path);
