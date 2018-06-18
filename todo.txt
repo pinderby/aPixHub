@@ -1,24 +1,16 @@
 todo.txt
 
----------
-Routes
----------
-View single node
-
-Create node template
-Create node instance
-Edit node template
-Edit node instance
-
-View search results/Search node instances
-
------------
-
-(Delete node instance?)
-(Delete node template)?
-
-Advanced querying
-Design/CSS
+-------------
+TODO - AW -
+-------------
+via Redux
+[ ] Editing Templates (inline)
+  [ ] Editing Fields (inline)
+  [ ] Adding Fields (inline)
+  [ ] Deleting Fields
+[ ] Creating Templates
+[ ] Creating Relationships
+[ ] Editing Relationships (inline)
 
 ---------------
 TODO - DTM -
@@ -69,7 +61,7 @@ Repos
   [x] Changing templates
   9 [ ] Filtering/searching nodes by field
   2 [ ] Don't allow changing value_type after creation
-  1 [ ] Add checkbox to show fields on template
+    [x] Add checkbox to show fields on template
   6 [ ] Add modal(?) to view whole node (add max-height and overflow to nodes panel)
   [ ] Delete nodes
   [ ] Delete templates
@@ -84,6 +76,7 @@ Repos
 [ ] Update repos
 Sortable Bootstrap: https://github.com/psfpro/bootstrap-html5sortable
 
+Routing
 CRUD + Search Templates
   Create: TemplateBuilder (/t/templates/add)
   Read: NodeTemplate (/t/:label)
@@ -101,6 +94,8 @@ CRUD Relationships
 TDD Scripts
 Design
 
+Advanced querying
+Design/CSS
 
 ApixNode
 [ x ] Go over logan.json with Joe
