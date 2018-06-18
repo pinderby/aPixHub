@@ -59,22 +59,27 @@ Users
 Repos
 [ ] Repo view
   [ ] Sidemenu
-    [ ] Creating Nodes
-    [ ] Creating Templates
-      [ ] Creating Relationships
-    [ ] Editing Nodes
-    [ ] Editing Templates
-  [ ] Nodes Panel
-  [ ] Templates Panel? (pop open)
-  [ ] Changing templates
-  [ ] Filtering/searching nodes
-  [ ] View nodes
+  8  [ ] Creating Nodes
+  3  [ ] Creating Templates
+  4    [ ] Creating Relationships
+  7  [ ] Editing Nodes
+  2  [ ] Editing Templates (inline)
+  [x] Nodes Panel
+  [x] Templates Panel? (pop open)
+  [x] Changing templates
+  9 [ ] Filtering/searching nodes by field
+  2 [ ] Don't allow changing value_type after creation
+  1 [ ] Add checkbox to show fields on template
+  6 [ ] Add modal(?) to view whole node (add max-height and overflow to nodes panel)
   [ ] Delete nodes
   [ ] Delete templates
+  5 [ ] Write tests for templates
+  10 [ ] Write tests for nodes
+  [ ] More design work
 [ ] Update for new API calls (fetchAllNodes)
 [ ] Refactor repo view into Home
-[ ] Create/edit overlay
 [ ] View repos
+[ ] Switch repos
 [ ] Create repos
 [ ] Update repos
 Sortable Bootstrap: https://github.com/psfpro/bootstrap-html5sortable

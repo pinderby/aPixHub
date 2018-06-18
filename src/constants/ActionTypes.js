@@ -12,6 +12,9 @@ export const UPDATE_NODES = "UPDATE_NODES";
 // Users //
 export const UPDATE_USER = "UPDATE_USER";
 
+// Settings //
+export const UPDATE_SETTINGS = "UPDATE_SETTINGS";
+
 //////////////////////
 // NETWORK REQUESTS //
 //////////////////////

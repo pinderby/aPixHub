@@ -5,6 +5,7 @@ import nodeTemplate from './nodeTemplate';
 import nodeTemplates from './nodeTemplates';
 import nodes from './nodes';
 import relationshipTemplate from './relationshipTemplate';
+import userSettings from './userSettings';
 
 const appReducers = combineReducers({
     user,
@@ -12,7 +13,8 @@ const appReducers = combineReducers({
     nodeTemplate,
     nodes,
     nodeTemplates,
-    relationshipTemplate
+    relationshipTemplate,
+    userSettings
 });
 
 export default appReducers;

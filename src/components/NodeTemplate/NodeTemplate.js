@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import Helpers from '../../helpers.js';
 import { Link } from 'react-router-dom';
-import { Table, Collapse } from 'react-bootstrap';
+import { Table, Collapse, Checkbox } from 'react-bootstrap';
 // import './NodeTemplate.css'
 import './TemplateSearch.css';
 import LoadingOverlay from '../LoadingOverlay';
-import { fetchTemplate, fetchDeleteTemplate } from '../../actions/templates';
+import { fetchTemplate, updateNodeTemplate, fetchDeleteTemplate } from '../../actions/templates';
 
 class NodeTemplate extends Component {
   constructor(props) {
@@ -31,6 +31,15 @@ class NodeTemplate extends Component {
     this.props.dispatch(fetchTemplate(templateLabel));
   }
 
+  updateTemplateField(event, propKey) {
+    console.log('updateTemplateField(): ', event.target.checked, propKey); // TODO --DM-- Remove
+  }
+
+  updateTemplate(template) {
+    // Dispatch updateNodeTemplate to update template in redux
+    this.props.dispatch(updateNodeTemplate(template));
+  }
+
   deleteTemplate(templateId) {
     // Dispatch fetchDeleteTemplate to delete template by id
     this.props.dispatch(fetchDeleteTemplate(templateId));
@@ -51,17 +60,27 @@ class NodeTemplate extends Component {
         <tr key={'id'} className="template-prop">
           <td>{"nid"}</td>
           <td>{"ID"}</td>
+          <td>
+            <Checkbox defaultChecked />
+          </td>
         </tr>
       );
       
       // Push row for all other properties
+      // Bind method for updating template field
+      var updateTemplateField = this.updateTemplateField;
       props.forEach(function(prop) {
+        var propKey = prop.key;
+        let checked = true;
         propComps.push(
           <tr key={'div-'+prop['id']} className="template-prop">
             <td>{prop['key']}</td>
             <td>{prop['value_type']}</td>
+            <td>
+              <Checkbox defaultChecked onChange={(e) => updateTemplateField(e, prop.key)} />
+            </td>
           </tr>
-        );              
+        );
       });
       return propComps;
     }
@@ -150,11 +169,12 @@ class NodeTemplate extends Component {
               <Table striped bordered hover className="template-table">
                 <thead>
                   <tr className="template-table-header">
-                    <th colSpan="2">Template Properties</th>
+                    <th colSpan="3">Template Properties</th>
                   </tr>
                   <tr>
                     <th>Key</th>
                     <th>Value Type</th>
+                    <th>Show?</th>
                   </tr>
                 </thead>
                 <tbody>

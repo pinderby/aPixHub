@@ -38,8 +38,25 @@ class Repo extends Component {
     this.editNode = this.editNode.bind(this);
     this.logout = this.logout.bind(this);
 
+    // Validate and update user settings with repos property
+    var settings = Object.assign(props.settings, {});
+    
+    // Add 'repos' key if it doesn't exist
+    if (!settings.hasOwnProperty('repos')) settings = Object.assign(props.settings, { repos: {} });
+    
+    // Add key for repo name if it doesn't exist
+    if (!settings.repos.hasOwnProperty(props.repo.name)) settings.repos[props.repo.name] = {};
+
+    // Add each template to repo settings if they don't already exist
+    props.nodeTemplates.forEach(function(template, index) {
+      if (!settings.repos[props.repo.name].hasOwnProperty(template.label)) settings.repos[props.repo.name][template.label] = {};
+    });
+
+    console.log('settings: ', settings); // TODO --DM-- Remove
+
     this.state = {
       user: {},
+      settings: settings,
       sidemenu: {
         open: false,
         editing: false,
@@ -90,6 +107,9 @@ class Repo extends Component {
   changeTemplate(template) {
     // TODO --DTM-- Implement with API
     console.log('changeTemplate() template: ', template);
+
+    // Close sidemenu
+    this.setState({sidemenu: {open: false}});
 
     // Dispatch action creator to update template
     this.props.dispatch(changeTemplate(template))
@@ -168,8 +188,10 @@ class Repo extends Component {
     let nodeTemplates = this.props.nodeTemplates, 
         nodeTemplate = this.props.nodeTemplate, 
         templateComps = [],
-        label = this.props.label, 
+        label = this.props.label,
+        settings = this.state.settings,
         changeTemplate = this.changeTemplate,
+        updateSettings = this.updateSettings,
         editTemplate = this.editTemplate;
 
     console.log('nodeTemplates: ', nodeTemplates);
@@ -182,14 +204,14 @@ class Repo extends Component {
       // Add each template to list
       console.log('template, index: ', template, index);
       templateComps.push(
-        <a key={template.id} href="#" onClick={() => changeTemplate(template)} 
+        <a key={template.id} href="#"
            className={(template.id === nodeTemplate.id) ? "list-group-item template-item active" : "list-group-item template-item" }>
-          <span className="template-label">{Helpers.formatPropKey(template.label)}</span>
+          <span className="template-label" onClick={() => changeTemplate(template)} >{Helpers.formatPropKey(template.label)}</span>
           <Button onClick={() => editTemplate(template)}>
             <Glyphicon glyph="pencil" />
           </Button>
-          <NodeTemplate open={(template.id === nodeTemplate.id)}
-            template={template} />
+          <NodeTemplate open={(template.id === nodeTemplate.id)} settings={settings}
+            template={template} updateSettings={updateSettings} />
         </a>
       );
     });

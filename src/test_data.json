@@ -1,4 +1,13 @@
 {
+  "repos": [
+    {
+      "id": "549fa2fc-4643-47d9-9388-bb13e7b8da84",
+      "name": "Movies",
+      "user_id": "06147f8e-7b4e-49b8-9ec4-0b482ed581f4",
+      "created_at": "2018-06-02T02:37:04.884Z",
+      "updated_at": "2018-06-02T02:37:04.884Z"
+    }
+  ],
   "templates" : [
     {
       "id": "3152f3c7-ebc8-4e7a-981c-11951f65bebb",
