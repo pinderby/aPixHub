@@ -294,13 +294,9 @@ class Repo extends Component {
         <h3 className="user-repo-title">
           {this.props.match.params.user} / 
           <DropdownButton title={"Movies"} key="1" id={`dropdown-basic-1`} >
-            <MenuItem eventKey="1">Action</MenuItem>
-            <MenuItem eventKey="2">Another action</MenuItem>
-            <MenuItem eventKey="3" active>
-              Active Item
-            </MenuItem>
-            <MenuItem divider />
-            <MenuItem eventKey="4">Separated link</MenuItem>
+            <MenuItem eventKey="1">Games</MenuItem>
+            <MenuItem eventKey="2">TV Shows</MenuItem>
+            {/* <MenuItem divider /> */}
           </DropdownButton>
         </h3>
         <div className="repo-panel panel panel-default">

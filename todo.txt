@@ -51,24 +51,29 @@ Users
 Repos
 [ ] Repo view
   [ ] Sidemenu
-  8  [ ] Creating Nodes
-  3  [ ] Creating Templates
-  4    [ ] Creating Relationships
-  7  [ ] Editing Nodes
-  2  [ ] Editing Templates (inline)
+    [ ] Creating Nodes   
+    [ ] Editing Nodes
+    [ ] Delete nodes
+  [ ] Templates Panel (pop open)
+    [ ] Creating Templates
+    [ ] Creating Relationships
+    [ ] Editing Templates (inline)
+    [ ] Don't allow changing value_type after creation
+    [ ] Delete templates
+    [x] Changing templates
   [x] Nodes Panel
-  [x] Templates Panel? (pop open)
-  [x] Changing templates
-  9 [ ] Filtering/searching nodes by field
-  2 [ ] Don't allow changing value_type after creation
-    [x] Add checkbox to show fields on template
-  6 [ ] Add modal(?) to view whole node (add max-height and overflow to nodes panel)
-  [ ] Delete nodes
-  [ ] Delete templates
-  5 [ ] Write tests for templates
-  10 [ ] Write tests for nodes
+    [ ] Filtering/searching nodes by field
+  [x] Add checkbox to show fields on template
+  [ ] Add modal(?) to view whole node (add max-height and overflow to nodes panel)
+  [ ] Write tests for templates
+  [ ] Write tests for nodes
+  [ ] Write any additional tests for repo view
+  [ ] Refactor entire Repo view
+  [ ] Update for new API calls (fetchAllNodes)
+  [ ] Loading overlays for API calls
+  [ ] Tests for API calls
+  [ ] Error handling for API calls
   [ ] More design work
-[ ] Update for new API calls (fetchAllNodes)
 [ ] Refactor repo view into Home
 [ ] View repos
 [ ] Switch repos
