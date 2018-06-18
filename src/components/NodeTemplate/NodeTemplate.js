@@ -12,6 +12,7 @@ class NodeTemplate extends Component {
     super(props);
 
     // Bind methods
+    this.updateTemplateField = this.updateTemplateField.bind(this);
     this.renderTemplateProps = this.renderTemplateProps.bind(this);
     this.renderTemplateRels = this.renderTemplateRels.bind(this);
 
@@ -33,6 +34,19 @@ class NodeTemplate extends Component {
 
   updateTemplateField(event, propKey) {
     console.log('updateTemplateField(): ', event.target.checked, propKey); // TODO --DM-- Remove
+    
+    // Duplicate repoSettings to update
+    let nextRepoSettings = Object.assign(this.props.repoSettings, {});
+
+    // If propKey doesn't exist in repoSettings, add it
+    if (!nextRepoSettings[this.props.template.label].hasOwnProperty(propKey)) nextRepoSettings[this.props.template.label][propKey] = {};
+
+    // Update display settings for propKey
+    nextRepoSettings[this.props.template.label][propKey]['display'] = event.target.checked;
+
+    console.log('updateTemplateField() repoSettings: ', nextRepoSettings); // TODO --DM-- Remove
+    // Update settings globally
+    this.props.updateSettings(nextRepoSettings);
   }
 
   updateTemplate(template) {
@@ -61,7 +75,7 @@ class NodeTemplate extends Component {
           <td>{"nid"}</td>
           <td>{"ID"}</td>
           <td>
-            <Checkbox defaultChecked />
+            <Checkbox defaultChecked onChange={(e) => updateTemplateField(e, 'nid')} />
           </td>
         </tr>
       );
@@ -89,7 +103,7 @@ class NodeTemplate extends Component {
 
     // Render template properties
     renderTemplateRels(rels, isIn) {
-      console.log('rels: ', rels); // TODO --DM-- Remove
+      // console.log('rels: ', rels); // TODO --DM-- Remove
       var relComps = [];
       
       // If rels is empty, return
@@ -108,7 +122,7 @@ class NodeTemplate extends Component {
         
         // Push rows for relationship
         rels.forEach(function(rel) {
-          console.log('rel: ', rel); // TODO --DM-- Remove
+          // console.log('rel: ', rel); // TODO --DM-- Remove
           // Combine all template props
           let propComps = [];
           
@@ -144,6 +158,9 @@ class NodeTemplate extends Component {
     }
 
   render() {  
+    console.log('this.state', this.state); // TODO --DM-- Remove
+    console.log('this.props', this.props); // TODO --DM-- Remove
+
     // If template exists, generate template panel
     let templatePanel = "";
     if (this.props.template) {
@@ -202,7 +219,7 @@ class NodeTemplate extends Component {
           </div>
         </div>
       
-      console.log('Template:', template);
+      console.log('Template:', template); // TODO --DTM-- Remove
     }
 
     return (

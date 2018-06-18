@@ -13,6 +13,14 @@ export const updateSettings = (settings) => {
   }
 }
 
+export const updateRepoSettings = (repo, repoSettings) => {
+  return {
+    type: ActionTypes.UPDATE_REPO_SETTINGS,
+    repo,
+    repoSettings
+  }
+}
+
 ///////////////////////////
 // THUNK ACTION CREATORS //
 ///////////////////////////

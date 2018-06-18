@@ -1,14 +1,57 @@
 import React, { Component } from 'react';
 import Helpers from '../../helpers.js';
+import NodeProperty from '../NodeProperty.js'
 // import StarRating from './StarRating.js';
 /* eslint no-eval: 0 */
 
 class NodeSearchResult extends Component {
+  renderNid() {
+    // Display nid if set to display
+    if(this.props.templateSettings.hasOwnProperty('nid')) { 
+      if(this.props.templateSettings.nid.hasOwnProperty('display') &&
+        !this.props.templateSettings.nid.display) return;
+    }
+
+    return (
+      <div className="node-property-container">
+        <div className="node-property">
+          <span className="node-prop-key">nid</span>:{" "+this.props.node.nid}
+        </div>
+      </div>
+    );
+  }
+
+  renderProps() {
+    // Initialize components array
+    var props = [];
+
+    // Iterate through properties for display
+    for (var prop in this.props.node.properties) {
+      
+      // Display prop if set to display
+      let display = true;
+      if(this.props.templateSettings.hasOwnProperty(prop)) { 
+        if(this.props.templateSettings[prop].hasOwnProperty('display') &&
+          !this.props.templateSettings[prop].display) display = false;
+      }
+
+      // Push component
+      props.push(<NodeProperty key={prop} propKey={prop} 
+                    value={this.props.node.properties[prop]} type="string"
+                    display={display} />);
+    }
+
+    // Return components
+    return props;
+  }
+  
   render() {
     return (
       <div id="node-search-result-container" className="panel panel-default">
         <div className="panel-body">
-          {Helpers.renderProps(this.props.node.properties)}
+          {/* Render 'nid' first, if present */}
+          {this.renderNid()}
+          {this.renderProps()}
         </div>
       </div>
     );

@@ -17,6 +17,9 @@ class NodeProperty extends Component {
   }
 
   render() {
+    // Don't display if display is false
+    if(!this.props.display) return null;
+
     // If cover_img or profile_img, display img
     let value = <span className="node-prop-value"> {Helpers.renderProps(this.props.value)}</span>;
     if (this.props.propKey === 'profile_image') {

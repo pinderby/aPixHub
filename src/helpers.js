@@ -87,18 +87,19 @@ class Helpers {
 
   // Render object properties
   static renderProps(object) {
-    // console.log('renderProps: ', object); // TODO --DM-- Remove
+    console.log('renderProps: ', object); // TODO --DM-- Remove
     if (object) {
       var props = [];
       // console.log(object); // TODO --DM-- Remove
       if (Object.prototype.toString.call( object ) === '[object Object]' ) {
-        // Render 'name' first, if present
-        if (object.name) props.push(<NodeProperty key={'name'} propKey={'name'} value={object.name} type="string" />);
+        // TODO --DTM-- Remove???
+        // // Render 'name' first, if present
+        // if (object.name) props.push(<NodeProperty key={'name'} propKey={'name'} value={object.name} type="string" />);
 
         for (var prop in object) {
           // console.log('renderProps prop: ', object); // TODO --DM-- Remove
           // Skip name, relationships when rendering properties
-          if (prop === 'name') continue;
+          // if (prop === 'name') continue;  // TODO --DTM-- Remove???
           if (prop === 'relationships') continue;
 
           if (object.hasOwnProperty(prop) && object[prop]) {

@@ -11,6 +11,19 @@ const userSettings = (state = { repos: {} }, action) => {
         settings: action.settings,
         lastUpdated: action.receivedAt
       });
+    case ActionTypes.UPDATE_REPO_SETTINGS:
+      // Passes: action.repo, action.repoSettings
+      // Update settings with passed object
+      let nextSettings = { repos: {} };
+      nextSettings.repos[action.repo.name] = action.repoSettings;
+      console.log("UPDATE_REPO_SETTINGS: ", nextSettings); // TODO --DTM-- Remove
+
+      return Object.assign({}, state, {
+        isFetching: false,
+        didInvalidate: false,
+        settings: nextSettings,
+        lastUpdated: action.receivedAt
+      });
     default:
       return state
   }

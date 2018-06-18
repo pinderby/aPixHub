@@ -9,6 +9,7 @@ import NodeTemplate from '../NodeTemplate/NodeTemplate';
 import Helpers from '../../helpers.js';
 import { fetchAuthUser, fetchPostUser, fetchMe } from '../../actions/users';
 import { changeTemplate } from '../../actions/templates';
+import { updateRepoSettings } from '../../actions/settings';
 import './Repo.css';
 
 class Repo extends Component {
@@ -36,6 +37,7 @@ class Repo extends Component {
     this.editTemplate = this.editTemplate.bind(this);
     this.addNode = this.addNode.bind(this);
     this.editNode = this.editNode.bind(this);
+    this.updateSettings = this.updateSettings.bind(this);
     this.logout = this.logout.bind(this);
 
     // Validate and update user settings with repos property
@@ -102,6 +104,15 @@ class Repo extends Component {
     this.setState({
       user: {}
     });
+  }
+
+  updateSettings(repoSettings) {
+    // Merge old settings with new ones
+    let nextSettings = Object.assign(this.state.settings.repos[this.props.repo.name], repoSettings);
+    console.log("updateSettings() nextSettings: ", nextSettings); // TODO --DTM-- Remove
+    
+    // Dispatch new settigs to redux
+    this.props.dispatch(updateRepoSettings(this.props.repo, nextSettings))
   }
 
   changeTemplate(template) {
@@ -189,7 +200,7 @@ class Repo extends Component {
         nodeTemplate = this.props.nodeTemplate, 
         templateComps = [],
         label = this.props.label,
-        settings = this.state.settings,
+        repoSettings = this.state.settings.repos[this.props.repo.name],
         changeTemplate = this.changeTemplate,
         updateSettings = this.updateSettings,
         editTemplate = this.editTemplate;
@@ -210,7 +221,7 @@ class Repo extends Component {
           <Button onClick={() => editTemplate(template)}>
             <Glyphicon glyph="pencil" />
           </Button>
-          <NodeTemplate open={(template.id === nodeTemplate.id)} settings={settings}
+          <NodeTemplate open={(template.id === nodeTemplate.id)} repoSettings={repoSettings}
             template={template} updateSettings={updateSettings} />
         </a>
       );
@@ -222,9 +233,11 @@ class Repo extends Component {
     // Initialize variables
     let nodes = this.props.nodes,
         nodeComps = [], 
-        editNode = this.editNode;
+        editNode = this.editNode,
+        templateSettings = this.state.settings.repos[this.props.repo.name][this.props.nodeTemplate.label];
 
     console.log('nodes: ', nodes);
+    console.log('templateSettings: ', templateSettings);
 
     // Return if not array (can occur when API call does not return nodes)
     if (Object.prototype.toString.call( nodes ) !== '[object Array]' ) return;
@@ -234,7 +247,7 @@ class Repo extends Component {
       // Wrap router link and render props in NodeSearchResult
       nodeComps.push(
         <a key={node.nid} href="#" onClick={() => editNode(node)} className="">
-          <NodeSearchResult key={index} node={node} />
+          <NodeSearchResult key={index} node={node} templateSettings={templateSettings} />
         </a>
       );
     });

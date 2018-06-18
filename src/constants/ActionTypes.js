@@ -14,6 +14,7 @@ export const UPDATE_USER = "UPDATE_USER";
 
 // Settings //
 export const UPDATE_SETTINGS = "UPDATE_SETTINGS";
+export const UPDATE_REPO_SETTINGS = "UPDATE_REPO_SETTINGS";
 
 //////////////////////
 // NETWORK REQUESTS //
