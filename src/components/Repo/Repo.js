@@ -218,7 +218,7 @@ class Repo extends Component {
         <a key={template.id} href="#"
            className={(template.id === nodeTemplate.id) ? "list-group-item template-item active" : "list-group-item template-item" }>
           <span className="template-label" onClick={() => changeTemplate(template)} >{Helpers.formatPropKey(template.label)}</span>
-          <Button onClick={() => editTemplate(template)}>
+          <Button className="template-edit-btn" onClick={() => editTemplate(template)}>
             <Glyphicon glyph="pencil" />
           </Button>
           <NodeTemplate open={(template.id === nodeTemplate.id)} repoSettings={repoSettings}

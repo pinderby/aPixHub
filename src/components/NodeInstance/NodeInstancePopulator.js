@@ -337,7 +337,6 @@ class NodeInstancePopulator extends Component {
           {/* {this.renderRelationships()} */}
           <br />
           <RequestButton text={'Submit Node'} onClick={() => this.submitNode(template.label)}/>
-          <br />
           <RequestButton text={'Update Node'} onClick={() => this.updateNode(this.state.node)}/>
         </form>
       
@@ -346,7 +345,7 @@ class NodeInstancePopulator extends Component {
 
     return (
       <div id="apix-node-populator-container">
-        <div id="apix-node-populator">
+        <div className="apix-node-populator">
           {/* <LoadingOverlay show={this.state.node.isFetching} /> */}
           {templatePropsForm}
         </div>

@@ -43,15 +43,21 @@
   overflow: scroll;
 }
 
+.template-item {
+  position: static;
+}
+
 .template-item .template-label {
   font-weight: bold;
   font-size: 1.5em;
+  display: block;
+  width: 100%;
 }
 
-.template-item > .btn {
-  margin-top: -5px;
-  margin-right: -8px;
-  float: right;
+.template-item > .template-edit-btn {
+  right: 5px;
+  top: 0px;
+  position: absolute;
   padding: 4px 8px;
 }
 
@@ -74,6 +80,10 @@
 
 .template-rel .rel-title {
   margin-right: 5px;
+}
+
+.apix-node-populator .btn-info {
+  margin: 5px;
 }
 
 /* SIDEBAR CLASSES */

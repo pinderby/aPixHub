@@ -34,7 +34,7 @@ Creating a new view:
 
 [ ] Repo view
 [ ] Tests (TDD)
-Remove auth0
+[ x ] Remove auth0
 Sign up/Login
 [ x ] Sign up
 [ x ] Actually log in to homepage
@@ -55,7 +55,7 @@ Repos
     [ ] Editing Nodes
     [ ] Delete nodes
   [ ] Templates Panel (pop open)
-    [ ] Creating Templates
+    [ ] Creating Templates (inline)
     [ ] Creating Relationships
     [ ] Editing Templates (inline)
     [ ] Don't allow changing value_type after creation

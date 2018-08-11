@@ -110,6 +110,7 @@ class Sidemenu extends Component {
 
     return (
       <Menu right
+        width={ '325px' }
         isOpen={this.state.menuIsOpen}
         onStateChange={(state) => this.handleSideMenuStateChange(state)} >
         <div className="sidemenu-header">{(this.props.editing) ? "Edit Node" : "Add Node" }</div>
