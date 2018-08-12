@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import Helpers from '../../helpers.js';
 import { Link } from 'react-router-dom';
-import { Table, Collapse, Checkbox } from 'react-bootstrap';
+import { Table, Collapse, Checkbox, Button, Glyphicon } from 'react-bootstrap';
 // import './NodeTemplate.css'
 import './TemplateSearch.css';
+import EditableInput from '../EditableInput'
 import LoadingOverlay from '../LoadingOverlay';
+import { InputTypes } from '../../constants/PropertyTypes';
 import { fetchTemplate, updateNodeTemplate, fetchDeleteTemplate } from '../../actions/templates';
 
 class NodeTemplate extends Component {
@@ -15,6 +17,8 @@ class NodeTemplate extends Component {
     this.updateTemplateField = this.updateTemplateField.bind(this);
     this.renderTemplateProps = this.renderTemplateProps.bind(this);
     this.renderTemplateRels = this.renderTemplateRels.bind(this);
+    this.onPropChanged = this.onPropChanged.bind(this);
+    this.updateEditing = this.updateEditing.bind(this);
 
     // TODO --DTM-- Remove?
     // // If nodeTemplate doesn't exist, query it from server
@@ -25,6 +29,11 @@ class NodeTemplate extends Component {
     //   };
     //   return;
     // }
+
+    this.state = {
+      template: props.template,
+      editing: false
+    };
   }
 
   getTemplate(templateLabel) {
@@ -59,6 +68,19 @@ class NodeTemplate extends Component {
     this.props.dispatch(fetchDeleteTemplate(templateId));
   }
 
+  onPropChanged(key, value) {
+    // Update new value to state
+    console.log('this.state.template: ', this.state.template); // TODO --DM-- Remove
+    console.log('key, value ', key, value); // TODO --DM-- Remove
+  }
+
+  updateEditing() {
+    // Update editing state
+    this.setState((prevState, props) => {
+      return { editing: !this.state.editing };
+    });
+  }
+
   // Render template properties
   renderTemplateProps(props) {
     var propComps = [];
@@ -82,14 +104,19 @@ class NodeTemplate extends Component {
       
       // Push row for all other properties
       // Bind method for updating template field
-      var updateTemplateField = this.updateTemplateField;
+      var updateTemplateField = this.updateTemplateField, state = this.state;
       props.forEach(function(prop) {
         var propKey = prop.key;
         let checked = true;
         propComps.push(
           <tr key={'div-'+prop['id']} className="template-prop">
-            <td>{prop['key']}</td>
-            <td>{prop['value_type']}</td>
+            {/* <td>{prop['key']}</td> */}
+            <td><EditableInput propKey='key' value={prop['key']} disabled={false} 
+                  editing={state.editing} inputType={InputTypes.TEXT} 
+                  onChange={(key, value) => this.onPropChanged(key, value)} /></td>
+            <td><EditableInput propKey='value_type' value={prop['value_type']} disabled={true} 
+                  editing={state.editing} inputType={InputTypes.SELECT} 
+                  onChange={(key, value) => this.onPropChanged(key, value)} /></td>
             <td>
               <Checkbox defaultChecked onChange={(e) => updateTemplateField(e, prop.key)} />
             </td>
@@ -170,6 +197,9 @@ class NodeTemplate extends Component {
 
       templatePanel =
         <div className="apix-template">
+          <Button className="template-edit-btn" onClick={() => this.updateEditing()}>
+            <Glyphicon glyph="pencil" />
+          </Button>
           <div className="panel panel-default">
             <div className="panel-body">
             {/* TODO --DTM-- Move all this functionality into other components */}

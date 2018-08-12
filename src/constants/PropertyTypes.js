@@ -1,11 +1,18 @@
-export const propertyTypes = {
-    'Text or Link':'string',
-    'Number':'integer',
-    'Decimal':'float',
-    'True/False':'boolean',
-    'Link to another thing':'relationship', // TODO --DM-- Rename
-    'List':'array',
-    'Object':'object' // TODO --DM-- Rename
+export const PropertyTypes = {
+    'String':'string',
+    'Integer':'integer',
+    'Float':'float',
+    'Boolean':'boolean',
+    'Reference':'relationship', // TODO --DM-- Rename
+    'Array':'array',
+    'JSON':'json' // TODO --DM-- Rename
+};
+
+export const InputTypes = {
+  TEXT: 0,
+  CHECKBOX: 1,
+  NUMBER: 2,
+  SELECT: 3
 };
 
 export const DIRECTION = {
@@ -13,4 +20,4 @@ export const DIRECTION = {
   OUT: 'out'
 }
 
-export default propertyTypes;
+export default PropertyTypes;
