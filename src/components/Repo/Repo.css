@@ -47,6 +47,10 @@
   position: static;
 }
 
+.template-item:hover {
+  background-color: #f5f5f5;
+}
+
 .template-item .template-label {
   font-weight: bold;
   font-size: 1.5em;
@@ -84,6 +88,15 @@
 
 .apix-node-populator .btn-info {
   margin: 5px;
+}
+
+.node-instance-wrapper {
+  color: #337ab7;
+}
+
+.node-instance-wrapper .panel-default:hover {
+  background-color: #f5f5f5;
+  border-color: #adadad;
 }
 
 /* SIDEBAR CLASSES */

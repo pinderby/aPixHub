@@ -215,12 +215,13 @@ class Repo extends Component {
       // Add each template to list
       console.log('template, index: ', template, index);
       templateComps.push(
-        <a key={template.id} href="#"
-           className={(template.id === nodeTemplate.id) ? "list-group-item template-item active" : "list-group-item template-item" }>
-          <span className="template-label" onClick={() => changeTemplate(template)} >{Helpers.formatPropKey(template.label)}</span>
+        <div key={template.id} href="#"
+           className={(template.id === nodeTemplate.id) ? "list-group-item template-item active" : "list-group-item template-item" }
+           onClick={() => changeTemplate(template)}>
+          <span className="template-label" >{Helpers.formatPropKey(template.label)}</span>
           <NodeTemplate open={(template.id === nodeTemplate.id)} repoSettings={repoSettings}
             template={template} updateSettings={updateSettings} />
-        </a>
+        </div>
       );
     });
     return templateComps;
@@ -243,9 +244,9 @@ class Repo extends Component {
     nodes.forEach(function (node, index) {
       // Wrap router link and render props in NodeSearchResult
       nodeComps.push(
-        <a key={node.nid} href="#" onClick={() => editNode(node)} className="">
+        <div key={node.nid} href="#" onClick={() => editNode(node)} className="node-instance-wrapper">
           <NodeSearchResult key={index} node={node} templateSettings={templateSettings} />
-        </a>
+        </div>
       );
     });
     return nodeComps;
