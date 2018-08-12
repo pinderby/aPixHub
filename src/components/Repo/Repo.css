@@ -1,3 +1,5 @@
+.hidden { display: none; }
+
 .repo-container {
   min-height: 700px;
   padding-bottom: 50px;

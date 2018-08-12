@@ -203,7 +203,8 @@ class Repo extends Component {
         repoSettings = this.state.settings.repos[this.props.repo.name],
         changeTemplate = this.changeTemplate,
         updateSettings = this.updateSettings,
-        editTemplate = this.editTemplate;
+        editTemplate = this.editTemplate,
+        dispatch = this.props.dispatch;
 
     console.log('nodeTemplates: ', nodeTemplates);
 
@@ -220,7 +221,7 @@ class Repo extends Component {
            onClick={() => changeTemplate(template)}>
           <span className="template-label" >{Helpers.formatPropKey(template.label)}</span>
           <NodeTemplate open={(template.id === nodeTemplate.id)} repoSettings={repoSettings}
-            template={template} updateSettings={updateSettings} />
+            template={template} updateSettings={updateSettings} dispatch={dispatch} />
         </div>
       );
     });

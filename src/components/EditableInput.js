@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 class EditableInput extends Component {
   constructor(props) {
     super(props);
-    // Expecting Props: propKey, value, editing, inputType, disabled, onChange
+    // Expecting Props: propIndex, propKey, value, editing, inputType, disabled, onChange
 
     // Initialize value
     let value = '';
@@ -28,7 +28,7 @@ class EditableInput extends Component {
     });
 
     // Call callback
-    onChange(this.state.key, e.target.value);
+    onChange(this.props.propIndex, this.props.propKey, e.target.value);
   }
 
   renderInput() {
@@ -106,6 +106,7 @@ class EditableInput extends Component {
 }
 
 EditableInput.propTypes = {
+  propIndex: PropTypes.number.isRequired,
   propKey: PropTypes.string.isRequired,
   value: PropTypes.node.isRequired,
   onChange: PropTypes.func.isRequired,

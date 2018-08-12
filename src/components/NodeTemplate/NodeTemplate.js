@@ -58,9 +58,14 @@ class NodeTemplate extends Component {
     this.props.updateSettings(nextRepoSettings);
   }
 
-  updateTemplate(template) {
+  updateTemplate() {
+    // Update editing state
+    this.setState((prevState, props) => {
+      return { editing: !this.state.editing };
+    });
+
     // Dispatch updateNodeTemplate to update template in redux
-    this.props.dispatch(updateNodeTemplate(template));
+    this.props.dispatch(updateNodeTemplate(this.state.template));
   }
 
   deleteTemplate(templateId) {
@@ -68,10 +73,21 @@ class NodeTemplate extends Component {
     this.props.dispatch(fetchDeleteTemplate(templateId));
   }
 
-  onPropChanged(key, value) {
+  onPropChanged(index, key, value) {
     // Update new value to state
     console.log('this.state.template: ', this.state.template); // TODO --DM-- Remove
     console.log('key, value ', key, value); // TODO --DM-- Remove
+
+    // Assign new property value
+    var template = Object.assign({}, this.state.template);
+    template.properties[index][key] = value;
+    
+    // Update state with updated template
+    this.setState(() => {
+      return {
+        template: template
+      };
+    });
   }
 
   updateEditing() {
@@ -104,19 +120,19 @@ class NodeTemplate extends Component {
       
       // Push row for all other properties
       // Bind method for updating template field
-      var updateTemplateField = this.updateTemplateField, state = this.state;
-      props.forEach(function(prop) {
+      var updateTemplateField = this.updateTemplateField, 
+          state = this.state, onPropChanged = this.onPropChanged;
+      props.forEach(function(prop, index) {
         var propKey = prop.key;
         let checked = true;
         propComps.push(
           <tr key={'div-'+prop['id']} className="template-prop">
-            {/* <td>{prop['key']}</td> */}
-            <td><EditableInput propKey='key' value={prop['key']} disabled={false} 
+            <td><EditableInput propIndex={index} propKey='key' value={prop['key']} disabled={false} 
                   editing={state.editing} inputType={InputTypes.TEXT} 
-                  onChange={(key, value) => this.onPropChanged(key, value)} /></td>
-            <td><EditableInput propKey='value_type' value={prop['value_type']} disabled={true} 
+                  onChange={(index, key, value) => onPropChanged(index, key, value)} /></td>
+            <td><EditableInput propIndex={index} propKey='value_type' value={prop['value_type']} disabled={true} 
                   editing={state.editing} inputType={InputTypes.SELECT} 
-                  onChange={(key, value) => this.onPropChanged(key, value)} /></td>
+                  onChange={(index, key, value) => onPropChanged(index, key, value)} /></td>
             <td>
               <Checkbox defaultChecked onChange={(e) => updateTemplateField(e, prop.key)} />
             </td>
@@ -245,6 +261,10 @@ class NodeTemplate extends Component {
                   {this.renderTemplateRels(template.out_relationships, false)}
                 </tbody>
               </Table>
+              <Button className={this.state.editing ? "template-submit-btn" : "hidden"}
+                bsStyle="primary" onClick={() => this.updateTemplate()} >Update Template</Button>
+              <Button className={this.state.editing ? "template-cancel-btn" : "hidden"}
+                onClick={() => this.updateEditing()}>Cancel</Button>
             </div>
           </div>
         </div>
