@@ -47,6 +47,7 @@
 
 .template-item {
   position: static;
+  padding: 0 !important;
 }
 
 .template-item:hover {
@@ -71,8 +72,14 @@
   margin-right: 0;
 }
 
+.template-item > .template-label-wrapper {
+  padding: 10px 15px;
+}
+
 .apix-template {
   color: #555;
+  padding: 0px 10px;
+  margin-top: -10px;
 }
 
 .apix-template > .panel {

@@ -19,6 +19,7 @@ class NodeTemplate extends Component {
     this.renderTemplateRels = this.renderTemplateRels.bind(this);
     this.onPropChanged = this.onPropChanged.bind(this);
     this.updateEditing = this.updateEditing.bind(this);
+    this.cancelEditing = this.cancelEditing.bind(this);
 
     // TODO --DTM-- Remove?
     // // If nodeTemplate doesn't exist, query it from server
@@ -92,8 +93,24 @@ class NodeTemplate extends Component {
 
   updateEditing() {
     // Update editing state
+    if (this.state.editing) {
+      // If currently editing, call cancelEditing()
+      this.cancelEditing();
+    } else {
+      // If not editing, start editing
+      this.setState((prevState, props) => {
+        return { editing: !this.state.editing };
+      });
+    }
+  }
+
+  cancelEditing() {
+    // Update editing state and revert back to props
     this.setState((prevState, props) => {
-      return { editing: !this.state.editing };
+      return { 
+        template: this.props.template,
+        editing: false
+      };
     });
   }
 
@@ -264,7 +281,7 @@ class NodeTemplate extends Component {
               <Button className={this.state.editing ? "template-submit-btn" : "hidden"}
                 bsStyle="primary" onClick={() => this.updateTemplate()} >Update Template</Button>
               <Button className={this.state.editing ? "template-cancel-btn" : "hidden"}
-                onClick={() => this.updateEditing()}>Cancel</Button>
+                onClick={() => this.cancelEditing()}>Cancel</Button>
             </div>
           </div>
         </div>

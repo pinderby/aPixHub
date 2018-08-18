@@ -216,12 +216,13 @@ class Repo extends Component {
       // Add each template to list
       console.log('template, index: ', template, index);
       templateComps.push(
-        <div key={template.id} href="#"
-           className={(template.id === nodeTemplate.id) ? "list-group-item template-item active" : "list-group-item template-item" }
-           onClick={() => changeTemplate(template)}>
-          <span className="template-label" >{Helpers.formatPropKey(template.label)}</span>
+        <div key={template.id}
+           className={(template.id === nodeTemplate.id) ? "list-group-item template-item active" : "list-group-item template-item" }>
+          <div className="template-label-wrapper" onClick={() => changeTemplate(template)}>
+            <span className="template-label" >{Helpers.formatPropKey(template.label)}</span>
+          </div>
           <NodeTemplate open={(template.id === nodeTemplate.id)} repoSettings={repoSettings}
-            template={template} updateSettings={updateSettings} dispatch={dispatch} />
+              template={template} updateSettings={updateSettings} dispatch={dispatch} />
         </div>
       );
     });
