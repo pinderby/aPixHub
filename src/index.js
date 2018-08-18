@@ -16,8 +16,16 @@ import 'bootstrap/dist/css/bootstrap.css';
 // import logan from './logan.json';
 // import test_node_template from './test_node_template.json';
 
+// TODO --DTM-- Remove if no longer needed
+import test_data from  './test_data.json'; // TODO --DTM-- Delete
+const initialState = {
+    repo: test_data.repos[0],
+    nodeTemplates: test_data.templates
+};
+
 const store = createStore(
   appReducers,
+  initialState,
   applyMiddleware(
     thunk, // lets us dispatch() functions
     logger // neat middleware that logs actions

@@ -6,9 +6,9 @@ const mapStateToProps = (state) => {
   return {
     user: state.user,
     // TODO --DTM-- Use real data when server is set up
-    repo: test_data.repos[0],
+    repo: state.repo,
     nodeTemplate: state.nodeTemplate,
-    nodeTemplates: test_data.templates,
+    nodeTemplates: state.nodeTemplates,
     nodes: state.nodes,
     settings: state.userSettings
   }

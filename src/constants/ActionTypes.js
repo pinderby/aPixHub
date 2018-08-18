@@ -1,3 +1,7 @@
+// Repos //
+export const UPDATE_REPO = "UPDATE_REPO";
+export const UPDATE_REPOS = "UPDATE_REPOS";
+
 // Node Templates //
 export const UPDATE_NODE_TEMPLATE = "UPDATE_NODE_TEMPLATE";
 export const SUBMIT_NODE_TEMPLATE = "SUBMIT_NODE_TEMPLATE";

@@ -80,15 +80,11 @@ class NodeTemplate extends Component {
     console.log('key, value ', key, value); // TODO --DM-- Remove
 
     // Assign new property value
-    var template = Object.assign({}, this.state.template);
+    var template = JSON.parse(JSON.stringify(this.state.template));
     template.properties[index][key] = value;
     
     // Update state with updated template
-    this.setState(() => {
-      return {
-        template: template
-      };
-    });
+    this.setState({ template: template });
   }
 
   updateEditing() {

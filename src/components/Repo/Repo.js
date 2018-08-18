@@ -215,6 +215,11 @@ class Repo extends Component {
     nodeTemplates.forEach(function (template, index) {
       // Add each template to list
       console.log('template, index: ', template, index);
+      
+      // TODO --DTM-- Remove. Temp assignment of template based on first load or state update (will not hold state)
+      var temp;
+      if (template.id === nodeTemplate.id) (temp = nodeTemplate); else (temp = template);
+
       templateComps.push(
         <div key={template.id}
            className={(template.id === nodeTemplate.id) ? "list-group-item template-item active" : "list-group-item template-item" }>
@@ -222,7 +227,7 @@ class Repo extends Component {
             <span className="template-label" >{Helpers.formatPropKey(template.label)}</span>
           </div>
           <NodeTemplate open={(template.id === nodeTemplate.id)} repoSettings={repoSettings}
-              template={template} updateSettings={updateSettings} dispatch={dispatch} />
+              template={temp} updateSettings={updateSettings} dispatch={dispatch} />
         </div>
       );
     });
