@@ -5,7 +5,6 @@ import test_data from  '../test_data.json'; // TODO --DTM-- Delete
 const mapStateToProps = (state) => {
   return {
     user: state.user,
-    // TODO --DTM-- Use real data when server is set up
     repo: state.repo,
     nodeTemplate: state.nodeTemplate,
     nodeTemplates: state.nodeTemplates,

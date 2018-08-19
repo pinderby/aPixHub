@@ -253,7 +253,7 @@ class NodeTemplate extends Component {
                     <th>Show?</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="template-props">
                   {this.renderTemplateProps(template.properties)}
                 </tbody>
               </Table>
@@ -269,7 +269,7 @@ class NodeTemplate extends Component {
                     <th>Value Type</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="template-rels">
                   {this.renderTemplateRels(template.in_relationships, true)}
                   {this.renderTemplateRels(template.out_relationships, false)}
                 </tbody>
