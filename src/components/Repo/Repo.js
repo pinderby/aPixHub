@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { slide as Menu } from 'react-burger-menu';
 import { Navbar, Nav, NavItem, DropdownButton, MenuItem, Button, Glyphicon, FormControl } from 'react-bootstrap';
@@ -339,5 +340,12 @@ class Repo extends Component {
     );
   }
 }
+
+Repo.propTypes = {
+  repo: PropTypes.object.isRequired,
+  nodeTemplate: PropTypes.object.isRequired,
+  nodeTemplates: PropTypes.array.isRequired,
+  nodes: PropTypes.array.isRequired
+};
 
 export default Repo;

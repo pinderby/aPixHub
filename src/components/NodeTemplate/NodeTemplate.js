@@ -62,7 +62,7 @@ class NodeTemplate extends Component {
   updateTemplate() {
     // Update editing state
     this.setState((prevState, props) => {
-      return { editing: !this.state.editing };
+      return { editing: !prevState.editing };
     });
 
     // Dispatch updateNodeTemplate to update template in redux

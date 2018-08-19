@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 // import logo from './logo.svg';
 import './App.css';
-import { Route, Link, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
+import { browserHistory } from 'react-router';
 import HomeContainer from './containers/HomeContainer.js';
 import RepoContainer from './containers/RepoContainer.js';
 import NodeInstanceContainer from './containers/NodeInstanceContainer.js';
@@ -37,33 +38,31 @@ class App extends Component {
   }
 
   render() {
-    let label;
-    if(this.props.nodeTemplate.label) label = this.props.nodeTemplate.label;
-    else label = 'movie';
-
     return (
       <div id="app-container" className="App">
-        <div id="App-container">
-          <Route exact path="/" render={() => (
-            <Redirect from="/" to="/home"/>
-          )}/>
-          <Route exact path="/home" component={HomeContainer} />
-          <Route exact path="/u/:user/:repo" component={RepoContainer} />
-          <Route exact path="/templates" component={TemplateSearchContainer}/>
-          <Route exact path="/templates/add" component={TemplateBuilderContainer}/>
-          <Route exact path="/relationships/add" component={RelationshipBuilderContainer}/>
-          <Route exact path="/t/:label" component={NodeTemplateContainer}/>
-          <Route exact path="/r/:rel_template_id" component={RelationshipTemplateContainer}/>
-          <Route path="/t/:label/edit" component={TemplateBuilderContainer}/>
-          <Route exact path="/r/:rel_template_id/edit" component={RelationshipBuilderContainer}/>
-          <Route path="/n/:label/add" component={NodePopulatorContainer}/>
-          <Route exact path="/r/:rel_template_id/add" component={RelationshipPopulatorContainer}/>
-          <Route path="/n/:label/search" component={NodeSearchContainer}/>
-          <Route exact path="/n/:label/:id" component={NodeInstanceContainer}/>
-          {/*<Route exact path="/r/:rel_template_id/:id" component={RelationshipInstanceContainer}/>*/}
-          <Route path="/n/:label/:id/edit" component={NodePopulatorContainer}/>
-          {/*<Route exact path="/r/:rel_template_id/:id/edit" component={RelationshipPopulatorContainer}/>*/}
-        </div>
+        <Router history={browserHistory}>
+          <div id="App-container">
+            <Route exact path="/" render={() => (
+              <Redirect from="/" to="/home"/>
+            )}/>
+            <Route exact path="/home" component={HomeContainer} />
+            <Route exact path="/u/:user/:repo" component={RepoContainer} />
+            <Route exact path="/templates" component={TemplateSearchContainer}/>
+            <Route exact path="/templates/add" component={TemplateBuilderContainer}/>
+            <Route exact path="/relationships/add" component={RelationshipBuilderContainer}/>
+            <Route exact path="/t/:label" component={NodeTemplateContainer}/>
+            <Route exact path="/r/:rel_template_id" component={RelationshipTemplateContainer}/>
+            <Route path="/t/:label/edit" component={TemplateBuilderContainer}/>
+            <Route exact path="/r/:rel_template_id/edit" component={RelationshipBuilderContainer}/>
+            <Route path="/n/:label/add" component={NodePopulatorContainer}/>
+            <Route exact path="/r/:rel_template_id/add" component={RelationshipPopulatorContainer}/>
+            <Route path="/n/:label/search" component={NodeSearchContainer}/>
+            <Route exact path="/n/:label/:id" component={NodeInstanceContainer}/>
+            {/*<Route exact path="/r/:rel_template_id/:id" component={RelationshipInstanceContainer}/>*/}
+            <Route path="/n/:label/:id/edit" component={NodePopulatorContainer}/>
+            {/*<Route exact path="/r/:rel_template_id/:id/edit" component={RelationshipPopulatorContainer}/>*/}
+          </div>
+        </Router>
       </div>
     );
   }
