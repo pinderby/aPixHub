@@ -50,19 +50,29 @@ Users
 [ ] View other users
 Repos
 [ ] Repo view
+  [ ] Templates Panel (pop open)
+    [ ] Editing Templates (inline) + React testing (REACT STATE ONLY)
+      [ ] Creating Properties (inline)
+      [ ] Reading Properties (inline)
+      [ ] Editing Properties (inline)
+      [ ] Don't allow changing value_type after creation
+      [ ] Deleting Properties (inline, modal confirmation)
+      [ ] Creating Relationships (inline)
+      [ ] Reading Relationships (inline)
+      [ ] Editing Relationships (inline)
+      [ ] Deleting Relationships (inline, modal confirmation)
+    [ ] Creating Templates (inline)
+    [ ] Reading Templates
+    [ ] (Deleting Templates)
+    [x] Changing templates
+    [ ] All changes in Redux (REDUX STORE)
+    [ ] Redux TDD
+  [x] Nodes Panel
+    [ ] Filtering/searching nodes by field
   [ ] Sidemenu
     [ ] Creating Nodes   
     [ ] Editing Nodes
     [ ] Delete nodes
-  [ ] Templates Panel (pop open)
-    [ ] Creating Templates (inline)
-    [ ] Creating Relationships
-    [ ] Editing Templates (inline)
-    [ ] Don't allow changing value_type after creation
-    [ ] Delete templates
-    [x] Changing templates
-  [x] Nodes Panel
-    [ ] Filtering/searching nodes by field
   [x] Add checkbox to show fields on template
   [ ] Add modal(?) to view whole node (add max-height and overflow to nodes panel)
   [ ] Write tests for templates

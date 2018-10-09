@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
+import reduxTdd from 'redux-tdd';
 import NodeTemplate from '../NodeTemplate/NodeTemplate';
 import test_data from '../../test_data.json';
 
@@ -46,4 +47,8 @@ describe('NodeTemplate Component', () => {
     expect(wrapper.state('editing')).toBe(true);
     expect(wrapper.find('.template-props input[type=\'text\']').length).toBeGreaterThanOrEqual(1);
   });
+
+  // Edits to template only affect state, not props
+
+  
 });
