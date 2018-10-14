@@ -72,19 +72,6 @@ class Helpers {
     return parts.join(".");
   }
 
-  // TODO --DM-- Reimplement
-  // static renderSections(sections) {
-  //   if (typeof(sections) !== "undefined") {
-  //     var sectionComponents = [];
-  //     sections.forEach(function(section) {
-  //       sectionComponents.push(<Section key={section.title} section={section} />);
-  //     });
-  //     return sectionComponents;
-  //   } else {
-  //     return;
-  //   }
-  // }
-
   // Render object properties
   static renderProps(object) {
     console.log('renderProps: ', object); // TODO --DM-- Remove
@@ -485,6 +472,41 @@ class Helpers {
     }
 
   }
+
+    // Takes an array and returns an object with elements keyed by id
+    // Requires each element to have 'id' key
+    static arrayToObjectById(array) {
+      // Instantiate new object to replace array
+      let newObject = {};
+
+      // Check if array is of type Array
+      if(!Array.isArray(array)) {
+        console.log("arrayToObjectById(): Argument is not an array.")
+        return;
+      }
+
+      // Iterate through array
+      array.forEach((element) => {
+        // Check to make sure array elements are objects
+        if(element === null || typeof(element) !== 'object') {
+          console.log("arrayToObjectById(): One or more array elements are not objects.")
+          return;
+        }
+
+        // Check to make sure array elements have 'id' key
+        if(element.hasOwnProperty('id')) {
+          // Add each element to new object with key of it's own id
+          newObject[element.id] = element;
+        } else {
+          // If no 'id' key, return with logged error
+          console.log("arrayToObjectById(): One or more array elements do not have an 'id' key.")
+          return;
+        }
+      });
+  
+      // Return new object
+      return newObject;
+    }
 
 }
 

@@ -26,14 +26,12 @@ describe('NodeTemplate Component', () => {
 
   // Initial 'editing' state should be false
   it('Initial \'editing\' state should be false', () => {
-  
     const wrapper = shallow(<NodeTemplate template={test_data.templates[0]}/>);
     expect(wrapper.state('editing')).toBe(false);
   });
 
   // Changes state 'editing' when edit button is clicked
   it('Changes \'editing\' state when edit button is clicked', () => {
-   
     const wrapper = shallow(<NodeTemplate template={test_data.templates[0]}/>);
     wrapper.find('.template-edit-btn').simulate('click');
     expect(wrapper.state('editing')).toBe(true);
@@ -41,7 +39,6 @@ describe('NodeTemplate Component', () => {
 
   // Changes template property keys to inputs when edit button is clicked
   it('Changes template property keys to inputs when edit button is clicked', () => {
-  
     const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
     wrapper.find('.template-edit-btn.btn-default').simulate('click');
     expect(wrapper.state('editing')).toBe(true);
@@ -50,5 +47,7 @@ describe('NodeTemplate Component', () => {
 
   // Edits to template only affect state, not props
 
-  
+
 });
+
+

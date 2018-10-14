@@ -91,6 +91,15 @@
   text-align: center;
 }
 
+.template-add-prop-btn {
+  margin-top: -10px !important;
+  margin-bottom: 20px !important;
+}
+
+.template-add-prop-btn .glyphicon {
+  margin-right: 7px;
+}
+
 .template-rel .rel-title {
   margin-right: 5px;
 }

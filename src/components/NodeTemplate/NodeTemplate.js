@@ -17,9 +17,11 @@ class NodeTemplate extends Component {
     this.updateTemplateField = this.updateTemplateField.bind(this);
     this.renderTemplateProps = this.renderTemplateProps.bind(this);
     this.renderTemplateRels = this.renderTemplateRels.bind(this);
+    this.addPropToTemplate = this.addPropToTemplate.bind(this);
     this.onPropChanged = this.onPropChanged.bind(this);
     this.updateEditing = this.updateEditing.bind(this);
     this.cancelEditing = this.cancelEditing.bind(this);
+    
 
     // TODO --DTM-- Remove?
     // // If nodeTemplate doesn't exist, query it from server
@@ -72,6 +74,23 @@ class NodeTemplate extends Component {
   deleteTemplate(templateId) {
     // Dispatch fetchDeleteTemplate to delete template by id
     this.props.dispatch(fetchDeleteTemplate(templateId));
+  }
+
+  addPropToTemplate(event) {
+    // Add property to template
+    let nextTemplate = Object.assign({}, this.props.template);
+    nextTemplate.properties.push({
+      "display_label": "New Prop",
+      "key": "new_prop",
+      "value_type": "string"
+    });
+
+    this.setState((prevState, props) => {
+      return { 
+        template: nextTemplate,
+        editing: true
+      };
+    });
   }
 
   onPropChanged(index, key, value) {
@@ -257,6 +276,11 @@ class NodeTemplate extends Component {
                   {this.renderTemplateProps(template.properties)}
                 </tbody>
               </Table>
+              <Button className={this.state.editing ? "template-add-prop-btn" : "hidden"}
+                bsStyle="primary" bsSize="small" onClick={() => this.addPropToTemplate()} >
+                <Glyphicon glyph="plus" />
+                Add Property
+              </Button>
 
               {/* Template Relationships Table */}
               <Table striped bordered hover className="template-table">
