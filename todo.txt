@@ -52,9 +52,9 @@ Repos
 [ ] Repo view
   [ ] Templates Panel (pop open)
     [ ] Editing Templates (inline) + React testing (REACT STATE ONLY)
-      [ ] Creating Properties (inline)
-      [ ] Reading Properties (inline)
-      [ ] Editing Properties (inline)
+      [x] Creating Properties (inline)
+      [x] Reading Properties (inline)
+      [x] Editing Properties (inline)
       [ ] Don't allow changing value_type after creation
       [ ] Deleting Properties (inline, modal confirmation)
       [ ] Creating Relationships (inline)

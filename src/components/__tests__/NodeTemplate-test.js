@@ -50,6 +50,7 @@ describe('NodeTemplate Component', () => {
       wrapper.find('.template-edit-btn.btn-default').simulate('click');
       wrapper.find('.template-add-prop-btn.btn-sm').simulate('click');
       expect(wrapper.state().template.properties['1']).toEqual({
+        "disabled": false,
         "id": 1,
         "key": "new_property",
         "value_type": "string"
@@ -60,14 +61,30 @@ describe('NodeTemplate Component', () => {
     it('Editing new template property key changes property key', () => {
       const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
       wrapper.find('.template-edit-btn.btn-default').simulate('click');
-      console.log(wrapper.find('.template-prop').at(2).find('input[type=\'text\']').at(0).debug());
       wrapper.find('.template-prop').at(2).find('input[type=\'text\']').at(0).simulate('change', {
         target: { value: 'new_prop' }
       });
       expect(wrapper.state().template.properties['1']).toEqual({
+        "disabled": false,
         "id": 1,
         "key": "new_prop",
         "value_type": "string"
+      });
+    });
+
+    // Editing new template value type changes value type
+    it('Editing new template value type changes value type', () => {
+      const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
+      wrapper.find('.template-edit-btn.btn-default').simulate('click');
+      console.log(wrapper.find('.template-prop').at(2).find('select').at(0).debug());
+      wrapper.find('.template-prop').at(2).find('select').at(0).simulate('change', {
+        target: { value: 'Integer' }
+      });
+      expect(wrapper.state().template.properties['1']).toEqual({
+        "disabled": false,
+        "id": 1,
+        "key": "new_property",
+        "value_type": "Integer"
       });
     });
 

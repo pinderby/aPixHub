@@ -83,7 +83,8 @@ class NodeTemplate extends Component {
     nextTemplate.properties.push({
       "id": properties.length,
       "key": "new_property",
-      "value_type": "string"
+      "value_type": "string",
+      "disabled": false
     });
 
     this.setState((prevState, props) => {
@@ -162,15 +163,16 @@ class NodeTemplate extends Component {
         console.log("prop: " + prop);
         // Set variables for property and property id
         let checked = true;
+        let disabled = (prop.hasOwnProperty('disabled')) ? prop.disabled : true;
 
         // Push components for each property
         propComps.push(
           <tr key={'div-'+index} className="template-prop">
-            <td><EditableInput index={index} propKey='key' value={prop['key']} disabled={false} 
-                  editing={state.editing} inputType={InputTypes.TEXT} 
+            <td><EditableInput index={index} propKey='key' value={prop['key']}
+                  disabled={false} editing={state.editing} inputType={InputTypes.TEXT} 
                   onChange={(index, key, value) => onPropChanged(index, key, value)} /></td>
-            <td><EditableInput index={index} propKey='value_type' value={prop['value_type']} disabled={true} 
-                  editing={state.editing} inputType={InputTypes.SELECT} 
+            <td><EditableInput index={index} propKey='value_type' value={prop['value_type']} 
+                  disabled={disabled} editing={state.editing} inputType={InputTypes.SELECT} 
                   onChange={(index, key, value) => onPropChanged(index, key, value)} /></td>
             <td>
               <Checkbox defaultChecked onChange={(e) => updateTemplateField(e, prop.key)} />
