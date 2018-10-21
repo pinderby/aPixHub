@@ -56,6 +56,21 @@ describe('NodeTemplate Component', () => {
       });
     });
 
+    // Editing new template property key changes property key
+    it('Editing new template property key changes property key', () => {
+      const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
+      wrapper.find('.template-edit-btn.btn-default').simulate('click');
+      console.log(wrapper.find('.template-prop').at(2).find('input[type=\'text\']').at(0).debug());
+      wrapper.find('.template-prop').at(2).find('input[type=\'text\']').at(0).simulate('change', {
+        target: { value: 'new_prop' }
+      });
+      expect(wrapper.state().template.properties['1']).toEqual({
+        "id": 1,
+        "key": "new_prop",
+        "value_type": "string"
+      });
+    });
+
   // Edits to template only affect state, not props
 
 
