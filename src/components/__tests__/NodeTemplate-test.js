@@ -44,6 +44,18 @@ describe('NodeTemplate Component', () => {
     expect(wrapper.find('.template-props input[type=\'text\']').length).toBeGreaterThanOrEqual(1);
   });
 
+    // Add template property to template when 'Add Property' button is clicked
+    it('Add template property to template when Add Property button is clicked', () => {
+      const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
+      wrapper.find('.template-edit-btn.btn-default').simulate('click');
+      wrapper.find('.template-add-prop-btn.btn-sm').simulate('click');
+      expect(wrapper.state().template.properties['1']).toEqual({
+        "id": 1,
+        "key": "new_property",
+        "value_type": "string"
+      });
+    });
+
   // Edits to template only affect state, not props
 
 
