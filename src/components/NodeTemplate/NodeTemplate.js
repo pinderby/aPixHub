@@ -76,12 +76,13 @@ class NodeTemplate extends Component {
     this.props.dispatch(fetchDeleteTemplate(templateId));
   }
 
-  addPropToTemplate(event) {
+  addPropToTemplate(properties) {
+    console.log("addPropToTemplate(): " + properties.length);
     // Add property to template
     let nextTemplate = Object.assign({}, this.props.template);
     nextTemplate.properties.push({
-      "display_label": "New Prop",
-      "key": "new_prop",
+      "id": properties.length,
+      "key": "new_property",
       "value_type": "string"
     });
 
@@ -137,8 +138,8 @@ class NodeTemplate extends Component {
     // If props is empty, return
     if (!props) return;
 
-    // If props is an array and has at least one key, render components
-    if (props.length >= 1 && Object.prototype.toString.call( props ) === '[object Array]' ) {
+    // If props is an array, render components
+    if (Array.isArray(props)) {
       // Add nid prop for all templates
       propComps.push(
         <tr key={'id'} className="template-prop">
@@ -154,15 +155,21 @@ class NodeTemplate extends Component {
       // Bind method for updating template field
       var updateTemplateField = this.updateTemplateField, 
           state = this.state, onPropChanged = this.onPropChanged;
-      props.forEach(function(prop, index) {
-        var propKey = prop.key;
+      
+      // Iterate through object keys
+      props.forEach((prop, index) => {
+        console.log("index: " + index);
+        console.log("prop: " + prop);
+        // Set variables for property and property id
         let checked = true;
+
+        // Push components for each property
         propComps.push(
-          <tr key={'div-'+prop['id']} className="template-prop">
-            <td><EditableInput propIndex={index} propKey='key' value={prop['key']} disabled={false} 
+          <tr key={'div-'+index} className="template-prop">
+            <td><EditableInput index={index} propKey='key' value={prop['key']} disabled={false} 
                   editing={state.editing} inputType={InputTypes.TEXT} 
                   onChange={(index, key, value) => onPropChanged(index, key, value)} /></td>
-            <td><EditableInput propIndex={index} propKey='value_type' value={prop['value_type']} disabled={true} 
+            <td><EditableInput index={index} propKey='value_type' value={prop['value_type']} disabled={true} 
                   editing={state.editing} inputType={InputTypes.SELECT} 
                   onChange={(index, key, value) => onPropChanged(index, key, value)} /></td>
             <td>
@@ -277,7 +284,7 @@ class NodeTemplate extends Component {
                 </tbody>
               </Table>
               <Button className={this.state.editing ? "template-add-prop-btn" : "hidden"}
-                bsStyle="primary" bsSize="small" onClick={() => this.addPropToTemplate()} >
+                bsStyle="primary" bsSize="small" onClick={() => this.addPropToTemplate(template.properties)} >
                 <Glyphicon glyph="plus" />
                 Add Property
               </Button>

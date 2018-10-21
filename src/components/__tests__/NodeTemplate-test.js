@@ -1,6 +1,5 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
-import reduxTdd from 'redux-tdd';
 import NodeTemplate from '../NodeTemplate/NodeTemplate';
 import test_data from '../../test_data.json';
 

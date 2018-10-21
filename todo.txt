@@ -65,8 +65,6 @@ Repos
     [ ] Reading Templates
     [ ] (Deleting Templates)
     [x] Changing templates
-    [ ] All changes in Redux (REDUX STORE)
-    [ ] Redux TDD
   [x] Nodes Panel
     [ ] Filtering/searching nodes by field
   [ ] Sidemenu

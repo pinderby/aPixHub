@@ -476,8 +476,8 @@ class Helpers {
     // Takes an array and returns an object with elements keyed by id
     // Requires each element to have 'id' key
     static arrayToObjectById(array) {
-      // Instantiate new object to replace array
-      let newObject = {};
+      // Instantiate new object with index to replace array
+      let newObject = { index: [] };
 
       // Check if array is of type Array
       if(!Array.isArray(array)) {
@@ -495,6 +495,9 @@ class Helpers {
 
         // Check to make sure array elements have 'id' key
         if(element.hasOwnProperty('id')) {
+          // Add each element's id to index
+          newObject.index.push(element.id);
+
           // Add each element to new object with key of it's own id
           newObject[element.id] = element;
         } else {
