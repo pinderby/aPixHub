@@ -96,15 +96,18 @@ describe('NodeTemplate Component', () => {
       const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
       wrapper.find('.template-edit-btn.btn-default').simulate('click');
       wrapper.find('.template-prop').at(2).find('input[type=\'text\']').at(0).simulate('change', {
-        target: { value: 'new_prop' }
+        target: { value: 'year' }
+      });
+      wrapper.find('.template-prop').at(2).find('select').at(0).simulate('change', {
+        target: { value: 'Integer' }
       });
       wrapper.find('.template-edit-btn.btn-default').simulate('click');
       expect(wrapper.state().template.properties['1']).toEqual({
         "disabled": false,
         "id": 1,
-        "key": "new_prop",
+        "key": "year",
         "new_prop": true,
-        "value_type": "string"
+        "value_type": "Integer"
       });
     });
 
