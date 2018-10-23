@@ -55,7 +55,7 @@ Repos
       [x] Creating Properties (inline)
       [x] Reading Properties (inline)
       [x] Editing Properties (inline)
-      [ ] Don't allow changing value_type after creation
+      [x] Don't allow changing value_type after creation
       [ ] Deleting Properties (inline, modal confirmation)
       [ ] Creating Relationships (inline)
       [ ] Reading Relationships (inline)

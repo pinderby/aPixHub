@@ -53,6 +53,7 @@ describe('NodeTemplate Component', () => {
         "disabled": false,
         "id": 1,
         "key": "new_property",
+        "new_prop": true,
         "value_type": "string"
       });
     });
@@ -68,6 +69,7 @@ describe('NodeTemplate Component', () => {
         "disabled": false,
         "id": 1,
         "key": "new_prop",
+        "new_prop": true,
         "value_type": "string"
       });
     });
@@ -84,7 +86,25 @@ describe('NodeTemplate Component', () => {
         "disabled": false,
         "id": 1,
         "key": "new_property",
+        "new_prop": true,
         "value_type": "Integer"
+      });
+    });
+
+    // Editing new template property key is persisted when editing stops
+    it('Editing new template property key is persisted when editing stops', () => {
+      const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
+      wrapper.find('.template-edit-btn.btn-default').simulate('click');
+      wrapper.find('.template-prop').at(2).find('input[type=\'text\']').at(0).simulate('change', {
+        target: { value: 'new_prop' }
+      });
+      wrapper.find('.template-edit-btn.btn-default').simulate('click');
+      expect(wrapper.state().template.properties['1']).toEqual({
+        "disabled": false,
+        "id": 1,
+        "key": "new_prop",
+        "new_prop": true,
+        "value_type": "string"
       });
     });
 

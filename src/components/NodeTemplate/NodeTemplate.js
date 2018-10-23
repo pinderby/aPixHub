@@ -84,7 +84,8 @@ class NodeTemplate extends Component {
       "id": properties.length,
       "key": "new_property",
       "value_type": "string",
-      "disabled": false
+      "disabled": false,
+      "new_prop": true
     });
 
     this.setState((prevState, props) => {
@@ -98,7 +99,7 @@ class NodeTemplate extends Component {
   onPropChanged(index, key, value) {
     // Update new value to state
     console.log('this.state.template: ', this.state.template); // TODO --DM-- Remove
-    console.log('key, value ', key, value); // TODO --DM-- Remove
+    console.log('index, key, value ', index, key, value); // TODO --DM-- Remove
 
     // Assign new property value
     var template = JSON.parse(JSON.stringify(this.state.template));
@@ -125,7 +126,6 @@ class NodeTemplate extends Component {
     // Update editing state and revert back to props
     this.setState((prevState, props) => {
       return { 
-        template: this.props.template,
         editing: false
       };
     });
@@ -249,7 +249,7 @@ class NodeTemplate extends Component {
     let templatePanel = "";
     if (this.props.template) {
       // Initialize template and display label
-      let template = this.props.template, 
+      let template = this.state.template, 
       displayLabel = Helpers.capitalizeFirstLetter(template['label']);
 
       templatePanel =
