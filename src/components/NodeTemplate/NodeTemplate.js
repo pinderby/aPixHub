@@ -18,6 +18,7 @@ class NodeTemplate extends Component {
     this.renderTemplateProps = this.renderTemplateProps.bind(this);
     this.renderTemplateRels = this.renderTemplateRels.bind(this);
     this.addPropToTemplate = this.addPropToTemplate.bind(this);
+    this.removePropFromTemplate = this.removePropFromTemplate.bind(this);
     this.onPropChanged = this.onPropChanged.bind(this);
     this.updateEditing = this.updateEditing.bind(this);
     this.cancelEditing = this.cancelEditing.bind(this);
@@ -77,7 +78,7 @@ class NodeTemplate extends Component {
   }
 
   addPropToTemplate(properties) {
-    console.log("addPropToTemplate(): " + properties.length);
+    console.log("addPropToTemplate(): " + properties.length); // TODO --DTM-- Remove
     // Add property to template
     let nextTemplate = Object.assign({}, this.props.template);
     nextTemplate.properties.push({
@@ -87,6 +88,24 @@ class NodeTemplate extends Component {
       "disabled": false,
       "new_prop": true
     });
+
+    this.setState((prevState, props) => {
+      return { 
+        template: nextTemplate,
+        editing: true
+      };
+    });
+  }
+
+  removePropFromTemplate(prop, index, showModal) {
+    console.log("removePropFromTemplate(): " + prop, index, showModal); // TODO --DTM-- Remove
+    
+    // Show modal if confirmation needed
+    if (showModal) { this.showRemovePropModal(); }
+    
+    // Remove property from template
+    let nextTemplate = Object.assign({}, this.props.template);
+    nextTemplate.properties.splice(index, 1);
 
     this.setState((prevState, props) => {
       return { 
@@ -131,6 +150,10 @@ class NodeTemplate extends Component {
     });
   }
 
+  showRemovePropModal() {
+    // TODO --DTM--
+  }
+
   // Render template properties
   renderTemplateProps(props) {
     var propComps = [];
@@ -162,15 +185,22 @@ class NodeTemplate extends Component {
         console.log("index: " + index);
         console.log("prop: " + prop);
         // Set variables for property and property id
-        let checked = true;
+        let new_prop = (prop.hasOwnProperty('new_prop') && prop.new_prop === true);
         let disabled = (prop.hasOwnProperty('disabled')) ? prop.disabled : true;
 
         // Push components for each property
         propComps.push(
           <tr key={'div-'+index} className="template-prop">
-            <td><EditableInput index={index} propKey='key' value={prop['key']}
+            <td>
+              <Button className={(this.state.editing && new_prop) ? "template-remove-prop-btn" : "hidden"}
+                      bsStyle="danger" bsSize="small" aria-label="Left Align"
+                      onClick={() => this.removePropFromTemplate(prop, index, !new_prop)}>
+                <Glyphicon glyph="remove" />
+              </Button>
+              <EditableInput index={index} propKey='key' value={prop['key']}
                   disabled={false} editing={state.editing} inputType={InputTypes.TEXT} 
-                  onChange={(index, key, value) => onPropChanged(index, key, value)} /></td>
+                  onChange={(index, key, value) => onPropChanged(index, key, value)} />
+            </td>
             <td><EditableInput index={index} propKey='value_type' value={prop['value_type']} 
                   disabled={disabled} editing={state.editing} inputType={InputTypes.SELECT} 
                   onChange={(index, key, value) => onPropChanged(index, key, value)} /></td>

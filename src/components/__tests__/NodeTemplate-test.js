@@ -78,7 +78,6 @@ describe('NodeTemplate Component', () => {
     it('Editing new template value type changes value type', () => {
       const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
       wrapper.find('.template-edit-btn.btn-default').simulate('click');
-      console.log(wrapper.find('.template-prop').at(2).find('select').at(0).debug());
       wrapper.find('.template-prop').at(2).find('select').at(0).simulate('change', {
         target: { value: 'Integer' }
       });
@@ -111,7 +110,17 @@ describe('NodeTemplate Component', () => {
       });
     });
 
-  // Edits to template only affect state, not props
+    // Deleting new template property key removes property
+    it('Deleting new template property key removes property', () => {
+      const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
+      wrapper.find('.template-edit-btn.btn-default').simulate('click');
+      wrapper.find('.template-prop').at(2).find('.template-remove-prop-btn.btn-sm').at(0).simulate('click');
+      expect(wrapper.state().template.properties.length).toEqual(1);
+    });
+
+    // Deleting existing template property key displays modal
+
+    // Deleting existing template property key removes property after confirmation
 
 
 });

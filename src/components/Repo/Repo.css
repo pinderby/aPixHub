@@ -100,6 +100,10 @@
   margin-right: 7px;
 }
 
+.template-remove-prop-btn {
+  padding: 0px 3px !important;
+}
+
 .template-rel .rel-title {
   margin-right: 5px;
 }
