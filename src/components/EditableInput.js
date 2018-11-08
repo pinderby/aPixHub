@@ -85,6 +85,15 @@ class EditableInput extends Component {
 
     return options;
   }
+
+  componentDidUpdate(prevProps) {
+    // Reset value if props have changed
+    if (this.props.value !== prevProps.value) {
+      this.setState({
+        value: this.props.value
+      });
+    }
+  }
   
   render() {
     console.log('this.state', this.state); // TODO --DM-- Remove
