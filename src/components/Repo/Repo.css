@@ -32,6 +32,10 @@
   margin-right: 0;
 }
 
+.template-panel-dropdown {
+  margin-top: 0px !important;
+}
+
 .panel-title {
   text-align: left;
 }

@@ -309,7 +309,13 @@ class Repo extends Component {
           <div className="panel-heading">
             <div className="row">
               <div className="template-col col-md-6">
-                <h3>Templates</h3>
+                <h3>
+                  <DropdownButton title={"Templates"} key="1" className="template-panel-dropdown"
+                        bsSize="large" id={`dropdown-basic-2`} >
+                    <MenuItem eventKey="1">Relationships</MenuItem>
+                    <MenuItem eventKey="2">Interfaces</MenuItem>
+                  </DropdownButton>
+                </h3>
                 <Button bsStyle="primary" onClick={() => this.addTemplate()}>
                   <Glyphicon glyph="plus" />
                 </Button>

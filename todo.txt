@@ -61,21 +61,30 @@ Repos
       [x] Creating Relationship Properties (inline)
       [x] Reading Relationship Properties (inline)
       [x] Editing Relationship Properties (inline)
-      [ ] Deleting Relationship Properties (inline, modal confirmation)
+      [x] Deleting Relationship Properties (inline, modal confirmation)
     [ ] Creating Templates (inline)
     [ ] Reading Templates
     [ ] (Deleting Templates)
     [x] Changing templates
-    [ ] Creating Relationships (inline)
-    [ ] Reading Relationships (inline)
-    [ ] Editing Relationships (inline)
-    [ ] Deleting Relationships (inline, modal confirmation)
   [x] Nodes Panel
     [ ] Filtering/searching nodes by field
   [ ] Sidemenu
     [ ] Creating Nodes   
     [ ] Editing Nodes
-    [ ] Delete nodes
+    [ ] Delete Nodes
+  [ ] Relationships & Interfaces
+    [ ] Repo.js switching between Templates, Relationships, and Interfaces
+    [ ] Components for Relationships & Interfaces
+    [ ] Tooltip for editing relationships from template
+    [ ] Creating Relationships (inline)
+    [ ] Reading Relationships (inline)
+    [ ] Editing Relationships (inline)
+    [ ] Deleting Relationships (inline, modal confirmation)
+    [ ] Creating Interfaces (inline)
+    [ ] Reading Interfaces (inline)
+    [ ] Editing Interfaces (inline)
+    [ ] Deleting Interfaces (inline, modal confirmation)
+    [ ] Implementing interfaces for templates (relationships?)
   [x] Add checkbox to show fields on template
   [ ] Add modal(?) to view whole node (add max-height and overflow to nodes panel)
   [ ] Write tests for templates
