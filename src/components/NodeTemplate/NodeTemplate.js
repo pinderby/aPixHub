@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Helpers from '../../helpers.js';
+import clonedeep from 'lodash.clonedeep';
 import { Link } from 'react-router-dom';
 import { Table, Collapse, Checkbox, Button, Glyphicon, Modal } from 'react-bootstrap';
 // import './NodeTemplate.css'
@@ -18,9 +19,11 @@ class NodeTemplate extends Component {
     this.renderTemplateProps = this.renderTemplateProps.bind(this);
     this.renderTemplateRels = this.renderTemplateRels.bind(this);
     this.addPropToTemplate = this.addPropToTemplate.bind(this);
+    this.addPropToRel = this.addPropToRel.bind(this);
     this.removePropFromTemplate = this.removePropFromTemplate.bind(this);
     this.closeRemovePropModal = this.closeRemovePropModal.bind(this);
     this.onPropChanged = this.onPropChanged.bind(this);
+    this.onRelPropChanged = this.onRelPropChanged.bind(this);
     this.updateEditing = this.updateEditing.bind(this);
     this.cancelEditing = this.cancelEditing.bind(this);
     
@@ -82,17 +85,19 @@ class NodeTemplate extends Component {
 
   addPropToTemplate(properties) {
     console.log("addPropToTemplate(): " + properties.length); // TODO --DTM-- Remove
-    // Add property to template
-    let nextTemplate = Object.assign({}, this.props.template);
-    nextTemplate.properties.push({
-      "id": properties.length,
-      "key": "new_property",
-      "value_type": "string",
-      "disabled": false,
-      "new_prop": true
-    });
 
+    // Update component state
     this.setState((prevState, props) => {
+      // Add property to template
+      let nextTemplate = {...prevState.template};
+      nextTemplate.properties.push({
+        "id": properties.length,
+        "key": "new_property",
+        "value_type": "string",
+        "disabled": false,
+        "new_prop": true
+      });
+
       return { 
         template: nextTemplate,
         editing: true
@@ -110,11 +115,12 @@ class NodeTemplate extends Component {
         propToRemove: Object.assign(prop, {index: index})
       });
     } else {
-      // If modal is not needed, remove property from template
-      let nextTemplate = Object.assign({}, this.props.template);
-      nextTemplate.properties.splice(index, 1);
-
+      // Update component state
       this.setState((prevState, props) => {
+        // If modal is not needed, remove property from template
+        let nextTemplate = {...prevState.template};
+        nextTemplate.properties.splice(index, 1);
+
         return { 
           template: nextTemplate,
           editing: true,
@@ -124,17 +130,61 @@ class NodeTemplate extends Component {
     }
   }
 
+  addPropToRel(isIn, relIndex, relProperties) {
+    console.log("addPropToRel(): ", isIn, relIndex, relProperties); // TODO --DTM-- Remove
+
+    // Update component state
+    this.setState((prevState, props) => {
+      // Instantiate and update nextTemplate object
+      let nextTemplate = clonedeep(prevState.template);
+
+      // Add property to relationship
+      nextTemplate[Helpers.getRelDirKey(isIn)][relIndex]['properties'].push({
+        "id": relProperties.length,
+        "key": "new_property",
+        "value_type": "string",
+        "disabled": false,
+        "new_prop": true
+      });
+      
+      return { 
+        template: nextTemplate,
+        editing: true
+      };
+    });
+  }
+
   onPropChanged(index, key, value) {
     // Update new value to state
     console.log('this.state.template: ', this.state.template); // TODO --DM-- Remove
     console.log('index, key, value ', index, key, value); // TODO --DM-- Remove
-
-    // Assign new property value
-    var template = JSON.parse(JSON.stringify(this.state.template));
-    template.properties[index][key] = value;
     
     // Update state with updated template
-    this.setState({ template: template });
+    this.setState((prevState, props) => {
+      // Assign new property value
+      let nextTemplate = {...prevState.template};
+      nextTemplate.properties[index][key] = value;
+      
+      return { 
+        template: nextTemplate,
+      };
+    });
+  }
+
+  onRelPropChanged(isIn, relIndex, propIndex, key, value) {
+    // Update new value to state
+    console.log('isIn, relIndex, propIndex, key, value: ', isIn, relIndex, propIndex, key, value); // TODO --DM-- Remove
+
+    // Update state with updated template
+    this.setState((prevState, props) => {
+      // Assign new property value
+      let nextTemplate = clonedeep(prevState.template);
+      nextTemplate[Helpers.getRelDirKey(isIn)][relIndex]['properties'][propIndex][key] = value;
+      
+      return { 
+        template: nextTemplate
+      };
+    });
   }
 
   updateEditing() {
@@ -188,7 +238,7 @@ class NodeTemplate extends Component {
       );
       
       // Push row for all other properties
-      // Bind method for updating template field
+      // Bind variables for updating template properties
       var updateTemplateField = this.updateTemplateField, 
           state = this.state, onPropChanged = this.onPropChanged;
       
@@ -208,7 +258,8 @@ class NodeTemplate extends Component {
                   disabled={false} editing={state.editing} inputType={InputTypes.TEXT} 
                   onChange={(index, key, value) => onPropChanged(index, key, value)} />
             </td>
-            <td><EditableInput index={index} propKey='value_type' value={prop['value_type']} 
+            <td>
+              <EditableInput index={index} propKey='value_type' value={prop['value_type']} 
                   disabled={disabled} editing={state.editing} inputType={InputTypes.SELECT} 
                   onChange={(index, key, value) => onPropChanged(index, key, value)} /></td>
             <td>
@@ -233,6 +284,11 @@ class NodeTemplate extends Component {
     renderTemplateRels(rels, isIn) {
       // console.log('rels: ', rels); // TODO --DM-- Remove
       var relComps = [];
+
+      // Bind variables for updating template field
+      var state = this.state, 
+          addPropToRel = this.addPropToRel, 
+          onRelPropChanged = this.onRelPropChanged;
       
       // If rels is empty, return
       if (!rels) return;
@@ -249,7 +305,7 @@ class NodeTemplate extends Component {
         // );
         
         // Push rows for relationship
-        rels.forEach(function(rel) {
+        rels.forEach(function(rel, relIndex) {
           // console.log('rel: ', rel); // TODO --DM-- Remove
           // Combine all template props
           let propComps = [];
@@ -257,11 +313,23 @@ class NodeTemplate extends Component {
           // If props is an array and has at least one key, render components
           if (rel.properties.length >= 1 && Object.prototype.toString.call( rel.properties ) === '[object Array]' ) {
             // Push row for all properties
-            rel.properties.forEach(function(prop) {
+            rel.properties.forEach(function(prop, propIndex) {
+              // Set variables for property and property id
+              let new_prop = (prop.hasOwnProperty('new_prop') && prop.new_prop === true);
+              let disabled = (prop.hasOwnProperty('disabled')) ? prop.disabled : true;
+
               propComps.push(
                 <tr key={'div-'+prop['id']} className="template-prop">
-                  <td>{prop['key']}</td>
-                  <td>{prop['value_type']}</td>
+                  <td>
+                    <EditableInput index={propIndex} propKey='key' value={prop['key']}
+                        disabled={false} editing={state.editing} inputType={InputTypes.TEXT} 
+                        onChange={(propIndex, key, value) => onRelPropChanged(isIn, relIndex, propIndex, key, value)} />
+                  </td>
+                  <td>
+                    <EditableInput index={propIndex} propKey='value_type' value={prop['value_type']} 
+                        disabled={disabled} editing={state.editing} inputType={InputTypes.SELECT} 
+                        onChange={(propIndex, key, value) => onRelPropChanged(isIn, relIndex, propIndex, key, value)} />
+                  </td>
                 </tr>
               );
             });
@@ -275,6 +343,11 @@ class NodeTemplate extends Component {
                 {(isIn) ? "From: " : "To: " }
                 {/* TODO --DTM-- Implement with real id reference */}
                 <a>{(isIn) ? rel["from_node_id"] : rel["to_node_id"] }</a>
+                <Button className={state.editing ? "rel-add-prop-btn" : "hidden"}
+                        bsStyle="primary" bsSize="small" onClick={() => addPropToRel(isIn, relIndex, rel.properties)} >
+                  <Glyphicon glyph="plus" />
+                  Add Property
+                </Button>
               </th>
             </tr>
           );

@@ -511,6 +511,11 @@ class Helpers {
       return newObject;
     }
 
+    // Get property key for relationship direction based on direction boolean
+    static getRelDirKey(isIn) {
+      return (isIn ? "in_relationships" : "out_relationships");
+    }
+
 }
 
 export default Helpers;

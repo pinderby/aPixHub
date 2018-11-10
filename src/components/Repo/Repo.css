@@ -108,6 +108,14 @@
   margin-right: 5px;
 }
 
+.rel-add-prop-btn {
+  margin-top: 0px !important;
+}
+
+.rel-add-prop-btn .glyphicon-plus {
+  margin-right: 5px;
+}
+
 .apix-node-populator .btn-info {
   margin: 5px;
 }
