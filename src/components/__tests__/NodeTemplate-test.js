@@ -45,7 +45,7 @@ describe('NodeTemplate Component', () => {
     const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
     wrapper.find('.template-edit-btn.btn-default').simulate('click');
     expect(wrapper.state('editing')).toBe(true);
-    expect(wrapper.find('.template-props EditableInput[editing=true]').length).toBeGreaterThanOrEqual(1);
+    expect(wrapper.find('.template-props EditableInput[editing=true] input').length).toBeGreaterThanOrEqual(1);
   });
 
   // Add template property to template when 'Add Property' button is clicked
@@ -148,74 +148,77 @@ describe('NodeTemplate Component', () => {
     const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
     wrapper.find('.template-edit-btn.btn-default').simulate('click');
     expect(wrapper.state('editing')).toBe(true);
-    expect(wrapper.find('.template-rels .template-prop EditableInput[editing=true]').length).toBeGreaterThanOrEqual(1);
+    expect(wrapper.find('.template-rels .template-prop EditableInput[editing=true] input').length).toBeGreaterThanOrEqual(1);
   });
 
   // Add relationship property to relationship when 'Add Property' button is clicked
-  // it('Add relationship property to relationship when Add Property button is clicked', () => {
-  //   const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
-  //   wrapper.find('.template-edit-btn.btn-default').simulate('click');
-  //   wrapper.find('.template-add-prop-btn.btn-sm').simulate('click');
-  //   expect(wrapper.state().template.properties['1']).toEqual({
-  //     "disabled": false,
-  //     "id": 1,
-  //     "key": "new_property",
-  //     "new_prop": true,
-  //     "value_type": "string"
-  //   });
-  // });
+  it('Add relationship property to relationship when Add Property button is clicked', () => {
+    const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
+    wrapper.find('.template-edit-btn.btn-default').simulate('click');
+    wrapper.find('.rel-add-prop-btn.btn-sm').at(0).simulate('click');
+    expect(wrapper.state().template.in_relationships['0'].properties['1']).toEqual({
+      "disabled": false,
+      "id": 1,
+      "key": "new_property",
+      "new_prop": true,
+      "value_type": "string"
+    });
+  });
 
   // Editing new relationship property key changes property key
-  // it('Editing new relationship property key changes property key', () => {
-  //   const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
-  //   wrapper.find('.template-edit-btn.btn-default').simulate('click');
-  //   wrapper.find('.template-prop').at(2).find('input[type=\'text\']').at(0).simulate('change', {
-  //     target: { value: 'new_prop' }
-  //   });
-  //   expect(wrapper.state().template.properties['1']).toEqual({
-  //     "disabled": false,
-  //     "id": 1,
-  //     "key": "new_prop",
-  //     "new_prop": true,
-  //     "value_type": "string"
-  //   });
-  // });
+  it('Editing new relationship property key changes property key', () => {
+    const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
+    wrapper.find('.template-edit-btn.btn-default').simulate('click');
+    wrapper.find('.rel-add-prop-btn.btn-sm').at(0).simulate('click');
+    wrapper.find('.template-rels > .template-prop').at(1).find('input[type=\'text\']').at(0).simulate('change', {
+      target: { value: 'new_prop' }
+    });
+    expect(wrapper.state().template.in_relationships['0'].properties['1']).toEqual({
+      "disabled": false,
+      "id": 1,
+      "key": "new_prop",
+      "new_prop": true,
+      "value_type": "string"
+    });
+  });
 
   // Editing new relationship value type changes value type
-  // it('Editing new relationship value type changes value type', () => {
-  //   const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
-  //   wrapper.find('.template-edit-btn.btn-default').simulate('click');
-  //   wrapper.find('.template-prop').at(2).find('select').at(0).simulate('change', {
-  //     target: { value: 'Integer' }
-  //   });
-  //   expect(wrapper.state().template.properties['1']).toEqual({
-  //     "disabled": false,
-  //     "id": 1,
-  //     "key": "new_property",
-  //     "new_prop": true,
-  //     "value_type": "Integer"
-  //   });
-  // });
+  it('Editing new relationship value type changes value type', () => {
+    const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
+    wrapper.find('.template-edit-btn.btn-default').simulate('click');
+    wrapper.find('.rel-add-prop-btn.btn-sm').at(0).simulate('click');
+    wrapper.find('.template-rels > .template-prop').at(1).find('select').at(0).simulate('change', {
+      target: { value: 'Integer' }
+    });
+    expect(wrapper.state().template.in_relationships['0'].properties['1']).toEqual({
+      "disabled": false,
+      "id": 1,
+      "key": "new_property",
+      "new_prop": true,
+      "value_type": "Integer"
+    });
+  });
 
   // Editing new relationship property key is persisted when editing stops
-  // it('Editing new relationship property key is persisted when editing stops', () => {
-  //   const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
-  //   wrapper.find('.template-edit-btn.btn-default').simulate('click');
-  //   wrapper.find('.template-prop').at(2).find('input[type=\'text\']').at(0).simulate('change', {
-  //     target: { value: 'year' }
-  //   });
-  //   wrapper.find('.template-prop').at(2).find('select').at(0).simulate('change', {
-  //     target: { value: 'Integer' }
-  //   });
-  //   wrapper.find('.template-edit-btn.btn-default').simulate('click');
-  //   expect(wrapper.state().template.properties['1']).toEqual({
-  //     "disabled": false,
-  //     "id": 1,
-  //     "key": "year",
-  //     "new_prop": true,
-  //     "value_type": "Integer"
-  //   });
-  // });
+  it('Editing new relationship property key is persisted when editing stops', () => {
+    const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
+    wrapper.find('.template-edit-btn.btn-default').simulate('click');
+    wrapper.find('.rel-add-prop-btn.btn-sm').at(0).simulate('click');
+    wrapper.find('.template-rels > .template-prop').at(1).find('input[type=\'text\']').at(0).simulate('change', {
+      target: { value: 'year' }
+    });
+    wrapper.find('.template-rels > .template-prop').at(1).find('select').at(0).simulate('change', {
+      target: { value: 'Integer' }
+    });
+    wrapper.find('.template-edit-btn.btn-default').simulate('click');
+    expect(wrapper.state().template.in_relationships['0'].properties['1']).toEqual({
+      "disabled": false,
+      "id": 1,
+      "key": "year",
+      "new_prop": true,
+      "value_type": "Integer"
+    });
+  });
 
   // Deleting new relationship property key removes property
   // it('Deleting new relationship property key removes property', () => {
