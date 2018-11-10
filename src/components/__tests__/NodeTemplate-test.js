@@ -45,7 +45,7 @@ describe('NodeTemplate Component', () => {
     const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
     wrapper.find('.template-edit-btn.btn-default').simulate('click');
     expect(wrapper.state('editing')).toBe(true);
-    expect(wrapper.find('.template-props input[type=\'text\']').length).toBeGreaterThanOrEqual(1);
+    expect(wrapper.find('.template-props EditableInput[editing=true]').length).toBeGreaterThanOrEqual(1);
   });
 
   // Add template property to template when 'Add Property' button is clicked
@@ -88,7 +88,7 @@ describe('NodeTemplate Component', () => {
     expect(wrapper.state().template.properties['1']).toEqual({
       "disabled": false,
       "id": 1,
-      "key": "new_property",
+      "key": "new_prop",
       "new_prop": true,
       "value_type": "Integer"
     });
@@ -144,12 +144,12 @@ describe('NodeTemplate Component', () => {
   ///////////////////////////////
 
   // Changes relationship property keys to inputs when edit button is clicked
-  // it('Changes relationship property keys to inputs when edit button is clicked', () => {
-  //   const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
-  //   wrapper.find('.template-edit-btn.btn-default').simulate('click');
-  //   expect(wrapper.state('editing')).toBe(true);
-  //   expect(wrapper.find('.template-props input[type=\'text\']').length).toBeGreaterThanOrEqual(1);
-  // });
+  it('Changes relationship property keys to inputs when edit button is clicked', () => {
+    const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
+    wrapper.find('.template-edit-btn.btn-default').simulate('click');
+    expect(wrapper.state('editing')).toBe(true);
+    expect(wrapper.find('.template-rels .template-prop EditableInput[editing=true]').length).toBeGreaterThanOrEqual(1);
+  });
 
   // Add relationship property to relationship when 'Add Property' button is clicked
   // it('Add relationship property to relationship when Add Property button is clicked', () => {
