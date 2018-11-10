@@ -381,7 +381,7 @@ class NodeTemplate extends Component {
               </Modal.Body>
               <Modal.Footer>
                 <Button onClick={this.closeRemovePropModal}>Close</Button>
-                <Button bsStyle="danger" 
+                <Button className="template-remove-prop-btn" bsStyle="danger"
                     onClick={() => this.removePropFromTemplate(
                         this.state.propToRemove, 
                         this.state.propToRemove.index,

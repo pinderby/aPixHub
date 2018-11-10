@@ -119,8 +119,21 @@ describe('NodeTemplate Component', () => {
     });
 
     // Deleting existing template property key displays modal
+    it('Deleting existing template property key displays modal', () => {
+      const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
+      wrapper.find('.template-edit-btn.btn-default').simulate('click');
+      wrapper.find('.template-prop').at(1).find('.template-remove-prop-btn.btn-sm').at(0).simulate('click');
+      expect(wrapper.find('div[role="dialog"]').length).toBeGreaterThanOrEqual(1);
+    });
 
     // Deleting existing template property key removes property after confirmation
+    it('Deleting existing template property key removes property after confirmation', () => {
+      const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
+      wrapper.find('.template-edit-btn.btn-default').simulate('click');
+      wrapper.find('.template-prop').at(1).find('.template-remove-prop-btn.btn-sm').at(0).simulate('click');
+      wrapper.find('div[role="dialog"]').find('.template-remove-prop-btn').at(0).simulate('click');
+      expect(wrapper.state().template.properties.length).toEqual(0);
+    });
 
 
 });
