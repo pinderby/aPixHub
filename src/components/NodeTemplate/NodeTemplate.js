@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Helpers from '../../helpers.js';
 import clonedeep from 'lodash.clonedeep';
+import _ from 'lodash';
 import { Link } from 'react-router-dom';
 import { Table, Collapse, Checkbox, Button, Glyphicon, Modal } from 'react-bootstrap';
 // import './NodeTemplate.css'
@@ -21,6 +22,7 @@ class NodeTemplate extends Component {
     this.addPropToTemplate = this.addPropToTemplate.bind(this);
     this.addPropToRel = this.addPropToRel.bind(this);
     this.removePropFromTemplate = this.removePropFromTemplate.bind(this);
+    this.removePropFromRel = this.removePropFromRel.bind(this);
     this.closeRemovePropModal = this.closeRemovePropModal.bind(this);
     this.onPropChanged = this.onPropChanged.bind(this);
     this.onRelPropChanged = this.onRelPropChanged.bind(this);
@@ -112,7 +114,12 @@ class NodeTemplate extends Component {
     if (showModal) { 
       this.setState({ 
         showRemovePropModal: true,
-        propToRemove: Object.assign(prop, {index: index})
+        propToRemove: Object.assign(prop, {
+          index: {
+            isIn: true,
+            relIndex: -1,
+            propIndex: index
+          }})
       });
     } else {
       // Update component state
@@ -124,7 +131,8 @@ class NodeTemplate extends Component {
         return { 
           template: nextTemplate,
           editing: true,
-          showRemovePropModal: false
+          showRemovePropModal: false,
+          propToRemove: {}
         };
       });
     }
@@ -152,6 +160,37 @@ class NodeTemplate extends Component {
         editing: true
       };
     });
+  }
+
+  removePropFromRel(isIn, relIndex, prop, propIndex, showModal) {
+    console.log("removePropFromTemplate(): " + isIn, relIndex, prop, propIndex, showModal); // TODO --DTM-- Remove
+    
+    // Show modal if confirmation needed
+    if (showModal) { 
+      this.setState({ 
+        showRemovePropModal: true,
+        propToRemove: Object.assign(prop, {
+          index: {
+            isIn: isIn,
+            relIndex: relIndex,
+            propIndex: propIndex
+          }})
+      });
+    } else {
+      // Update component state
+      this.setState((prevState, props) => {
+        // If modal is not needed, remove property from template
+        let nextTemplate = clonedeep(prevState.template);
+        nextTemplate[Helpers.getRelDirKey(isIn)][relIndex]['properties'].splice(propIndex, 1);
+
+        return { 
+          template: nextTemplate,
+          editing: true,
+          showRemovePropModal: false,
+          propToRemove: {}
+        };
+      });
+    }
   }
 
   onPropChanged(index, key, value) {
@@ -288,7 +327,8 @@ class NodeTemplate extends Component {
       // Bind variables for updating template field
       var state = this.state, 
           addPropToRel = this.addPropToRel, 
-          onRelPropChanged = this.onRelPropChanged;
+          onRelPropChanged = this.onRelPropChanged,
+          removePropFromRel = this.removePropFromRel;
       
       // If rels is empty, return
       if (!rels) return;
@@ -330,6 +370,13 @@ class NodeTemplate extends Component {
                         disabled={disabled} editing={state.editing} inputType={InputTypes.SELECT} 
                         onChange={(propIndex, key, value) => onRelPropChanged(isIn, relIndex, propIndex, key, value)} />
                   </td>
+                  <td className={state.editing ? "rel-remove-prop-td" : "hidden"}>
+                    <Button className="rel-remove-prop-btn"
+                            bsStyle="danger" bsSize="small" aria-label="Left Align"
+                            onClick={() => removePropFromRel(isIn, relIndex, prop, propIndex, !new_prop)}>
+                      <Glyphicon glyph="remove" />
+                    </Button>
+                  </td>
                 </tr>
               );
             });
@@ -349,6 +396,7 @@ class NodeTemplate extends Component {
                   Add Property
                 </Button>
               </th>
+              <th className={state.editing ? "" : "hidden"}></th>
             </tr>
           );
           relComps.push(propComps);
@@ -413,11 +461,12 @@ class NodeTemplate extends Component {
               <Table striped bordered hover className="template-table">
                 <thead>
                   <tr className="template-table-header">
-                    <th colSpan="2">Template Relationships</th>
+                  <th colSpan={this.state.editing ? "3" : "2"}>Template Relationships</th>
                   </tr>
                   <tr>
                     <th>Key</th>
                     <th>Value Type</th>
+                    <th className={this.state.editing ? "" : "hidden"}></th>
                   </tr>
                 </thead>
                 <tbody className="template-rels">
@@ -436,6 +485,57 @@ class NodeTemplate extends Component {
       console.log('Template:', template); // TODO --DTM-- Remove
     }
 
+    let removePropModal = "";
+    if (!_.isEmpty(this.state.propToRemove)) {
+      if (this.state.propToRemove.index.relIndex === -1) {
+        removePropModal = 
+          <Modal show={this.state.showRemovePropModal} onHide={this.handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Delete Template Property?</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              Are you sure you want to delete this template property? This will
+              permanently delete all data associated with this property from all nodes.
+              This action cannot be undone.
+            </Modal.Body>
+            <Modal.Footer>
+              <Button onClick={this.closeRemovePropModal}>Close</Button>
+              <Button className="template-remove-prop-btn" bsStyle="danger"
+                  onClick={() => this.removePropFromTemplate(
+                      this.state.propToRemove, 
+                      this.state.propToRemove.index.propIndex,
+                      false)}>
+                  Delete Property
+              </Button>
+            </Modal.Footer>
+          </Modal>
+      } else {
+        removePropModal = 
+          <Modal show={this.state.showRemovePropModal} onHide={this.handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Delete Relationship Property?</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              Are you sure you want to delete this relationship property? This will
+              permanently delete all data associated with this property from all nodes.
+              This action cannot be undone.
+            </Modal.Body>
+            <Modal.Footer>
+              <Button onClick={this.closeRemovePropModal}>Close</Button>
+              <Button className="rel-remove-prop-btn" bsStyle="danger"
+                  onClick={() => this.removePropFromRel(
+                      this.state.propToRemove.index.isIn, 
+                      this.state.propToRemove.index.relIndex, 
+                      this.state.propToRemove, 
+                      this.state.propToRemove.index.propIndex,
+                      false)}>
+                  Delete Property
+              </Button>
+            </Modal.Footer>
+          </Modal>
+      }
+    }
+
     return (
       <Collapse in={this.props.open}>
         <div className="template-container">
@@ -443,26 +543,7 @@ class NodeTemplate extends Component {
           {/* <LoadingOverlay show={this.props.nodeTemplate.isFetching} /> */} 
           {templatePanel}
           <div>
-            <Modal show={this.state.showRemovePropModal} onHide={this.handleClose}>
-              <Modal.Header closeButton>
-                <Modal.Title>Delete Template Property?</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                Are you sure you want to delete this template property? This will
-                permanently delete all data associated with this property from all nodes.
-                This action cannot be undone.
-              </Modal.Body>
-              <Modal.Footer>
-                <Button onClick={this.closeRemovePropModal}>Close</Button>
-                <Button className="template-remove-prop-btn" bsStyle="danger"
-                    onClick={() => this.removePropFromTemplate(
-                        this.state.propToRemove, 
-                        this.state.propToRemove.index,
-                        false)}>
-                    Delete Property
-                </Button>
-              </Modal.Footer>
-            </Modal>
+            {removePropModal}
           </div>
         </div>
       </Collapse>

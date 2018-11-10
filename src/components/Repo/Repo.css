@@ -116,6 +116,10 @@
   margin-right: 5px;
 }
 
+.rel-remove-prop-btn {
+  padding: 0px 3px !important;
+}
+
 .apix-node-populator .btn-info {
   margin: 5px;
 }

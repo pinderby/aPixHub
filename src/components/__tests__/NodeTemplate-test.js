@@ -221,29 +221,30 @@ describe('NodeTemplate Component', () => {
   });
 
   // Deleting new relationship property key removes property
-  // it('Deleting new relationship property key removes property', () => {
-  //   const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
-  //   wrapper.find('.template-edit-btn.btn-default').simulate('click');
-  //   wrapper.find('.template-prop').at(2).find('.template-remove-prop-btn.btn-sm').at(0).simulate('click');
-  //   expect(wrapper.state().template.properties.length).toEqual(1);
-  // });
+  it('Deleting new relationship property key removes property', () => {
+    const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
+    wrapper.find('.template-edit-btn.btn-default').simulate('click');
+    wrapper.find('.rel-add-prop-btn.btn-sm').at(0).simulate('click');
+    wrapper.find('.template-rels > .template-prop').at(1).find('.rel-remove-prop-btn.btn-sm').at(0).simulate('click');
+    expect(wrapper.state().template.in_relationships['0'].properties.length).toEqual(1);
+  });
 
   // Deleting existing relationship property key displays modal
-  // it('Deleting existing relationship property key displays modal', () => {
-  //   const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
-  //   wrapper.find('.template-edit-btn.btn-default').simulate('click');
-  //   wrapper.find('.template-prop').at(1).find('.template-remove-prop-btn.btn-sm').at(0).simulate('click');
-  //   expect(wrapper.find('div[role="dialog"]').length).toBeGreaterThanOrEqual(1);
-  // });
+  it('Deleting existing relationship property key displays modal', () => {
+    const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
+    wrapper.find('.template-edit-btn.btn-default').simulate('click');
+    wrapper.find('.template-rels > .template-prop').at(1).find('.rel-remove-prop-btn.btn-sm').at(0).simulate('click');
+    expect(wrapper.find('div[role="dialog"]').length).toBeGreaterThanOrEqual(1);
+  });
 
   // Deleting existing relationship property key removes property after confirmation
-  // it('Deleting existing relationship property key removes property after confirmation', () => {
-  //   const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
-  //   wrapper.find('.template-edit-btn.btn-default').simulate('click');
-  //   wrapper.find('.template-prop').at(1).find('.template-remove-prop-btn.btn-sm').at(0).simulate('click');
-  //   wrapper.find('div[role="dialog"]').find('.template-remove-prop-btn').at(0).simulate('click');
-  //   expect(wrapper.state().template.properties.length).toEqual(0);
-  // });
+  it('Deleting existing relationship property key removes property after confirmation', () => {
+    const wrapper = mount(<NodeTemplate template={test_data.templates[0]}/>);
+    wrapper.find('.template-edit-btn.btn-default').simulate('click');
+    wrapper.find('.template-rels > .template-prop').at(1).find('.rel-remove-prop-btn.btn-sm').at(0).simulate('click');
+    wrapper.find('div[role="dialog"]').find('.rel-remove-prop-btn').at(0).simulate('click');
+    expect(wrapper.state().template.properties.length).toEqual(0);
+  });
 
 
 });

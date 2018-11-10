@@ -58,9 +58,9 @@ Repos
       [x] Don't allow changing value_type after creation
       [x] Deleting Template Properties (inline, modal confirmation) + CSS
         [x] Deleting Properties modal
-      [ ] Creating Relationship Properties (inline)
-      [ ] Reading Relationship Properties (inline)
-      [ ] Editing Relationship Properties (inline)
+      [x] Creating Relationship Properties (inline)
+      [x] Reading Relationship Properties (inline)
+      [x] Editing Relationship Properties (inline)
       [ ] Deleting Relationship Properties (inline, modal confirmation)
     [ ] Creating Templates (inline)
     [ ] Reading Templates
