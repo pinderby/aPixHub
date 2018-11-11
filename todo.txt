@@ -65,7 +65,8 @@ Repos
     [ ] Creating Templates (inline)
     [ ] Reading Templates
     [ ] (Deleting Templates)
-    [ ] Renaming Existing Templates
+    [ ] Tests for Renaming Templates
+    [ ] Renaming Existing Templates - how to handle...
     [x] Changing templates
   [ ] Nodes Panel
     [ ] Creating Nodes   

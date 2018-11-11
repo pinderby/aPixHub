@@ -222,7 +222,7 @@ class Repo extends Component {
       if (template.id === nodeTemplate.id) (temp = nodeTemplate); else (temp = template);
 
       templateComps.push(
-          <NodeTemplate open={(template.id === nodeTemplate.id)} repoSettings={repoSettings}
+          <NodeTemplate key={template.id} open={(template.id === nodeTemplate.id)} repoSettings={repoSettings}
               template={temp} updateSettings={updateSettings} dispatch={dispatch} changeTemplate={changeTemplate} />
       );
     });

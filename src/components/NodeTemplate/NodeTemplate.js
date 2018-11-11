@@ -551,7 +551,7 @@ class NodeTemplate extends Component {
         <Collapse in={this.props.open}>
           <div className="template-container">
             {/* TODO --DTM-- Remove */}
-            {/* <LoadingOverlay show={this.props.nodeTemplate.isFetching} /> */} 
+            {/* <show={this.props.nodeTemplate.isFetching} /> */} 
             {templatePanel}
             <div>
               {removePropModal}
