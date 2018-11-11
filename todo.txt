@@ -65,13 +65,13 @@ Repos
     [ ] Creating Templates (inline)
     [ ] Reading Templates
     [ ] (Deleting Templates)
+    [ ] Renaming Existing Templates
     [x] Changing templates
-  [x] Nodes Panel
-    [ ] Filtering/searching nodes by field
-  [ ] Sidemenu
+  [ ] Nodes Panel
     [ ] Creating Nodes   
     [ ] Editing Nodes
     [ ] Delete Nodes
+    [ ] Simple filter by property
   [ ] Relationships & Interfaces
     [ ] Repo.js switching between Templates, Relationships, and Interfaces
     [ ] Components for Relationships & Interfaces

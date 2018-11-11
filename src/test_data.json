@@ -389,5 +389,26 @@
         "nid": 35
       }
     ]
+  },
+  "mockSettings": {
+    "repos": {
+      "Movies": {
+        "movie": {},
+        "director": {},
+        "genre": {},
+        "studio": {},
+        "production_company": {}
+      }
+    }
+  },
+  "mockMatch": {
+    "path": "/u/:user/:repo",
+    "url": "/u/pinderby/Movies",
+    "isExact": true,
+    "params": {
+      "user": "pinderby",
+      "repo": "Movies"
+    }
   }
+
 }

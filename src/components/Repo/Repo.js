@@ -222,14 +222,8 @@ class Repo extends Component {
       if (template.id === nodeTemplate.id) (temp = nodeTemplate); else (temp = template);
 
       templateComps.push(
-        <div key={template.id}
-           className={(template.id === nodeTemplate.id) ? "list-group-item template-item active" : "list-group-item template-item" }>
-          <div className="template-label-wrapper" onClick={() => changeTemplate(template)}>
-            <span className="template-label" >{Helpers.formatPropKey(template.label)}</span>
-          </div>
           <NodeTemplate open={(template.id === nodeTemplate.id)} repoSettings={repoSettings}
-              template={temp} updateSettings={updateSettings} dispatch={dispatch} />
-        </div>
+              template={temp} updateSettings={updateSettings} dispatch={dispatch} changeTemplate={changeTemplate} />
       );
     });
     return templateComps;
@@ -349,9 +343,7 @@ class Repo extends Component {
 
 Repo.propTypes = {
   repo: PropTypes.object.isRequired,
-  nodeTemplate: PropTypes.object.isRequired,
-  nodeTemplates: PropTypes.array.isRequired,
-  nodes: PropTypes.array.isRequired
+  nodeTemplates: PropTypes.array.isRequired
 };
 
 export default Repo;

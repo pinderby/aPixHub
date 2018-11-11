@@ -537,16 +537,23 @@ class NodeTemplate extends Component {
     }
 
     return (
-      <Collapse in={this.props.open}>
-        <div className="template-container">
-          {/* TODO --DTM-- Remove */}
-          {/* <LoadingOverlay show={this.props.nodeTemplate.isFetching} /> */} 
-          {templatePanel}
-          <div>
-            {removePropModal}
-          </div>
+      <div className={(this.props.open) ? "list-group-item template-item active" : "list-group-item template-item" }>
+        <div className="template-label-wrapper" onClick={() => this.props.changeTemplate(this.props.template)}>
+          <span className="template-label" >
+            {Helpers.formatPropKey(this.props.template.label)}
+          </span>
         </div>
-      </Collapse>
+        <Collapse in={this.props.open}>
+          <div className="template-container">
+            {/* TODO --DTM-- Remove */}
+            {/* <LoadingOverlay show={this.props.nodeTemplate.isFetching} /> */} 
+            {templatePanel}
+            <div>
+              {removePropModal}
+            </div>
+          </div>
+        </Collapse>
+      </div>
     );
   }
 }
