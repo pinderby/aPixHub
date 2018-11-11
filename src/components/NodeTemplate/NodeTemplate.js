@@ -24,21 +24,12 @@ class NodeTemplate extends Component {
     this.removePropFromTemplate = this.removePropFromTemplate.bind(this);
     this.removePropFromRel = this.removePropFromRel.bind(this);
     this.closeRemovePropModal = this.closeRemovePropModal.bind(this);
+    this.onLabelChanged = this.onLabelChanged.bind(this);
+    this.changeTemplate = this.changeTemplate.bind(this);
     this.onPropChanged = this.onPropChanged.bind(this);
     this.onRelPropChanged = this.onRelPropChanged.bind(this);
     this.updateEditing = this.updateEditing.bind(this);
     this.cancelEditing = this.cancelEditing.bind(this);
-    
-
-    // TODO --DTM-- Remove?
-    // // If nodeTemplate doesn't exist, query it from server
-    // if (!props.nodeTemplate.template) {
-    //   this.getTemplate(props.match.params.label);
-    //   this.state = {
-    //     nodeTemplate: { isFetching: true },
-    //   };
-    //   return;
-    // }
 
     this.state = {
       template: props.template,
@@ -83,6 +74,12 @@ class NodeTemplate extends Component {
   deleteTemplate(templateId) {
     // Dispatch fetchDeleteTemplate to delete template by id
     this.props.dispatch(fetchDeleteTemplate(templateId));
+  }
+
+  changeTemplate(template) {
+    // Change template only if it's not already active
+    if (!this.props.open) this.props.changeTemplate(template);
+    else return;
   }
 
   addPropToTemplate(properties) {
@@ -193,10 +190,26 @@ class NodeTemplate extends Component {
     }
   }
 
-  onPropChanged(index, key, value) {
+  onLabelChanged(nextlabel) {
     // Update new value to state
     console.log('this.state.template: ', this.state.template); // TODO --DM-- Remove
-    console.log('index, key, value ', index, key, value); // TODO --DM-- Remove
+    console.log('label ', nextlabel); // TODO --DM-- Remove
+    
+    // Update state with updated template
+    this.setState((prevState, props) => {
+      // Assign new property value
+      let nextTemplate = {...prevState.template};
+      nextTemplate.label = nextlabel;
+      
+      return { 
+        template: nextTemplate,
+      };
+    });
+  }
+
+  onPropChanged(index, key, value) {
+    // Update new value to state
+    console.log('onPropChanged() index, key, value: ', index, key, value); // TODO --DM-- Remove
     
     // Update state with updated template
     this.setState((prevState, props) => {
@@ -414,26 +427,12 @@ class NodeTemplate extends Component {
     let templatePanel = "";
     if (this.props.template) {
       // Initialize template and display label
-      let template = this.state.template, 
-      displayLabel = Helpers.capitalizeFirstLetter(template['label']);
+      let template = this.state.template;
 
       templatePanel =
         <div className="apix-template">
-          <Button className="template-edit-btn" onClick={() => this.updateEditing()}>
-            <Glyphicon glyph="pencil" />
-          </Button>
           <div className="panel panel-default">
             <div className="panel-body">
-            {/* TODO --DTM-- Move all this functionality into other components */}
-              {/* <div className="row">
-                <Link key={template['id']+'-edit'} to={"/t/"+template['label']+"/edit" }>Edit Template</Link>
-                <br />
-                <Link key={template['id']+'-add'} to={"/n/"+template['label']+"/add" }>Add {displayLabel}</Link>
-                <br />
-                <Link key={template['id']+'-search'} to={"/n/"+template['label']+"/search" }>Search {displayLabel}</Link>
-                <br />
-                <a key={template['id']+'-delete'} onClick={() => this.deleteTemplate(template.id)} >Delete {displayLabel}</a>
-              </div> */}
               {/* Template Properties Table */}
               <Table striped bordered hover className="template-table">
                 <thead>
@@ -538,10 +537,16 @@ class NodeTemplate extends Component {
 
     return (
       <div className={(this.props.open) ? "list-group-item template-item active" : "list-group-item template-item" }>
-        <div className="template-label-wrapper" onClick={() => this.props.changeTemplate(this.props.template)}>
+        <div className="template-label-wrapper" onClick={() => this.changeTemplate(this.props.template)}>
           <span className="template-label" >
-            {Helpers.formatPropKey(this.props.template.label)}
+            <EditableInput index={this.state.template.id} propKey='label'
+                  value={Helpers.formatPropKey(this.state.template.label)}
+                  disabled={false} editing={this.state.editing} inputType={InputTypes.TEXT} 
+                  onChange={(index, key, value) => this.onLabelChanged(value)} />
           </span>
+          <Button className={(this.props.open) ? "template-edit-btn" : "hidden" } onClick={() => this.updateEditing()}>
+            <Glyphicon glyph="pencil" />
+          </Button>
         </div>
         <Collapse in={this.props.open}>
           <div className="template-container">
