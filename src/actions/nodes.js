@@ -270,7 +270,8 @@ export function fetchAllNodes(templateLabel) {
 
     // TODO --DTM-- Delete test_data reference
     console.log("fetchAllNodes() templateLabel: ", templateLabel);
-    dispatch(updateNodes(test_data.nodes[templateLabel]));
+    let nodes = (test_data.nodes[templateLabel]) ? test_data.nodes[templateLabel] : [];
+    dispatch(updateNodes(nodes));
     // // Define args for callApi()
     // let dispatchActionWithStatus = dispatchActionWithArgs(dispatch)(getAllNodes)();
     // let apiArgs = {

@@ -66,6 +66,8 @@ class Repo extends Component {
         node: {}
       },
       token: token,
+      nodeTemplates: props.nodeTemplates,
+      activeTemplate: { id: "" }
     };
   }
 
@@ -120,22 +122,47 @@ class Repo extends Component {
     // TODO --DTM-- Implement with API
     console.log('changeTemplate() template: ', template);
 
-    // Close sidemenu
-    this.setState({sidemenu: {open: false}});
+    this.setState((prevState, props) => {
+      // Add new template to state
+      return { 
+        activeTemplate: template
+      };
+    });
 
-    // Dispatch action creator to update template
-    this.props.dispatch(changeTemplate(template))
+    // TODO --DTM-- Delete?
+    // // Close sidemenu
+    // this.setState({sidemenu: {open: false}});
+    
+    // // Dispatch action creator to update template
+    // this.props.dispatch(changeTemplate(template))
   }
 
   addTemplate() {
-    // TODO --DTM-- Implement
-    // this.setState({
-    //   sidemenu: {
-    //     open: true,
-    //     editing: false,
-    //     node: {}
-    //   }
-    // });
+    console.log("addTemplate(): " + this.state.nodeTemplates.length); // TODO --DTM-- Remove
+    
+    // Generate new template
+    let newTemplate = {
+      "id": this.state.nodeTemplates.length,
+      "label": "",
+      "properties": [
+        {
+          "id": 0,
+          "key": "name",
+          "value_type": "string",
+        }
+      ],
+      "in_relationships": [],
+      "out_relationships": []
+    };
+
+    // Update component state
+    this.setState((prevState, props) => {
+      // Add new template to state
+      return { 
+        nodeTemplates: [...prevState.nodeTemplates, newTemplate],
+        activeTemplate: newTemplate
+      };
+    });
   }
 
   editTemplate(template) {
@@ -184,7 +211,7 @@ class Repo extends Component {
 
       // Push property input for each prop
       props.push(<PropertyPopulator key={key} index={i} prop={prop} node={this.state.node} 
-                        nodeTemplate={this.props.nodeTemplate} dispatch={this.props.dispatch} nested={false}
+                        nodeTemplate={this.state.activeTemplate} dispatch={this.props.dispatch} nested={false}
                         onChange={(path, value) => this.setProperty(path, value)} />); // TODO --DM-- manage keys for iteration
       props.push(<br key={key.toString()+'1000'} />)
 
@@ -197,8 +224,8 @@ class Repo extends Component {
 
   renderTemplates() {
     // Initialize variables
-    let nodeTemplates = this.props.nodeTemplates, 
-        nodeTemplate = this.props.nodeTemplate, 
+    let nodeTemplates = this.state.nodeTemplates, 
+        nodeTemplate = this.state.activeTemplate, 
         templateComps = [],
         label = this.props.label,
         repoSettings = this.state.settings.repos[this.props.repo.name],
@@ -234,7 +261,7 @@ class Repo extends Component {
     let nodes = this.props.nodes,
         nodeComps = [], 
         editNode = this.editNode,
-        templateSettings = this.state.settings.repos[this.props.repo.name][this.props.nodeTemplate.label];
+        templateSettings = this.state.settings.repos[this.props.repo.name][this.state.activeTemplate.label];
 
     console.log('nodes: ', nodes);
     console.log('templateSettings: ', templateSettings);
@@ -275,7 +302,7 @@ class Repo extends Component {
           dispatch={this.props.dispatch}
           menuIsOpen={this.state.sidemenu.open}
           editing={this.state.sidemenu.editing}
-          template={this.props.nodeTemplate}
+          template={this.state.activeTemplate}
           node={this.state.sidemenu.node} />
         <Navbar inverse collapseOnSelect>
           <Navbar.Header>
@@ -310,7 +337,7 @@ class Repo extends Component {
                     <MenuItem eventKey="2">Interfaces</MenuItem>
                   </DropdownButton>
                 </h3>
-                <Button bsStyle="primary" onClick={() => this.addTemplate()}>
+                <Button className="create-template-btn" bsStyle="primary" onClick={() => this.addTemplate()}>
                   <Glyphicon glyph="plus" />
                 </Button>
               </div>

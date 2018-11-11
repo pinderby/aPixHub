@@ -37,7 +37,7 @@ class EditableInput extends Component {
           return(
             <input className="form-control" type={'text'} disabled={this.props.disabled}
                 id={this.props.propKey} value={this.state.value} 
-                placeholder={`Enter ${Helpers.formatPropKey(this.props.key)} here`}
+                placeholder={`Enter ${Helpers.formatPropKey(this.props.propKey)} Here`}
                 onChange={(e) => this.valueChanged(e, this.props.onChange)} />
           );
       case InputTypes.SELECT: // Return a select with property types as options
@@ -53,7 +53,7 @@ class EditableInput extends Component {
           return(
             <input className="form-control" type={'text'}
                 id={this.props.propKey} value={this.state.value} 
-                placeholder={`Enter ${Helpers.formatPropKey(this.props.key)} here`}
+                placeholder={`Enter ${Helpers.formatPropKey(this.props.propKey)} Here`}
                 onChange={(e) => this.valueChanged(e, this.props.onChange)} />
           );
     }

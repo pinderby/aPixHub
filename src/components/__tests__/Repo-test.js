@@ -25,6 +25,28 @@ describe('Repo Component', () => {
     expect(wrapper.find('.template-col .template-item').length).toEqual(test_data.templates.length);
   });
 
+  // Create new template when 'Create Template' button is clicked
+  it('Create new template when \'Create Template\' button is clicked', () => {
+    console.log(wrapper.find('.create-template-btn').at(1).debug());
+    wrapper.find('.create-template-btn').at(1).simulate('click');
+    expect(wrapper.state().nodeTemplates.length).toEqual(6);
+    expect(wrapper.state().nodeTemplates['5']).toEqual({
+      "id": 5,
+      "label": "",
+      "properties": [
+        {
+          "display_label": "Name", 
+          "id": 0, 
+          "key": "name", 
+          "path": "properties.name", 
+          "value_type": "string"
+        }
+      ],
+      "in_relationships": [],
+      "out_relationships": []
+    });
+  });
+
 });
 
 

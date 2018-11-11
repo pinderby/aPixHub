@@ -31,9 +31,13 @@ class NodeTemplate extends Component {
     this.updateEditing = this.updateEditing.bind(this);
     this.cancelEditing = this.cancelEditing.bind(this);
 
+    // Check if template is new
+    // If so, default editing to true
+    let editing = (props.template.label === "") ? true : false;
+
     this.state = {
       template: props.template,
-      editing: false,
+      editing: editing,
       showRemovePropModal: false,
       propToRemove: {}
     };
