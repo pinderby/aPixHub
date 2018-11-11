@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import test_data from  '../../test_data.json'; // TODO --DTM-- Delete
 import { slide as Menu } from 'react-burger-menu';
 import { Navbar, Nav, NavItem, DropdownButton, MenuItem, Button, Glyphicon, FormControl } from 'react-bootstrap';
 import NodeSearchResult from '../NodeInstance/NodeSearchResult';
@@ -257,9 +258,11 @@ class Repo extends Component {
   }
 
   renderNodes() {
+    // Get nodes from test data if they exist
+    let nodes = (test_data.nodes[this.state.activeTemplate.label]) ? test_data.nodes[this.state.activeTemplate.label] : [];
+
     // Initialize variables
-    let nodes = this.props.nodes,
-        nodeComps = [], 
+    let nodeComps = [], 
         editNode = this.editNode,
         templateSettings = this.state.settings.repos[this.props.repo.name][this.state.activeTemplate.label];
 
