@@ -66,8 +66,8 @@ Repos
     [x] Reading Templates
     [x] Reimplement getting nodes without redux
     [ ] (Deleting Templates)
-    [ ] Tests for Renaming Templates
-    [ ] Fix capitalization for template names during input
+    [x] Tests for Renaming Templates
+    [x] Fix capitalization for template names during input
     [ ] Renaming Existing Templates - how to handle...
     [x] Changing templates
   [ ] Nodes Panel

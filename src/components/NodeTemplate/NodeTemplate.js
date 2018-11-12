@@ -43,6 +43,11 @@ class NodeTemplate extends Component {
     };
   }
 
+  // Automatically set editing to false if not active
+  componentDidUpdate(prevProps) {
+    if (prevProps.open && !this.props.open) this.setState({ editing: false });
+  }
+
   getTemplate(templateLabel) {
     // Dispatch fetchTemplate to get template by label
     this.props.dispatch(fetchTemplate(templateLabel));
@@ -203,7 +208,7 @@ class NodeTemplate extends Component {
     this.setState((prevState, props) => {
       // Assign new property value
       let nextTemplate = {...prevState.template};
-      nextTemplate.label = nextlabel;
+      nextTemplate.label = _.snakeCase(nextlabel);
       
       return { 
         template: nextTemplate,
