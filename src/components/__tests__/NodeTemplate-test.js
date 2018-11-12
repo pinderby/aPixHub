@@ -46,8 +46,19 @@ describe('NodeTemplate Component', () => {
     expect(wrapper.find('.template-props EditableInput[editing=true] input').length).toBeGreaterThanOrEqual(1);
   });
 
+  // Editing template label changes label and persists when editing stops
+  it('Editing template label changes label and persists when editing stops', () => {
+    wrapper.find('.template-label').at(0).find('input[type=\'text\']').at(0).simulate('change', {
+      target: { value: 'Movies' }
+    });
+    expect(wrapper.state().template.label).toEqual('Movies');
+    wrapper.find('.template-edit-btn.btn-default').simulate('click');
+    expect(wrapper.state().template.label).toEqual('Movies');
+  });
+
   // Add template property to template when 'Add Property' button is clicked
   it('Add template property to template when Add Property button is clicked', () => {
+    wrapper.find('.template-edit-btn.btn-default').simulate('click');
     wrapper.find('.template-add-prop-btn.btn-sm').at(0).simulate('click');
     expect(wrapper.state().template.properties['1']).toEqual({
       "disabled": false,

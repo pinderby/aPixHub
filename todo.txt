@@ -63,10 +63,11 @@ Repos
       [x] Editing Relationship Properties (inline)
       [x] Deleting Relationship Properties (inline, modal confirmation)
     [x] Creating Templates (inline)
-    [ ] Reading Templates
-    [ ] Reimplement getting nodes without redux
+    [x] Reading Templates
+    [x] Reimplement getting nodes without redux
     [ ] (Deleting Templates)
     [ ] Tests for Renaming Templates
+    [ ] Fix capitalization for template names during input
     [ ] Renaming Existing Templates - how to handle...
     [x] Changing templates
   [ ] Nodes Panel
