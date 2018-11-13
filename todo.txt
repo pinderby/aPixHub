@@ -86,6 +86,8 @@ Repos
     [ ] Reading Relationships (inline)
     [ ] Editing Relationships (inline)
     [ ] Deleting Relationships (inline, modal confirmation)
+    [ ] Links from templates to other templates 
+            (node to node, node to relationship, relationship to node)
     [ ] Creating Interfaces (inline)
     [ ] Reading Interfaces (inline)
     [ ] Editing Interfaces (inline)

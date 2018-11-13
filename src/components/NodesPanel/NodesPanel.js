@@ -3,7 +3,6 @@ import { slide as Menu } from 'react-burger-menu';
 import { Button, Glyphicon } from 'react-bootstrap';
 import NodeInstancePopulator from '../NodeInstance/NodeInstancePopulator';
 import NodeSearchResult from '../NodeInstance/NodeSearchResult';
-import test_data from  '../../test_data.json'; // TODO --DTM-- Delete
 
 class NodesPanel extends Component {
   constructor(props) {
@@ -20,14 +19,10 @@ class NodesPanel extends Component {
     };
   }
 
-  renderNodes() {
-    // Get nodes from test data if they exist
-    let nodes = (test_data.nodes[this.props.activeTemplate.label]) ? test_data.nodes[this.props.activeTemplate.label] : [];
-
+  renderNodes(nodes, templateSettings) {
     // Initialize variables
     let nodeComps = [], 
-        editNode = this.props.editNode,
-        templateSettings = this.props.settings.repos[this.props.repo.name][this.props.activeTemplate.label];
+        editNode = this.props.editNode;
 
     console.log('nodes: ', nodes);
     console.log('templateSettings: ', templateSettings);
@@ -39,7 +34,7 @@ class NodesPanel extends Component {
     nodes.forEach(function (node, index) {
       // Wrap router link and render props in NodeSearchResult
       nodeComps.push(
-        <div key={node.nid} href="#" onClick={() => editNode(node)} className="node-instance-wrapper">
+        <div key={node.nid} href="#" onClick={() => editNode(nodes, index)} className="node-instance-wrapper">
           <NodeSearchResult key={index} node={node} templateSettings={templateSettings} />
         </div>
       );
@@ -60,7 +55,7 @@ class NodesPanel extends Component {
           </Button>
         </div>
         <div className="panel-body">
-          {this.renderNodes()}
+          {this.renderNodes(this.props.nodes, this.props.templateSettings)}
         </div>
       </div>
     );

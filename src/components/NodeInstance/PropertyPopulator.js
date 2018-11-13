@@ -17,7 +17,7 @@ class PropertyPopulator extends Component {
   
   renderInput(props) {
     // Initialize property
-    let instance, value = "", prop = props.prop;
+    let instance, value, prop = props.prop;
     if (props.node) instance = props.node;
     else instance = props.relationship;
 
@@ -25,38 +25,44 @@ class PropertyPopulator extends Component {
 
     console.log('instance, prop: ', instance, prop); // TODO --DM-- Remove
     console.log('value: ', value); // TODO --DM-- Remove
+    
+    // Reset value of 'value' if undefined
+    if (!value) value = "";
 
     // If array, then give a textarea for input
     if (prop.value_type[0] === '[') {
       return <textarea type={prop.value_type} className="form-control" 
           id={prop.key} value={value} placeholder="Input list here, comma-separated"
-          onChange={(e) => this.textChanged(e, prop, this.props.onChange)} />;
+          onChange={(e) => this.textChanged(e, prop, instance, this.props.onChange)} />;
     } else if (prop.value_type === 'object') {
       // TODO --DM-- Handle object input
     } else {
       return <input type={prop.value_type} className="form-control" 
           id={prop.key} value={value}
-          onChange={(e) => this.textChanged(e, prop, this.props.onChange)} />;
+          onChange={(e) => this.textChanged(e, prop, instance, this.props.onChange)} />;
     }
   }
 
-  textChanged(e, prop, onChange) {
+  textChanged(e, prop, instance, onChange) {
+    // Initialize new value
+    let newValue;
+
     // If array, then give a textarea for input
     if (prop.value_type[0] === '[') {
       // Set prop array to user-entered values
-      prop.value = e.target.value.split(',');
+      newValue = e.target.value.split(',');
     } else if (prop.value_type === 'object') {
       // TODO --DM-- Handle object input
     } else {
       // Set prop value to user-entered value
-      prop.value = e.target.value;
+      newValue = e.target.value;
     }
 
-    console.log('Value: ', prop.value); // TODO --DM-- Remove
-    console.log('textChanged(): ', prop.path, prop); // TODO --DM-- Remove
+    console.log('Value: ', newValue); // TODO --DM-- Remove
+    console.log('textChanged(): ', prop.path, newValue); // TODO --DM-- Remove
 
     // Call callback
-    onChange(prop.path, prop.value);
+    onChange(prop.path, newValue);
   }
   
   render() {

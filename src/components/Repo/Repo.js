@@ -37,6 +37,7 @@ class Repo extends Component {
     this.editTemplate = this.editTemplate.bind(this);
     this.addNode = this.addNode.bind(this);
     this.editNode = this.editNode.bind(this);
+    this.saveNode = this.saveNode.bind(this);
     this.updateSettings = this.updateSettings.bind(this);
     this.logout = this.logout.bind(this);
 
@@ -62,11 +63,13 @@ class Repo extends Component {
       sidemenu: {
         open: false,
         editing: false,
-        node: {}
+        node: {},
+        index: 0
       },
       token: token,
       nodeTemplates: props.nodeTemplates,
-      activeTemplate: { id: "" }
+      allNodes: props.nodes,
+      activeTemplate: { id: "", label: "" }
     };
   }
 
@@ -109,12 +112,14 @@ class Repo extends Component {
   }
 
   // Update sidemenu state
-  handleSideMenuStateChange(isOpen, isEditing, node = {}) {
+  handleSideMenuStateChange(isOpen, isEditing, node = {}, index) {
+    console.log("handleSideMenuStateChange(): isOpen, isEditing, node ", isOpen, isEditing, node);
     this.setState({ 
       sidemenu: { 
         open: isOpen,
         editing: isEditing,
-        node: node
+        node: node,
+        index: index
       } 
     });
   }
@@ -192,16 +197,47 @@ class Repo extends Component {
     });
   }
 
-  editNode(node) {
+  editNode(nodes, index) {
     // TODO --DTM-- Implement
     this.setState({
       sidemenu: {
         open: true,
         editing: true,
-        node: node
+        node: nodes[index],
+        index: index
       }
     });
-    console.log('editNode() node: ', node);
+    console.log('editNode() node: ', nodes[index]); // TODO --DTM-- Remove
+  }
+
+  saveNode(templateLabel, node, index) {
+    console.log("saveNode(): templateLabel, node, index ", templateLabel, node, index);  // TODO --DTM-- Remove
+
+    // Initialize variables
+    let nextAllNodes;
+
+    // Copy current nodes
+    nextAllNodes = { ...this.state.allNodes }
+
+    if (!index) {
+      // If index not defined, push new node into array
+      node.nid = nextAllNodes[templateLabel].length;
+      nextAllNodes[templateLabel].push(node);
+    } else {
+      // If index exists, update node in allNodes
+      nextAllNodes[templateLabel][index] = node;
+    }
+    
+    // Update state.allNodes, reset sidemenu state
+    this.setState({
+      allNodes: nextAllNodes,
+      sidemenu: { 
+        open: false,
+        editing: false,
+        node: {},
+        index: 0
+      } 
+    });
   }
 
   // Render sidemenu
@@ -273,8 +309,9 @@ class Repo extends Component {
     // Log if user is authenticated
     // console.log("isAuthenticated(): ", isAuthenticated());
     
-    // Instantiate body
-    let body = "";
+    // Filter nodes and settings for NodesPanel based on activeTemplate
+    let nodes = (this.state.allNodes[this.state.activeTemplate.label]) ? this.state.allNodes[this.state.activeTemplate.label] : [];
+    let templateSettings = this.props.settings.repos[this.props.repo.name][this.state.activeTemplate.label];
 
     // If user is empty, show login screen
     if (_.isEmpty(this.state.user)) { 
@@ -289,7 +326,9 @@ class Repo extends Component {
           editing={this.state.sidemenu.editing}
           template={this.state.activeTemplate}
           node={this.state.sidemenu.node}
-          handleSideMenuStateChange={this.handleSideMenuStateChange} />
+          index={this.state.sidemenu.index}
+          handleSideMenuStateChange={this.handleSideMenuStateChange}
+          saveNode={this.saveNode} />
         <Navbar inverse collapseOnSelect>
           <Navbar.Header>
             <Navbar.Brand>
@@ -335,11 +374,13 @@ class Repo extends Component {
             </div>
             <div className="node-col">
               <NodesPanel 
-                  activeTemplate={this.state.activeTemplate}
-                  settings={this.state.settings}
-                  repo={this.props.repo}
-                  editNode={this.editNode}
-                  addNode={this.addNode} />
+                activeTemplate={this.state.activeTemplate}
+                settings={this.state.settings}
+                repo={this.props.repo}
+                nodes={nodes}
+                templateSettings={templateSettings}
+                editNode={this.editNode}
+                addNode={this.addNode} />
             </div>
           </div>
         </div>

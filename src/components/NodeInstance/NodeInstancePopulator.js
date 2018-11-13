@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Helpers from '../../helpers.js';
+import _ from 'lodash';
 import PropertyPopulator from './PropertyPopulator';
 import RelationshipInstancePopulator from './RelationshipInstancePopulator';
 import '../NodeTemplate/TemplateBuilder.css';
@@ -74,6 +75,11 @@ class NodeInstancePopulator extends Component {
     }
   }
 
+  // Update state if props have changed
+  componentDidUpdate(prevProps) {
+    if (!_.isEqual(prevProps.node, this.props.node)) this.setState({ node: this.props.node });
+  }
+
   // componentWillReceiveProps(nextProps) {
   //   // Assign node
   //   let relationshipTemplates, node = nextProps.node;
@@ -141,15 +147,17 @@ class NodeInstancePopulator extends Component {
 
   updateNode(node) {
     // Dispatch new node to store
-    this.props.dispatch(updateNode(node));
+    // this.props.dispatch(updateNode(node)); // TODO --DTM-- Remove
   }
 
   setProperty(path, newValue) {
+    console.log('setProperty() path, newValue: ', path, newValue); // TODO --DM-- Remove
+
     // Merge node from props (redux store) and state
     let node = Object.assign(this.props.node, this.state.node);
 
     // Update node with new property value
-    node.instance = Helpers.setObjProp(node, path, newValue);
+    node = Helpers.setObjProp(node, path, newValue);
 
     console.log('setProperty()  node: ', node); // TODO --DM-- Remove
 
@@ -336,8 +344,9 @@ class NodeInstancePopulator extends Component {
           {/* TODO --DTM-- Handle relationships */}
           {/* {this.renderRelationships()} */}
           <br />
-          <RequestButton text={'Submit Node'} onClick={() => this.submitNode(template.label)}/>
-          <RequestButton text={'Update Node'} onClick={() => this.updateNode(this.state.node)}/>
+          {/* <RequestButton text={'Submit Node'} onClick={() => this.submitNode(template.label)}/> */}
+          <RequestButton text={'Save Node'} 
+              onClick={() => this.props.saveNode(this.props.template.label, this.state.node, this.props.index)}/>
         </form>
       
       console.log('Template:', template);

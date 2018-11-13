@@ -31,27 +31,27 @@ class Sidemenu extends Component {
   handleSideMenuStateChange(state) {
     console.log("handleSideMenuStateChange(state): ", state.isOpen);
     this.setState({menuIsOpen: state.isOpen}); // TODO --DTM-- Remove
-    this.props.handleSideMenuStateChange(state.isOpen, this.props.editing, this.props.node);
+    this.props.handleSideMenuStateChange(state.isOpen, this.props.editing, this.props.node, this.props.index);
   }
 
   // This can be used to open the menu, e.g. when a user clicks an edit button
   openSideMenu() {
     this.setState({menuIsOpen: true});
-    this.props.handleSideMenuStateChange(true, this.props.editing, this.props.node);
+    this.props.handleSideMenuStateChange(true, this.props.editing, this.props.node, this.props.index);
   }
 
   // This can be used to close the menu, e.g. when a user clicks a menu item
   closeSideMenu() {
     this.setState({menuIsOpen: false}); // TODO --DTM-- Remove
-    this.props.handleSideMenuStateChange(false, this.props.editing, this.props.node);
+    this.props.handleSideMenuStateChange(false, this.props.editing, this.props.node, this.props.index);
   }
 
   // This can be used to toggle the menu, e.g. when using a custom icon
   // Tip: You probably want to hide either/both default icons if using a custom icon
   // See https://github.com/negomi/react-burger-menu#custom-icons
-  toggleSideMenu () {
+  toggleSideMenu() {
     this.setState({menuIsOpen: !this.state.menuIsOpen}); // TODO --DTM-- Remove
-    this.props.handleSideMenuStateChange(!this.state.menuIsOpen, this.props.editing, this.props.node);
+    this.props.handleSideMenuStateChange(!this.state.menuIsOpen, this.props.editing, this.props.node, this.props.index);
   }
 
   editNode(node) {
@@ -73,8 +73,10 @@ class Sidemenu extends Component {
         <NodeInstancePopulator 
           dispatch={this.props.dispatch}
           editing={this.props.editing} 
-          template={this.props.template} 
-          node={this.props.node} />
+          template={this.props.template}
+          node={this.props.node}
+          index={this.props.index}
+          saveNode={this.props.saveNode} />
       </Menu>
     );
   }

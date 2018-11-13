@@ -20,7 +20,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import test_data from  './test_data.json'; // TODO --DTM-- Delete
 const initialState = {
     repo: test_data.repos[0],
-    nodeTemplates: test_data.templates
+    nodeTemplates: test_data.templates,
+    nodes: test_data.nodes
 };
 
 const store = createStore(
