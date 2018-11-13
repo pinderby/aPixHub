@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import { slide as Menu } from 'react-burger-menu';
-import { Button, Glyphicon, FormControl } from 'react-bootstrap';
+import { Button, Glyphicon, FormControl, FormGroup, InputGroup, Form } from 'react-bootstrap';
+import Helpers from '../../helpers.js';
 import NodeInstancePopulator from '../NodeInstance/NodeInstancePopulator';
 import NodeSearchResult from '../NodeInstance/NodeSearchResult';
 
@@ -12,11 +14,13 @@ class NodesPanel extends Component {
     this.renderNodes = this.renderNodes.bind(this);
     this.filterNodes = this.filterNodes.bind(this);
     this.onQueryChanged = this.onQueryChanged.bind(this);
+    this.onQueryPropChanged = this.onQueryPropChanged.bind(this);
 
     // Initialize state
     this.state = {
       user: {},
       query: "",
+      queryProp: "",
       editing: props.editing,
       node: props.node,
     };
@@ -29,10 +33,25 @@ class NodesPanel extends Component {
     });
   }
 
+  // Update view with new search query prop
+  onQueryPropChanged(e) {
+    this.setState({
+      queryProp: e.target.value
+    });
+  }
+
   // Filter nodes based on search query
   filterNodes(nodes) {
+    // Initialize variables
+    let queryProp = this.state.queryProp;
+    
+    // Return if there is no activeTemplate selected
+    if (!this.props.activeTemplate.hasOwnProperty('properties')) { return; }
+    else if (!queryProp) { queryProp =  this.props.activeTemplate.properties[0]['key']; }
+    
+    // Filter nodes based on query and queryProp
     return nodes.filter(node => {
-      return node.properties.name.includes(this.state.query);
+      return String(node.properties[queryProp]).includes(this.state.query);
     });
   }
 
@@ -66,6 +85,31 @@ class NodesPanel extends Component {
     console.log('this.state', this.state); // TODO --DM-- Remove
     console.log('this.props', this.props); // TODO --DM-- Remove
 
+    // Create search form if template is selected
+    let nodesSearchForm = "";
+    if (this.props.activeTemplate && this.props.activeTemplate.hasOwnProperty('properties')) {
+      nodesSearchForm =
+        <Form inline>
+          <FormGroup>
+            <InputGroup>
+              <FormControl 
+                className="searchbar" 
+                type="text" 
+                placeholder="Search"
+                value={this.state.query}
+                onChange={this.onQueryChanged} />
+              <FormControl componentClass="select" placeholder="Property"
+                value={this.state.queryProp}
+                onChange={this.onQueryPropChanged}>
+                {this.props.activeTemplate.properties.map((prop) =>
+                  <option key={prop.key} value={prop.key}>{Helpers.formatPropKey(prop.key)}</option>
+                )}
+              </FormControl>
+            </InputGroup>
+          </FormGroup>
+        </Form>
+    }
+
     return (
       <div>
         <div className="panel-heading clearfix">
@@ -75,12 +119,7 @@ class NodesPanel extends Component {
           </Button>
         </div>
         <div className="nodes-searchbar">
-          <FormControl 
-              className="searchbar" 
-              type="text" 
-              placeholder="Search"
-              value={this.state.query}
-              onChange={this.onQueryChanged} />
+          {nodesSearchForm}
         </div>
         <div className="panel-body">
           {this.renderNodes(this.props.nodes, this.props.templateSettings)}

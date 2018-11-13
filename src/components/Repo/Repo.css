@@ -48,7 +48,7 @@
   margin-left: 10px;
 }
 
-.repo-panel .btn {
+.repo-panel .panel-heading .btn {
   float: right;
   margin-top: 16px;
   margin-right: 10px;
@@ -109,8 +109,8 @@
 
 .template-label-wrapper > .template-edit-btn {
   position: absolute;
-  top: 0px;
-  right: 5px;
+  top: 8px;
+  right: 8px;
 }
 
 .template-label-wrapper > .template-label input {
@@ -172,6 +172,10 @@
 .nodes-searchbar {
   margin-top: 10px;
   width: 90%;
+}
+
+.nodes-searchbar .input-group > select, .nodes-searchbar .input-group > input {
+  width: auto !important;
 }
 
 .node-instance-wrapper {
