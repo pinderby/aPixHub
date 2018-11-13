@@ -330,9 +330,9 @@ class Repo extends Component {
           </DropdownButton>
         </h3>
         <div className="repo-panel panel panel-default">
-          <div className="panel-heading">
-            <div className="row">
-              <div className="template-col col-md-6">
+          <div className="row">
+            <div className="template-col">
+              <div className="panel-heading clearfix">
                 <h3>
                   <DropdownButton title={"Templates"} key="1" className="template-panel-dropdown"
                         bsSize="large" id={`dropdown-basic-2`} >
@@ -344,26 +344,23 @@ class Repo extends Component {
                   <Glyphicon glyph="plus" />
                 </Button>
               </div>
-              <div className="node-col col-md-6">
-                <h3>Nodes</h3>
-                <Button bsStyle="primary" onClick={() => this.addNode()}>
-                  <Glyphicon glyph="plus" />
-                </Button>
-                </div>
-            </div>
-          </div>
-          <div className="panel-body">
-            <div className="row">
-              <div className="template-col col-md-6">
+              <div className="panel-body">
                 <div className="list-group">
                   {this.renderTemplates()}
                 </div>
               </div>
-              <div className="node-col col-md-6">
+            </div>
+            <div className="node-col">
+              <div className="panel-heading clearfix">
+                <h3>Nodes</h3>
+                <Button bsStyle="primary" onClick={() => this.addNode()}>
+                  <Glyphicon glyph="plus" />
+                </Button>
+              </div>
+              <div className="panel-body">
                 {this.renderNodes()}
               </div>
             </div>
-
           </div>
         </div>
       </div>

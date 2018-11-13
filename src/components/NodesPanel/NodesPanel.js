@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
-import { slide as Menu } from 'react-burger-menu';
-import NodeInstancePopulator from '../NodeInstance/NodeInstancePopulator';
-import PropertyPopulator from '../NodeInstance/PropertyPopulator';
-import Helpers from '../../helpers.js';
-import { fetchAuthUser, fetchPostUser, fetchMe } from '../../actions/users';
-import './Repo.css';
 
-class Sidemenu extends Component {
+class NodesPanel extends Component {
   constructor(props) {
     super(props);
 
@@ -21,6 +14,7 @@ class Sidemenu extends Component {
     this.editTemplate = this.editTemplate.bind(this);
     this.editNode = this.editNode.bind(this);
 
+    // Initialize state
     this.state = {
       user: {},
       menuIsOpen: props.menuIsOpen,
@@ -28,14 +22,6 @@ class Sidemenu extends Component {
       node: props.node,
     };
   }
-
-  // static getDerivedStateFromProps(nextProps, prevState) {
-  //   var nextState = {
-  //     menuIsOpen: nextProps.menuIsOpen
-  //   }
-    
-  //   return nextState; 
-  // }
 
   // This keeps the state in sync with the opening/closing of the menu
   // via the default means, e.g. clicking the X, pressing the ESC key etc.
@@ -110,20 +96,22 @@ class Sidemenu extends Component {
     console.log('this.props', this.props); // TODO --DM-- Remove
 
     return (
-      <Menu right
-        width={ '325px' }
-        isOpen={this.state.menuIsOpen}
-        onStateChange={(state) => this.handleSideMenuStateChange(state)} >
-        <div className="sidemenu-header">{(this.props.editing) ? "Edit Node" : "Add Node" }</div>
-        <NodeInstancePopulator 
-          dispatch={this.props.dispatch}
-          editing={this.props.editing} 
-          template={this.props.template} 
-          node={this.props.node} />
-        {this.renderSideMenu()}
-      </Menu>
+      <div>
+        <Menu right
+          width={ '325px' }
+          isOpen={this.state.menuIsOpen}
+          onStateChange={(state) => this.handleSideMenuStateChange(state)} >
+          <div className="sidemenu-header">{(this.props.editing) ? "Edit Node" : "Add Node" }</div>
+          <NodeInstancePopulator 
+            dispatch={this.props.dispatch}
+            editing={this.props.editing} 
+            template={this.props.template} 
+            node={this.props.node} />
+          {this.renderSideMenu()}
+        </Menu>
+      </div>
     );
   }
 }
 
-export default Sidemenu;
+export default NodesPanel;
