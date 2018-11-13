@@ -76,8 +76,8 @@ Repos
       [ ] Handle case that no template is selected
     [x] Editing Nodes
     [x] Delete Nodes
+    [x] Simple filter by property
     [ ] Write tests
-    [ ] Simple filter by property
   [ ] Relationships & Interfaces
     [ ] Repo.js switching between Templates, Relationships, and Interfaces
     [ ] Components for Relationships & Interfaces
