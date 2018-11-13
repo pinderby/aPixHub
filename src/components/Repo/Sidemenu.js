@@ -16,9 +16,6 @@ class Sidemenu extends Component {
     this.openSideMenu = this.openSideMenu.bind(this);
     this.closeSideMenu = this.closeSideMenu.bind(this);
     this.toggleSideMenu = this.toggleSideMenu.bind(this);
-    this.renderSideMenu = this.renderSideMenu.bind(this);
-    this.changeTemplate = this.changeTemplate.bind(this);
-    this.editTemplate = this.editTemplate.bind(this);
     this.editNode = this.editNode.bind(this);
 
     this.state = {
@@ -29,80 +26,38 @@ class Sidemenu extends Component {
     };
   }
 
-  // static getDerivedStateFromProps(nextProps, prevState) {
-  //   var nextState = {
-  //     menuIsOpen: nextProps.menuIsOpen
-  //   }
-    
-  //   return nextState; 
-  // }
-
   // This keeps the state in sync with the opening/closing of the menu
   // via the default means, e.g. clicking the X, pressing the ESC key etc.
   handleSideMenuStateChange(state) {
     console.log("handleSideMenuStateChange(state): ", state.isOpen);
-    this.setState({menuIsOpen: state.isOpen})  
+    this.setState({menuIsOpen: state.isOpen}); // TODO --DTM-- Remove
+    this.props.handleSideMenuStateChange(state.isOpen, this.props.editing, this.props.node);
   }
 
   // This can be used to open the menu, e.g. when a user clicks an edit button
   openSideMenu() {
-    this.setState({menuIsOpen: true})
+    this.setState({menuIsOpen: true});
+    this.props.handleSideMenuStateChange(true, this.props.editing, this.props.node);
   }
 
   // This can be used to close the menu, e.g. when a user clicks a menu item
   closeSideMenu() {
-    this.setState({menuIsOpen: false})
+    this.setState({menuIsOpen: false}); // TODO --DTM-- Remove
+    this.props.handleSideMenuStateChange(false, this.props.editing, this.props.node);
   }
 
   // This can be used to toggle the menu, e.g. when using a custom icon
   // Tip: You probably want to hide either/both default icons if using a custom icon
   // See https://github.com/negomi/react-burger-menu#custom-icons
   toggleSideMenu () {
-    this.setState({menuIsOpen: !this.state.menuIsOpen})
-  }
-
-  changeTemplate(template) {
-    // TODO --DTM-- Implement
-    console.log('changeTemplate() template: ', template);
-  }
-
-  editTemplate(template) {
-    // TODO --DTM-- Implement
-    console.log('editTemplate() template: ', template);
+    this.setState({menuIsOpen: !this.state.menuIsOpen}); // TODO --DTM-- Remove
+    this.props.handleSideMenuStateChange(!this.state.menuIsOpen, this.props.editing, this.props.node);
   }
 
   editNode(node) {
     // TODO --DTM-- Implement
-    this.setState({menuIsOpen: true})
+    this.setState({menuIsOpen: true}); // TODO --DTM-- Remove
     console.log('editNode() node: ', node);
-  }
-
-  // Render sidemenu
-  renderSideMenu() {
-    // Initialize variables
-    // const templateProps = this.state.activeTemplate.properties;
-    var props = [];
-    let i = 0;
-
-    // // Iterate through template properties
-    // for (var key in templateProps) {
-    //   // Initialize prop
-    //   var prop = templateProps[key];
-
-    //   // Initialize path if needed
-    //   if (!prop.path) prop.path = 'properties.'+prop.key;
-
-    //   // Push property input for each prop
-    //   props.push(<PropertyPopulator key={key} index={i} prop={prop} node={this.state.node} 
-    //                     nodeTemplate={this.props.nodeTemplate} dispatch={this.props.dispatch} nested={false}
-    //                     onChange={(path, value) => this.setProperty(path, value)} />); // TODO --DM-- manage keys for iteration
-    //   props.push(<br key={key.toString()+'1000'} />)
-
-    //   // Increment index
-    //   i++;
-    // }
-
-    return props;
   }
   
   render() {
@@ -112,7 +67,7 @@ class Sidemenu extends Component {
     return (
       <Menu right
         width={ '325px' }
-        isOpen={this.state.menuIsOpen}
+        isOpen={this.props.menuIsOpen}
         onStateChange={(state) => this.handleSideMenuStateChange(state)} >
         <div className="sidemenu-header">{(this.props.editing) ? "Edit Node" : "Add Node" }</div>
         <NodeInstancePopulator 
@@ -120,7 +75,6 @@ class Sidemenu extends Component {
           editing={this.props.editing} 
           template={this.props.template} 
           node={this.props.node} />
-        {this.renderSideMenu()}
       </Menu>
     );
   }

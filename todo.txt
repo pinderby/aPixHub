@@ -71,9 +71,10 @@ Repos
     [ ] Renaming Existing Templates - how to handle...
     [x] Changing templates
   [ ] Nodes Panel
-    [ ] Split panels
-    [ ] Extract NodesPanel.js
+    [x] Split panels
+    [x] Extract NodesPanel.js
     [ ] Creating Nodes
+      [ ] Handle case that no template is selected
     [ ] Editing Nodes
     [ ] Delete Nodes
     [ ] Simple filter by property

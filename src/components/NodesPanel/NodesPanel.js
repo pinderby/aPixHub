@@ -1,94 +1,50 @@
 import React, { Component } from 'react';
+import { slide as Menu } from 'react-burger-menu';
+import { Button, Glyphicon } from 'react-bootstrap';
+import NodeInstancePopulator from '../NodeInstance/NodeInstancePopulator';
+import NodeSearchResult from '../NodeInstance/NodeSearchResult';
+import test_data from  '../../test_data.json'; // TODO --DTM-- Delete
 
 class NodesPanel extends Component {
   constructor(props) {
     super(props);
 
     // Bind methods
-    this.handleSideMenuStateChange = this.handleSideMenuStateChange.bind(this);
-    this.openSideMenu = this.openSideMenu.bind(this);
-    this.closeSideMenu = this.closeSideMenu.bind(this);
-    this.toggleSideMenu = this.toggleSideMenu.bind(this);
-    this.renderSideMenu = this.renderSideMenu.bind(this);
-    this.changeTemplate = this.changeTemplate.bind(this);
-    this.editTemplate = this.editTemplate.bind(this);
-    this.editNode = this.editNode.bind(this);
+    this.renderNodes = this.renderNodes.bind(this);
 
     // Initialize state
     this.state = {
       user: {},
-      menuIsOpen: props.menuIsOpen,
       editing: props.editing,
       node: props.node,
     };
   }
 
-  // This keeps the state in sync with the opening/closing of the menu
-  // via the default means, e.g. clicking the X, pressing the ESC key etc.
-  handleSideMenuStateChange(state) {
-    console.log("handleSideMenuStateChange(state): ", state.isOpen);
-    this.setState({menuIsOpen: state.isOpen})  
-  }
+  renderNodes() {
+    // Get nodes from test data if they exist
+    let nodes = (test_data.nodes[this.props.activeTemplate.label]) ? test_data.nodes[this.props.activeTemplate.label] : [];
 
-  // This can be used to open the menu, e.g. when a user clicks an edit button
-  openSideMenu() {
-    this.setState({menuIsOpen: true})
-  }
-
-  // This can be used to close the menu, e.g. when a user clicks a menu item
-  closeSideMenu() {
-    this.setState({menuIsOpen: false})
-  }
-
-  // This can be used to toggle the menu, e.g. when using a custom icon
-  // Tip: You probably want to hide either/both default icons if using a custom icon
-  // See https://github.com/negomi/react-burger-menu#custom-icons
-  toggleSideMenu () {
-    this.setState({menuIsOpen: !this.state.menuIsOpen})
-  }
-
-  changeTemplate(template) {
-    // TODO --DTM-- Implement
-    console.log('changeTemplate() template: ', template);
-  }
-
-  editTemplate(template) {
-    // TODO --DTM-- Implement
-    console.log('editTemplate() template: ', template);
-  }
-
-  editNode(node) {
-    // TODO --DTM-- Implement
-    this.setState({menuIsOpen: true})
-    console.log('editNode() node: ', node);
-  }
-
-  // Render sidemenu
-  renderSideMenu() {
     // Initialize variables
-    // const templateProps = this.state.activeTemplate.properties;
-    var props = [];
-    let i = 0;
+    let nodeComps = [], 
+        editNode = this.props.editNode,
+        templateSettings = this.props.settings.repos[this.props.repo.name][this.props.activeTemplate.label];
 
-    // // Iterate through template properties
-    // for (var key in templateProps) {
-    //   // Initialize prop
-    //   var prop = templateProps[key];
+    console.log('nodes: ', nodes);
+    console.log('templateSettings: ', templateSettings);
 
-    //   // Initialize path if needed
-    //   if (!prop.path) prop.path = 'properties.'+prop.key;
+    // Return if not array (can occur when API call does not return nodes)
+    if (Object.prototype.toString.call( nodes ) !== '[object Array]' ) return;
 
-    //   // Push property input for each prop
-    //   props.push(<PropertyPopulator key={key} index={i} prop={prop} node={this.state.node} 
-    //                     nodeTemplate={this.props.nodeTemplate} dispatch={this.props.dispatch} nested={false}
-    //                     onChange={(path, value) => this.setProperty(path, value)} />); // TODO --DM-- manage keys for iteration
-    //   props.push(<br key={key.toString()+'1000'} />)
-
-    //   // Increment index
-    //   i++;
-    // }
-
-    return props;
+    // Iterate through nodes
+    nodes.forEach(function (node, index) {
+      // Wrap router link and render props in NodeSearchResult
+      nodeComps.push(
+        <div key={node.nid} href="#" onClick={() => editNode(node)} className="node-instance-wrapper">
+          <NodeSearchResult key={index} node={node} templateSettings={templateSettings} />
+        </div>
+      );
+    });
+    return nodeComps;
   }
   
   render() {
@@ -97,18 +53,15 @@ class NodesPanel extends Component {
 
     return (
       <div>
-        <Menu right
-          width={ '325px' }
-          isOpen={this.state.menuIsOpen}
-          onStateChange={(state) => this.handleSideMenuStateChange(state)} >
-          <div className="sidemenu-header">{(this.props.editing) ? "Edit Node" : "Add Node" }</div>
-          <NodeInstancePopulator 
-            dispatch={this.props.dispatch}
-            editing={this.props.editing} 
-            template={this.props.template} 
-            node={this.props.node} />
-          {this.renderSideMenu()}
-        </Menu>
+        <div className="panel-heading clearfix">
+          <h3>Nodes</h3>
+          <Button bsStyle="primary" onClick={() => this.props.addNode()}>
+            <Glyphicon glyph="plus" />
+          </Button>
+        </div>
+        <div className="panel-body">
+          {this.renderNodes()}
+        </div>
       </div>
     );
   }

@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import test_data from  '../../test_data.json'; // TODO --DTM-- Delete
-import { slide as Menu } from 'react-burger-menu';
 import { Navbar, Nav, NavItem, DropdownButton, MenuItem, Button, Glyphicon, FormControl } from 'react-bootstrap';
-import NodeSearchResult from '../NodeInstance/NodeSearchResult';
-import PropertyPopulator from '../NodeInstance/PropertyPopulator';
 import Sidemenu from './Sidemenu';
+import PropertyPopulator from '../NodeInstance/PropertyPopulator';
 import NodeTemplate from '../NodeTemplate/NodeTemplate';
+import NodesPanel from '../NodesPanel/NodesPanel';
 import Helpers from '../../helpers.js';
 import { fetchAuthUser, fetchPostUser, fetchMe } from '../../actions/users';
 import { changeTemplate } from '../../actions/templates';
@@ -32,8 +30,8 @@ class Repo extends Component {
     } 
 
     // Bind methods
+    this.handleSideMenuStateChange = this.handleSideMenuStateChange.bind(this);
     this.renderTemplates = this.renderTemplates.bind(this);
-    this.renderNodes = this.renderNodes.bind(this);
     this.changeTemplate = this.changeTemplate.bind(this);
     this.addTemplate = this.addTemplate.bind(this);
     this.editTemplate = this.editTemplate.bind(this);
@@ -107,6 +105,17 @@ class Repo extends Component {
     // Erase user from state and rerender
     this.setState({
       user: {}
+    });
+  }
+
+  // Update sidemenu state
+  handleSideMenuStateChange(isOpen, isEditing, node = {}) {
+    this.setState({ 
+      sidemenu: { 
+        open: isOpen,
+        editing: isEditing,
+        node: node
+      } 
     });
   }
 
@@ -256,33 +265,6 @@ class Repo extends Component {
     });
     return templateComps;
   }
-
-  renderNodes() {
-    // Get nodes from test data if they exist
-    let nodes = (test_data.nodes[this.state.activeTemplate.label]) ? test_data.nodes[this.state.activeTemplate.label] : [];
-
-    // Initialize variables
-    let nodeComps = [], 
-        editNode = this.editNode,
-        templateSettings = this.state.settings.repos[this.props.repo.name][this.state.activeTemplate.label];
-
-    console.log('nodes: ', nodes);
-    console.log('templateSettings: ', templateSettings);
-
-    // Return if not array (can occur when API call does not return nodes)
-    if (Object.prototype.toString.call( nodes ) !== '[object Array]' ) return;
-
-    // Iterate through nodes
-    nodes.forEach(function (node, index) {
-      // Wrap router link and render props in NodeSearchResult
-      nodeComps.push(
-        <div key={node.nid} href="#" onClick={() => editNode(node)} className="node-instance-wrapper">
-          <NodeSearchResult key={index} node={node} templateSettings={templateSettings} />
-        </div>
-      );
-    });
-    return nodeComps;
-  }
   
   render() {
     console.log('this.state', this.state); // TODO --DM-- Remove
@@ -300,13 +282,14 @@ class Repo extends Component {
     }
 
     return (
-      <div className="repo-container">
+      <div id="repo-container" className="repo-container">
         <Sidemenu 
           dispatch={this.props.dispatch}
           menuIsOpen={this.state.sidemenu.open}
           editing={this.state.sidemenu.editing}
           template={this.state.activeTemplate}
-          node={this.state.sidemenu.node} />
+          node={this.state.sidemenu.node}
+          handleSideMenuStateChange={this.handleSideMenuStateChange} />
         <Navbar inverse collapseOnSelect>
           <Navbar.Header>
             <Navbar.Brand>
@@ -329,14 +312,14 @@ class Repo extends Component {
             {/* <MenuItem divider /> */}
           </DropdownButton>
         </h3>
-        <div className="repo-panel panel panel-default">
+        <div id="repo-panel" className="repo-panel panel panel-default">
           <div className="row">
             <div className="template-col">
-              <div className="panel-heading clearfix">
+              <div className="panel-heading">
                 <h3>
-                  <DropdownButton title={"Templates"} key="1" className="template-panel-dropdown"
+                  <DropdownButton title={"Node Templates"} key="1" className="template-panel-dropdown"
                         bsSize="large" id={`dropdown-basic-2`} >
-                    <MenuItem eventKey="1">Relationships</MenuItem>
+                    <MenuItem eventKey="1">Relationship Templates</MenuItem>
                     <MenuItem eventKey="2">Interfaces</MenuItem>
                   </DropdownButton>
                 </h3>
@@ -351,15 +334,12 @@ class Repo extends Component {
               </div>
             </div>
             <div className="node-col">
-              <div className="panel-heading clearfix">
-                <h3>Nodes</h3>
-                <Button bsStyle="primary" onClick={() => this.addNode()}>
-                  <Glyphicon glyph="plus" />
-                </Button>
-              </div>
-              <div className="panel-body">
-                {this.renderNodes()}
-              </div>
+              <NodesPanel 
+                  activeTemplate={this.state.activeTemplate}
+                  settings={this.state.settings}
+                  repo={this.props.repo}
+                  editNode={this.editNode}
+                  addNode={this.addNode} />
             </div>
           </div>
         </div>

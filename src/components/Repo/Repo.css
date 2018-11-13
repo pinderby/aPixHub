@@ -32,7 +32,7 @@
   min-height: 70px;
 }
 
-.node-col > .panel-heading > h3 {
+.node-col .panel-heading > h3 {
   margin-top: 20px;
 }
 
@@ -145,7 +145,7 @@
   margin-right: 7px;
 }
 
-.template-remove-prop-btn {
+.template-remove-prop-td .template-remove-prop-btn {
   padding: 0px 3px !important;
 }
 
