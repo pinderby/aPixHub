@@ -169,6 +169,11 @@
   margin: 5px;
 }
 
+.nodes-searchbar {
+  margin-top: 10px;
+  width: 90%;
+}
+
 .node-instance-wrapper {
   color: #337ab7;
 }

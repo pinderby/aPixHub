@@ -65,10 +65,9 @@ Repos
     [x] Creating Templates (inline)
     [x] Reading Templates
     [x] Reimplement getting nodes without redux
-    [ ] (Deleting Templates)
+    [ ] Deleting Templates
     [x] Tests for Renaming Templates
     [x] Fix capitalization for template names during input
-    [ ] Renaming Existing Templates - how to handle...
     [x] Changing templates
   [ ] Nodes Panel
     [x] Split panels
@@ -76,7 +75,7 @@ Repos
     [x] Creating Nodes
       [ ] Handle case that no template is selected
     [x] Editing Nodes
-    [ ] Delete Nodes
+    [x] Delete Nodes
     [ ] Write tests
     [ ] Simple filter by property
   [ ] Relationships & Interfaces

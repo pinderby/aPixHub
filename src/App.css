@@ -8,7 +8,7 @@
   border-radius: 0px !important;
 }
 
-.searchbar {
+.navbar .searchbar {
   width: 60% !important;
   display: inline !important;
   margin-top: 7px !important;
