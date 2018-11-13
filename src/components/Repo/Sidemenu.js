@@ -76,7 +76,8 @@ class Sidemenu extends Component {
           template={this.props.template}
           node={this.props.node}
           index={this.props.index}
-          saveNode={this.props.saveNode} />
+          saveNode={this.props.saveNode}
+          deleteNode={this.props.deleteNode} />
       </Menu>
     );
   }

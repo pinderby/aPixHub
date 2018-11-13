@@ -4,6 +4,7 @@ import _ from 'lodash';
 import PropertyPopulator from './PropertyPopulator';
 import RelationshipInstancePopulator from './RelationshipInstancePopulator';
 import '../NodeTemplate/TemplateBuilder.css';
+import { Button } from 'react-bootstrap';
 import { updateNode, fetchNode, fetchPostNode, fetchPutNode } from '../../actions/nodes';
 import { DIRECTION } from '../../constants/PropertyTypes';
 import { fetchTemplate } from '../../actions/templates';
@@ -347,6 +348,10 @@ class NodeInstancePopulator extends Component {
           {/* <RequestButton text={'Submit Node'} onClick={() => this.submitNode(template.label)}/> */}
           <RequestButton text={'Save Node'} 
               onClick={() => this.props.saveNode(this.props.template.label, this.state.node, this.props.index)}/>
+          <Button className="template-remove-node-btn" bsStyle="danger"
+                  onClick={() => this.props.deleteNode(this.props.template.label, this.props.index)}>
+                  Delete Node
+          </Button>
         </form>
       
       console.log('Template:', template);

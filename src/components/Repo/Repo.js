@@ -38,6 +38,7 @@ class Repo extends Component {
     this.addNode = this.addNode.bind(this);
     this.editNode = this.editNode.bind(this);
     this.saveNode = this.saveNode.bind(this);
+    this.deleteNode = this.deleteNode.bind(this);
     this.updateSettings = this.updateSettings.bind(this);
     this.logout = this.logout.bind(this);
 
@@ -234,8 +235,30 @@ class Repo extends Component {
       sidemenu: { 
         open: false,
         editing: false,
-        node: {},
-        index: 0
+        node: {}
+      } 
+    });
+  }
+
+  deleteNode(templateLabel, index) {
+    console.log("deleteNode(): templateLabel, index ", templateLabel, index);  // TODO --DTM-- Remove
+
+    // Initialize variables
+    let nextAllNodes;
+
+    // Copy current nodes
+    nextAllNodes = { ...this.state.allNodes }
+
+    // Remove node to be deleted
+    nextAllNodes[templateLabel].splice(index, 1);
+    
+    // Update state.allNodes, reset sidemenu state
+    this.setState({
+      allNodes: nextAllNodes,
+      sidemenu: { 
+        open: false,
+        editing: false,
+        node: {}
       } 
     });
   }
@@ -328,7 +351,8 @@ class Repo extends Component {
           node={this.state.sidemenu.node}
           index={this.state.sidemenu.index}
           handleSideMenuStateChange={this.handleSideMenuStateChange}
-          saveNode={this.saveNode} />
+          saveNode={this.saveNode}
+          deleteNode={this.deleteNode} />
         <Navbar inverse collapseOnSelect>
           <Navbar.Header>
             <Navbar.Brand>
