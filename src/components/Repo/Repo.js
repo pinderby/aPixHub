@@ -198,17 +198,17 @@ class Repo extends Component {
     });
   }
 
-  editNode(nodes, index) {
+  editNode(node, index) {
     // TODO --DTM-- Implement
     this.setState({
       sidemenu: {
         open: true,
         editing: true,
-        node: nodes[index],
+        node: node,
         index: index
       }
     });
-    console.log('editNode() node: ', nodes[index]); // TODO --DTM-- Remove
+    console.log('editNode() node: ', node); // TODO --DTM-- Remove
   }
 
   saveNode(templateLabel, node, index) {

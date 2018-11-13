@@ -73,8 +73,12 @@ class NodesPanel extends Component {
     nodes.forEach(function (node, index) {
       // Wrap router link and render props in NodeSearchResult
       nodeComps.push(
-        <div key={node.nid} href="#" onClick={() => editNode(nodes, index)} className="node-instance-wrapper">
-          <NodeSearchResult key={index} node={node} templateSettings={templateSettings} />
+        <div key={node.nid} href="#"  className="node-instance-wrapper">
+          <NodeSearchResult 
+              key={index}
+              node={node}
+              templateSettings={templateSettings}
+              editNode={editNode} />
         </div>
       );
     });
