@@ -208,7 +208,7 @@ class Repo extends Component {
         index: index
       }
     });
-    console.log('editNode() node: ', node); // TODO --DTM-- Remove
+    console.log('editNode() node, index: ', node, index); // TODO --DTM-- Remove
   }
 
   saveNode(templateLabel, node, index) {
@@ -220,7 +220,7 @@ class Repo extends Component {
     // Copy current nodes
     nextAllNodes = { ...this.state.allNodes }
 
-    if (!index) {
+    if (typeof index === 'undefined') {
       // If index not defined, push new node into array
       node.nid = nextAllNodes[templateLabel].length;
       nextAllNodes[templateLabel].push(node);

@@ -46,10 +46,12 @@ class NodeSearchResult extends Component {
   }
   
   render() {
+    console.log('this.props', this.props); // TODO --DM-- Remove
+
     return (
       <div id="node-search-result-container" className="panel panel-default">
         <div className="panel-body" 
-              onClick={() => this.props.editNode(this.props.node, this.props.key)}>
+              onClick={() => this.props.editNode(this.props.node, this.props.index)}>
           {/* Render 'nid' first, if present */}
           {this.renderNid()}
           {this.renderProps()}

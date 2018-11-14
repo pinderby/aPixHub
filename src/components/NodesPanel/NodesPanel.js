@@ -77,6 +77,7 @@ class NodesPanel extends Component {
           <NodeSearchResult 
               key={index}
               node={node}
+              index={index}
               templateSettings={templateSettings}
               editNode={editNode} />
         </div>
