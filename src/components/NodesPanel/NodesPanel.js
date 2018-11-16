@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { slide as Menu } from 'react-burger-menu';
-import { Button, Glyphicon, FormControl, FormGroup, InputGroup, Form } from 'react-bootstrap';
+import { Button, Glyphicon, FormControl, FormGroup, InputGroup, Form, OverlayTrigger } from 'react-bootstrap';
 import Helpers from '../../helpers.js';
 import NodeInstancePopulator from '../NodeInstance/NodeInstancePopulator';
 import NodeSearchResult from '../NodeInstance/NodeSearchResult';
@@ -119,9 +119,11 @@ class NodesPanel extends Component {
       <div>
         <div className="panel-heading clearfix">
           <h3>Nodes</h3>
-          <Button bsStyle="primary" onClick={() => this.props.addNode()}>
-            <Glyphicon glyph="plus" />
-          </Button>
+          <OverlayTrigger trigger={['hover', 'focus']} placement="left" overlay={this.props.selectTemplatePopover}>
+            <Button className="create-node-btn" bsStyle="primary" onClick={() => this.props.addNode()}>
+              <Glyphicon glyph="plus" />
+            </Button>
+          </OverlayTrigger>
         </div>
         <div className="nodes-searchbar">
           {nodesSearchForm}

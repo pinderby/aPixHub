@@ -115,7 +115,7 @@ class EditableInput extends Component {
 }
 
 EditableInput.propTypes = {
-  index: PropTypes.number.isRequired,
+  index: PropTypes.isRequired,
   propKey: PropTypes.string.isRequired,
   value: PropTypes.node.isRequired,
   onChange: PropTypes.func.isRequired,

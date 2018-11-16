@@ -77,11 +77,8 @@ Repos
     [x] Editing Nodes
     [x] Delete Nodes
     [x] Simple filter by property
-    [ ] Check on nid ref
-    [ ] Deleting nodes creates new ones
-    [ ] Check on adding property
-    [ ] Check on refresh for nodes array
     [ ] Write tests
+    [ ] More template tests?
   [ ] Relationships & Interfaces
     [ ] Repo.js switching between Templates, Relationships, and Interfaces
     [ ] Components for Relationships & Interfaces

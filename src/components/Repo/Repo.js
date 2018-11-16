@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { Navbar, Nav, NavItem, DropdownButton, MenuItem, Button, Glyphicon, FormControl } from 'react-bootstrap';
+import { Navbar, Nav, NavItem, DropdownButton, MenuItem, Button, Glyphicon, FormControl, Popover } from 'react-bootstrap';
 import Sidemenu from './Sidemenu';
 import PropertyPopulator from '../NodeInstance/PropertyPopulator';
 import NodeTemplate from '../NodeTemplate/NodeTemplate';
@@ -188,7 +188,10 @@ class Repo extends Component {
   }
 
   addNode() {
-    // TODO --DTM-- Implement
+    // Return if no template is selected
+    if (!this.state.activeTemplate || _.isEmpty(this.state.activeTemplate.label)) return;
+
+    // If active template is selected, open sidemenu
     this.setState({
       sidemenu: {
         open: true,
@@ -336,6 +339,16 @@ class Repo extends Component {
     let nodes = (this.state.allNodes[this.state.activeTemplate.label]) ? this.state.allNodes[this.state.activeTemplate.label] : [];
     let templateSettings = this.props.settings.repos[this.props.repo.name][this.state.activeTemplate.label];
 
+    // Initialize selectTemplatePopover
+    let selectTemplatePopover = <span id="popover-positioned-left" />;
+    if (!this.state.activeTemplate || _.isEmpty(this.state.activeTemplate.label)) {
+      selectTemplatePopover = (
+        <Popover id="popover-positioned-left" className="select-template-popover">
+          Please select a template on the left to add a node.
+        </Popover>
+      );
+    }
+
     // If user is empty, show login screen
     if (_.isEmpty(this.state.user)) { 
       // TODO --DTM-- REDIRECT TO LOGIN
@@ -404,7 +417,8 @@ class Repo extends Component {
                 nodes={nodes}
                 templateSettings={templateSettings}
                 editNode={this.editNode}
-                addNode={this.addNode} />
+                addNode={this.addNode}
+                selectTemplatePopover={selectTemplatePopover} />
             </div>
           </div>
         </div>
