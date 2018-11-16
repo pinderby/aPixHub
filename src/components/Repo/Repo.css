@@ -169,6 +169,14 @@
   margin: 5px;
 }
 
+.nodes-panel-container {
+  position: relative; 
+}
+
+.nodes-panel-container > .popover.left {
+  margin-top: 15px;
+}
+
 .nodes-searchbar {
   margin-top: 10px;
   width: 90%;

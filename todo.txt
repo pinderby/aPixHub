@@ -73,7 +73,7 @@ Repos
     [x] Split panels
     [x] Extract NodesPanel.js
     [x] Creating Nodes
-      [ ] Handle case that no template is selected
+      [x] Handle case that no template is selected
     [x] Editing Nodes
     [x] Delete Nodes
     [x] Simple filter by property

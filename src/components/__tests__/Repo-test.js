@@ -56,17 +56,17 @@ describe('Repo Component', () => {
     expect(wrapper.find('.node-col .node-instance-wrapper').length).toEqual(0);
   });
   
-  // Properly shows error when trying to add node with no active template
-  it('Properly shows error when trying to add node with no active template', () => {
-    // Check total nodes and check first node data
-    wrapper.find('.node-col .create-node-btn').at(0).simulate('click');
+  // Properly shows popover when trying to add node with no active template
+  it('Properly shows popover when trying to add node with no active template', () => {
+    wrapper.find('.create-node-btn').at(1).simulate('click');
     expect(wrapper.state().sidemenu.open).toBe(false);
-    // expect(wrapper.state().sidemenu.open).toBe(false);
+    expect(wrapper.find('.select-template-popover').exists()).toBe(true);
   });
 
   // Properly renders all nodes in 'Movie' in test_data
   it('Properly renders all nodes in \'Movie\' in test_data', () => {
     // Check total nodes and check first node data
+    wrapper.find('.template-label-wrapper').at(0).simulate('click');
     expect(wrapper.find('.node-col .node-instance-wrapper').length).toEqual(5);
   });
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { slide as Menu } from 'react-burger-menu';
-import { Button, Glyphicon, FormControl, FormGroup, InputGroup, Form, OverlayTrigger } from 'react-bootstrap';
+import { Button, Glyphicon, FormControl, FormGroup, InputGroup, Form, Overlay, Popover } from 'react-bootstrap';
 import Helpers from '../../helpers.js';
 import NodeInstancePopulator from '../NodeInstance/NodeInstancePopulator';
 import NodeSearchResult from '../NodeInstance/NodeSearchResult';
@@ -13,6 +13,7 @@ class NodesPanel extends Component {
     // Bind methods
     this.renderNodes = this.renderNodes.bind(this);
     this.filterNodes = this.filterNodes.bind(this);
+    this.createNode = this.createNode.bind(this); 
     this.onQueryChanged = this.onQueryChanged.bind(this);
     this.onQueryPropChanged = this.onQueryPropChanged.bind(this);
 
@@ -23,6 +24,7 @@ class NodesPanel extends Component {
       queryProp: "",
       editing: props.editing,
       node: props.node,
+      showPopover: false
     };
   }
 
@@ -38,6 +40,22 @@ class NodesPanel extends Component {
     this.setState({
       queryProp: e.target.value
     });
+  }
+
+  // Create new node
+  createNode(e) {
+    // If no active template selected, show select template popover
+    if (!this.props.activeTemplate || _.isEmpty(this.props.activeTemplate.label)) {
+      // Set target for popover and show for 2secs
+      this.setState({
+        showPopover: true,
+        popoverTarget: e.target
+      });
+      setTimeout(() => this.setState({ showPopover: false }), 2000);
+    } else {
+      // If active template selected, create new node
+      this.props.addNode();
+    }
   }
 
   // Filter nodes based on search query
@@ -116,14 +134,21 @@ class NodesPanel extends Component {
     }
 
     return (
-      <div>
+      <div className="nodes-panel-container">
         <div className="panel-heading clearfix">
           <h3>Nodes</h3>
-          <OverlayTrigger trigger={['hover', 'focus']} placement="left" overlay={this.props.selectTemplatePopover}>
-            <Button className="create-node-btn" bsStyle="primary" onClick={() => this.props.addNode()}>
-              <Glyphicon glyph="plus" />
-            </Button>
-          </OverlayTrigger>
+          {/* <SelectTemplatePopover show={true} target={createNodeButton} /> */}
+          <Button className="create-node-btn" bsStyle="primary" onClick={this.createNode}>
+            <Glyphicon glyph="plus" />
+          </Button>
+          <Overlay show={this.state.showPopover}
+            container={this}
+            target={this.state.popoverTarget}
+            placement="left">
+            <Popover id="popover-positioned-left" className="select-template-popover">
+              Please select a template on the left to add a node.
+            </Popover>
+          </Overlay>
         </div>
         <div className="nodes-searchbar">
           {nodesSearchForm}
