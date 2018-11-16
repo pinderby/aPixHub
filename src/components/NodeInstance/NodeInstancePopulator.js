@@ -346,9 +346,9 @@ class NodeInstancePopulator extends Component {
           {/* {this.renderRelationships()} */}
           <br />
           {/* <RequestButton text={'Submit Node'} onClick={() => this.submitNode(template.label)}/> */}
-          <RequestButton text={'Save Node'} 
+          <RequestButton text={'Save Node'} className="save-node-btn"
               onClick={() => this.props.saveNode(this.props.template.label, this.state.node, this.props.index)}/>
-          <Button className="template-remove-node-btn" bsStyle="danger"
+          <Button className="delete-node-btn" bsStyle="danger"
                   onClick={() => this.props.deleteNode(this.props.template.label, this.props.index)}>
                   Delete Node
           </Button>

@@ -73,43 +73,89 @@ describe('Repo Component', () => {
   // Opens sidemenu with node populated when node is clicked
   it('Opens sidemenu with node populated when node is clicked', () => {
     // Check sidemenu opening and prepopulated data
+    wrapper.find('.node-instance-wrapper').at(0).find('.panel-body').at(0).simulate('click');
+    expect(wrapper.state().sidemenu.open).toBe(true);
+    expect(wrapper.find('.property-populator input').at(0).props().value).toEqual("Black Panther");
   });
 
   // Editing node name changes name and persists when saved
   it('Editing node name changes name and persists when saved', () => {
-
+    wrapper.find('.property-populator input').at(0).simulate('change', {
+      target: { value: 'Black Panther 2' }
+    });
+    wrapper.find('.save-node-btn').at(0).simulate('click');
+    expect(
+      wrapper.find('.node-instance-wrapper').at(0)
+             .find('.panel-body').at(0)
+             .find('.node-prop-value').at(0).text()
+    ).toEqual(" Black Panther 2");
   });
 
   // Add node when 'Create Node' button is clicked
   it('Add node when \'Create Node\' button is clicked', () => {
-
+    wrapper.find('.create-node-btn').at(0).simulate('click');
+    wrapper.find('.property-populator input').at(0).simulate('change', {
+      target: { value: 'First Man' }
+    });
+    wrapper.find('.save-node-btn').at(0).simulate('click');
+    expect(wrapper.state().allNodes.movie.length).toEqual(6);
   });
 
   // Adding new property to template display when editing node
   it('Adding new property to template display when editing node', () => {
-
+    wrapper.find('.template-edit-btn').at(0).simulate('click');
+    wrapper.find('.template-add-prop-btn.btn-sm').at(0).simulate('click');
+    wrapper.find('.template-prop').at(2).find('input[type=\'text\']').at(0).simulate('change', {
+      target: { value: 'year' }
+    });
+    wrapper.find('.template-prop').at(2).find('select').at(0).simulate('change', {
+      target: { value: 'Integer' }
+    });
+    wrapper.find('.template-edit-btn').at(0).simulate('click');
+    wrapper.find('.node-instance-wrapper').at(5).find('.panel-body').at(0).simulate('click');
+    expect(wrapper.find('.property-populator').at(1).find('label').at(0).text()).toEqual('Year : Integer');
   });
 
   // Editing new node with new template property properly changes node
   it('Editing new node with new template property properly changes node', () => {
-    // Save it
+    wrapper.find('.property-populator input').at(1).simulate('change', {
+      target: { value: '2018' }
+    });
+    wrapper.find('.save-node-btn').at(0).simulate('click');
+    expect(wrapper.state().allNodes.movie[5]).toEqual({
+      "nid": 5, 
+      "properties": {
+        "name": "First Man", 
+        "year": "2018"
+      }
+    });
   });
 
   // Deleting node removes node
   it('Deleting node removes node', () => {
-    
+    wrapper.find('.node-instance-wrapper').at(4).find('.panel-body').at(0).simulate('click');
+    wrapper.find('.delete-node-btn').at(0).simulate('click');
+    expect(wrapper.state().allNodes.movie.length).toEqual(5);
   });
 
   // Search query properly filters nodes
   it('Search query properly filters nodes', () => {
-    
+    wrapper.find('.nodes-searchbar input').at(0).simulate('change', {
+      target: { value: 'War' }
+    });
+    expect(wrapper.find('.node-instance-wrapper').length).toEqual(2);
   });
 
   // Search query properly filters nodes on new property
   it('Search query properly filters nodes on new property', () => {
-    
+    wrapper.find('.nodes-searchbar select').at(0).simulate('change', {
+      target: { value: 'year' }
+    });
+    wrapper.find('.nodes-searchbar input').at(0).simulate('change', {
+      target: { value: '2018' }
+    });
+    expect(wrapper.find('.node-instance-wrapper').length).toEqual(1);
   });
-
 });
 
 
