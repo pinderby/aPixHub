@@ -29,6 +29,7 @@ class NodeTemplate extends Component {
     this.removePropFromRel = this.removePropFromRel.bind(this);
     this.closeRemovePropModal = this.closeRemovePropModal.bind(this);
     this.onLabelChanged = this.onLabelChanged.bind(this);
+    this.onRelTypeChanged = this.onRelTypeChanged.bind(this);
     this.changeTemplate = this.changeTemplate.bind(this);
     this.onPropChanged = this.onPropChanged.bind(this);
     this.onRelPropChanged = this.onRelPropChanged.bind(this);
@@ -213,6 +214,23 @@ class NodeTemplate extends Component {
       // Assign new property value
       let nextTemplate = {...prevState.template};
       nextTemplate.label = _.snakeCase(nextlabel);
+      
+      return { 
+        template: nextTemplate,
+      };
+    });
+  }
+
+  onRelTypeChanged(nextRelType) {
+    // Update new value to state
+    console.log('this.state.template: ', this.state.template); // TODO --DM-- Remove
+    console.log('rel_type: ', nextRelType); // TODO --DM-- Remove
+    
+    // Update state with updated template
+    this.setState((prevState, props) => {
+      // Assign new property value
+      let nextTemplate = {...prevState.template};
+      nextTemplate.rel_type = _.upperCase(nextRelType);
       
       return { 
         template: nextTemplate,
@@ -578,14 +596,27 @@ class NodeTemplate extends Component {
     console.log('this.state', this.state); // TODO --DM-- Remove
     console.log('this.props', this.props); // TODO --DM-- Remove
 
+    // Initialize labelEditableInput based on template type
+    let labelEditableInput;
+    if (this.props.isRelationship) {
+      labelEditableInput = 
+        <EditableInput index={this.state.template.id} propKey='rel_type'
+          value={Helpers.formatPropKey(this.state.template.rel_type)}
+          disabled={false} editing={this.state.editing} inputType={InputTypes.TEXT} 
+          onChange={(index, key, value) => this.onRelTypeChanged(value)} />
+    } else {
+      labelEditableInput = 
+        <EditableInput index={this.state.template.id} propKey='label'
+          value={Helpers.formatPropKey(this.state.template.label)}
+          disabled={false} editing={this.state.editing} inputType={InputTypes.TEXT} 
+          onChange={(index, key, value) => this.onLabelChanged(value)} />
+    }
+
     return (
       <div className={(this.props.open) ? "list-group-item template-item active" : "list-group-item template-item" }>
         <div className="template-label-wrapper" onClick={() => this.changeTemplate(this.props.template)}>
           <span className="template-label" >
-            <EditableInput index={this.state.template.id} propKey='label'
-                  value={Helpers.formatPropKey(this.state.template.label)}
-                  disabled={false} editing={this.state.editing} inputType={InputTypes.TEXT} 
-                  onChange={(index, key, value) => this.onLabelChanged(value)} />
+            {labelEditableInput}
           </span>
           <Button className={(this.props.open) ? "template-edit-btn" : "hidden" } onClick={() => this.updateEditing()}>
             <Glyphicon glyph="pencil" />

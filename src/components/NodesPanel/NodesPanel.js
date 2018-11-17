@@ -81,6 +81,10 @@ class NodesPanel extends Component {
     console.log('nodes: ', nodes);
     console.log('templateSettings: ', templateSettings);
 
+    // TODO --DTM-- Implement for relationships
+    // If relationships or interfaces is selected, return
+    if (this.props.templateType !== 0) return;
+
     // Filter nodes based on user query
     nodes = this.filterNodes(nodes);
 

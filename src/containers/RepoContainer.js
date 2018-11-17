@@ -8,6 +8,8 @@ const mapStateToProps = (state) => {
     repo: state.repo,
     nodeTemplate: state.nodeTemplate,
     nodeTemplates: state.nodeTemplates,
+    relationshipTemplates: test_data.relationship_templates,
+    interfaces: test_data.interfaces,
     nodes: state.nodes,
     settings: state.userSettings
   }

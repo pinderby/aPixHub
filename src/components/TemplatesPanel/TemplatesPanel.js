@@ -45,34 +45,49 @@ class TemplatesPanel extends Component {
   renderTemplates(templateType) {
     // Initialize variables
     let templateComps = [],
-        nodeTemplates = this.props.nodeTemplates, 
-        nodeTemplate = this.props.activeTemplate, 
+        templates = [], 
+        activeTemplate = this.props.activeTemplate, 
         repoSettings = this.props.repoSettings,
         changeTemplate = this.props.changeTemplate,
         updateSettings = this.props.updateSettings;
 
-    console.log('nodeTemplates: ', nodeTemplates); // TODO --DTM-- Remove
+    // Assign templates based on template type
+    switch(templateType) {
+      case TemplateTypes.NODE:
+        templates = this.props.nodeTemplates;
+        break;
+      case TemplateTypes.RELATIONSHIP:
+        templates = this.props.relationshipTemplates;
+        break;
+      case TemplateTypes.INTERFACE:
+        templates = this.props.interfaces;
+        break;
+      default:
+        console.log("renderTemplates() template type error: ", this.props.templateType);
+    }
+
+    console.log('templates: ', templates); // TODO --DTM-- Remove
 
     // Return if not array (can occur when API call does not return nodes)
-    if (Object.prototype.toString.call( nodeTemplates ) !== '[object Array]' ) return;
+    if (Object.prototype.toString.call( templates ) !== '[object Array]' ) return;
 
     // Determine if template type is relationship
     let isRelationship = false;
-    if (templateType === 2) isRelationship = true;
+    if (templateType === 1) isRelationship = true;
 
     // Iterate through templates
-    nodeTemplates.forEach(function (template, index) {
+    templates.forEach(function (template, index) {
       // Add each template to list
       console.log('template, index: ', template, index);
       
       // TODO --DTM-- Remove. Temp assignment of template based on first load or state update (will not hold state)
       var temp;
-      if (template.id === nodeTemplate.id) (temp = nodeTemplate); else (temp = template);
+      if (template.id === activeTemplate.id) (temp = activeTemplate); else (temp = template);
 
       templateComps.push(
           <NodeTemplate 
             key={template.id} 
-            open={(template.id === nodeTemplate.id)} 
+            open={(template.id === activeTemplate.id)} 
             repoSettings={repoSettings}
             templateType={templateType}
             template={temp}

@@ -70,6 +70,8 @@ class Repo extends Component {
       token: token,
       templateType: TemplateTypes.NODE,
       nodeTemplates: props.nodeTemplates,
+      relationshipTemplates: props.relationshipTemplates,
+      interfaces: props.interfaces,
       allNodes: props.nodes,
       activeTemplate: { id: "", label: "" },
     };
@@ -353,7 +355,8 @@ class Repo extends Component {
                 templateType={this.state.templateType}
                 activeTemplate={this.state.activeTemplate}
                 nodeTemplates={this.state.nodeTemplates}
-                label={this.props.label}
+                relationshipTemplates={this.state.relationshipTemplates}
+                interfaces={this.state.interfaces}
                 repoSettings={this.state.settings.repos[this.props.repo.name]}
                 changeTemplateType={this.changeTemplateType}
                 addTemplate={this.addTemplate}
@@ -362,6 +365,7 @@ class Repo extends Component {
             </div>
             <div className="node-col">
               <NodesPanel 
+                templateType={this.state.templateType}
                 activeTemplate={this.state.activeTemplate}
                 settings={this.state.settings}
                 repo={this.props.repo}
