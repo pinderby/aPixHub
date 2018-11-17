@@ -35,7 +35,6 @@ class Repo extends Component {
     this.changeTemplateType = this.changeTemplateType.bind(this);
     this.changeTemplate = this.changeTemplate.bind(this);
     this.addTemplate = this.addTemplate.bind(this);
-    this.editTemplate = this.editTemplate.bind(this);
     this.addNode = this.addNode.bind(this);
     this.editNode = this.editNode.bind(this);
     this.saveNode = this.saveNode.bind(this);
@@ -188,12 +187,6 @@ class Repo extends Component {
         activeTemplate: newTemplate
       };
     });
-  }
-
-  editTemplate(template) {
-    // TODO --DTM-- Implement
-    // this.setState({sidemenu: {open: true}});
-    console.log('editTemplate() template: ', template);
   }
 
   addNode() {
@@ -365,21 +358,7 @@ class Repo extends Component {
                 changeTemplateType={this.changeTemplateType}
                 addTemplate={this.addTemplate}
                 changeTemplate={this.changeTemplate}
-                editTemplate={this.editTemplate}
                 updateSettings={this.updateSettings} />
-              {/* <div className="panel-heading">
-                <h3>
-                  {this.renderTemplateDropdown()}
-                </h3>
-                <Button className="create-template-btn" bsStyle="primary" onClick={() => this.addTemplate()}>
-                  <Glyphicon glyph="plus" />
-                </Button>
-              </div>
-              <div className="panel-body">
-                <div className="list-group">
-                  {this.renderTemplates(this.state.templateType)}
-                </div>
-              </div> */}
             </div>
             <div className="node-col">
               <NodesPanel 

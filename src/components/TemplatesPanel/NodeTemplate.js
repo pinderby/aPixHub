@@ -7,9 +7,9 @@ import { Table, Collapse, Checkbox, Button, Glyphicon, Modal } from 'react-boots
 // import './NodeTemplate.css'
 import './TemplateSearch.css';
 import EditableInput from '../EditableInput'
-import LoadingOverlay from '../LoadingOverlay';
 import { InputTypes } from '../../constants/PropertyTypes';
 import { fetchTemplate, updateNodeTemplate, fetchDeleteTemplate } from '../../actions/templates';
+import TemplateTypes from '../../constants/OtherConstants.js';
 
 class NodeTemplate extends Component {
   constructor(props) {
@@ -17,8 +17,12 @@ class NodeTemplate extends Component {
 
     // Bind methods
     this.updateTemplateField = this.updateTemplateField.bind(this);
+    this.renderTemplate = this.renderTemplate.bind(this);
+    this.renderTemplatePropsTable = this.renderTemplatePropsTable.bind(this);
+    this.renderRelPropsTable = this.renderRelPropsTable.bind(this);
     this.renderTemplateProps = this.renderTemplateProps.bind(this);
     this.renderTemplateRels = this.renderTemplateRels.bind(this);
+    this.renderRemovePropModal = this.renderRemovePropModal.bind(this);
     this.addPropToTemplate = this.addPropToTemplate.bind(this);
     this.addPropToRel = this.addPropToRel.bind(this);
     this.removePropFromTemplate = this.removePropFromTemplate.bind(this);
@@ -276,6 +280,63 @@ class NodeTemplate extends Component {
       propToRemove: {} });
   }
 
+  renderTemplate() {
+    // If template doesn't exist, return
+    if (!this.props.template) return;
+
+    // If template exists, return template
+    console.log('Template:', this.state.template); // TODO --DTM-- Remove
+    return(
+      <div className="apix-template">
+        <div className="panel panel-default">
+          <div className="panel-body">
+          {/* TODO --DTM-- ADD FROM NODE / TO NODE FOR RELATIONSHIPS */}
+            {/* Template Properties Table */}
+            {this.renderTemplatePropsTable(this.state.template)}
+
+            {/* Template Relationships Table */}
+            {this.renderRelPropsTable(this.state.template)}
+
+            <Button className={this.state.editing ? "template-submit-btn" : "hidden"}
+              bsStyle="primary" onClick={() => this.updateTemplate()} >Update Template</Button>
+            <Button className={this.state.editing ? "template-cancel-btn" : "hidden"}
+              onClick={() => this.cancelEditing()}>Cancel</Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  renderTemplatePropsTable(template) {
+    return(
+      <div className="template-props-table-container">
+        <Table striped bordered hover className="template-table">
+          <thead>
+            <tr className="template-table-header">
+              <th colSpan={this.state.editing ? "4" : "3"}>
+                {TemplateTypes.getTypeTitle(this.props.templateType)} Properties
+              </th>
+            </tr>
+            <tr>
+              <th>Key</th>
+              <th>Value Type</th>
+              <th>Show?</th>
+              <th className={this.state.editing ? "" : "hidden"}></th>
+            </tr>
+          </thead>
+          <tbody className="template-props">
+            {this.renderTemplateProps(template.properties)}
+          </tbody>
+        </Table>
+        <Button className={this.state.editing ? "template-add-prop-btn" : "hidden"}
+          bsStyle="primary" bsSize="small" onClick={() => this.addPropToTemplate(template.properties)} >
+          <Glyphicon glyph="plus" />
+          Add Property
+        </Button>
+      </div>
+    );
+  }
+
   // Render template properties
   renderTemplateProps(props) {
     var propComps = [];
@@ -341,208 +402,181 @@ class NodeTemplate extends Component {
     return;
   }
 
-    // Render template properties
-    renderTemplateRels(rels, isIn) {
-      // console.log('rels: ', rels); // TODO --DM-- Remove
-      var relComps = [];
+  renderRelPropsTable(template) {
+    // If template is a relationship template, don't render relationships
+    if (this.props.isRelationship) return;
 
-      // Bind variables for updating template field
-      var state = this.state, 
-          addPropToRel = this.addPropToRel, 
-          onRelPropChanged = this.onRelPropChanged,
-          removePropFromRel = this.removePropFromRel;
-      
-      // If rels is empty, return
-      if (!rels) return;
-  
-      // If rels is an array and has at least entry, render components
-      if (rels.length >= 1 && Object.prototype.toString.call( rels ) === '[object Array]' ) {
-        // Add id prop for all relationships
-        // TODO --DTM-- How are we handling ids?
-        // relComps.push(
-        //   <tr className="template-rel-prop">
-        //     <td>{"id"}</td>
-        //     <td>{"ID"}</td>
-        //   </tr>
-        // );
-        
-        // Push rows for relationship
-        rels.forEach(function(rel, relIndex) {
-          // console.log('rel: ', rel); // TODO --DM-- Remove
-          // Combine all template props
-          let propComps = [];
-          
-          // If props is an array and has at least one key, render components
-          if (rel.properties.length >= 1 && Object.prototype.toString.call( rel.properties ) === '[object Array]' ) {
-            // Push row for all properties
-            rel.properties.forEach(function(prop, propIndex) {
-              // Set variables for property and property id
-              let new_prop = (prop.hasOwnProperty('new_prop') && prop.new_prop === true);
-              let disabled = (prop.hasOwnProperty('disabled')) ? prop.disabled : true;
-
-              propComps.push(
-                <tr key={'div-'+prop['id']} className="template-prop">
-                  <td>
-                    <EditableInput index={propIndex} propKey='key' value={prop['key']}
-                        disabled={false} editing={state.editing} inputType={InputTypes.TEXT} 
-                        onChange={(propIndex, key, value) => onRelPropChanged(isIn, relIndex, propIndex, key, value)} />
-                  </td>
-                  <td>
-                    <EditableInput index={propIndex} propKey='value_type' value={prop['value_type']} 
-                        disabled={disabled} editing={state.editing} inputType={InputTypes.SELECT} 
-                        onChange={(propIndex, key, value) => onRelPropChanged(isIn, relIndex, propIndex, key, value)} />
-                  </td>
-                  <td className={state.editing ? "rel-remove-prop-td" : "hidden"}>
-                    <Button className="rel-remove-prop-btn"
-                            bsStyle="danger" bsSize="small" aria-label="Left Align"
-                            onClick={() => removePropFromRel(isIn, relIndex, prop, propIndex, !new_prop)}>
-                      <Glyphicon glyph="remove" />
-                    </Button>
-                  </td>
-                </tr>
-              );
-            });
-          }
-
-          // Push row for relationship including properties
-          relComps.push(
-            <tr key={'div-'+rel['id']} className="template-rel">
-              <th colSpan="2">
-                <span className="rel-title">{(isIn) ? rel.rel_type + " (IN); " : rel.rel_type + " (OUT); " }</span>
-                {(isIn) ? "From: " : "To: " }
-                {/* TODO --DTM-- Implement with real id reference */}
-                <a>{(isIn) ? rel["from_node_id"] : rel["to_node_id"] }</a>
-                <Button className={state.editing ? "rel-add-prop-btn" : "hidden"}
-                        bsStyle="primary" bsSize="small" onClick={() => addPropToRel(isIn, relIndex, rel.properties)} >
-                  <Glyphicon glyph="plus" />
-                  Add Property
-                </Button>
-              </th>
-              <th className={state.editing ? "" : "hidden"}></th>
+    // If template is a relationship template, render relationships
+    return (
+      <div className="relationship-props-table-container">
+        <Table striped bordered hover className="template-table">
+          <thead>
+            <tr className="template-table-header">
+            <th colSpan={this.state.editing ? "3" : "2"}>
+              {TemplateTypes.getTypeTitle(this.props.templateType)} Relationships
+            </th>
             </tr>
-          );
-          relComps.push(propComps);
-        });
-        return relComps;
-      }
-      return;
+            <tr>
+              <th>Key</th>
+              <th>Value Type</th>
+              <th className={this.state.editing ? "" : "hidden"}></th>
+            </tr>
+          </thead>
+          <tbody className="template-rels">
+            {this.renderTemplateRels(template.in_relationships, true)}
+            {this.renderTemplateRels(template.out_relationships, false)}
+          </tbody>
+        </Table>
+      </div>
+    );
+  }
+
+  // Render template properties
+  renderTemplateRels(rels, isIn) {
+    // console.log('rels: ', rels); // TODO --DM-- Remove
+    var relComps = [];
+
+    // Bind variables for updating template field
+    var state = this.state, 
+        addPropToRel = this.addPropToRel, 
+        onRelPropChanged = this.onRelPropChanged,
+        removePropFromRel = this.removePropFromRel;
+    
+    // If rels is empty, return
+    if (!rels) return;
+
+    // If rels is an array and has at least entry, render components
+    if (rels.length >= 1 && Object.prototype.toString.call( rels ) === '[object Array]' ) {
+      // Add id prop for all relationships
+      // TODO --DTM-- How are we handling ids?
+      // relComps.push(
+      //   <tr className="template-rel-prop">
+      //     <td>{"id"}</td>
+      //     <td>{"ID"}</td>
+      //   </tr>
+      // );
+      
+      // Push rows for relationship
+      rels.forEach(function(rel, relIndex) {
+        // console.log('rel: ', rel); // TODO --DM-- Remove
+        // Combine all template props
+        let propComps = [];
+        
+        // If props is an array and has at least one key, render components
+        if (rel.properties.length >= 1 && Object.prototype.toString.call( rel.properties ) === '[object Array]' ) {
+          // Push row for all properties
+          rel.properties.forEach(function(prop, propIndex) {
+            // Set variables for property and property id
+            let new_prop = (prop.hasOwnProperty('new_prop') && prop.new_prop === true);
+            let disabled = (prop.hasOwnProperty('disabled')) ? prop.disabled : true;
+
+            propComps.push(
+              <tr key={'div-'+prop['id']} className="template-prop">
+                <td>
+                  <EditableInput index={propIndex} propKey='key' value={prop['key']}
+                      disabled={false} editing={state.editing} inputType={InputTypes.TEXT} 
+                      onChange={(propIndex, key, value) => onRelPropChanged(isIn, relIndex, propIndex, key, value)} />
+                </td>
+                <td>
+                  <EditableInput index={propIndex} propKey='value_type' value={prop['value_type']} 
+                      disabled={disabled} editing={state.editing} inputType={InputTypes.SELECT} 
+                      onChange={(propIndex, key, value) => onRelPropChanged(isIn, relIndex, propIndex, key, value)} />
+                </td>
+                <td className={state.editing ? "rel-remove-prop-td" : "hidden"}>
+                  <Button className="rel-remove-prop-btn"
+                          bsStyle="danger" bsSize="small" aria-label="Left Align"
+                          onClick={() => removePropFromRel(isIn, relIndex, prop, propIndex, !new_prop)}>
+                    <Glyphicon glyph="remove" />
+                  </Button>
+                </td>
+              </tr>
+            );
+          });
+        }
+
+        // Push row for relationship including properties
+        relComps.push(
+          <tr key={'div-'+rel['id']} className="template-rel">
+            <th colSpan="2">
+              <span className="rel-title">{(isIn) ? rel.rel_type + " (IN); " : rel.rel_type + " (OUT); " }</span>
+              {(isIn) ? "From: " : "To: " }
+              {/* TODO --DTM-- Implement with real id reference */}
+              <a>{(isIn) ? rel["from_node_id"] : rel["to_node_id"] }</a>
+              <Button className={state.editing ? "rel-add-prop-btn" : "hidden"}
+                      bsStyle="primary" bsSize="small" onClick={() => addPropToRel(isIn, relIndex, rel.properties)} >
+                <Glyphicon glyph="plus" />
+                Add Property
+              </Button>
+            </th>
+            <th className={state.editing ? "" : "hidden"}></th>
+          </tr>
+        );
+        relComps.push(propComps);
+      });
+      return relComps;
     }
+    return;
+  }
+
+  renderRemovePropModal() {
+    // If propToRemove doesn't exist, return
+    if (_.isEmpty(this.state.propToRemove)) return;
+
+    // Check if propToRemove is relationship property or template property
+    if (this.state.propToRemove.index.relIndex === -1) {
+      return(
+        <Modal show={this.state.showRemovePropModal} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Delete Template Property?</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            Are you sure you want to delete this template property? This will
+            permanently delete all data associated with this property from all nodes.
+            This action cannot be undone.
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.closeRemovePropModal}>Close</Button>
+            <Button className="template-remove-prop-btn" bsStyle="danger"
+                onClick={() => this.removePropFromTemplate(
+                    this.state.propToRemove, 
+                    this.state.propToRemove.index.propIndex,
+                    false)}>
+                Delete Property
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      );
+    } else {
+      return(
+        <Modal show={this.state.showRemovePropModal} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Delete Relationship Property?</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            Are you sure you want to delete this relationship property? This will
+            permanently delete all data associated with this property from all nodes.
+            This action cannot be undone.
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.closeRemovePropModal}>Close</Button>
+            <Button className="rel-remove-prop-btn" bsStyle="danger"
+                onClick={() => this.removePropFromRel(
+                    this.state.propToRemove.index.isIn, 
+                    this.state.propToRemove.index.relIndex, 
+                    this.state.propToRemove, 
+                    this.state.propToRemove.index.propIndex,
+                    false)}>
+                Delete Property
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      );
+    }
+  }
 
   render() {  
     console.log('this.state', this.state); // TODO --DM-- Remove
     console.log('this.props', this.props); // TODO --DM-- Remove
-
-    // If template exists, generate template panel
-    let templatePanel = "";
-    if (this.props.template) {
-      // Initialize template and display label
-      let template = this.state.template;
-
-      templatePanel =
-        <div className="apix-template">
-          <div className="panel panel-default">
-            <div className="panel-body">
-              {/* Template Properties Table */}
-              <Table striped bordered hover className="template-table">
-                <thead>
-                  <tr className="template-table-header">
-                    <th colSpan={this.state.editing ? "4" : "3"}>Template Properties</th>
-                  </tr>
-                  <tr>
-                    <th>Key</th>
-                    <th>Value Type</th>
-                    <th>Show?</th>
-                    <th className={this.state.editing ? "" : "hidden"}></th>
-                  </tr>
-                </thead>
-                <tbody className="template-props">
-                  {this.renderTemplateProps(template.properties)}
-                </tbody>
-              </Table>
-              <Button className={this.state.editing ? "template-add-prop-btn" : "hidden"}
-                bsStyle="primary" bsSize="small" onClick={() => this.addPropToTemplate(template.properties)} >
-                <Glyphicon glyph="plus" />
-                Add Property
-              </Button>
-
-              {/* Template Relationships Table */}
-              <Table striped bordered hover className="template-table">
-                <thead>
-                  <tr className="template-table-header">
-                  <th colSpan={this.state.editing ? "3" : "2"}>Template Relationships</th>
-                  </tr>
-                  <tr>
-                    <th>Key</th>
-                    <th>Value Type</th>
-                    <th className={this.state.editing ? "" : "hidden"}></th>
-                  </tr>
-                </thead>
-                <tbody className="template-rels">
-                  {this.renderTemplateRels(template.in_relationships, true)}
-                  {this.renderTemplateRels(template.out_relationships, false)}
-                </tbody>
-              </Table>
-              <Button className={this.state.editing ? "template-submit-btn" : "hidden"}
-                bsStyle="primary" onClick={() => this.updateTemplate()} >Update Template</Button>
-              <Button className={this.state.editing ? "template-cancel-btn" : "hidden"}
-                onClick={() => this.cancelEditing()}>Cancel</Button>
-            </div>
-          </div>
-        </div>
-      
-      console.log('Template:', template); // TODO --DTM-- Remove
-    }
-
-    let removePropModal = "";
-    if (!_.isEmpty(this.state.propToRemove)) {
-      if (this.state.propToRemove.index.relIndex === -1) {
-        removePropModal = 
-          <Modal show={this.state.showRemovePropModal} onHide={this.handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>Delete Template Property?</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              Are you sure you want to delete this template property? This will
-              permanently delete all data associated with this property from all nodes.
-              This action cannot be undone.
-            </Modal.Body>
-            <Modal.Footer>
-              <Button onClick={this.closeRemovePropModal}>Close</Button>
-              <Button className="template-remove-prop-btn" bsStyle="danger"
-                  onClick={() => this.removePropFromTemplate(
-                      this.state.propToRemove, 
-                      this.state.propToRemove.index.propIndex,
-                      false)}>
-                  Delete Property
-              </Button>
-            </Modal.Footer>
-          </Modal>
-      } else {
-        removePropModal = 
-          <Modal show={this.state.showRemovePropModal} onHide={this.handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>Delete Relationship Property?</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              Are you sure you want to delete this relationship property? This will
-              permanently delete all data associated with this property from all nodes.
-              This action cannot be undone.
-            </Modal.Body>
-            <Modal.Footer>
-              <Button onClick={this.closeRemovePropModal}>Close</Button>
-              <Button className="rel-remove-prop-btn" bsStyle="danger"
-                  onClick={() => this.removePropFromRel(
-                      this.state.propToRemove.index.isIn, 
-                      this.state.propToRemove.index.relIndex, 
-                      this.state.propToRemove, 
-                      this.state.propToRemove.index.propIndex,
-                      false)}>
-                  Delete Property
-              </Button>
-            </Modal.Footer>
-          </Modal>
-      }
-    }
 
     return (
       <div className={(this.props.open) ? "list-group-item template-item active" : "list-group-item template-item" }>
@@ -561,9 +595,9 @@ class NodeTemplate extends Component {
           <div className="template-container">
             {/* TODO --DTM-- Remove */}
             {/* <show={this.props.nodeTemplate.isFetching} /> */} 
-            {templatePanel}
+            {this.renderTemplate()}
             <div>
-              {removePropModal}
+              {this.renderRemovePropModal()}
             </div>
           </div>
         </Collapse>

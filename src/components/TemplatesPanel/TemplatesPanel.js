@@ -16,12 +16,7 @@ class TemplatesPanel extends Component {
 
     // Initialize state
     this.state = {
-      user: {},
-      query: "",
-      queryProp: "",
-      editing: props.editing,
-      node: props.node,
-      showPopover: false
+      // TODO --DTM--
     };
   }
 
@@ -49,19 +44,21 @@ class TemplatesPanel extends Component {
 
   renderTemplates(templateType) {
     // Initialize variables
-    let nodeTemplates = this.props.nodeTemplates, 
+    let templateComps = [],
+        nodeTemplates = this.props.nodeTemplates, 
         nodeTemplate = this.props.activeTemplate, 
-        templateComps = [],
-        label = this.props.label,
         repoSettings = this.props.repoSettings,
         changeTemplate = this.props.changeTemplate,
-        updateSettings = this.props.updateSettings,
-        editTemplate = this.props.editTemplate;
+        updateSettings = this.props.updateSettings;
 
     console.log('nodeTemplates: ', nodeTemplates); // TODO --DTM-- Remove
 
     // Return if not array (can occur when API call does not return nodes)
     if (Object.prototype.toString.call( nodeTemplates ) !== '[object Array]' ) return;
+
+    // Determine if template type is relationship
+    let isRelationship = false;
+    if (templateType === 2) isRelationship = true;
 
     // Iterate through templates
     nodeTemplates.forEach(function (template, index) {
@@ -77,7 +74,9 @@ class TemplatesPanel extends Component {
             key={template.id} 
             open={(template.id === nodeTemplate.id)} 
             repoSettings={repoSettings}
-            template={temp} 
+            templateType={templateType}
+            template={temp}
+            isRelationship={isRelationship}
             updateSettings={updateSettings} 
             changeTemplate={changeTemplate} />
       );

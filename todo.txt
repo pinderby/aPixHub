@@ -79,8 +79,8 @@ Repos
     [x] Simple filter by property
     [x] Write tests
   [ ] Relationships & Interfaces
+    [x] Refactor TemplatesPanel.js
     [ ] Repo.js switching between Templates, Relationships, and Interfaces
-    [ ] Refactor TemplatesPanel.js
     [ ] Components for Relationships & Interfaces
     [ ] Tooltip for editing relationships from template
     [ ] Creating Relationships (inline)
@@ -93,6 +93,7 @@ Repos
     [ ] Reading Interfaces (inline)
     [ ] Editing Interfaces (inline)
     [ ] Deleting Interfaces (inline, modal confirmation)
+    [ ] Remove editing features for relationships from Node Templates
     [ ] Implementing interfaces for templates (relationships?)
     [ ] More template tests?
   [x] Add checkbox to show fields on template
