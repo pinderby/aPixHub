@@ -30,8 +30,8 @@ class TemplatesPanel extends Component {
 
     // Create and push non-selected MenuItems
     for (let i = 0; i < 3; i++) { 
-      if (i !== this.state.templateType) menuItems.push(
-        <MenuItem key={i} eventKey={i} onClick={() => this.changeTemplateType(i)}>
+      if (i !== this.props.templateType) menuItems.push(
+        <MenuItem key={i} eventKey={i} onClick={() => this.props.changeTemplateType(i)}>
           {TemplateTypes.getTypeTitle(i) + "s"}
         </MenuItem>
       );
@@ -39,7 +39,7 @@ class TemplatesPanel extends Component {
 
     // Return dropdown with MenuItems
     return (
-      <DropdownButton title={TemplateTypes.getTypeTitle(this.state.templateType) + "s"} 
+      <DropdownButton title={TemplateTypes.getTypeTitle(this.props.templateType) + "s"} 
             key="0" className="template-panel-dropdown"
             bsSize="large" id={`dropdown-basic`} >
         {menuItems}

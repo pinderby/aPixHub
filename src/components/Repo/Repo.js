@@ -362,6 +362,7 @@ class Repo extends Component {
                 nodeTemplates={this.state.nodeTemplates}
                 label={this.props.label}
                 repoSettings={this.state.settings.repos[this.props.repo.name]}
+                changeTemplateType={this.changeTemplateType}
                 addTemplate={this.addTemplate}
                 changeTemplate={this.changeTemplate}
                 editTemplate={this.editTemplate}
