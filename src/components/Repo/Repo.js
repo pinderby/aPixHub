@@ -7,6 +7,7 @@ import PropertyPopulator from '../NodeInstance/PropertyPopulator';
 import NodeTemplate from '../NodeTemplate/NodeTemplate';
 import NodesPanel from '../NodesPanel/NodesPanel';
 import Helpers from '../../helpers.js';
+import { TemplateTypes } from '../../constants/OtherConstants';
 import { fetchAuthUser, fetchPostUser, fetchMe } from '../../actions/users';
 import { changeTemplate } from '../../actions/templates';
 import { updateRepoSettings } from '../../actions/settings';
@@ -31,7 +32,9 @@ class Repo extends Component {
 
     // Bind methods
     this.handleSideMenuStateChange = this.handleSideMenuStateChange.bind(this);
+    this.renderTemplateDropdown = this.renderTemplateDropdown.bind(this);
     this.renderTemplates = this.renderTemplates.bind(this);
+    this.changeTemplateType = this.changeTemplateType.bind(this);
     this.changeTemplate = this.changeTemplate.bind(this);
     this.addTemplate = this.addTemplate.bind(this);
     this.editTemplate = this.editTemplate.bind(this);
@@ -68,6 +71,7 @@ class Repo extends Component {
         index: 0
       },
       token: token,
+      templateType: TemplateTypes.NODE,
       nodeTemplates: props.nodeTemplates,
       allNodes: props.nodes,
       activeTemplate: { id: "", label: "" },
@@ -134,9 +138,16 @@ class Repo extends Component {
     this.props.dispatch(updateRepoSettings(this.props.repo, nextSettings))
   }
 
+  changeTemplateType(templateType) {
+    console.log('changeTemplateType() templateType: ', templateType); // TODO --DTM-- Remove
+
+    // Update template type in state
+    this.setState({ templateType: templateType });
+  }
+
   changeTemplate(template) {
     // TODO --DTM-- Implement with API
-    console.log('changeTemplate() template: ', template);
+    console.log('changeTemplate() template: ', template);  // TODO --DTM-- Remove
 
     this.setState((prevState, props) => {
       // Add new template to state
@@ -294,6 +305,28 @@ class Repo extends Component {
     return props;
   }
 
+  renderTemplateDropdown() {
+    let menuItems = [];
+
+    // Create and push non-selected MenuItems
+    for (let i = 0; i < 3; i++) { 
+      if (i !== this.state.templateType) menuItems.push(
+        <MenuItem eventKey={i} onClick={() => this.changeTemplateType(i)}>
+          {TemplateTypes.getTypeTitle(i) + "s"}
+        </MenuItem>
+      );
+    }
+
+    // Return dropdown with MenuItems
+    return (
+      <DropdownButton title={TemplateTypes.getTypeTitle(this.state.templateType) + "s"} 
+            key="0" className="template-panel-dropdown"
+            bsSize="large" id={`dropdown-basic`} >
+        {menuItems}
+      </DropdownButton>
+    );
+  }
+
   renderTemplates() {
     // Initialize variables
     let nodeTemplates = this.state.nodeTemplates, 
@@ -306,7 +339,7 @@ class Repo extends Component {
         editTemplate = this.editTemplate,
         dispatch = this.props.dispatch;
 
-    console.log('nodeTemplates: ', nodeTemplates);
+    console.log('nodeTemplates: ', nodeTemplates); // TODO --DTM-- Remove
 
     // Return if not array (can occur when API call does not return nodes)
     if (Object.prototype.toString.call( nodeTemplates ) !== '[object Array]' ) return;
@@ -383,11 +416,7 @@ class Repo extends Component {
             <div className="template-col">
               <div className="panel-heading">
                 <h3>
-                  <DropdownButton title={"Node Templates"} key="1" className="template-panel-dropdown"
-                        bsSize="large" id={`dropdown-basic-2`} >
-                    <MenuItem eventKey="1">Relationship Templates</MenuItem>
-                    <MenuItem eventKey="2">Interfaces</MenuItem>
-                  </DropdownButton>
+                  {this.renderTemplateDropdown()}
                 </h3>
                 <Button className="create-template-btn" bsStyle="primary" onClick={() => this.addTemplate()}>
                   <Glyphicon glyph="plus" />

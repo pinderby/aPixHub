@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount, render } from 'enzyme';
+import { mount } from 'enzyme';
 import Repo from '../Repo/Repo';
 import test_data from '../../test_data.json';
 
@@ -14,7 +14,7 @@ describe('Repo Component', () => {
           nodes={test_data.nodes}
           settings={test_data.mockSettings}
           match={test_data.mockMatch} />
-  )
+  );
 
   // Renders repo-container without crashing
   it('Renders repo-container without error', () => {
