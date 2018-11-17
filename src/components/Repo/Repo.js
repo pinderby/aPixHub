@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { Navbar, Nav, NavItem, DropdownButton, MenuItem, Button, Glyphicon, FormControl } from 'react-bootstrap';
 import Sidemenu from './Sidemenu';
 import PropertyPopulator from '../NodeInstance/PropertyPopulator';
-import NodeTemplate from '../TemplatesPanel/NodeTemplate';
+import TemplatesPanel from '../TemplatesPanel/TemplatesPanel';
 import NodesPanel from '../NodesPanel/NodesPanel';
 import Helpers from '../../helpers.js';
 import { TemplateTypes } from '../../constants/OtherConstants';
@@ -32,8 +32,6 @@ class Repo extends Component {
 
     // Bind methods
     this.handleSideMenuStateChange = this.handleSideMenuStateChange.bind(this);
-    this.renderTemplateDropdown = this.renderTemplateDropdown.bind(this);
-    this.renderTemplates = this.renderTemplates.bind(this);
     this.changeTemplateType = this.changeTemplateType.bind(this);
     this.changeTemplate = this.changeTemplate.bind(this);
     this.addTemplate = this.addTemplate.bind(this);
@@ -304,62 +302,6 @@ class Repo extends Component {
 
     return props;
   }
-
-  renderTemplateDropdown() {
-    let menuItems = [];
-
-    // Create and push non-selected MenuItems
-    for (let i = 0; i < 3; i++) { 
-      if (i !== this.state.templateType) menuItems.push(
-        <MenuItem eventKey={i} onClick={() => this.changeTemplateType(i)}>
-          {TemplateTypes.getTypeTitle(i) + "s"}
-        </MenuItem>
-      );
-    }
-
-    // Return dropdown with MenuItems
-    return (
-      <DropdownButton title={TemplateTypes.getTypeTitle(this.state.templateType) + "s"} 
-            key="0" className="template-panel-dropdown"
-            bsSize="large" id={`dropdown-basic`} >
-        {menuItems}
-      </DropdownButton>
-    );
-  }
-
-  renderTemplates(templateType) {
-    // Initialize variables
-    let nodeTemplates = this.state.nodeTemplates, 
-        nodeTemplate = this.state.activeTemplate, 
-        templateComps = [],
-        label = this.props.label,
-        repoSettings = this.state.settings.repos[this.props.repo.name],
-        changeTemplate = this.changeTemplate,
-        updateSettings = this.updateSettings,
-        editTemplate = this.editTemplate,
-        dispatch = this.props.dispatch;
-
-    console.log('nodeTemplates: ', nodeTemplates); // TODO --DTM-- Remove
-
-    // Return if not array (can occur when API call does not return nodes)
-    if (Object.prototype.toString.call( nodeTemplates ) !== '[object Array]' ) return;
-
-    // Iterate through templates
-    nodeTemplates.forEach(function (template, index) {
-      // Add each template to list
-      console.log('template, index: ', template, index);
-      
-      // TODO --DTM-- Remove. Temp assignment of template based on first load or state update (will not hold state)
-      var temp;
-      if (template.id === nodeTemplate.id) (temp = nodeTemplate); else (temp = template);
-
-      templateComps.push(
-          <NodeTemplate key={template.id} open={(template.id === nodeTemplate.id)} repoSettings={repoSettings}
-              template={temp} updateSettings={updateSettings} dispatch={dispatch} changeTemplate={changeTemplate} />
-      );
-    });
-    return templateComps;
-  }
   
   render() {
     console.log('this.state', this.state); // TODO --DM-- Remove
@@ -414,7 +356,17 @@ class Repo extends Component {
         <div id="repo-panel" className="repo-panel panel panel-default">
           <div className="row">
             <div className="template-col">
-              <div className="panel-heading">
+              <TemplatesPanel 
+                templateType={this.state.templateType}
+                activeTemplate={this.state.activeTemplate}
+                nodeTemplates={this.state.nodeTemplates}
+                label={this.props.label}
+                repoSettings={this.state.settings.repos[this.props.repo.name]}
+                addTemplate={this.addTemplate}
+                changeTemplate={this.changeTemplate}
+                editTemplate={this.editTemplate}
+                updateSettings={this.updateSettings} />
+              {/* <div className="panel-heading">
                 <h3>
                   {this.renderTemplateDropdown()}
                 </h3>
@@ -426,7 +378,7 @@ class Repo extends Component {
                 <div className="list-group">
                   {this.renderTemplates(this.state.templateType)}
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="node-col">
               <NodesPanel 

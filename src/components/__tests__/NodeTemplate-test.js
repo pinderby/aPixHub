@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
-import NodeTemplate from '../NodeTemplate/NodeTemplate';
+import NodeTemplate from '../TemplatesPanel/NodeTemplate';
 import test_data from '../../test_data.json';
 
 // NodeTemplate.js
@@ -51,9 +51,9 @@ describe('NodeTemplate Component', () => {
     wrapper.find('.template-label').at(0).find('input[type=\'text\']').at(0).simulate('change', {
       target: { value: 'Movies' }
     });
-    expect(wrapper.state().template.label).toEqual('Movies');
+    expect(wrapper.state().template.label).toEqual('movies');
     wrapper.find('.template-edit-btn.btn-default').simulate('click');
-    expect(wrapper.state().template.label).toEqual('Movies');
+    expect(wrapper.state().template.label).toEqual('movies');
   });
 
   // Add template property to template when 'Add Property' button is clicked

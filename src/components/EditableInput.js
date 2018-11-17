@@ -115,7 +115,7 @@ class EditableInput extends Component {
 }
 
 EditableInput.propTypes = {
-  index: PropTypes.isRequired,
+  // index: PropTypes.isRequired, // TODO --DTM-- Remove?
   propKey: PropTypes.string.isRequired,
   value: PropTypes.node.isRequired,
   onChange: PropTypes.func.isRequired,

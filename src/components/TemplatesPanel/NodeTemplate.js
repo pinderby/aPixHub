@@ -315,19 +315,19 @@ class NodeTemplate extends Component {
         propComps.push(
           <tr key={'div-'+index} className="template-prop">
             <td>
-              <EditableInput index={index} propKey='key' value={prop['key']}
+              <EditableInput key={index+'1'} index={index} propKey='key' value={prop['key']}
                   disabled={false} editing={state.editing} inputType={InputTypes.TEXT} 
                   onChange={(index, key, value) => onPropChanged(index, key, value)} />
             </td>
             <td>
-              <EditableInput index={index} propKey='value_type' value={prop['value_type']} 
+              <EditableInput key={index+'2'} index={index} propKey='value_type' value={prop['value_type']} 
                   disabled={disabled} editing={state.editing} inputType={InputTypes.SELECT} 
                   onChange={(index, key, value) => onPropChanged(index, key, value)} /></td>
             <td>
-              <Checkbox defaultChecked onChange={(e) => updateTemplateField(e, prop.key)} />
+              <Checkbox key={index+'3'} defaultChecked onChange={(e) => updateTemplateField(e, prop.key)} />
             </td>
             <td className={this.state.editing ? "template-remove-prop-td" : "hidden"}>
-              <Button className="template-remove-prop-btn"
+              <Button key={index+'4'} className="template-remove-prop-btn"
                       bsStyle="danger" bsSize="small" aria-label="Left Align"
                       onClick={() => this.removePropFromTemplate(prop, index, !new_prop)}>
                 <Glyphicon glyph="remove" />
