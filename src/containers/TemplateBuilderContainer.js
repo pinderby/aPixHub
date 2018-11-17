@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import TemplateBuilder from '../components/NodeTemplate/TemplateBuilder'
+import TemplateBuilder from '../components/TemplatesPanel/TemplateBuilder'
 
 const mapStateToProps = (state) => {
   return {

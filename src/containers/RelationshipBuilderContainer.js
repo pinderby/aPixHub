@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import RelationshipTemplateBuilder from '../components/NodeTemplate/RelationshipTemplateBuilder'
+import RelationshipTemplateBuilder from '../components/TemplatesPanel/RelationshipTemplateBuilder'
 
 const mapStateToProps = (state) => {
   return {

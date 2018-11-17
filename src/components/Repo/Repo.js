@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { Navbar, Nav, NavItem, DropdownButton, MenuItem, Button, Glyphicon, FormControl } from 'react-bootstrap';
 import Sidemenu from './Sidemenu';
 import PropertyPopulator from '../NodeInstance/PropertyPopulator';
-import NodeTemplate from '../NodeTemplate/NodeTemplate';
+import NodeTemplate from '../TemplatesPanel/NodeTemplate';
 import NodesPanel from '../NodesPanel/NodesPanel';
 import Helpers from '../../helpers.js';
 import { TemplateTypes } from '../../constants/OtherConstants';
@@ -327,7 +327,7 @@ class Repo extends Component {
     );
   }
 
-  renderTemplates() {
+  renderTemplates(templateType) {
     // Initialize variables
     let nodeTemplates = this.state.nodeTemplates, 
         nodeTemplate = this.state.activeTemplate, 
@@ -424,7 +424,7 @@ class Repo extends Component {
               </div>
               <div className="panel-body">
                 <div className="list-group">
-                  {this.renderTemplates()}
+                  {this.renderTemplates(this.state.templateType)}
                 </div>
               </div>
             </div>

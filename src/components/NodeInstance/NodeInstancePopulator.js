@@ -3,7 +3,7 @@ import Helpers from '../../helpers.js';
 import _ from 'lodash';
 import PropertyPopulator from './PropertyPopulator';
 import RelationshipInstancePopulator from './RelationshipInstancePopulator';
-import '../NodeTemplate/TemplateBuilder.css';
+import '../TemplatesPanel/TemplateBuilder.css';
 import { Button } from 'react-bootstrap';
 import { updateNode, fetchNode, fetchPostNode, fetchPutNode } from '../../actions/nodes';
 import { DIRECTION } from '../../constants/PropertyTypes';

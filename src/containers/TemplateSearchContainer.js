@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import TemplateSearch from '../components/NodeTemplate/TemplateSearch'
+import TemplateSearch from '../components/TemplatesPanel/TemplateSearch'
 
 const mapStateToProps = (state) => {
   return {

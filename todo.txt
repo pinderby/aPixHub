@@ -80,6 +80,7 @@ Repos
     [x] Write tests
   [ ] Relationships & Interfaces
     [ ] Repo.js switching between Templates, Relationships, and Interfaces
+    [ ] Refactor TemplatesPanel.js
     [ ] Components for Relationships & Interfaces
     [ ] Tooltip for editing relationships from template
     [ ] Creating Relationships (inline)

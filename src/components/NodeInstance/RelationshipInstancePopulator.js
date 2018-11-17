@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Helpers from '../../helpers.js';
 import PropertyPopulator from './PropertyPopulator';
 import PropertyInput from '../PropertyInput';
-import '../NodeTemplate/TemplateBuilder.css';
+import '../TemplatesPanel/TemplateBuilder.css';
 // import { updateRelationship, fetchRelationship, fetchPostRelationship, fetchPutRelationship } from '../../actions/nodes';
 import { fetchRelationshipTemplate } from '../../actions/templates';
 import LoadingOverlay from '../LoadingOverlay';
