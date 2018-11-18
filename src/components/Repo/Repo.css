@@ -169,6 +169,10 @@
   margin: 5px;
 }
 
+.related-templates-container {
+  margin-bottom: 20px;
+}
+
 .nodes-panel-container {
   position: relative; 
 }

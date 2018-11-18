@@ -81,13 +81,17 @@ Repos
   [ ] Relationships & Interfaces
     [x] Refactor TemplatesPanel.js
     [x] Repo.js switching between Templates, Relationships, and Interfaces
-    [ ] Components for Relationships & Interfaces
-    [ ] Settings for relationships/interfaces
-    [ ] Tooltip for editing relationships from template
+    [ ] From / To Node interface for Relationship Templates
+          (https://github.com/reactjs/react-autocomplete)
+      [ ] Set node ids on actual template after selection
+      [ ] Automatically close template when you navigate template type
+    [ ] (Start writing tests)
     [ ] Creating Relationships (inline)
     [ ] Reading Relationships (inline)
     [ ] Editing Relationships (inline)
     [ ] Deleting Relationships (inline, modal confirmation)
+    [ ] Settings for relationships/interfaces
+    [ ] Tooltip for editing relationships from template
     [ ] Links from templates to other templates 
             (node to node, node to relationship, relationship to node)
     [ ] Interface test_data

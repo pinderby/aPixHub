@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Helpers from '../../helpers.js';
 import clonedeep from 'lodash.clonedeep';
 import _ from 'lodash';
-import { Link } from 'react-router-dom';
+import Autocomplete from 'react-autocomplete';
 import { Table, Collapse, Checkbox, Button, Glyphicon, Modal } from 'react-bootstrap';
 // import './NodeTemplate.css'
 import './TemplateSearch.css';
@@ -19,6 +19,7 @@ class NodeTemplate extends Component {
     this.updateTemplateField = this.updateTemplateField.bind(this);
     this.renderTemplate = this.renderTemplate.bind(this);
     this.renderTemplatePropsTable = this.renderTemplatePropsTable.bind(this);
+    this.renderRelatedTemplates = this.renderRelatedTemplates.bind(this);
     this.renderRelPropsTable = this.renderRelPropsTable.bind(this);
     this.renderTemplateProps = this.renderTemplateProps.bind(this);
     this.renderTemplateRels = this.renderTemplateRels.bind(this);
@@ -44,13 +45,50 @@ class NodeTemplate extends Component {
       template: props.template,
       editing: editing,
       showRemovePropModal: false,
-      propToRemove: {}
+      propToRemove: {},
+      relatedTemplates: {
+        toTemplate: { label: "" },
+        toQuery: "",
+        fromTemplate: { label: "" },
+        fromQuery: ""
+      }
     };
   }
 
   // Automatically set editing to false if not active
   componentDidUpdate(prevProps) {
     if (prevProps.open && !this.props.open) this.setState({ editing: false });
+    
+    // Set relatedTemplates if template opened and isRelationship
+    if (!prevProps.open && this.props.open && this.props.isRelationship) {
+      // Initialize variables
+      let toTemplate = { label: "" },
+          toQuery = "",
+          fromTemplate = { label: "" },
+          fromQuery = "";
+
+      // Find related templates
+      this.props.nodeTemplates.forEach((template, index) => {
+        if (template.id === this.props.template.to_node_id) {
+          toTemplate = template;
+          toQuery = Helpers.formatPropKey(template.label);
+        }
+        if (template.id === this.props.template.from_node_id) {
+          fromTemplate = template;
+          fromQuery = Helpers.formatPropKey(template.label);
+        }
+      });
+      
+      // Update state with relatedTemplates
+      this.setState({ 
+        relatedTemplates: {
+          toTemplate: toTemplate,
+          toQuery: toQuery,
+          fromTemplate: fromTemplate,
+          fromQuery: fromQuery
+        }
+       });
+    }
   }
 
   getTemplate(templateLabel) {
@@ -230,7 +268,7 @@ class NodeTemplate extends Component {
     this.setState((prevState, props) => {
       // Assign new property value
       let nextTemplate = {...prevState.template};
-      nextTemplate.rel_type = _.upperCase(nextRelType);
+      nextTemplate.rel_type = _.snakeCase(nextRelType).toUpperCase();
       
       return { 
         template: nextTemplate,
@@ -308,7 +346,9 @@ class NodeTemplate extends Component {
       <div className="apix-template">
         <div className="panel panel-default">
           <div className="panel-body">
-          {/* TODO --DTM-- ADD FROM NODE / TO NODE FOR RELATIONSHIPS */}
+            {/* From / To Nodes for Relationship Template */}
+            {this.renderRelatedTemplates(this.state.relatedTemplates)}
+            
             {/* Template Properties Table */}
             {this.renderTemplatePropsTable(this.state.template)}
 
@@ -321,6 +361,74 @@ class NodeTemplate extends Component {
               onClick={() => this.cancelEditing()}>Cancel</Button>
           </div>
         </div>
+      </div>
+    );
+  }
+
+  renderRelatedTemplates(relatedTemplates) {
+    // If not relationship, return
+    if (!this.props.isRelationship) return;
+
+    // TODO --DTM-- set node ids on actual template after selection
+    return( 
+      <div className="related-templates-container">
+        <span>{"To: "}</span>
+        <Autocomplete
+          getItemValue={(item) => item.label}
+          items={this.props.nodeTemplates}
+          renderItem={(item, isHighlighted) =>
+            <div key={item.label} style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
+              {Helpers.formatPropKey(item.label)}
+            </div>
+          }
+          value={relatedTemplates.toQuery}
+          onChange={(e) => this.setState({ 
+            relatedTemplates: { 
+              ...relatedTemplates,
+              toQuery: e.target.value 
+            }
+          })}
+          onSelect={(val, item) => this.setState({ 
+            relatedTemplates: { 
+              ...relatedTemplates,
+              toQuery: Helpers.formatPropKey(val),
+              toTemplate: item
+            }
+          })}
+          shouldItemRender={(item) => 
+            String(Helpers.formatPropKey(item.label).toLowerCase())
+                          .includes(relatedTemplates.toQuery.toLowerCase())
+          }
+        />
+        <br/>
+        <span>{"From: "}</span>
+        <Autocomplete
+          getItemValue={(item) => item.label}
+          items={this.props.nodeTemplates}
+          renderItem={(item, isHighlighted) =>
+            <div key={item.label} style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
+              {Helpers.formatPropKey(item.label)}
+            </div>
+          }
+          value={relatedTemplates.fromQuery}
+          onChange={(e) => this.setState({ 
+            relatedTemplates: { 
+              ...relatedTemplates,
+              fromQuery: e.target.value 
+            }
+          })}
+          onSelect={(val, item) => this.setState({ 
+            relatedTemplates: { 
+              ...relatedTemplates,
+              fromQuery: Helpers.formatPropKey(val),
+              fromTemplate: item
+            }
+          })}
+          shouldItemRender={(item) => 
+            String(Helpers.formatPropKey(item.label).toLowerCase())
+                          .includes(relatedTemplates.fromQuery.toLowerCase())
+          }
+        />  
       </div>
     );
   }
@@ -601,7 +709,7 @@ class NodeTemplate extends Component {
     if (this.props.isRelationship) {
       labelEditableInput = 
         <EditableInput index={this.state.template.id} propKey='rel_type'
-          value={Helpers.formatPropKey(this.state.template.rel_type)}
+          value={this.state.template.rel_type}
           disabled={false} editing={this.state.editing} inputType={InputTypes.TEXT} 
           onChange={(index, key, value) => this.onRelTypeChanged(value)} />
     } else {

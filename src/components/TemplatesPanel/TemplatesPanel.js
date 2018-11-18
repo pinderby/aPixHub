@@ -48,6 +48,7 @@ class TemplatesPanel extends Component {
         templates = [], 
         activeTemplate = this.props.activeTemplate, 
         repoSettings = this.props.repoSettings,
+        nodeTemplates = this.props.nodeTemplates,
         changeTemplate = this.props.changeTemplate,
         updateSettings = this.props.updateSettings;
 
@@ -89,6 +90,7 @@ class TemplatesPanel extends Component {
             key={template.id} 
             open={(template.id === activeTemplate.id)} 
             repoSettings={repoSettings}
+            nodeTemplates={nodeTemplates}
             templateType={templateType}
             template={temp}
             isRelationship={isRelationship}

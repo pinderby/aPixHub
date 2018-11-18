@@ -175,7 +175,7 @@
       "rel_type": "DIRECTED",
       "to_node_id": "3152f3c7-ebc8-4e7a-981c-11951f65bebb",
       "from_node_id_name": "Director",
-      "from_node_id": "cb8677a1-6106-4010-933d-db4522302c83",
+      "from_node_id": "3152f3c7-ebc8-4e7a-981c-11951f65becc",
       "created_at": "2017-09-08T16:21:02.178Z",
       "updated_at": "2017-09-08T16:21:02.178Z",
       "properties": [
@@ -191,10 +191,10 @@
     },
     {
       "id": "80174196-958a-4038-a739-8fa17c81e490",
-      "rel_type": "STARRING",
-      "to_node_id_name": "Actor",
+      "rel_type": "PRODUCED",
+      "to_node_id_name": "Movie",
       "to_node_id": "3152f3c7-ebc8-4e7a-981c-11951f65bebb",
-      "from_node_id": "cb8677a1-6106-4010-933d-db4522302c83",
+      "from_node_id": "3152f3c7-ebc8-4e7a-981c-11951f65begg",
       "created_at": "2017-09-08T16:21:02.178Z",
       "updated_at": "2017-09-08T16:21:02.178Z",
       "properties": [
