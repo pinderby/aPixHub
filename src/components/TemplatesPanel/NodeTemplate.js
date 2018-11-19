@@ -10,6 +10,7 @@ import EditableInput from '../EditableInput'
 import { InputTypes } from '../../constants/PropertyTypes';
 import { fetchTemplate, updateNodeTemplate, fetchDeleteTemplate } from '../../actions/templates';
 import TemplateTypes from '../../constants/OtherConstants.js';
+import { runInThisContext } from 'vm';
 
 class NodeTemplate extends Component {
   constructor(props) {
@@ -369,84 +370,102 @@ class NodeTemplate extends Component {
     // If not relationship, return
     if (!this.props.isRelationship) return;
 
-    return( 
-      <div className="related-templates-container">
-        <div className="to-template-container">
-          <span>{"To: "}</span>
-          <Autocomplete
-            getItemValue={(item) => item.label}
-            items={this.props.nodeTemplates}
-            renderItem={(item, isHighlighted) =>
-              <div key={item.label} className="autocomplete-item"
-                  style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
-                {Helpers.formatPropKey(item.label)}
-              </div>
-            }
-            value={relatedTemplates.toQuery}
-            onChange={(e) => this.setState({ 
-              relatedTemplates: { 
-                ...relatedTemplates,
-                toQuery: e.target.value 
+    // If not editing, just show links
+    if (!this.state.editing) {
+      return( 
+        <div className="related-templates-container">
+          <div className="to-template-container">
+            <span>{"To: "}</span>
+            <a><strong>{relatedTemplates.toQuery}</strong></a>
+          </div>
+          <div className="from-template-container">
+            <span>{"From: "}</span>
+            <a><strong>{relatedTemplates.fromQuery}</strong></a>
+          </div>
+        </div>
+      );
+
+    // If editing, show autocompletes for node templates
+    } else {
+      return( 
+        <div className="related-templates-container">
+          <div className="to-template-container">
+            <span>{"To: "}</span>
+            <Autocomplete
+              getItemValue={(item) => item.label}
+              items={this.props.nodeTemplates}
+              renderItem={(item, isHighlighted) =>
+                <div key={item.label} className="autocomplete-item"
+                    style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
+                  {Helpers.formatPropKey(item.label)}
+                </div>
               }
-            })}
-            onSelect={(val, item) => this.setState((prevState, props) => { 
-              return {
-                template: {
-                  ...prevState.template,
-                  to_node_id: item
-                },
+              value={relatedTemplates.toQuery}
+              onChange={(e) => this.setState({ 
                 relatedTemplates: { 
                   ...relatedTemplates,
-                  toQuery: Helpers.formatPropKey(val),
-                  toTemplate: item
+                  toQuery: e.target.value 
                 }
+              })}
+              onSelect={(val, item) => this.setState((prevState, props) => { 
+                return {
+                  template: {
+                    ...prevState.template,
+                    to_node_id: item
+                  },
+                  relatedTemplates: { 
+                    ...relatedTemplates,
+                    toQuery: Helpers.formatPropKey(val),
+                    toTemplate: item
+                  }
+                }
+              })}
+              shouldItemRender={(item) => 
+                String(Helpers.formatPropKey(item.label).toLowerCase())
+                              .includes(relatedTemplates.toQuery.toLowerCase())
               }
-            })}
-            shouldItemRender={(item) => 
-              String(Helpers.formatPropKey(item.label).toLowerCase())
-                            .includes(relatedTemplates.toQuery.toLowerCase())
-            }
-          />
-        </div>
-        <div className="from-template-container">
-          <span>{"From: "}</span>
-          <Autocomplete
-            getItemValue={(item) => item.label}
-            items={this.props.nodeTemplates}
-            renderItem={(item, isHighlighted) =>
-              <div key={item.label} className="autocomplete-item"
-                  style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
-                {Helpers.formatPropKey(item.label)}
-              </div>
-            }
-            value={relatedTemplates.fromQuery}
-            onChange={(e) => this.setState({ 
-              relatedTemplates: { 
-                ...relatedTemplates,
-                fromQuery: e.target.value 
+            />
+          </div>
+          <div className="from-template-container">
+            <span>{"From: "}</span>
+            <Autocomplete
+              getItemValue={(item) => item.label}
+              items={this.props.nodeTemplates}
+              renderItem={(item, isHighlighted) =>
+                <div key={item.label} className="autocomplete-item"
+                    style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
+                  {Helpers.formatPropKey(item.label)}
+                </div>
               }
-            })}
-            onSelect={(val, item) => this.setState((prevState, props) => {  
-              return {
-                template: {
-                  ...prevState.template,
-                  from_node_id: item
-                },
+              value={relatedTemplates.fromQuery}
+              onChange={(e) => this.setState({ 
                 relatedTemplates: { 
                   ...relatedTemplates,
-                  fromQuery: Helpers.formatPropKey(val),
-                  fromTemplate: item
+                  fromQuery: e.target.value 
                 }
+              })}
+              onSelect={(val, item) => this.setState((prevState, props) => {  
+                return {
+                  template: {
+                    ...prevState.template,
+                    from_node_id: item
+                  },
+                  relatedTemplates: { 
+                    ...relatedTemplates,
+                    fromQuery: Helpers.formatPropKey(val),
+                    fromTemplate: item
+                  }
+                }
+              })}
+              shouldItemRender={(item) => 
+                String(Helpers.formatPropKey(item.label).toLowerCase())
+                              .includes(relatedTemplates.fromQuery.toLowerCase())
               }
-            })}
-            shouldItemRender={(item) => 
-              String(Helpers.formatPropKey(item.label).toLowerCase())
-                            .includes(relatedTemplates.fromQuery.toLowerCase())
-            }
-          />  
+            />  
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 
   renderTemplatePropsTable(template) {
