@@ -85,6 +85,7 @@ Repos
           (https://github.com/reactjs/react-autocomplete)
       [x] Set node ids on actual template after selection
       [x] Automatically close template when you navigate template type
+      [ ] Have From / To node fields change with 'editing' state
     [ ] (Start writing tests)
     [x] Creating Relationships (inline)
     [ ] Reading Relationships (inline)

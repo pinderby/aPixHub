@@ -162,8 +162,6 @@ describe('Repo Component', () => {
   /// RELATIONSHIP TEMPLATES ///
   //////////////////////////////
 
-  console.log(wrapper.find('.template-col .template-item').length); // TODO --DTM-- Remove
-
   // Renders repo-container without error for relationships
   it('Renders repo-container without error for relationships', () => {
     // Change to relationship templates
