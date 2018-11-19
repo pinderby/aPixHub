@@ -141,7 +141,10 @@ class Repo extends Component {
     console.log('changeTemplateType() templateType: ', templateType); // TODO --DTM-- Remove
 
     // Update template type in state
-    this.setState({ templateType: templateType });
+    this.setState({ 
+      templateType: templateType,
+      activeTemplate: { id: "", label: "" }
+    });
   }
 
   changeTemplate(template) {

@@ -388,11 +388,17 @@ class NodeTemplate extends Component {
               toQuery: e.target.value 
             }
           })}
-          onSelect={(val, item) => this.setState({ 
-            relatedTemplates: { 
-              ...relatedTemplates,
-              toQuery: Helpers.formatPropKey(val),
-              toTemplate: item
+          onSelect={(val, item) => this.setState((prevState, props) => { 
+            return {
+              template: {
+                ...prevState.template,
+                to_node_id: item
+              },
+              relatedTemplates: { 
+                ...relatedTemplates,
+                toQuery: Helpers.formatPropKey(val),
+                toTemplate: item
+              }
             }
           })}
           shouldItemRender={(item) => 
@@ -417,11 +423,17 @@ class NodeTemplate extends Component {
               fromQuery: e.target.value 
             }
           })}
-          onSelect={(val, item) => this.setState({ 
-            relatedTemplates: { 
-              ...relatedTemplates,
-              fromQuery: Helpers.formatPropKey(val),
-              fromTemplate: item
+          onSelect={(val, item) => this.setState((prevState, props) => {  
+            return {
+              template: {
+                ...prevState.template,
+                from_node_id: item
+              },
+              relatedTemplates: { 
+                ...relatedTemplates,
+                fromQuery: Helpers.formatPropKey(val),
+                fromTemplate: item
+              }
             }
           })}
           shouldItemRender={(item) => 
