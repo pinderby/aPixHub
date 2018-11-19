@@ -39,7 +39,7 @@ class NodeTemplate extends Component {
 
     // Check if template is new
     // If so, default editing to true
-    let editing = (props.template.label === "") ? true : false;
+    let editing = (props.template.label === "" || props.template.rel_type === "") ? true : false;
 
     this.state = {
       template: props.template,
@@ -268,7 +268,7 @@ class NodeTemplate extends Component {
     this.setState((prevState, props) => {
       // Assign new property value
       let nextTemplate = {...prevState.template};
-      nextTemplate.rel_type = _.snakeCase(nextRelType).toUpperCase();
+      nextTemplate.rel_type = nextRelType.split(' ').join('_').toUpperCase();
       
       return { 
         template: nextTemplate,

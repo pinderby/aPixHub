@@ -169,29 +169,62 @@ class Repo extends Component {
   addTemplate() {
     console.log("addTemplate(): " + this.state.nodeTemplates.length); // TODO --DTM-- Remove
     
-    // Generate new template
-    let newTemplate = {
-      "id": this.state.nodeTemplates.length,
-      "label": "",
-      "properties": [
-        {
-          "id": 0,
-          "key": "name",
-          "value_type": "string",
-        }
-      ],
-      "in_relationships": [],
-      "out_relationships": []
-    };
+    // Determine if template type is relationship
+    let isRelationship = false;
+    if (this.state.templateType === TemplateTypes.RELATIONSHIP) isRelationship = true;
 
-    // Update component state
-    this.setState((prevState, props) => {
-      // Add new template to state
-      return { 
-        nodeTemplates: [...prevState.nodeTemplates, newTemplate],
-        activeTemplate: newTemplate
+    // If relationship, create new relationship template
+    if (isRelationship) {
+      // Generate new template
+      let newTemplate = {
+        "id": this.state.relationshipTemplates.length,
+        "rel_type": "",
+        "to_node_id": "",
+        "from_node_id": "",
+        "properties": [
+          {
+            "id": 0,
+            "key": "name",
+            "value_type": "string",
+          }
+        ]
       };
-    });
+
+      // Update component state
+      this.setState((prevState, props) => {
+        // Add new template to state
+        return { 
+          relationshipTemplates: [...prevState.relationshipTemplates, newTemplate],
+          activeTemplate: newTemplate
+        };
+      });
+
+    // Otherwise, create node template
+    } else {
+      // Generate new template
+      let newTemplate = {
+        "id": this.state.nodeTemplates.length,
+        "label": "",
+        "properties": [
+          {
+            "id": 0,
+            "key": "name",
+            "value_type": "string",
+          }
+        ],
+        "in_relationships": [],
+        "out_relationships": []
+      };
+
+      // Update component state
+      this.setState((prevState, props) => {
+        // Add new template to state
+        return { 
+          nodeTemplates: [...prevState.nodeTemplates, newTemplate],
+          activeTemplate: newTemplate
+        };
+      });
+    }
   }
 
   addNode() {

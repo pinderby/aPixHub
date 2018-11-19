@@ -74,7 +74,7 @@ class TemplatesPanel extends Component {
 
     // Determine if template type is relationship
     let isRelationship = false;
-    if (templateType === 1) isRelationship = true;
+    if (templateType === TemplateTypes.RELATIONSHIP) isRelationship = true;
 
     // Iterate through templates
     templates.forEach(function (template, index) {
