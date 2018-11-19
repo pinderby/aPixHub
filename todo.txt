@@ -86,7 +86,7 @@ Repos
       [x] Set node ids on actual template after selection
       [x] Automatically close template when you navigate template type
     [ ] (Start writing tests)
-    [ ] Creating Relationships (inline)
+    [x] Creating Relationships (inline)
     [ ] Reading Relationships (inline)
     [ ] Editing Relationships (inline)
     [ ] Deleting Relationships (inline, modal confirmation)
@@ -94,11 +94,11 @@ Repos
     [ ] Tooltip for editing relationships from template
     [ ] Links from templates to other templates 
             (node to node, node to relationship, relationship to node)
-    [ ] Interface test_data
-    [ ] Creating Interfaces (inline)
-    [ ] Reading Interfaces (inline)
-    [ ] Editing Interfaces (inline)
-    [ ] Deleting Interfaces (inline, modal confirmation)
+    // [ ] Interface test_data
+    // [ ] Creating Interfaces (inline)
+    // [ ] Reading Interfaces (inline)
+    // [ ] Editing Interfaces (inline)
+    // [ ] Deleting Interfaces (inline, modal confirmation)
     [ ] Remove editing features for relationships from Node Templates
     [ ] Implementing interfaces for templates (relationships?)
     [ ] More template tests?

@@ -185,7 +185,7 @@ class Repo extends Component {
           {
             "id": 0,
             "key": "name",
-            "value_type": "string",
+            "value_type": "string"
           }
         ]
       };

@@ -11,6 +11,7 @@ describe('Repo Component', () => {
     <Repo repo={test_data.repos[0]} 
           nodeTemplate={test_data.templates[0]} 
           nodeTemplates={test_data.templates} 
+          relationshipTemplates={test_data.relationship_templates}
           nodes={test_data.nodes}
           settings={test_data.mockSettings}
           match={test_data.mockMatch} />
@@ -156,6 +157,47 @@ describe('Repo Component', () => {
     });
     expect(wrapper.find('.node-instance-wrapper').length).toEqual(1);
   });
+
+  //////////////////////////////
+  /// RELATIONSHIP TEMPLATES ///
+  //////////////////////////////
+
+  console.log(wrapper.find('.template-col .template-item').length); // TODO --DTM-- Remove
+
+  // Renders repo-container without error for relationships
+  it('Renders repo-container without error for relationships', () => {
+    // Change to relationship templates
+    wrapper.find('button#dropdown-basic').at(0).simulate('click');
+    wrapper.find('#dropdown-basic .template-menu-item a').at(0).simulate('click');
+    expect(wrapper.find('.repo-container').exists()).toBe(true)
+  });
+
+  // Properly renders all templates in test_data for relationships
+  it('Properly renders all templates in test_data for relationships', () => {
+    expect(wrapper.find('.template-col .template-item').length).toEqual(test_data.relationship_templates.length);
+  });
+
+  // Create new relationship template when 'Create Template' button is clicked
+  it('Create new relationship template when \'Create Template\' button is clicked', () => {
+    wrapper.find('.create-template-btn').at(1).simulate('click');
+    expect(wrapper.state().relationshipTemplates.length).toEqual(3);
+    expect(wrapper.state().relationshipTemplates[2]).toEqual({
+      "id": 2,
+      "rel_type": "",
+      "to_node_id": "",
+      "from_node_id": "",
+      "properties": [
+        {
+          "display_label": "Name", 
+          "id": 0, 
+          "key": "name", 
+          "path": "properties.name", 
+          "value_type": "string"
+        }
+      ]
+    });
+  });
+
 });
 
 

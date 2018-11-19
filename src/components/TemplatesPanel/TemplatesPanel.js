@@ -26,7 +26,8 @@ class TemplatesPanel extends Component {
     // Create and push non-selected MenuItems
     for (let i = 0; i < 3; i++) { 
       if (i !== this.props.templateType) menuItems.push(
-        <MenuItem key={i} eventKey={i} onClick={() => this.props.changeTemplateType(i)}>
+        <MenuItem key={i} eventKey={i} className="template-menu-item"
+            onClick={() => this.props.changeTemplateType(i)}>
           {TemplateTypes.getTypeTitle(i) + "s"}
         </MenuItem>
       );
