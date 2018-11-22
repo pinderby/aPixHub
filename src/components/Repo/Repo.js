@@ -34,6 +34,7 @@ class Repo extends Component {
     this.handleSideMenuStateChange = this.handleSideMenuStateChange.bind(this);
     this.changeTemplateType = this.changeTemplateType.bind(this);
     this.changeTemplate = this.changeTemplate.bind(this);
+    this.updateTemplate = this.updateTemplate.bind(this);
     this.addTemplate = this.addTemplate.bind(this);
     this.addNode = this.addNode.bind(this);
     this.editNode = this.editNode.bind(this);
@@ -166,6 +167,21 @@ class Repo extends Component {
     // this.props.dispatch(changeTemplate(template))
   }
 
+  updateTemplate(template, index) {
+    console.log('updateTemplate() template, index: ', template, index);  // TODO --DTM-- Remove
+
+    let nextNodeTemplates = [...this.state.nodeTemplates]
+    nextNodeTemplates[index] = template;
+
+    this.setState((prevState, props) => {
+      // Add new template to state
+      return { 
+        nodeTemplates: nextNodeTemplates,
+        activeTemplate: template
+      };
+    });
+  }
+
   addTemplate() {
     console.log("addTemplate(): " + this.state.nodeTemplates.length); // TODO --DTM-- Remove
     
@@ -265,6 +281,7 @@ class Repo extends Component {
 
     if (typeof index === 'undefined') {
       // If index not defined, push new node into array
+      if (typeof nextAllNodes[templateLabel] === 'undefined') nextAllNodes[templateLabel] = [];
       node.nid = nextAllNodes[templateLabel].length;
       nextAllNodes[templateLabel].push(node);
     } else {
@@ -343,7 +360,18 @@ class Repo extends Component {
     
     // Filter nodes and settings for NodesPanel based on activeTemplate
     let nodes = (this.state.allNodes[this.state.activeTemplate.label]) ? this.state.allNodes[this.state.activeTemplate.label] : [];
-    let templateSettings = this.props.settings.repos[this.props.repo.name][this.state.activeTemplate.label];
+    
+    // Create settings for template if template doesn't already exist
+    if (!this.state.settings.repos[this.props.repo.name].hasOwnProperty(this.state.activeTemplate.label)) {
+      this.setState((prevState, props) => { 
+        let nextSettings = _.cloneDeep(prevState.settings);
+        nextSettings.repos[this.props.repo.name][this.state.activeTemplate.label] = {}
+        return {
+          settings: nextSettings
+        }
+      });
+    }
+    let templateSettings = this.state.settings.repos[this.props.repo.name][this.state.activeTemplate.label];
 
     // If user is empty, show login screen
     if (_.isEmpty(this.state.user)) { 
@@ -397,6 +425,7 @@ class Repo extends Component {
                 changeTemplateType={this.changeTemplateType}
                 addTemplate={this.addTemplate}
                 changeTemplate={this.changeTemplate}
+                updateTemplate={this.updateTemplate}
                 updateSettings={this.updateSettings} />
             </div>
             <div className="node-col">

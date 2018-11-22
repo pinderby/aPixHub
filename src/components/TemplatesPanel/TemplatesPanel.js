@@ -51,6 +51,7 @@ class TemplatesPanel extends Component {
         repoSettings = this.props.repoSettings,
         nodeTemplates = this.props.nodeTemplates,
         changeTemplate = this.props.changeTemplate,
+        updateTemplate = this.props.updateTemplate,
         updateSettings = this.props.updateSettings;
 
     // Assign templates based on template type
@@ -89,6 +90,7 @@ class TemplatesPanel extends Component {
       templateComps.push(
           <NodeTemplate 
             key={template.id} 
+            index={index}
             open={(template.id === activeTemplate.id)} 
             repoSettings={repoSettings}
             nodeTemplates={nodeTemplates}
@@ -96,7 +98,8 @@ class TemplatesPanel extends Component {
             template={temp}
             isRelationship={isRelationship}
             updateSettings={updateSettings} 
-            changeTemplate={changeTemplate} />
+            changeTemplate={changeTemplate}
+            updateTemplate={updateTemplate} />
       );
     });
     return templateComps;

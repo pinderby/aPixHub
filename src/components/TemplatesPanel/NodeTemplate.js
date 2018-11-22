@@ -120,8 +120,11 @@ class NodeTemplate extends Component {
       return { editing: !prevState.editing };
     });
 
-    // Dispatch updateNodeTemplate to update template in redux
-    this.props.dispatch(updateNodeTemplate(this.state.template));
+    // Update template in Repo.js
+    this.props.updateTemplate(this.state.template, this.props.index);
+
+    // // Dispatch updateNodeTemplate to update template in redux
+    // this.props.dispatch(updateNodeTemplate(this.state.template));
   }
 
   deleteTemplate(templateId) {
@@ -314,6 +317,9 @@ class NodeTemplate extends Component {
     if (this.state.editing) {
       // If currently editing, call cancelEditing()
       this.cancelEditing();
+
+      // Update template in Repo.js
+      this.props.updateTemplate(this.state.template, this.props.index);
     } else {
       // If not editing, start editing
       this.setState((prevState, props) => {
