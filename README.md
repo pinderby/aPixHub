@@ -7,7 +7,7 @@ src/
     BaseModel.js
     PropertyTypes.js
 ```
-Make sure these file have the proper filenames to avoid reference errors.
+Make sure these files have the proper filenames to avoid reference errors.
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
