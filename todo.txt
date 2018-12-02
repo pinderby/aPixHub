@@ -1,37 +1,131 @@
 todo.txt
 
--------------
-TODO - AW -
--------------
-via Redux
-[ ] Editing Templates (inline)
-  [ ] Editing Fields (inline)
-  [ ] Adding Fields (inline)
-  [ ] Deleting Fields
-[ ] Creating Templates
-[ ] Creating Relationships
-[ ] Editing Relationships (inline)
-
 ---------------
 TODO - DTM -
 ---------------
 
-Adding an API call:
-1. Create method in component: 
-      getTemplate(templateLabel) {
-        // Dispatch fetchTemplate to get template by label
-        this.props.dispatch(fetchTemplate(templateLabel));
-      }
-2. Create Thunk Action Creator in src/actions/...
-3. Create Action Creator in same file
-4. Make sure reducer is correctly configured in src/reducers/...
-(5.) Make sure all necessary data is passed to component through container
+---------- Relay ----------
 
-Creating a new view:
-1. Create a new container in src/components/containers/...
-2. Create a new component in src/components/.../...js
-(3.) Create a css file for stying in src/components/.../...css
+Repos
+[ ] Templates
+  [ ] Creating Templates (inline)
+  [ ] Reading Templates
+    [ ] Changing active templates
+    [ ] Checkbox to show fields on template
+  [ ] Editing Templates (inline) + React testing (REACT STATE ONLY)
+    [ ] Renaming Templates
+      [ ] Fix capitalization for template names during input
+    [ ] Creating Template Properties (inline)
+    [ ] Reading Template Properties (inline)
+    [ ] Editing Template Properties (inline)
+    [ ] Don't allow changing value_type after creation
+    [ ] Deleting Template Properties (inline, modal confirmation) + CSS
+      [ ] Deleting Properties modal
+    [ ] Creating Relationship Properties (inline)
+    [ ] Reading Relationship Properties (inline)
+    [ ] Editing Relationship Properties (inline)
+    [ ] Deleting Relationship Properties (inline, modal confirmation)
+  [ ] Deleting Templates
+    [ ] Deleting template modal
+  [ ] Settings for templates
+  [ ] Check tests
+[ ] Relationships & Interfaces
+  [ ] Repo.js switching between Templates, Relationships, and Interfaces
+  [ ] Creating Relationships (inline)
+  [ ] Reading Relationships (inline)
+    [ ] Changing active relationship
+  [ ] Editing Relationships (inline)
+    [ ] Renaming Templates
+      [ ] Fix capitalization for template names during input
+    [ ] From / To Node interface for Relationship Templates
+          (https://github.com/reactjs/react-autocomplete)
+      [ ] Set node ids on actual template after selection
+      [ ] Automatically close template when you navigate template type
+    [ ] Creating Relationship Properties (inline)
+    [ ] Reading Relationship Properties (inline)
+    [ ] Editing Relationship Properties (inline)
+    [ ] Don't allow changing value_type after creation
+    [ ] Deleting Relationship Properties (inline, modal confirmation)
+      [ ] Deleting Properties modal
+  [ ] Deleting Relationships (inline, modal confirmation)
+    [ ] Deleting relationship modal
+  [ ] Settings for relationships/interfaces
+  // [ ] Tooltip for editing relationships from template
+  // [ ] Interface test_data
+  // [ ] Creating Interfaces (inline)
+  // [ ] Reading Interfaces (inline)
+  // [ ] Editing Interfaces (inline)
+  // [ ] Deleting Interfaces (inline, modal confirmation)
+  // [ ] Remove editing features for relationships from Node Templates
+  [ ] Implementing interfaces for templates (relationships?)
+  [ ] More template tests?
+  [ ] Check tests
+[ ] Interfaces
+  [ ] Creating Interfaces (inline)
+  [ ] Reading Interfaces
+    [ ] Changing active Interfaces
+  [ ] Editing Interfaces (inline) + React testing (REACT STATE ONLY)
+    [ ] Renaming Interfaces
+      [ ] Fix capitalization for interface names during input
+    [ ] Creating Interface Properties (inline)
+    [ ] Reading Interface Properties (inline)
+    [ ] Editing Interface Properties (inline)
+    [ ] Don't allow changing value_type after creation
+    [ ] Deleting Interface Properties (inline, modal confirmation) + CSS
+      [ ] Deleting Properties modal
+    // [ ] Creating Relationship Properties (inline)
+    // [ ] Reading Relationship Properties (inline)
+    // [ ] Editing Relationship Properties (inline)
+    // [ ] Deleting Relationship Properties (inline, modal confirmation)
+  [ ] Deleting Interfaces
+    [ ] Deleting interface modal
+  [ ] Settings for interfaces
+  [ ] Check tests
+[ ] Links from templates to other templates 
+        (node to node, node to relationship, relationship to node)
+[ ] Nodes Panel
+  [ ] Creating Nodes
+    [ ] Handle case that no template is selected
+  [ ] Reading Nodes
+    // [ ] Add modal(?) to view whole node (add max-height and overflow to nodes panel)
+  [ ] Editing Nodes
+    [ ] Editing Node Properties
+    [ ] Linking Relationships
+    [ ] Editing Relationship Properties
+  [ ] Delete Nodes
+  [ ] Simple filter by property
+  [ ] Write tests
+  [ ] Make update template button update Repo state
+  [ ] Pagination???
+[ ] Switch repos
+Repos
+[ ] View repos
+[ ] Create repos
+[ ] Update repos
+[ ] Delete repos
+[ ] View other users' repos
+Users
+[ ] Profile view
+[ ] View other users' profile
+Search
+[ ] View other users/repos???
+[ ] Search other users/repos???
+Home
+[ ] Home view
+Splash: Sign up/Login
+[ ] Sign up
+[ ] Actually log in to homepage
+[ ] Cache token
+[ ] Implement log out
+[ ] Bounce to login if no token
+[ ] Serverside validation errors
+[ ] Unexpected end of input
+[ ] Sign up with username that's taken
+[ ] Loading dialog while API calls are made
+[ ] Login
 
+
+---------- Other ----------
 [ ] Repo view
 [ ] Tests (TDD)
 [ x ] Remove auth0
@@ -121,58 +215,12 @@ Repos
 [ ] Switch repos
 [ ] Create repos
 [ ] Update repos
-Sortable Bootstrap: https://github.com/psfpro/bootstrap-html5sortable
+[ ] Profile view
+[ ] Home view
+[ ] View other users/repos???
+[ ] Search other users/repos???
+React DnD: https://github.com/react-dnd/react-dnd
 
 Routing
-CRUD + Search Templates
-  Create: TemplateBuilder (/t/templates/add)
-  Read: NodeTemplate (/t/:label)
-  Update: TemplateBuilder (/t/:label/edit)
-  Delete: NodeTemplate
-  Search: TemplateSearch (/templates)
-CRUD + Search Nodes
-  Create: NodePopulator (/n/:label/add)
-  Read: NodeInstance (/n/:label/:id)
-  Update: NodePopulator (/n/:label/:id/edit)
-  Delete: NodeInstance
-  Search: NodeSearch (/n/:label/search)
-CRUD Object properties
-CRUD Relationships
-TDD Scripts
-Design
-
-Advanced querying
-Design/CSS
-
-ApixNode
-[ x ] Go over logan.json with Joe
-[ x ] Figure out what components I need
-[ x ] Write skeleton components
-[ x ] Populate components with hard-coded JSON
-
-ApixNodeBuilder
-[ ] Write react components for forms (node templates/instances)
-[ ] Create UX for adding label to new template and initialize template
-[ ] Prevent accidental property overwriting in NodeBuilder
-[ ] Create UX and backend for creating relationships in NodeTemplates
-[ ] Disable delete button for newest property
-[ ] Figure out rendering order for props
-[ ] Figure out linking to other nodes and relationships
-[ ] Validate against explainer option for array type
-[ ] Replace whitespace with '_' for NodeBuilder
-[ ] Add type validation for populator
-
-NodeSearch
-[ ] Write react components for search and displaying search results
-
-Constants
-[ ] Update propertyTypes with better language
 
 
----------------
-TODO - JOE -
----------------
-[ x ] Config Node/Express to render react
-[ ] Build base model?
-[ ] Write routes
-[ ] Write middleware between React and router
