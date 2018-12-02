@@ -6,12 +6,15 @@
     "@babel/core": "^7.1.6",
     "@babel/polyfill": "^7.0.0",
     "@babel/runtime-corejs2": "^7.1.5",
+    "babel-plugin-relay": "^1.7.0",
     "babel-runtime": "^6.26.0",
     "enzyme": "^3.4.4",
     "enzyme-adapter-react-16": "^1.2.0",
+    "graphql": "^14.0.2",
     "react-scripts": "0.9.5",
     "react-test-renderer": "^16.4.2",
-    "redux-observable": "^1.0.0"
+    "redux-observable": "^1.0.0",
+    "relay-compiler": "^1.7.0"
   },
   "dependencies": {
     "body-parser": "^1.17.1",
@@ -26,12 +29,13 @@
     "morgan": "^1.8.1",
     "node": "^0.0.0",
     "nodejs": "^0.0.0",
-    "react": "^16.3.1",
+    "react": "^16.6.3",
     "react-autocomplete": "^1.8.1",
     "react-bootstrap": "^0.32.4",
     "react-burger-menu": "^2.4.4",
-    "react-dom": "^16.3.1",
+    "react-dom": "^16.6.3",
     "react-redux": "^5.0.3",
+    "react-relay": "^1.7.0",
     "react-router-dom": "^4.1.1",
     "react-scripts": "0.9.5",
     "redux": "^4.0.0",
@@ -44,7 +48,8 @@
     "start:server": "node server",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "relay": "relay-compiler --src ./src --schema ./schema.graphql --extensions js jsx"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>src/setupTests.js"

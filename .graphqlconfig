@@ -1,0 +1,12 @@
+{
+  "projects": {
+    "apixhub": {
+      "schemaPath": "schema.graphql",
+      "extensions": {
+        "endpoints": {
+          "dev": "http://localhost:4567/graphql"
+        }
+      }
+    }
+  }
+}

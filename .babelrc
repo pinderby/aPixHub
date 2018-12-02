@@ -1,6 +1,7 @@
 {
   "plugins": [
     [
+      "relay",
       "@babel/plugin-transform-runtime",
       {
         "corejs": true,
