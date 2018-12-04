@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Helpers from '../../helpers.js';
-import clonedeep from 'lodash.clonedeep';
 import _ from 'lodash';
 import Autocomplete from 'react-autocomplete';
 import { Table, Collapse, Checkbox, Button, Glyphicon, Modal } from 'react-bootstrap';
@@ -197,7 +196,7 @@ class NodeTemplate extends Component {
     // Update component state
     this.setState((prevState, props) => {
       // Instantiate and update nextTemplate object
-      let nextTemplate = clonedeep(prevState.template);
+      let nextTemplate = _.clonedeep(prevState.template);
 
       // Add property to relationship
       nextTemplate[Helpers.getRelDirKey(isIn)][relIndex]['properties'].push({
@@ -233,7 +232,7 @@ class NodeTemplate extends Component {
       // Update component state
       this.setState((prevState, props) => {
         // If modal is not needed, remove property from template
-        let nextTemplate = clonedeep(prevState.template);
+        let nextTemplate = _.clonedeep(prevState.template);
         nextTemplate[Helpers.getRelDirKey(isIn)][relIndex]['properties'].splice(propIndex, 1);
 
         return { 
@@ -303,7 +302,7 @@ class NodeTemplate extends Component {
     // Update state with updated template
     this.setState((prevState, props) => {
       // Assign new property value
-      let nextTemplate = clonedeep(prevState.template);
+      let nextTemplate = _.clonedeep(prevState.template);
       nextTemplate[Helpers.getRelDirKey(isIn)][relIndex]['properties'][propIndex][key] = value;
       
       return { 

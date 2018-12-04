@@ -2,6 +2,7 @@
   "plugins": [
     [
       "relay",
+      "macros",
       "@babel/plugin-transform-runtime",
       {
         "corejs": true,

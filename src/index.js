@@ -49,7 +49,7 @@ let unsubscribe = store.subscribe(() =>
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={history} component={AppContainer} >
+    <Router history={window.history} component={AppContainer} >
       <Route path="/" component={AppContainer} />
     </Router>
   </Provider>,

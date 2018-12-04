@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 // import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
-import { browserHistory } from 'react-router';
 import HomeContainer from './containers/HomeContainer.js';
 import RepoContainer from './containers/RepoContainer.js';
 import NodeInstanceContainer from './containers/NodeInstanceContainer.js';
@@ -40,7 +39,7 @@ class App extends Component {
   render() {
     return (
       <div id="app-container" className="App">
-        <Router history={browserHistory}>
+        <Router>
           <div id="App-container">
             <Route exact path="/" render={() => (
               <Redirect from="/" to="/home"/>

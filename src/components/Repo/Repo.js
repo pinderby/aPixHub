@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import { QueryRenderer, createFragmentContainer } from 'react-relay';
+import graphql from 'babel-plugin-relay/macro';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { Navbar, Nav, NavItem, DropdownButton, MenuItem, Button, Glyphicon, FormControl } from 'react-bootstrap';
+import environment from '../../RelayEnvironment';
 import Sidemenu from './Sidemenu';
 import PropertyPopulator from '../NodeInstance/PropertyPopulator';
 import TemplatesPanel from '../TemplatesPanel/TemplatesPanel';
@@ -415,6 +418,29 @@ class Repo extends Component {
         <div id="repo-panel" className="repo-panel panel panel-default">
           <div className="row">
             <div className="template-col">
+
+              <QueryRenderer
+                environment={environment}
+                query={graphql`
+                  query RepoQuery {
+                    repo(username: "gweeks", reponame: "IMDB") {
+                      id
+                      name
+                    }
+                  }
+                `}
+                variables={{}}
+                render={({error, props}) => {
+                  if (error) {
+                    return <div>Error!</div>;
+                  }
+                  if (!props) {
+                    return <div>Loading...</div>;
+                  }
+                  return <div>Repo Name: {this.props.repo.name}</div>;
+                }}
+              />
+
               <TemplatesPanel 
                 templateType={this.state.templateType}
                 activeTemplate={this.state.activeTemplate}
@@ -451,4 +477,93 @@ Repo.propTypes = {
   nodeTemplates: PropTypes.array.isRequired
 };
 
-export default Repo;
+// export default createFragmentContainer(
+//   Repo,
+//   graphql`
+//     # As a convention, we name the fragment as '<ComponentFileName>_<PropName>'
+//     fragment Repo_repo on Repo {
+//       repo(username: "gweeks", reponame: "IMDB") {
+//         id
+//         name
+//         nodes {
+//           id
+//           type
+//           label
+//           repoId
+//           properties {
+//             key
+//             valueType
+//           }
+//           inRelationships {
+//             id
+//             relType
+//             properties {
+//               key
+//               valueType
+//             }
+//             toNode {
+//               id
+//               type
+//               label
+//               repoId
+//               properties {
+//                 key
+//                 valueType
+//               }
+//             }
+//             fromNode {
+//               id
+//               type
+//               label
+//               repoId
+//               properties {
+//                 key
+//                 valueType
+//               }
+//             }
+//           }
+//           outRelationships {
+//             id
+//             relType
+//             properties {
+//               key
+//               valueType
+//             }
+//             toNode {
+//               id
+//               type
+//               label
+//               repoId
+//               properties {
+//                 key
+//                 valueType
+//               }
+//             }
+//             fromNode {
+//               id
+//               type
+//               label
+//               repoId
+//               properties {
+//                 key
+//                 valueType
+//               }
+//             }
+//           }
+//         }
+//         interfaces {
+//           id
+//           type
+//           label
+//           repoId
+//           properties {
+//             key
+//             valueType
+//           }
+//         }
+//       }
+//     }
+//   `,
+// );
+
+export default Repo; // TODO --DTM-- Remove

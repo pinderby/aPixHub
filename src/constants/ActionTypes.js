@@ -32,7 +32,7 @@ export const AUTH_USER = "AUTH_USER";
 export const GET_USER = "GET_USER";
 export const PUT_USER = "PUT_USER";
 export const POST_USER = "POST_USER";
-// export const DELETE_USER = "DELETE_USER"; // TODO --DTM-- Implement once backend is done
+export const DELETE_USER = "DELETE_USER"; // TODO --DTM-- Implement once backend is done
 export const RECEIVE_USER = "RECEIVE_USER";
 
 
@@ -82,3 +82,6 @@ export const NODE_REQUEST_ERROR = "NODE_REQUEST_ERROR";
 export const NODES_REQUEST_ERROR = "NODES_REQUEST_ERROR";
 export const RELATIONSHIP_REQUEST_ERROR = "RELATIONSHIP_REQUEST_ERROR";
 export const RELATIONSHIPS_REQUEST_ERROR = "RELATIONSHIPS_REQUEST_ERROR";
+export const USER_REQUEST_ERROR = "USER_REQUEST_ERROR";
+export const USERS_REQUEST_ERROR = "USERS_REQUEST_ERROR";
+
