@@ -477,93 +477,91 @@ Repo.propTypes = {
   nodeTemplates: PropTypes.array.isRequired
 };
 
-// export default createFragmentContainer(
-//   Repo,
-//   graphql`
-//     # As a convention, we name the fragment as '<ComponentFileName>_<PropName>'
-//     fragment Repo_repo on Repo {
-//       repo(username: "gweeks", reponame: "IMDB") {
-//         id
-//         name
-//         nodes {
-//           id
-//           type
-//           label
-//           repoId
-//           properties {
-//             key
-//             valueType
-//           }
-//           inRelationships {
-//             id
-//             relType
-//             properties {
-//               key
-//               valueType
-//             }
-//             toNode {
-//               id
-//               type
-//               label
-//               repoId
-//               properties {
-//                 key
-//                 valueType
-//               }
-//             }
-//             fromNode {
-//               id
-//               type
-//               label
-//               repoId
-//               properties {
-//                 key
-//                 valueType
-//               }
-//             }
-//           }
-//           outRelationships {
-//             id
-//             relType
-//             properties {
-//               key
-//               valueType
-//             }
-//             toNode {
-//               id
-//               type
-//               label
-//               repoId
-//               properties {
-//                 key
-//                 valueType
-//               }
-//             }
-//             fromNode {
-//               id
-//               type
-//               label
-//               repoId
-//               properties {
-//                 key
-//                 valueType
-//               }
-//             }
-//           }
-//         }
-//         interfaces {
-//           id
-//           type
-//           label
-//           repoId
-//           properties {
-//             key
-//             valueType
-//           }
-//         }
-//       }
-//     }
-//   `,
-// );
+export default createFragmentContainer(
+  Repo,
+  graphql`
+    # As a convention, we name the fragment as '<ComponentFileName>_<PropName>'
+    fragment Repo_repo on Repo {
+      id
+      name
+      nodes {
+        id
+        type
+        label
+        repoId
+        properties {
+          key
+          valueType
+        }
+        inRelationships {
+          id
+          relType
+          properties {
+            key
+            valueType
+          }
+          toNode {
+            id
+            type
+            label
+            repoId
+            properties {
+              key
+              valueType
+            }
+          }
+          fromNode {
+            id
+            type
+            label
+            repoId
+            properties {
+              key
+              valueType
+            }
+          }
+        }
+        outRelationships {
+          id
+          relType
+          properties {
+            key
+            valueType
+          }
+          toNode {
+            id
+            type
+            label
+            repoId
+            properties {
+              key
+              valueType
+            }
+          }
+          fromNode {
+            id
+            type
+            label
+            repoId
+            properties {
+              key
+              valueType
+            }
+          }
+        }
+      }
+      interfaces {
+        id
+        type
+        label
+        repoId
+        properties {
+          key
+          valueType
+        }
+      }
+    }
+  `,
+);
 
-export default Repo; // TODO --DTM-- Remove
+// export default Repo; // TODO --DTM-- Remove
